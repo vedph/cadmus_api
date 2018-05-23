@@ -34,7 +34,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
-      - 51403:51403
+      - 60304:60304
     depends_on:
       - cadmusmssql:
         condition: service_healthy
