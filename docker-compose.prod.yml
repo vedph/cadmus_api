@@ -20,9 +20,6 @@ services:
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
-    volumes:
-      - mongodb:./data/db:/data/db
-      - mongodb_config:/data/configdb
     ports:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
@@ -36,10 +33,8 @@ services:
     ports:
       - 60304:60304
     depends_on:
-      - cadmusmssql:
-        condition: service_healthy
-      - cadmusmongo:
-        condition: service_healthy
+      - cadmusmssql
+      - cadmusmongo
     environment:
       # for Windows use : as separator, for non Windows use __
       # (see https://github.com/aspnet/Configuration/issues/469)
@@ -51,7 +46,3 @@ services:
 networks:
   cadmusnetwork:
     driver: bridge
-
-volumes:
-  mongodb:
-  mongodb_config:
