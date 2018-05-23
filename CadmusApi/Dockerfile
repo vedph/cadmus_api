@@ -14,7 +14,6 @@ RUN dotnet build CadmusApi.csproj -c Release -o /app
 FROM build AS publish
 RUN dotnet publish CadmusApi.csproj -c Release -o /app
 COPY CadmusApi/bin/Release/netcoreapp2.0/CadmusApi.xml /app
-COPY CadmusApi/bin/Release/netcoreapp2.0/Plugins /app/Plugins
 
 FROM base AS final
 WORKDIR /app

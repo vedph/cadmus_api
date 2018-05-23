@@ -8,7 +8,10 @@ using Cadmus.Core.Blocks;
 using Cadmus.Core.Config;
 using Cadmus.Core.Layers;
 using Cadmus.Core.Storage;
+using Cadmus.Lexicon.Parts;
 using Cadmus.Mongo;
+using Cadmus.Parts.General;
+using Cadmus.Philology.Parts.Layers;
 using Fusi.Config;
 using Fusi.Config.Sources;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -75,10 +78,14 @@ namespace CadmusApi.Services
             // MEF2 conventions
             ConventionBuilder cb = new ConventionBuilder();
 
-            // the parts provider, which requires a tag map builder
-            cb.ForType<TagMapBuilderOptions>().Export();
-            cb.ForType<TagMapBuilder>().Export();
-            cb.ForType<StaticDirectoryPartTypeProvider>().Export<IPartTypeProvider>();
+            // should you rely on plugin files in a directory, use the
+            // parts provider, which requires a tag map builder
+            // cb.ForType<TagMapBuilderOptions>().Export();
+            // cb.ForType<TagMapBuilder>().Export();
+            // cb.ForType<StaticDirectoryPartTypeProvider>().Export<IPartTypeProvider>();
+
+            // in our case we just use statically linked plugins (best for Docker)
+            cb.ForType<StaticPartTypeProvider>().Export<IPartTypeProvider>();
 
             // the repository, which requires the parts provider
             cb.ForType<MongoCadmusRepositoryOptions>().Export();
@@ -89,9 +96,17 @@ namespace CadmusApi.Services
                 new CatalogAdditions(new[]
                 {
                     typeof(PluginCatalogOptions).GetTypeInfo().Assembly,
-                    // typeof(PluginAssemblyLoader).GetTypeInfo().Assembly, (same asm as above)
-                    typeof(StaticDirectoryPartTypeProvider).GetTypeInfo().Assembly,
-                    typeof(MongoCadmusRepository).GetTypeInfo().Assembly
+                    // for using file based plugins you would use StaticDirectoryPartTypeProvider
+                    // typeof(StaticDirectoryPartTypeProvider).GetTypeInfo().Assembly,
+                    typeof(StaticPartTypeProvider).GetTypeInfo().Assembly,
+                    typeof(MongoCadmusRepository).GetTypeInfo().Assembly,
+                    // plugins:
+                    // Cadmus.Parts
+                    typeof(NotePart).GetTypeInfo().Assembly,
+                    // Cadmus.Lexicon.Parts
+                    typeof(WordFormPart).GetTypeInfo().Assembly,
+                    // Cadmus.Philology.Parts
+                    typeof(ApparatusLayerFragment).GetTypeInfo().Assembly
                 }, cb),
                 false,
                 "cadmus-mongo");
