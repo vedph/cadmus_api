@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CadmusTool": {
+      "commandName": "Project",
+      "commandLineArgs": "import-lex c:\\users\\dfusi\\desktop\\lex cadmuslex c:\\users\\dfusi\\desktop\\Profile.xml"
+    }
+  }
+}

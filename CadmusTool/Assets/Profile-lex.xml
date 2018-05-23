@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<profile>
+  <!-- facets -->
+  <facets>
+    <!-- default -->
+    <facet id="facet-lex-word" label="word">
+      <dsc>A word in a lexicon.</dsc>
+      <parts>
+        <part type="lexicon-word-form" name="form" color="80f080" sort="001" group="general">Word form.</part>
+        <part type="lexicon-word-sense" name="sense" color="8080f0" sort="003" group="general">Word sense.</part>
+        <part type="lexicon-word-phrase" name="phrase" color="f080f0" sort="004" group="general">Word phrase.</part>
+        <part type="lexicon-word-etymology" name="etymology" color="8080f0" sort="002" group="general">Word etymology.</part>
+        <part type="note" name="note" color="f08080" sort="005" group="general">A free text note about the word.</part>
+      </parts>
+    </facet>
+  </facets>
+
+  <!-- flags -->
+  <flags>
+    <flag id="1" label="basic" color="80f080">Basic.</flag>
+    <flag id="2" label="declining" color="f080f0">Declining.</flag>
+    <flag id="4" label="obsolete" color="f08080">Obsolete.</flag>
+  </flags>
+
+  <!-- tag sets -->
+  <tag-sets>
+    <set id="link-types@en">
+      <t id="-">generic</t>
+      <t id="ant">antonym</t>
+      <t id="syn">synonym</t>
+      <t id="var">variant</t>
+      <t id="xr">cross reference</t>
+    </set>
+    <set id="etymology-languages@en">
+      <t id="eng">English</t>
+      <t id="fra">French</t>
+      <t id="ger">German</t>
+      <t id="grc">Greek</t>
+      <t id="ita">Italian</t>
+      <t id="lat">Latin</t>
+      <t id="spa">Spanish</t>
+    </set>
+  </tag-sets>
+</profile>

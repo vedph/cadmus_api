@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<profile>
+  <!-- facets -->
+  <facets>
+    <!-- default -->
+    <facet id="facet-default" label="default">
+      <dsc>The default facet.</dsc>
+      <parts>
+        <part type="categories" name="categories" color="f0f080" sort="categories" group="general" required="1">Item's categories.</part>
+        <part type="keywords" name="keywords" color="80f080" sort="keywords" group="general">Item's keywords.</part>
+        <part type="note" name="note" color="f08080" sort="note" group="general">A free text note about the document.</part>
+        <part type="token-text" name="token text" color="8080f0" sort="text" group="text">Item's token-based text.</part>
+
+        <!-- layers: each layer has the corresponding fragment ID as its role -->
+        <part type="token-text-layer" role="fr-comment" name="comments" 
+              color="8080f0" sort="text-comments" group="text">Comments on text.</part>
+        <part type="token-text-layer" role="fr-quotation" name="quotes"
+              color="8080f0" sort="text-quotes" group="text">Quotes in text.</part>
+        <part type="token-text-layer" role="fr-apparatus" name="apparatus"
+              color="8080f0" sort="text-apparatus" group="text">Critical apparatus.</part>
+      </parts>
+    </facet>
+  </facets>
+  
+  <!-- flags -->
+  <flags>
+    <flag id="1" label="sample" color="f08080">A sample flag.</flag>
+  </flags>
+  
+  <!-- tag sets -->
+  <tag-sets>
+    <set id="categories@en">
+      <t id="architecture">architecture</t>
+      <t id="geography">geography</t>
+      <t id="geography.cities">geography: cities</t>
+      <t id="geography.regions">geography: regions</t>
+      <t id="ethnography">ethnography</t>
+      <t id="ethnography.peoples">ethnography: peoples</t>
+      <t id="ethnography.religion">ethnography: religion</t>
+      <t id="ethnography.religion.deities">ethnography: religion deities</t>
+      <t id="ethnography.religion.rites">ethnography: religion rites</t>
+      <t id="ethnography.death">ethnography: death</t>
+      <t id="ethnography.food">ethnography: food</t>
+      <t id="history">history</t>
+      <t id="language">language</t>
+      <t id="literature">literature</t>
+    </set>
+    <set id="languages@en">
+      <t id="eng">English</t>
+      <t id="fra">French</t>
+      <t id="ger">German</t>
+      <t id="grc">Greek</t>
+      <t id="ita">Italian</t>
+      <t id="lat">Latin</t>
+      <t id="spa">Spanish</t>
+    </set>
+  </tag-sets>
+</profile>
