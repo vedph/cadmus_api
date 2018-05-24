@@ -30,6 +30,20 @@ In the Linux machine:
 - copy the `docker-compose.prod.yml` file in the Linux machine;
 - open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
 
+To connect to databases from the Linux Docker host:
+
+1.SQL Server (e.g. SQL Operations Studio: <https://docs.microsoft.com/en-us/sql/sql-operations-studio/download?view=sql-server-2017>):
+
+- server: 127.0.0.1\sqlexpress,1433
+- user: SA
+- password: P4ss-W0rd!
+
+2.MongoDB (e.g. Compass: <https://www.mongodb.com/download-center?jmp=nav#compass>):
+
+- server: 127.0.0.1
+- port: 27017
+- no authentication
+
 ## CadmusTool
 
 Command line tool for Cadmus.
