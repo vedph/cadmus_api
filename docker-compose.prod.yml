@@ -4,7 +4,7 @@ services:
   # SQL Server
   cadmusmssql:
     image: microsoft/mssql-server-linux
-    container_name: sqlserver
+    container_name: cadmussqlserver
     environment:
       ACCEPT_EULA: Y
       SA_PASSWORD: "P4ss-W0rd!"
@@ -16,7 +16,7 @@ services:
   # MongoDB
   cadmusmongo:
     image: mongo
-    container_name: mongo
+    container_name: cadmusmongo
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null

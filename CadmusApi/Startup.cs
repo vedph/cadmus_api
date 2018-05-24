@@ -162,9 +162,12 @@ namespace CadmusApi
                 });
                 options.DescribeAllParametersInCamelCase();
 
+#if DEBUG
+                // TODO find how this can work in Docker and add COPY to Dockerfile
                 string basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 string xmlPath = Path.Combine(basePath, "CadmusApi.xml");
                 options.IncludeXmlComments(xmlPath);
+#endif
             });
 
             // serilog

@@ -1,8 +1,8 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/aspnetcore AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM microsoft/aspnetcore-build AS build
 WORKDIR /src
 COPY CadmusApi/CadmusApi.csproj CadmusApi/
 COPY CadmusApi/NuGet.config .
@@ -13,7 +13,7 @@ RUN dotnet build CadmusApi.csproj -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish CadmusApi.csproj -c Release -o /app
-COPY bin/Release/netcoreapp2.0/CadmusApi.xml /app
+# COPY bin/Release/netcoreapp2.0/CadmusApi.xml /app
 
 FROM base AS final
 WORKDIR /app

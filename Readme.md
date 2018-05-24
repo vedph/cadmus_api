@@ -11,16 +11,24 @@ Remember to update the plugins directories with the batches included in this sol
 
 ## Docker
 
+Note: you should remove the 2.0 version from the generated Dockerfile dotnet images, or you will have issues because of mismatched dotnet versions: <https://github.com/aspnet/IISIntegration/issues/476> (you can check your development machine version of dotnet with `dotnet --version`). The issue I encountered was this error when doing a docker-compose up on the Linux target: `Error: An assembly specified in the application dependencies manifest (CadmusApi.deps.json) was not found: package: 'Microsoft.AspNetCore.Antiforgery', version: '2.0.3' path: 'lib/netstandard2.0/Microsoft.AspNetCore.Antiforgery.dll' This assembly was expected to be in the local runtime store as the application was published using the following target manifest files: aspnetcore-store-2.0.8.xml`.
+
 The web API project was created with Docker support enabled, **targeting Linux**. To this end, you must ensure that your Docker mode is switched to Linux, and that you have shared your disk from Docker settings (the disk sharing option appears only in Linux mode, as in Windows disks are pre-shared).
 
 As we drag NuGet packages from additional sources, the Dockerfile must include the `NuGet.config` file when copying source to the development container. As for the `myget.org` source, ensure that you have updated it to the latest packages from your local development machine (use my `MyNuGetSweep` to clean and push packages).
 
-When building the app, just use IIS and Windows as usual, setting the API project as the startup project. When you want to build the Docker image, switch to Release and build. This builds the image executing Docker compose, and stores it in your machine. You can then list the images (`docker image ls`) to check that the newly created image is there. Its tag is already defined for uploading to my private registry (`naftis/fusi`). Otherwise, you should tag it with `docker tag imageid naftis/fusi:cadmusapi`.
+When building the app, just use IIS and Windows as usual, setting the API project as the startup project. When you want to build the Docker image, switch to Release and build. This builds the image executing Docker compose, and stores it in your machine. You can then list the images (`docker image ls`) to check that the newly created image is there. Its tag is already defined for uploading to my private registry (`naftis/fusi`). Otherwise, you should tag it with `docker tag imageid naftis/fusi:cadmusapi`. **Note**: remember to update the MyGet registry before building!
 
 To push the image to the private registry:
 
 - login: `docker login --username naftis --password XXX`
 - push: `docker push naftis/fusi:cadmusapi`
+
+In the Linux machine:
+
+- login: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password;
+- copy the `docker-compose.prod.yml` file in the Linux machine;
+- open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
 
 ## CadmusTool
 
