@@ -6,6 +6,7 @@ using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
 using CadmusApi.Services;
+using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -51,7 +52,7 @@ namespace CadmusApi.Controllers
 
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            PagedResult<IItemInfo> page = repository.GetItemsPage(new ItemFilter
+            PagedData<IItemInfo> page = repository.GetItemsPage(new ItemFilter
             {
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,

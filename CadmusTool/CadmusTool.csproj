@@ -19,11 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cadmus.Core" Version="1.1.20" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="1.0.8" />
-    <PackageReference Include="Cadmus.Mongo" Version="1.1.24" />
-    <PackageReference Include="Cadmus.Parts" Version="1.1.22" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.23" />
+    <PackageReference Include="Cadmus.Core" Version="1.1.21" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="1.0.9" />
+    <PackageReference Include="Cadmus.Mongo" Version="1.1.25" />
+    <PackageReference Include="Cadmus.Parts" Version="1.1.23" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.24" />
     <PackageReference Include="Fusi.Text" Version="1.1.4" />
     <PackageReference Include="Fusi.Tools" Version="1.1.4" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
