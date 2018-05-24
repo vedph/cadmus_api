@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -13,12 +16,28 @@ namespace CadmusApi
     /// </summary>
     public static class Program
     {
+        private static void DumpEnvironment()
+        {
+            IDictionary dct = Environment.GetEnvironmentVariables();
+            List<string> keys = new List<string>();
+            var enumerator = dct.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                keys.Add(((DictionaryEntry)enumerator.Current).Key.ToString());
+            }
+
+            foreach (string key in keys.OrderBy(s => s))
+                Console.WriteLine($"{key} = {dct[key]}");
+        }
+
         /// <summary>
         /// Entry point.
         /// </summary>
         /// <param name="args">The arguments.</param>
         public static int Main(string[] args)
         {
+            DumpEnvironment();
+
             // see http://www.carlrippon.com/?p=1118
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
