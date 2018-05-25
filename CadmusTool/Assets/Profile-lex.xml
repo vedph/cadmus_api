@@ -33,9 +33,14 @@
     </set>
     <set id="etymology-languages@en">
       <t id="eng">English</t>
-      <t id="fra">French</t>
-      <t id="ger">German</t>
-      <t id="grc">Greek</t>
+      <t id="enm">Middle English</t>
+      <t id="fre">French</t>
+      <t id="frm">Middle French</t>
+      <t id="fro">Old French</t>
+      <t id="deu">German</t>
+      <t id="gmh">Middle German</t>
+      <t id="grc">Old Greek</t>
+      <t id="gre">Modern Greek</t>
       <t id="ita">Italian</t>
       <t id="lat">Latin</t>
       <t id="spa">Spanish</t>
