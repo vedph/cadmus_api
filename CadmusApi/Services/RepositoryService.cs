@@ -63,6 +63,7 @@ namespace CadmusApi.Services
         private void Configure()
         {
             string pluginDir = GetPluginDirectory();
+            if (!Directory.Exists(pluginDir)) Directory.CreateDirectory(pluginDir);
 
             // we're using the plugins catalog for both parts (IPart)
             // and repositories (MongoDB, which is an additional assembly
