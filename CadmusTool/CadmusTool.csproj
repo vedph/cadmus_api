@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Cadmus.Core" Version="1.1.21" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="1.0.9" />
-    <PackageReference Include="Cadmus.Mongo" Version="1.1.25" />
+    <PackageReference Include="Cadmus.Mongo" Version="1.1.26" />
     <PackageReference Include="Cadmus.Parts" Version="1.1.23" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.24" />
     <PackageReference Include="Fusi.Text" Version="1.1.4" />

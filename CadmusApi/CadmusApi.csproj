@@ -24,7 +24,7 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc3-0300" />
     <PackageReference Include="Cadmus.Core" Version="1.1.21" />
-    <PackageReference Include="Cadmus.Mongo" Version="1.1.25" />
+    <PackageReference Include="Cadmus.Mongo" Version="1.1.26" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.6" />
     <PackageReference Include="MailKit" Version="2.0.3" />
     <PackageReference Include="NLog" Version="5.0.0-beta09" />
