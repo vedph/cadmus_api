@@ -307,7 +307,7 @@ namespace CadmusApi.Controllers
         /// Adds or updates the specified part.
         /// </summary>
         /// <param name="database">The database ID.</param>
-        /// <param name="json">The JSON code representing the part. If new, the part ID
+        /// <param name="model">The model with JSON code representing the part. If new, the part ID
         /// should not be parsable as a GUID, e.g. <c>"id": "new"</c> or <c>"id": ""</c>,
         /// or should be null (e.g. <c>"id": null</c>). At a minimum, each part should 
         /// adhere to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name", 
@@ -317,15 +317,16 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/parts")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddPart(string database, [FromBody] string json)
+        public IActionResult AddPart(string database, [FromBody] RawJsonBindingModel model)
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
 
             // add the ID if new part
+            string json = model.Raw;
             string partId;
-            Match m = Regex.Match(json, 
-                @"""id""\s*:\s*(?:(?:""(?<v>[^""]*)"")|(?<v>:null))");
+            Match m = Regex.Match(json,
+                @"""_id""\s*:\s*(?:(?:""(?<v>[^""]*)"")|(?<v>:null))");
             if (!m.Success)
                 return BadRequest("Invalid part JSON: missing id");
 
@@ -334,13 +335,13 @@ namespace CadmusApi.Controllers
             {
                 partId = Guid.NewGuid().ToString("N");
                 json = json.Substring(0, m.Index) +
-                       $"\"id\":\"{partId}\"" +
+                       $"\"_id\":\"{partId}\"" +
                        json.Substring(m.Index + m.Length);
             }
             else partId = m.Groups["v"].Value;
 
             // override the user ID
-            json = SetUserId(json, User.Identity.Name);
+            json = SetUserId(json, User.Identity.Name ?? "");
 
             // add the part
             repository.AddPartJson(json);
