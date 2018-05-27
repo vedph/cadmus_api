@@ -433,10 +433,13 @@ namespace CadmusTool.Commands
                 gcOrSns.AddBeforeSelf(" ");
             }
 
-            // remove any element beginning with _ (_bm etc)
+            // remove any element beginning with _ (_bm etc),
+            // or containing only $ (there is a deplorable habit of
+            // inserting empty elements with this placeholder)
             foreach (XElement meta in prepared.Descendants()
-                .Where(e => e.Name.LocalName
-                .StartsWith("_", StringComparison.Ordinal))
+                .Where(e =>
+                    e.Name.LocalName.StartsWith("_", StringComparison.Ordinal) ||
+                    (!e.HasElements && e.Value.Trim() == "$"))
                 .ToList())
             {
                 meta.Remove();
