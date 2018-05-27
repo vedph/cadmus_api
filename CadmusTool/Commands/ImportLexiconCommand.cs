@@ -16,6 +16,7 @@ using Cadmus.Parts.General;
 using Fusi.Antiquity.Chronology;
 using Fusi.Text.Unicode;
 using Fusi.Tools;
+using Fusi.Tools.Text;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
 using NLog;
@@ -37,6 +38,9 @@ namespace CadmusTool.Commands
         private readonly HashSet<string> _exAllowedChildren;
         private readonly HashSet<string> _extAllowedChildren;
         private readonly Regex _lemmaHomRegex;
+        private readonly Regex _tagRegex;
+        private readonly Regex _wsRegex;
+        private readonly TextCutterOptions _textCutterOptions;
         private DataProfile _profile;
 
         public ImportLexiconCommand(AppOptions options, string inputDir, string database,
@@ -64,6 +68,15 @@ namespace CadmusTool.Commands
             };
 
             _lemmaHomRegex = new Regex(@"^(?<l>[^(]+)(?:\s*\((?<h>\d+)\))?");
+            _tagRegex = new Regex(@"<[^>]+>");
+            _wsRegex = new Regex(@"\s+");
+            _textCutterOptions = new TextCutterOptions
+            {
+                LimitAsPercents = false,
+                LineFlattening = true,
+                MaxLength = 200,
+                Ellipsis = "\u2026"
+            };
         }
 
         public static void Configure(CommandLineApplication command, AppOptions options)
@@ -406,16 +419,50 @@ namespace CadmusTool.Commands
             ReadNotePart(itemElement, item);
         }
 
+        private string BuildItemDescription(XElement item)
+        {
+            XElement prepared = XElement.Parse(
+                item.ToString(SaveOptions.DisableFormatting),
+                LoadOptions.PreserveWhitespace);
+
+            // ensure there is a space before gc/sns
+            foreach (XElement gcOrSns in prepared.Descendants()
+                .Where(e => e.Name.LocalName == "gc" || e.Name.LocalName == "sns")
+                .ToList())
+            {
+                gcOrSns.AddBeforeSelf(" ");
+            }
+
+            // remove any element beginning with _ (_bm etc)
+            foreach (XElement meta in prepared.Descendants()
+                .Where(e => e.Name.LocalName
+                .StartsWith("_", StringComparison.Ordinal))
+                .ToList())
+            {
+                meta.Remove();
+            }
+
+            // extract text and normalize its spaces
+            string xml = prepared.ToString(SaveOptions.DisableFormatting);
+            string txt = _tagRegex.Replace(xml, "");
+            txt = _wsRegex.Replace(txt, " ");
+
+            // cut the result
+            return TextCutter.Cut(txt, _textCutterOptions);
+        }
+
         public Task Run()
         {
             Console.WriteLine("IMPORT DATABASE\n" +
                               $"Input directory: {_inputDir}\n" +
                               $"Database: {_database}\n" +
-                              $"Profile file: {_profileText}\n");
+                              $"Profile file: {_profileText}\n" +
+                              $"Preflight: {(_preflight? "yes" : "no")}");
             _logger.Info("IMPORT DATABASE: " +
                          $"Input directory: {_inputDir}, " +
                          $"Database: {_database}, " +
-                         $"Profile file: {_profileText}, ");
+                         $"Profile file: {_profileText}, " +
+                         $"Preflight: {_preflight}");
 
             try
             {
@@ -467,6 +514,7 @@ namespace CadmusTool.Commands
                         {
                             Id = id,
                             Title = lemma + (hom > 0 ? $" ({hom})" : ""),
+                            Description = BuildItemDescription(itemElement),
                             FacetId = "facet-lex-word",
                             SortKey = sid,
                             UserId = USERID,
