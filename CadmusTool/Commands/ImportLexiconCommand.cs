@@ -516,7 +516,7 @@ namespace CadmusTool.Commands
                         Item item = new Item
                         {
                             Id = id,
-                            Title = lemma + (hom > 0 ? $" ({hom})" : ""),
+                            Title = BuildWordKey(lemma, hom),
                             Description = BuildItemDescription(itemElement),
                             FacetId = "facet-lex-word",
                             SortKey = sid,
