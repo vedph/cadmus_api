@@ -6,18 +6,18 @@
     <facet id="facet-default" label="default">
       <dsc>The default facet.</dsc>
       <parts>
-        <part type="categories" name="categories" color="f0f080" sort="categories" group="general" required="1">Item's categories.</part>
-        <part type="keywords" name="keywords" color="80f080" sort="keywords" group="general">Item's keywords.</part>
-        <part type="note" name="note" color="f08080" sort="note" group="general">A free text note about the document.</part>
-        <part type="token-text" name="token text" color="8080f0" sort="text" group="text">Item's token-based text.</part>
+        <part type="categories" name="categories" color="98F8F8" sort="categories" group="general" required="1">Item's categories.</part>
+        <part type="keywords" name="keywords" color="90C0F8" sort="keywords" group="general">Item's keywords.</part>
+        <part type="note" name="note" color="B0A0F8" sort="note" group="general">A free text note about the document.</part>
+        <part type="token-text" name="token text" color="31AB54" sort="text" group="text">Item's token-based text.</part>
 
         <!-- layers: each layer has the corresponding fragment ID as its role -->
         <part type="token-text-layer" role="fr-comment" name="comments" 
-              color="8080f0" sort="text-comments" group="text">Comments on text.</part>
+              color="F8D040" sort="text-comments" group="text">Comments on text.</part>
         <part type="token-text-layer" role="fr-quotation" name="quotes"
-              color="8080f0" sort="text-quotes" group="text">Quotes in text.</part>
+              color="863577" sort="text-quotes" group="text">Quotes in text.</part>
         <part type="token-text-layer" role="fr-apparatus" name="apparatus"
-              color="8080f0" sort="text-apparatus" group="text">Critical apparatus.</part>
+              color="4B18D7" sort="text-apparatus" group="text">Critical apparatus.</part>
       </parts>
     </facet>
   </facets>
@@ -47,8 +47,8 @@
     </set>
     <set id="languages@en">
       <t id="eng">English</t>
-      <t id="fra">French</t>
-      <t id="ger">German</t>
+      <t id="fre">French</t>
+      <t id="deu">German</t>
       <t id="grc">Greek</t>
       <t id="ita">Italian</t>
       <t id="lat">Latin</t>

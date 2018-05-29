@@ -30,6 +30,7 @@ namespace CadmusTool.Commands
         private readonly Random _random;
         private readonly Regex _crLfRegex;
         private DataProfile _profile;
+        private bool _textPartAdded;
 
         public SeedDatabaseCommand(AppOptions options, string database, string profile,
             string facets, int count)
@@ -273,9 +274,9 @@ namespace CadmusTool.Commands
             item.Parts.Add(partComments);
 
             // quotation
-            if (_random.Next(0, 3) == 0)
+            if (_random.Next(0, 3) == 0 || !_textPartAdded)
             {
-                TokenTextLayerPart<QuotationLayerFragment> partQuotes = 
+                TokenTextLayerPart<QuotationLayerFragment> partQuotes =
                     new TokenTextLayerPart<QuotationLayerFragment>
                 {
                     ItemId = item.Id,
@@ -287,7 +288,7 @@ namespace CadmusTool.Commands
             }
 
             // apparatus
-            if (_random.Next(0, 3) == 0)
+            if (_random.Next(0, 3) == 0 || !_textPartAdded)
             {
                 TokenTextLayerPart<ApparatusLayerFragment> partApparatus =
                     new TokenTextLayerPart<ApparatusLayerFragment>
@@ -299,6 +300,8 @@ namespace CadmusTool.Commands
                 AddApparatusLayerFragment(GetRandomLocation(part), partApparatus);
                 item.Parts.Add(partApparatus);
             }
+
+            _textPartAdded = true;
         }
 
         private void AddParts(IItem item, int index)
