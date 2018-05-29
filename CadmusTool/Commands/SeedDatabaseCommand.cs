@@ -213,7 +213,7 @@ namespace CadmusTool.Commands
                 Author = "au-" + new string((char) (65 + _random.Next(0, 27)), 1),
                 Work = "wk-" + new string((char) (65 + _random.Next(0, 27)), 1),
                 WorkLoc = $"{_random.Next(1, 24)}.{_random.Next(1, 1001)}",
-                VariantOf = _random.Next(1, 10) == 3 ? 
+                VariantOf = _random.Next(1, 10) == 3 ?
                     LoremIpsumGenerator.Generate(_random.Next(3, 20), 12) : null
             });
         }
@@ -223,7 +223,7 @@ namespace CadmusTool.Commands
             ApparatusLayerFragment fragment = new ApparatusLayerFragment
             {
                 Location = location,
-                Type = (LemmaVariantType) _random.Next(0, 5)
+                Type = (LemmaVariantType) _random.Next(0, 4)
             };
 
             string[] authors = {"Alpha", "Beta", "Gamma"};
