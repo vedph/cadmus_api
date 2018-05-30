@@ -68,7 +68,7 @@ The profile XML file defines items facets and flags. You can find a sample in `C
 
 The items count defaults to 100. Example:
 
-	CadmusTool seed cadmusapi c:\users\dfusi\desktop\Profile.xml facet-default -c 100
+	dotnet .\CadmusTool.dll seed cadmusapi \Projects\Core20\CadmusApi\CadmusTool\Assets\Profile.xml facet-default -c 100
 
 ### CadmusTool - Import LEX
 
