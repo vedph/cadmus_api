@@ -82,17 +82,15 @@ namespace CadmusApi
             services.AddOpenIddict()
                 .AddCore(options =>
                 {
-                    options.UseDefaultModels();
-
-                    // register the Entity Framework stores.
-                    options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
+                    options.UseEntityFrameworkCore()
+                        .UseDbContext<ApplicationDbContext>();
                 })
                 .AddServer(options =>
                 {
                     // register the ASP.NET Core MVC binder used by OpenIddict.
                     // Note: if you don't call this method, you won't be able to
                     // bind OpenIdConnectRequest or OpenIdConnectResponse parameters
-                    options.AddMvcBinders();
+                    options.UseMvc();
 
                     // enable the token endpoints
                     options.EnableTokenEndpoint("/connect/token");
@@ -108,33 +106,6 @@ namespace CadmusApi
                     options.DisableHttpsRequirement();
                 })
                 .AddValidation();
-
-            //// Register the OpenIddict services.
-            //// Note: use the generic overload if you need
-            //// to replace the default OpenIddict entities.
-            //services.AddOpenIddict(options =>
-            //{
-            //    // Register the Entity Framework stores.
-            //    options.AddEntityFrameworkCoreStores<ApplicationDbContext>();
-
-            //    // Register the ASP.NET Core MVC binder used by OpenIddict.
-            //    // Note: if you don't call this method, you won't be able to
-            //    // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-            //    options.AddMvcBinders();
-
-            //    // Enable the token endpoint (required to use the password flow).
-            //    options.EnableTokenEndpoint("/connect/token");
-
-            //    // Allow client applications to use the grant_type=password flow.
-            //    options.AllowPasswordFlow();
-            //    options.AllowRefreshTokenFlow();
-
-            //    // During development, you can disable the HTTPS requirement.
-            //    options.DisableHttpsRequirement();
-            //});
-
-            //services.AddAuthentication()
-            //    .AddOAuthValidation();
 
             // Add framework services
             // for IMemoryCache: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory

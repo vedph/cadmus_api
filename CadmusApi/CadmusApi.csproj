@@ -22,15 +22,15 @@
     <PackageReference Include="Cadmus.Parts" Version="1.1.27" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.28" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.0" />
-    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc3-0300" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc3-0312" />
     <PackageReference Include="Cadmus.Core" Version="1.1.25" />
     <PackageReference Include="Cadmus.Mongo" Version="1.1.30" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.8" />
     <PackageReference Include="MailKit" Version="2.0.4" />
     <PackageReference Include="NLog" Version="5.0.0-beta09" />
-    <PackageReference Include="OpenIddict" Version="2.0.0-rc3-0964" />
-    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc3-0964" />
-    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc3-0964" />
+    <PackageReference Include="OpenIddict" Version="2.0.0-rc3-0999" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="2.0.0-rc3-0999" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rc3-0999" />
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.1.2" />
