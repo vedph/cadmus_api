@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using Serilog;
+using MongoDB.Driver;
 
 namespace CadmusApi
 {
@@ -52,6 +54,7 @@ namespace CadmusApi
                         new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
                 });
 
+            /* MSSQL
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 // Configure the context to use Microsoft SQL Server.
@@ -66,6 +69,15 @@ namespace CadmusApi
             // Register the Identity services.
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            */
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
+                .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
+                (
+                    Configuration["Auth:ConnectionString"],
+                    Configuration["Auth:DatabaseName"]
+                )
                 .AddDefaultTokenProviders();
 
             // Configure Identity to use the same JWT claims as OpenIddict instead
@@ -82,8 +94,12 @@ namespace CadmusApi
             services.AddOpenIddict()
                 .AddCore(options =>
                 {
-                    options.UseEntityFrameworkCore()
-                        .UseDbContext<ApplicationDbContext>();
+                    /* MSSQL
+                    options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
+                    */
+                    options.UseMongoDb()
+                       .UseDatabase(new MongoClient(Configuration["Auth:ConnectionString"])
+                           .GetDatabase(Configuration["Auth:DatabaseName"]));
                 })
                 .AddServer(options =>
                 {
@@ -119,7 +135,10 @@ namespace CadmusApi
             services.AddSingleton<RepositoryService, RepositoryService>();
 
             // database seeder
-            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            /* MSSQL
+            services.AddTransient<IDatabaseInitializer, SqlDatabaseInitializer>();
+            */
+            services.AddTransient<IDatabaseInitializer, MongoDatabaseInitializer>();
 
             // swagger
             // https://github.com/domaindrivendev/Swashbuckle.AspNetCore
@@ -144,9 +163,12 @@ namespace CadmusApi
             // serilog
             services.AddSingleton<ILogger>(_ =>
             {
+                string maxSize = Configuration["Serilog:MaxMbSize"];
                 return new LoggerConfiguration()
-                    .WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],
-                    Configuration["Serilog:TableName"], autoCreateSqlTable: true)
+                /*.WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],*/
+                .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
+                    cappedMaxSizeMb: !String.IsNullOrEmpty(maxSize) &&
+                        Int32.TryParse(maxSize, out int n) && n > 0 ? n : 10)
                     .CreateLogger();
             });
         }

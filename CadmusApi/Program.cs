@@ -48,13 +48,24 @@ namespace CadmusApi
                 .Build();
 
             // https://github.com/serilog/serilog-aspnetcore
+            // MSSQL
+            //Log.Logger = new LoggerConfiguration()
+            //    .MinimumLevel.Debug()
+            //    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            //    .Enrich.FromLogContext()
+            //    .WriteTo.MSSqlServer(configuration["Serilog:ConnectionString"],
+            //        configuration["Serilog:TableName"],
+            //        autoCreateSqlTable: true)
+            //    .CreateLogger();
+
+            // https://github.com/serilog/serilog-aspnetcore
+            string maxSize = configuration["Serilog:MaxMbSize"];
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
-                .WriteTo.MSSqlServer(configuration["Serilog:ConnectionString"],
-                    configuration["Serilog:TableName"],
-                    autoCreateSqlTable: true)
+                .WriteTo.MongoDBCapped(configuration["Serilog:ConnectionString"],
+                    cappedMaxSizeMb: !String.IsNullOrEmpty(maxSize) && Int32.TryParse(maxSize, out int n) && n > 0 ? n : 10)
                 .CreateLogger();
 
             try
@@ -86,5 +97,13 @@ namespace CadmusApi
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .Build();
+
+        private static LogEventLevel ParseLogLevel(string text, LogEventLevel @default)
+        {
+            if (String.IsNullOrEmpty(text) ||
+                Array.IndexOf(new[] { "verbose", "debug", "information", "warning", "error", "fatal" },
+                text.ToLowerInvariant()) == -1) return @default;
+            return Enum.Parse<LogEventLevel>(text, true);
+        }
     }
 }

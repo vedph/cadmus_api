@@ -12,22 +12,19 @@ namespace CadmusApi.Services
     /// </summary>
     public sealed class AccountService
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountService"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="roleManager">The role manager.</param>
-        public AccountService(ApplicationDbContext context,
+        public AccountService(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
-            _context = context;
             _roleManager = roleManager;
         }
 

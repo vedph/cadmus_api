@@ -9,7 +9,52 @@ This solution is related to:
 
 Remember to update the plugins directories with the batches included in this solution before executing. Note that for `CadmusTool` this directory should not include `Cadmus.Parts`, as this is already loaded by that project in order to seed the parts. Should you miss any plugin, a common issue is that you will see only those item's parts which are included in the plugins found.
 
+## History
+
+2018-06-14: replaced MSSQL with MongoDB store in authentication.
+
+## MongoDB
+
+**Dump/restore** uses BSON. JSON is a subset of BSON and is used for import/export with 3rd parties.
+
+- dump a database:
+
+	.\mongodump.exe --db cadmuslex --out c:\users\dfusi\desktop\cadmuslex-dump
+
+- dump a database to a single, compressed archive:
+
+	.\mongodump.exe --db cadmuslex --archive=c:\users\dfusi\desktop\cadmuslex.tar.gz --gzip
+
+- restore a database from a single, compressed archive:
+
+	.\mongorestore.exe --archive=c:\users\dfusi\desktop\cadmuslex.tar.gz --gzip
+
 ## Docker
+
+Quick steps for __building an image__:
+
+1.ensure to __update your MyGet.org repository__. Use `MyNugetSweep` to sweep old packages and upload:
+
+	dotnet .\MyNugetSweep.dll sweep C:\Projects\_NuGet -c 3
+	dotnet .\MyNugetSweep.dll push C:\Projects\_NuGet https://www.myget.org/F/fusi/api/v2/package MYNUGETKEY
+
+2.switch to `Release` and __build__.
+3.__push the image__ to the private registry:
+
+	docker login --username naftis --password XXX
+	docker push naftis/fusi:cadmusapi
+
+In the consumer __Linux machine__:
+
+- login: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password;
+- copy the `docker-compose.prod.yml` file in the Linux machine;
+- open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
+
+To connect to databases from the Linux Docker host, using e.g. Compass (<https://www.mongodb.com/download-center?jmp=nav#compass>):
+
+- server: 127.0.0.1
+- port: 27017
+- no authentication
 
 Note: you should *remove the 2.0 version number* from the generated Dockerfile dotnet images, or you will have issues because of mismatched dotnet versions: <https://github.com/aspnet/IISIntegration/issues/476> (you can check your development machine version of dotnet with `dotnet --version`). The issue I encountered was this error when doing a docker-compose up on the Linux target: `Error: An assembly specified in the application dependencies manifest (CadmusApi.deps.json) was not found: package: 'Microsoft.AspNetCore.Antiforgery', version: '2.0.3' path: 'lib/netstandard2.0/Microsoft.AspNetCore.Antiforgery.dll' This assembly was expected to be in the local runtime store as the application was published using the following target manifest files: aspnetcore-store-2.0.8.xml`.
 
@@ -43,6 +88,61 @@ To connect to databases from the Linux Docker host:
 - server: 127.0.0.1
 - port: 27017
 - no authentication
+
+### Obsolete Docker Config
+
+This was changed after switching to MongoDB for authentication.
+
+```yml
+version: '3.4'
+
+services:
+  # SQL Server
+  cadmusmssql:
+    image: microsoft/mssql-server-linux
+    container_name: cadmussqlserver
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: "P4ss-W0rd!"
+    ports:
+      - 1433:1433
+    networks:
+      - cadmusnetwork
+
+  # MongoDB
+  cadmusmongo:
+    image: mongo
+    container_name: cadmusmongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles --logpath=/dev/null # --quiet
+    networks:
+      - cadmusnetwork
+
+  cadmusapi:
+    image: naftis/fusi:cadmusapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+    ports:
+      - 60304:60304
+    depends_on:
+      - cadmusmssql
+      - cadmusmongo
+    environment:
+      # for Windows use : as separator, for non Windows use __
+      # (see https://github.com/aspnet/Configuration/issues/469)
+      DATA__DEFAULTCONNECTION__CONNECTIONSTRING: "Server=127.0.0.1\\sqlexpress,1433;Database=cadmusapi;User Id=SA;Password=P4ss-W0rd!;MultipleActiveResultSets=true"
+      SERILOG__CONNECTIONSTRING: "Server=127.0.0.1\\sqlexpress,1433;Database=cadmusapi;User Id=SA;Password=P4ss-W0rd!;MultipleActiveResultSets=true"
+    networks:
+      - cadmusnetwork
+
+networks:
+  cadmusnetwork:
+    driver: bridge
+```
 
 ## CadmusTool
 

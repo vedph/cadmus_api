@@ -41,7 +41,7 @@ namespace CadmusApi.Services
             var dct = _source.Get();
             dct["tagmapbuilder:directory"] = GetPluginDirectory();
             dct["tagmapbuilder:filemask"] = "*parts*.dll";
-            dct["repository:connectionstringtemplate"] = configuration["Mongo:Template"];
+            dct["repository:connectionstringtemplate"] = configuration["Data:ConnectionString"];
 
             _source.Set(dct);
             Configure();

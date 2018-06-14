@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿/* MSSQL
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CadmusApi.Models
@@ -25,3 +26,4 @@ namespace CadmusApi.Models
         //}
     }
 }
+*/

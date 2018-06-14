@@ -1,18 +1,6 @@
 version: '3.4'
 
 services:
-  # SQL Server
-  cadmusmssql:
-    image: microsoft/mssql-server-linux
-    container_name: cadmussqlserver
-    environment:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: "P4ss-W0rd!"
-    ports:
-      - 1433:1433
-    networks:
-      - cadmusnetwork
-
   # MongoDB
   cadmusmongo:
     image: mongo
@@ -25,6 +13,11 @@ services:
     command: mongod --smallfiles --logpath=/dev/null # --quiet
     networks:
       - cadmusnetwork
+    
+  mongo-seed:
+    build: ./MongoSeed
+    depends_on:
+      - cadmusmongo
 
   cadmusapi:
     image: naftis/fusi:cadmusapi
@@ -33,13 +26,7 @@ services:
     ports:
       - 60304:60304
     depends_on:
-      - cadmusmssql
       - cadmusmongo
-    environment:
-      # for Windows use : as separator, for non Windows use __
-      # (see https://github.com/aspnet/Configuration/issues/469)
-      DATA__DEFAULTCONNECTION__CONNECTIONSTRING: "Server=127.0.0.1\\sqlexpress,1433;Database=cadmusapi;User Id=SA;Password=P4ss-W0rd!;MultipleActiveResultSets=true"
-      SERILOG__CONNECTIONSTRING: "Server=127.0.0.1\\sqlexpress,1433;Database=cadmusapi;User Id=SA;Password=P4ss-W0rd!;MultipleActiveResultSets=true"
     networks:
       - cadmusnetwork
 

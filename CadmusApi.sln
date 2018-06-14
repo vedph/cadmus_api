@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadmusApi", "CadmusApi\CadmusApi.csproj", "{0A43E185-42D6-4629-A133-9E24643D84A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadmusApi", "CadmusApi\CadmusApi.csproj", "{0A43E185-42D6-4629-A133-9E24643D84A0}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{442189FD-8FC2-4501-A1CE-96C33AC9A234}"
 EndProject
@@ -15,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadmusTool", "CadmusTool\CadmusTool.csproj", "{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoSeed", "MongoSeed", "{7F1BCB25-BDC7-4EF4-8AA9-16CAE0E13EF7}"
+	ProjectSection(SolutionItems) = preProject
+		MongoSeed\cadmuslex.tar.gz = MongoSeed\cadmuslex.tar.gz
+		MongoSeed\Dockerfile = MongoSeed\Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
