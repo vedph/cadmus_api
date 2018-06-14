@@ -46,9 +46,9 @@ Quick steps for __building an image__:
 
 In the consumer __Linux machine__:
 
-- login: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password;
-- copy the `docker-compose.prod.yml` file in the Linux machine;
-- open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
+1.copy the `docker-compose.prod.yml` file in the Linux machine, renaming it to `docker-compose.yml`; also copy the `MongoSeed` folder into the folder where you copied the docker compose script;
+2.login: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password;
+3.open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
 
 To connect to databases from the Linux Docker host, using e.g. Compass (<https://www.mongodb.com/download-center?jmp=nav#compass>):
 
