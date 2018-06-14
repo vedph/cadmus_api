@@ -1,8 +1,8 @@
-FROM microsoft/aspnetcore AS base
+FROM microsoft/dotnet:2.1-aspnetcore-runtime AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build AS build
+FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 COPY CadmusApi/CadmusApi.csproj CadmusApi/
 COPY CadmusApi/NuGet.config .
