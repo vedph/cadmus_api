@@ -1,10 +1,9 @@
 version: '3.4'
 
 services:
-  # MongoDB
-  cadmusmongo:
+  mongo:
     image: mongo
-    container_name: cadmusmongo
+    container_name: mongo
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -13,11 +12,13 @@ services:
     command: mongod --smallfiles --logpath=/dev/null # --quiet
     networks:
       - cadmusnetwork
-    
-  mongo-seed:
+
+  mongoseed:
     build: ./MongoSeed
     depends_on:
-      - cadmusmongo
+      - mongo
+    networks:
+      - cadmusnetwork
 
   cadmusapi:
     image: naftis/fusi:cadmusapi
@@ -26,7 +27,8 @@ services:
     ports:
       - 60304:60304
     depends_on:
-      - cadmusmongo
+      - mongo
+      - mongoseed
     networks:
       - cadmusnetwork
 
