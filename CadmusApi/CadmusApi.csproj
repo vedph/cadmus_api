@@ -22,12 +22,12 @@
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="1.0.14" />
     <PackageReference Include="Cadmus.Parts" Version="1.1.28" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.29" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.2" />
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rc3-0312" />
     <PackageReference Include="Cadmus.Core" Version="1.1.26" />
     <PackageReference Include="Cadmus.Mongo" Version="1.1.31" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.9" />
-    <PackageReference Include="MailKit" Version="2.0.4" />
+    <PackageReference Include="MailKit" Version="2.0.5" />
     <PackageReference Include="NLog" Version="5.0.0-beta09" />
     <PackageReference Include="OpenIddict" Version="2.0.0-rc3-1006" />
     <PackageReference Include="OpenIddict.MongoDb" Version="2.0.0-rc3-1006" />
@@ -35,9 +35,9 @@
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.MongoDB" Version="3.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="2.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="2.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="2.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>

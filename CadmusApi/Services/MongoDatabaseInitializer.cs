@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using CadmusApi.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace CadmusApi.Services
 {
@@ -10,18 +11,22 @@ namespace CadmusApi.Services
     /// <seealso cref="CadmusApi.Services.IDatabaseInitializer" />
     public sealed class MongoDatabaseInitializer : IDatabaseInitializer
     {
+        private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDatabaseInitializer"/> class.
+        /// Initializes a new instance of the <see cref="MongoDatabaseInitializer" /> class.
         /// </summary>
+        /// <param name="configuration">The configuration.</param>
         /// <param name="userManager">The user manager.</param>
         /// <param name="roleManager">The role manager.</param>
         public MongoDatabaseInitializer(
+            IConfiguration configuration,
             UserManager<ApplicationUser> userManager,
             RoleManager<ApplicationRole> roleManager)
         {
+            _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
         }
@@ -34,11 +39,11 @@ namespace CadmusApi.Services
         {
             Serilog.Log.Information("Seeding users");
 
-            const string email = "fake@nowhere.com";
-            ApplicationUser user;
-            if (await _userManager.FindByEmailAsync(email) == null)
+            const string email = "dfusi@hotmail.com";
+            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
             {
-                // use the create rather than addorupdate so can set password
+                // use Create rather than AddOrUpdate, so we can set password
                 user = new ApplicationUser
                 {
                     UserName = "zeus",
@@ -47,10 +52,10 @@ namespace CadmusApi.Services
                     FirstName = "Daniele",
                     LastName = "Fusi"
                 };
-                await _userManager.CreateAsync(user, "P4ssw0rd!");
+                await _userManager.CreateAsync(user, _configuration["Seed:ZeusPassword"]);
             }
 
-            user = await _userManager.FindByEmailAsync(email);
+            // user = await _userManager.FindByEmailAsync(email);
             string roleName = "admin";
             if (await _roleManager.FindByNameAsync(roleName) == null)
                 await _roleManager.CreateAsync(new ApplicationRole { Name = roleName });
