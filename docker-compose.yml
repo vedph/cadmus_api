@@ -1,8 +1,28 @@
 version: '3.4'
 
 services:
+  # MongoDB
+  cadmusmongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - 27017:27017
+    networks:
+      - cadmusnetwork
+  
+  # Cadmus API
   cadmusapi:
     image: naftis/fusi:cadmusapi
+    ports:
+      - 60304:60304
+    depends_on:
+      - cadmusmongo
     build:
       context: .
       dockerfile: CadmusApi/Dockerfile
+    networks:
+      - cadmusnetwork
+
+networks:
+  cadmusnetwork:
+    driver: bridge

@@ -1,18 +1,18 @@
 ﻿using System;
-using System.IO;
 using AspNet.Security.OpenIdConnect.Primitives;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using CadmusApi.Models;
 using CadmusApi.Services;
-using Microsoft.Extensions.PlatformAbstractions;
 using Swashbuckle.AspNetCore.Swagger;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using Serilog;
 using MongoDB.Driver;
+using OpenIddict.Abstractions;
+using Microsoft.Extensions.PlatformAbstractions;
+using System.IO;
 
 namespace CadmusApi
 {
@@ -103,6 +103,14 @@ namespace CadmusApi
                 })
                 .AddServer(options =>
                 {
+                    // https://github.com/openiddict/openiddict-core/issues/621
+                    options.RegisterScopes(OpenIdConnectConstants.Scopes.Email,
+                               OpenIdConnectConstants.Scopes.Profile,
+                               OpenIddictConstants.Scopes.Roles);
+
+                    // accept anonymous clients (i.e clients that don't send a client_id)
+                    options.AcceptAnonymousClients();
+
                     // register the ASP.NET Core MVC binder used by OpenIddict.
                     // Note: if you don't call this method, you won't be able to
                     // bind OpenIdConnectRequest or OpenIdConnectResponse parameters
