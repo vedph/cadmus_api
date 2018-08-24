@@ -9,6 +9,18 @@ This solution is related to:
 
 Remember to update the plugins directories with the batches included in this solution before executing. Note that for `CadmusTool` this directory should not include `Cadmus.Parts`, as this is already loaded by that project in order to seed the parts. Should you miss any plugin, a common issue is that you will see only those item's parts which are included in the plugins found.
 
+## Quick Start
+
+To start MongoDB if not installed locally:
+
+	docker run --name mongo -d -p 27017:27017 mongo --noauth
+
+Once created the container, re-start it with:
+
+	docker container start mongo
+
+To seed the database ensure that you have run the update plugins batch, and then run the CadmusTool `seed` command (see below).
+
 ## History
 
 2018-06-14: replaced MSSQL with MongoDB store in authentication.
