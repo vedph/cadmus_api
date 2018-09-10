@@ -155,6 +155,8 @@ namespace CadmusApi
             // https://github.com/domaindrivendev/Swashbuckle.AspNetCore
             services.AddSwaggerGen(options =>
             {
+                // https://stackoverflow.com/questions/46071513/swagger-error-conflicting-schemaids-duplicate-schemaids-detected-for-types-a-a
+                options.CustomSchemaIds(x => x.FullName);
                 options.SwaggerDoc("v1", new Info
                 {
                     Title = "Cadmus API",

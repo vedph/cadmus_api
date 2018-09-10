@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -33,10 +35,10 @@ namespace CadmusApi.Controllers
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of flags definitions</returns>
         [HttpGet("api/{database}/flags")]
-        public IActionResult Get(string database)
+        public ActionResult<IFlagDefinition[]> Get(string database)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            return Ok(repository.GetFlagDefinitions());
+            return Ok(repository.GetFlagDefinitions().ToArray());
         }
     }
 }

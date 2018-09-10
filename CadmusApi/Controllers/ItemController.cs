@@ -47,7 +47,7 @@ namespace CadmusApi.Controllers
         /// <returns>page</returns>
         [HttpGet("api/{database}/items")]
         [ProducesResponseType(200)]
-        public IActionResult GetItems(string database, [FromQuery] ItemFilterModel filter)
+        public ActionResult<PagedData<IItemInfo>> GetItems(string database, [FromQuery] ItemFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -79,7 +79,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/item/{id}", Name = "GetItem")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetItem(string database, string id, [FromQuery] bool parts)
+        public ActionResult<IItem> GetItem(string database, string id, [FromQuery] bool parts)
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);

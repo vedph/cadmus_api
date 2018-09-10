@@ -50,7 +50,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/tag/{id}", Name = "GetSet")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetSet(string database, string id)
+        public ActionResult<TagSet> GetSet(string database, string id)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
             TagSet set = repository.GetTagSet(id);

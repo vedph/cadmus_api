@@ -23,7 +23,8 @@ To seed the database ensure that you have run the update plugins batch, and then
 
 ## History
 
-2018-06-14: replaced MSSQL with MongoDB store in authentication.
+- 2018-09-10: updated packages and refactored API metadata by using `ActionResult<T>`.
+- 2018-06-14: replaced MSSQL with MongoDB store in authentication.
 
 ## MongoDB
 

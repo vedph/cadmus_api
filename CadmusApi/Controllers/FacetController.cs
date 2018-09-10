@@ -35,10 +35,10 @@ namespace CadmusApi.Controllers
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of facets</returns>
         [HttpGet("api/{database}/facets")]
-        public IActionResult Get(string database)
+        public ActionResult<IFacet[]> Get(string database)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            return Ok(repository.GetFacets());
+            return Ok(repository.GetFacets().ToArray());
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace CadmusApi.Controllers
         /// In this case, you will get just 1 part for each part type.</param>
         /// <returns>list of parts</returns>
         [HttpGet("api/{database}/facets/parts")]
-        public IActionResult GetFacetParts(string database, [FromQuery] bool noRoles = false)
+        public ActionResult<PartDefinition[]> GetFacetParts(string database, [FromQuery] bool noRoles = false)
         {
             List<PartDefinition> defs = new List<PartDefinition>();
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
@@ -65,7 +65,7 @@ namespace CadmusApi.Controllers
 
             return Ok(defs.OrderBy(d => d.SortKey)
                 .ThenBy(d => d.TypeId)
-                .ThenBy(d => d.RoleId).ToList());
+                .ThenBy(d => d.RoleId).ToArray());
         }
     }
 }
