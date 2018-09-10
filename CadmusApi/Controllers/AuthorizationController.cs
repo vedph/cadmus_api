@@ -22,6 +22,8 @@ namespace CadmusApi.Controllers
     /// Authorization controller.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [ApiController]
+    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     public sealed class AuthorizationController : Controller
     {
         private readonly IOptions<IdentityOptions> _identityOptions;

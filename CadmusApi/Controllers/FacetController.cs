@@ -12,6 +12,8 @@ namespace CadmusApi.Controllers
     /// Item facets controller.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [ApiController]
     public sealed class FacetController : Controller
     {
         private readonly RepositoryService _repositoryService;

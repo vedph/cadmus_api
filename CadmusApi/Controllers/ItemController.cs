@@ -16,7 +16,8 @@ namespace CadmusApi.Controllers
     /// Items controller.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize]
+    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [ApiController]
     public sealed class ItemController : Controller
     {
         private static readonly Regex _pascalPropRegex = new Regex(@"""([A-Z])([^""]*)""\s*:");

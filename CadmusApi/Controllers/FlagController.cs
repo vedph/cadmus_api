@@ -10,7 +10,8 @@ namespace CadmusApi.Controllers
     /// Items flags controller.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize]
+    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [ApiController]
     public sealed class FlagController : Controller
     {
         private readonly RepositoryService _repositoryService;

@@ -13,6 +13,7 @@ using MongoDB.Driver;
 using OpenIddict.Abstractions;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CadmusApi
 {
@@ -48,6 +49,8 @@ namespace CadmusApi
             services.AddCors();
 
             services.AddMvc()
+                // https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-2.1
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver =

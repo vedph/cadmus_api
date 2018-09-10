@@ -14,6 +14,7 @@ namespace CadmusApi.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [ApiController]
     public sealed class UserController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
