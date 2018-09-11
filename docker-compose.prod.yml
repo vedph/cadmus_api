@@ -1,9 +1,9 @@
 version: '3.4'
 
 services:
-  mongo:
+  cadmus-mongo:
     image: mongo
-    container_name: mongo
+    container_name: cadmus-mongo
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
@@ -11,27 +11,27 @@ services:
       - 27017:27017
     command: mongod --smallfiles --logpath=/dev/null # --quiet
     networks:
-      - cadmusnetwork
+      - cadmus-network
 
-  mongoseed:
+  cadmus-mongoseed:
     build: ./MongoSeed
     depends_on:
-      - mongo
+      - cadmus-mongo
     networks:
-      - cadmusnetwork
+      - cadmus-network
 
-  cadmusapi:
+  cadmus-api:
     image: naftis/fusi:cadmusapi
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
     ports:
-      - 60304:60304
+      - 60304:80
     depends_on:
-      - mongo
-      - mongoseed
+      - cadmus-mongo
+      - cadmus-mongoseed
     networks:
-      - cadmusnetwork
+      - cadmus-network
 
 networks:
-  cadmusnetwork:
+  cadmus-network:
     driver: bridge
