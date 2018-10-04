@@ -19,13 +19,13 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="1.0.8" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="1.0.16" />
-    <PackageReference Include="Cadmus.Parts" Version="1.1.30" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.31" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.3" />
-    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0-rtm-0318" />
-    <PackageReference Include="Cadmus.Core" Version="1.1.28" />
-    <PackageReference Include="Cadmus.Mongo" Version="1.1.33" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="1.0.17" />
+    <PackageReference Include="Cadmus.Parts" Version="1.1.31" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="1.1.32" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0" />
+    <PackageReference Include="Cadmus.Core" Version="1.1.29" />
+    <PackageReference Include="Cadmus.Mongo" Version="1.1.34" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.11" />
     <PackageReference Include="MailKit" Version="2.0.6" />
     <PackageReference Include="NLog" Version="5.0.0-beta09" />
