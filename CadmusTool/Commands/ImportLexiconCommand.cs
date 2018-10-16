@@ -13,6 +13,7 @@ using Cadmus.Core.Storage;
 using Cadmus.Lexicon.Parts;
 using Cadmus.Mongo;
 using Cadmus.Parts.General;
+using CadmusTool.Services;
 using Fusi.Antiquity.Chronology;
 using Fusi.Text.Unicode;
 using Fusi.Tools;
@@ -41,12 +42,14 @@ namespace CadmusTool.Commands
         private readonly Regex _tagRegex;
         private readonly Regex _wsRegex;
         private readonly TextCutterOptions _textCutterOptions;
+        private readonly RepositoryService _repositoryService;
         private DataProfile _profile;
 
         public ImportLexiconCommand(AppOptions options, string inputDir, string database,
             string profile, bool preflight)
         {
             _config = options.Configuration;
+            _repositoryService = new RepositoryService(_config);
             _logger = LogManager.GetCurrentClassLogger();
             _inputDir = inputDir ?? throw new ArgumentNullException(nameof(inputDir));
             _database = database ?? throw new ArgumentNullException(nameof(database));
@@ -494,8 +497,7 @@ namespace CadmusTool.Commands
                 Console.WriteLine("Creating repository...");
                 _logger.Info("Creating repository...");
 
-                ICadmusRepository repository = RepositoryService.CreateRepository(_database,
-                    _config.GetConnectionString("Mongo"));
+                ICadmusRepository repository = _repositoryService.CreateRepository(_database);
 
                 foreach (string lexFile in Directory.GetFiles(_inputDir, "??.xml").OrderBy(s => s))
                 {

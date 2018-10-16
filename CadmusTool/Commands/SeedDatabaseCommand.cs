@@ -12,6 +12,7 @@ using Cadmus.Mongo;
 using Cadmus.Parts.General;
 using Cadmus.Parts.Layers;
 using Cadmus.Philology.Parts.Layers;
+using CadmusTool.Services;
 using Fusi.Antiquity.Chronology;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +24,7 @@ namespace CadmusTool.Commands
     {
         private readonly ILogger _logger;
         private readonly IConfiguration _config;
+        private readonly RepositoryService _repositoryService;
         private readonly string _database;
         private readonly string _profileText;
         private readonly string _facets;
@@ -36,6 +38,7 @@ namespace CadmusTool.Commands
             string facets, int count)
         {
             _config = options.Configuration;
+            _repositoryService = new RepositoryService(_config);
             _logger = LogManager.GetCurrentClassLogger();
             _database = database ?? throw new ArgumentNullException(nameof(database));
             _profileText = profile ?? throw new ArgumentNullException(nameof(profile));
@@ -366,8 +369,7 @@ namespace CadmusTool.Commands
             Console.WriteLine("Creating repository...");
             _logger.Info("Creating repository...");
 
-            ICadmusRepository repository = RepositoryService.CreateRepository(_database,
-                _config.GetConnectionString("Mongo"));
+            ICadmusRepository repository = _repositoryService.CreateRepository(_database);
 
             Console.Write("Seeding items (.=10): ");
             int facetIndex = 0;

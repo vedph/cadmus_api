@@ -2,7 +2,7 @@
   "profiles": {
     "CadmusTool": {
       "commandName": "Project",
-      "commandLineArgs": "import-lex c:\\users\\dfusi\\desktop\\lex cadmuslex c:\\users\\dfusi\\desktop\\Profile.xml"
+      "commandLineArgs": "seed cadmusapi \\Projects\\Core20\\CadmusApi\\CadmusTool\\Assets\\Profile.xml facet-default -c 100"
     }
   }
 }

@@ -212,8 +212,7 @@ namespace CadmusApi.Controllers
             string role = roleMatch.Success ? roleMatch.Groups[1].Value : null;
 
             IPartTypeProvider provider = _repositoryService.GetPartTypeProvider();
-            Type t = provider.GetType(typeMatch.Groups[1].Value, role != null && 
-                                                                 role.StartsWith("fr-"));
+            Type t = provider.Get(typeMatch.Groups[1].Value);
             IPart part = (IPart)JsonConvert.DeserializeObject(json, t);
             var result = (from p in part.GetDataPins()
                 select new
