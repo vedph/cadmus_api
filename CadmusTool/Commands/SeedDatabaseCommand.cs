@@ -16,13 +16,11 @@ using CadmusTool.Services;
 using Fusi.Antiquity.Chronology;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
-using NLog;
 
 namespace CadmusTool.Commands
 {
     public sealed class SeedDatabaseCommand : ICommand
     {
-        private readonly ILogger _logger;
         private readonly IConfiguration _config;
         private readonly RepositoryService _repositoryService;
         private readonly string _database;
@@ -39,7 +37,6 @@ namespace CadmusTool.Commands
         {
             _config = options.Configuration;
             _repositoryService = new RepositoryService(_config);
-            _logger = LogManager.GetCurrentClassLogger();
             _database = database ?? throw new ArgumentNullException(nameof(database));
             _profileText = profile ?? throw new ArgumentNullException(nameof(profile));
             _facets = facets ?? throw new ArgumentNullException(nameof(facets));
@@ -341,7 +338,7 @@ namespace CadmusTool.Commands
                               $"Profile file: {_profileText}\n" +
                               $"Facets: {_facets}\n" +
                               $"Count: {_count}\n");
-            _logger.Info("SEED DATABASE: " +
+            Serilog.Log.Information("SEED DATABASE: " +
                          $"Database: {_database}, " + 
                          $"Profile file: {_profileText}, " +
                          $"Facets: {_facets}, " +
@@ -357,17 +354,17 @@ namespace CadmusTool.Commands
             if (!manager.DatabaseExists(connection))
             {
                 Console.WriteLine("Creating database...");
-                _logger.Info($"Creating database {_database}...");
+                Serilog.Log.Information($"Creating database {_database}...");
 
                 manager.CreateDatabase(connection, profileContent);
 
                 Console.WriteLine("Database created.");
-                _logger.Info("Database created.");
+                Serilog.Log.Information("Database created.");
             }
             _profile = new DataProfile(XElement.Parse(profileContent));
 
             Console.WriteLine("Creating repository...");
-            _logger.Info("Creating repository...");
+            Serilog.Log.Information("Creating repository...");
 
             ICadmusRepository repository = _repositoryService.CreateRepository(_database);
 
@@ -401,12 +398,12 @@ namespace CadmusTool.Commands
                 }
 
                 Console.WriteLine(" completed.");
-                _logger.Info("Seed completed");
+                Serilog.Log.Information("Seed completed");
                 return Task.FromResult(0);
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex.ToString);
+                Serilog.Log.Error(ex, ex.Message);
                 throw;
             }
         }

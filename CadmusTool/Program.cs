@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,11 @@ namespace CadmusTool
         {
             try
             {
+                // https://github.com/serilog/serilog-sinks-file
+                Serilog.Core.Logger log = new LoggerConfiguration()
+                    .WriteTo.File("Log.txt", rollingInterval: RollingInterval.Day)
+                    .CreateLogger();
+
                 Console.OutputEncoding = Encoding.Unicode;
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();

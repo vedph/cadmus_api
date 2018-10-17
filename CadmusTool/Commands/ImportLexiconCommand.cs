@@ -20,7 +20,6 @@ using Fusi.Tools;
 using Fusi.Tools.Text;
 using Microsoft.Extensions.CommandLineUtils;
 using Microsoft.Extensions.Configuration;
-using NLog;
 
 namespace CadmusTool.Commands
 {
@@ -28,7 +27,6 @@ namespace CadmusTool.Commands
     {
         private const string USERID = "zeus";
 
-        private readonly ILogger _logger;
         private readonly IConfiguration _config;
         private readonly string _inputDir;
         private readonly string _database;
@@ -50,7 +48,6 @@ namespace CadmusTool.Commands
         {
             _config = options.Configuration;
             _repositoryService = new RepositoryService(_config);
-            _logger = LogManager.GetCurrentClassLogger();
             _inputDir = inputDir ?? throw new ArgumentNullException(nameof(inputDir));
             _database = database ?? throw new ArgumentNullException(nameof(database));
             _profileText = profile ?? throw new ArgumentNullException(nameof(profile));
@@ -464,7 +461,7 @@ namespace CadmusTool.Commands
                               $"Database: {_database}\n" +
                               $"Profile file: {_profileText}\n" +
                               $"Preflight: {(_preflight? "yes" : "no")}");
-            _logger.Info("IMPORT DATABASE: " +
+            Serilog.Log.Information("IMPORT DATABASE: " +
                          $"Input directory: {_inputDir}, " +
                          $"Database: {_database}, " +
                          $"Profile file: {_profileText}, " +
@@ -484,18 +481,18 @@ namespace CadmusTool.Commands
                     if (!manager.DatabaseExists(connection))
                     {
                         Console.WriteLine("Creating database...");
-                        _logger.Info($"Creating database {_database}...");
+                        Serilog.Log.Information($"Creating database {_database}...");
 
                         manager.CreateDatabase(connection, profileContent);
 
                         Console.WriteLine("Database created.");
-                        _logger.Info("Database created.");
+                        Serilog.Log.Information("Database created.");
                     }
                 }
                 _profile = new DataProfile(XElement.Parse(profileContent));
 
                 Console.WriteLine("Creating repository...");
-                _logger.Info("Creating repository...");
+                Serilog.Log.Information("Creating repository...");
 
                 ICadmusRepository repository = _repositoryService.CreateRepository(_database);
 
@@ -546,12 +543,12 @@ namespace CadmusTool.Commands
                 }
 
                 Console.WriteLine(" completed.");
-                _logger.Info("Import completed");
+                Serilog.Log.Information("Import completed");
                 return Task.FromResult(0);
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex.ToString);
+                Serilog.Log.Error(ex, ex.Message);
                 throw;
             }
         }
