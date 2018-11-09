@@ -179,11 +179,7 @@ namespace CadmusApi.Controllers
         public async Task<IActionResult> GetUserInfo()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-
-            // to simplify, in this demo we just have 1 role for users: either admin or editor
-            string sRole = await _userManager.IsInRoleAsync(user, "admin")
-                ? "admin"
-                : "editor";
+            IList<string> roles = await _userManager.GetRolesAsync(user);
 
             // http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
             return Ok(new
@@ -194,7 +190,7 @@ namespace CadmusApi.Controllers
                 name = user.UserName,
                 user.Email,
                 email_verified = user.EmailConfirmed,
-                roles = sRole
+                roles
             });
         }
     }

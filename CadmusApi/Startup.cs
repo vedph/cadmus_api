@@ -138,8 +138,8 @@ namespace CadmusApi
             // for IMemoryCache: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory
             services.AddMemoryCache();
 
-            // add my services
-            // services.AddTransient<ISomeService, SomeServiceImpl>();
+            // user repository service
+            services.AddTransient<IUserRepository<ApplicationUser>, AspUserRepository>();
 
             // add configuration
             services.AddSingleton(_ => Configuration);

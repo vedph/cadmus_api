@@ -47,7 +47,8 @@ namespace CadmusApi.Controllers
         /// <returns>page</returns>
         [HttpGet("api/{database}/items")]
         [ProducesResponseType(200)]
-        public ActionResult<PagedData<IItemInfo>> GetItems(string database, [FromQuery] ItemFilterModel filter)
+        public ActionResult<PagedData<IItemInfo>> GetItems(string database,
+            [FromQuery] ItemFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 

@@ -11,13 +11,13 @@ namespace CadmusApi.Models
         /// <summary>
         /// The page number (1-N).
         /// </summary>
-        [Range(1, Int32.MaxValue)]
+        [Range(1, int.MaxValue)]
         public int PageNumber { get; set; }
 
         /// <summary>
-        /// The page size (1-N).
+        /// The page size (1-100).
         /// </summary>
-        [Range(1, Int32.MaxValue)]
+        [Range(1, 100)]
         public int PageSize { get; set; }
 
         /// <summary>

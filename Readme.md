@@ -11,13 +11,15 @@ Remember to update the plugins directories with the batches included in this sol
 
 ## Quick Start
 
-To start MongoDB if not installed locally:
+It should be possible to run a mongo container storing data in host through a volume in `c:\users\YOURUSERNAME\data\mongo`, but in Windows this has issues:
 
-	docker run --name mongo -d -p 27017:27017 mongo --noauth
+    docker run --name mongo -d -p 27017:27017 --volume c:/users/dfusi/dockerVolMongo/db:/data/db mongo --noauth
 
-Once created the container, re-start it with:
+See <https://github.com/docker/for-win/issues/138> about the directory location under the user folder (permissions requirements). Yet this does not seem to work even if using elevated command prompt.
 
-	docker container start mongo
+Just run without persisting data:
+
+    docker run --name mongo -d -p 27017:27017 mongo --noauth
 
 To seed the database ensure that you have run the update plugins batch, and then run the CadmusTool `seed` command (see below).
 

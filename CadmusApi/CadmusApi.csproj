@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>a30dab70-4455-41f4-8f86-6c755170bc81</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -25,18 +26,18 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0" />
     <PackageReference Include="Cadmus.Core" Version="2.0.2" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.0.2" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.0.3" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.11" />
-    <PackageReference Include="MailKit" Version="2.0.6" />
-    <PackageReference Include="OpenIddict" Version="2.0.0-rtm-1102" />
-    <PackageReference Include="OpenIddict.MongoDb" Version="2.0.0-rtm-1102" />
-    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0-rtm-1102" />
+    <PackageReference Include="MailKit" Version="2.0.7" />
+    <PackageReference Include="OpenIddict" Version="2.0.0" />
+    <PackageReference Include="OpenIddict.MongoDb" Version="2.0.0" />
+    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0" />
     <PackageReference Include="Serilog" Version="2.7.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Serilog.Sinks.MongoDB" Version="3.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="3.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="3.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.MongoDB" Version="4.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

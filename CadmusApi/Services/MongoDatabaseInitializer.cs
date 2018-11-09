@@ -31,6 +31,20 @@ namespace CadmusApi.Services
             _roleManager = roleManager;
         }
 
+        private async Task SeedRoles()
+        {
+            foreach (string role in new[] { "admin" })
+            {
+                if (!await _roleManager.RoleExistsAsync(role))
+                {
+                    await _roleManager.CreateAsync(new ApplicationRole
+                    {
+                        Name = role
+                    });
+                }
+            }
+        }
+
         /// <summary>
         /// Seeds the database.
         /// </summary>
@@ -39,29 +53,26 @@ namespace CadmusApi.Services
         {
             Serilog.Log.Information("Seeding users");
 
+            await SeedRoles();
+
             const string email = "dfusi@hotmail.com";
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                // use Create rather than AddOrUpdate, so we can set password
+                IConfigurationSection section = _configuration.GetSection("Admin");
                 user = new ApplicationUser
                 {
-                    UserName = "zeus",
-                    Email = email,
+                    UserName = section["UserName"],
+                    Email = section["Email"],
                     EmailConfirmed = true,
-                    FirstName = "Daniele",
-                    LastName = "Fusi"
+                    FirstName = section["FirstName"],
+                    LastName = section["LastName"]
                 };
-                await _userManager.CreateAsync(user, _configuration["Seed:ZeusPassword"]);
+                await _userManager.CreateAsync(user, section["Password"]);
             }
 
-            // user = await _userManager.FindByEmailAsync(email);
-            string roleName = "admin";
-            if (await _roleManager.FindByNameAsync(roleName) == null)
-                await _roleManager.CreateAsync(new ApplicationRole { Name = roleName });
-
-            if (!await _userManager.IsInRoleAsync(user, roleName))
-                await _userManager.AddToRoleAsync(user, roleName);
+            if (!await _userManager.IsInRoleAsync(user, "admin"))
+                await _userManager.AddToRoleAsync(user, "admin");
         }
     }
 }
