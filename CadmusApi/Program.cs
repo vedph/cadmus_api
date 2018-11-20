@@ -14,7 +14,7 @@ namespace CadmusApi
     /// <summary>
     /// Program.
     /// </summary>
-    public static class Program
+    public sealed class Program
     {
         private static void DumpEnvironment()
         {
@@ -65,7 +65,7 @@ namespace CadmusApi
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.MongoDBCapped(configuration["Serilog:ConnectionString"],
-                    cappedMaxSizeMb: !String.IsNullOrEmpty(maxSize) && Int32.TryParse(maxSize, out int n) && n > 0 ? n : 10)
+                    cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) && int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
                 .CreateLogger();
 
             try
@@ -75,6 +75,7 @@ namespace CadmusApi
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.ToString());
                 Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;
             }
@@ -100,7 +101,7 @@ namespace CadmusApi
 
         private static LogEventLevel ParseLogLevel(string text, LogEventLevel @default)
         {
-            if (String.IsNullOrEmpty(text) ||
+            if (string.IsNullOrEmpty(text) ||
                 Array.IndexOf(new[] { "verbose", "debug", "information", "warning", "error", "fatal" },
                 text.ToLowerInvariant()) == -1) return @default;
             return Enum.Parse<LogEventLevel>(text, true);

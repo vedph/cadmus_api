@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using CadmusApi.Models;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace CadmusApi.Services
 {
@@ -48,8 +49,8 @@ namespace CadmusApi.Services
         /// <summary>
         /// Seeds the database.
         /// </summary>
-        /// <returns></returns>
-        public async Task Seed()
+        /// <param name="provider">The provider.</param>
+        public async Task SeedAsync(IServiceProvider provider)
         {
             Serilog.Log.Information("Seeding users");
 

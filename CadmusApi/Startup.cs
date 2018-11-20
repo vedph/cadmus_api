@@ -145,12 +145,6 @@ namespace CadmusApi
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<RepositoryService, RepositoryService>();
 
-            // database seeder
-            /* MSSQL
-            services.AddTransient<IDatabaseInitializer, SqlDatabaseInitializer>();
-            */
-            services.AddTransient<IDatabaseInitializer, MongoDatabaseInitializer>();
-
             // swagger
             // https://github.com/domaindrivendev/Swashbuckle.AspNetCore
             services.AddSwaggerGen(options =>
@@ -174,15 +168,17 @@ namespace CadmusApi
             });
 
             // serilog
-            services.AddSingleton<ILogger>(_ =>
+            services.AddSingleton(_ =>
             {
-                string maxSize = Configuration["Serilog:MaxMbSize"];
-                return new LoggerConfiguration()
-                /*.WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],*/
-                .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
-                    cappedMaxSizeMb: !String.IsNullOrEmpty(maxSize) &&
-                        Int32.TryParse(maxSize, out int n) && n > 0 ? n : 10)
-                    .CreateLogger();
+                // already configured in Program.cs
+                return Log.Logger;
+                //string maxSize = Configuration["Serilog:MaxMbSize"];
+                //return new LoggerConfiguration()
+                ///*.WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],*/
+                //.WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
+                //    cappedMaxSizeMb: !String.IsNullOrEmpty(maxSize) &&
+                //        int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
+                //    .CreateLogger();
             });
         }
 
@@ -192,9 +188,7 @@ namespace CadmusApi
         /// </summary>
         /// <param name="app">The application.</param>
         /// <param name="env">The environment.</param>
-        /// <param name="databaseInitializer">The database initializer.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,
-            IDatabaseInitializer databaseInitializer)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
 
@@ -207,10 +201,6 @@ namespace CadmusApi
 
             app.UseAuthentication();
             app.UseMvcWithDefaultRoute();
-            //app.UseWelcomePage();
-
-            // seed the database
-            databaseInitializer.Seed().GetAwaiter().GetResult();
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>

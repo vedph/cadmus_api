@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace CadmusApi.Services
 {
@@ -10,6 +11,6 @@ namespace CadmusApi.Services
         /// <summary>
         /// Seeds the database.
         /// </summary>
-        Task Seed();
+        Task SeedAsync(IServiceProvider provider);
     }
 }
