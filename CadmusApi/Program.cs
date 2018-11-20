@@ -2,12 +2,9 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Serilog;
-using Serilog.Events;
 
 namespace CadmusApi
 {
@@ -16,8 +13,9 @@ namespace CadmusApi
     /// </summary>
     public sealed class Program
     {
-        private static void DumpEnvironment()
+        private static void DumpEnvironmentVars()
         {
+            Console.WriteLine("ENVIRONMENT VARIABLES:");
             IDictionary dct = Environment.GetEnvironmentVariables();
             List<string> keys = new List<string>();
             var enumerator = dct.GetEnumerator();
@@ -36,45 +34,19 @@ namespace CadmusApi
         /// <param name="args">The arguments.</param>
         public static int Main(string[] args)
         {
-            DumpEnvironment();
-
-            // see http://www.carlrippon.com/?p=1118
-            IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile(
-                    $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json",
-                    optional: true)
-                .Build();
-
-            // https://github.com/serilog/serilog-aspnetcore
-            // MSSQL
-            //Log.Logger = new LoggerConfiguration()
-            //    .MinimumLevel.Debug()
-            //    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            //    .Enrich.FromLogContext()
-            //    .WriteTo.MSSqlServer(configuration["Serilog:ConnectionString"],
-            //        configuration["Serilog:TableName"],
-            //        autoCreateSqlTable: true)
-            //    .CreateLogger();
-
-            // https://github.com/serilog/serilog-aspnetcore
-            string maxSize = configuration["Serilog:MaxMbSize"];
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.MongoDBCapped(configuration["Serilog:ConnectionString"],
-                    cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) && int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
-                .CreateLogger();
+            DumpEnvironmentVars();
 
             try
             {
-                BuildWebHost(args).Run();
+                // this is the place for seeding:
+                // see https://stackoverflow.com/questions/45148389/how-to-seed-in-entity-framework-core-2
+                // and https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.1#move-database-initialization-code
+                BuildWebHost(args).Seed().Run();
                 return 0;
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.ToString());
                 Log.Fatal(ex, "Host terminated unexpectedly");
                 return 1;
@@ -98,13 +70,5 @@ namespace CadmusApi
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .Build();
-
-        private static LogEventLevel ParseLogLevel(string text, LogEventLevel @default)
-        {
-            if (string.IsNullOrEmpty(text) ||
-                Array.IndexOf(new[] { "verbose", "debug", "information", "warning", "error", "fatal" },
-                text.ToLowerInvariant()) == -1) return @default;
-            return Enum.Parse<LogEventLevel>(text, true);
-        }
     }
 }

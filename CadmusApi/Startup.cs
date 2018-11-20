@@ -170,15 +170,14 @@ namespace CadmusApi
             // serilog
             services.AddSingleton(_ =>
             {
-                // already configured in Program.cs
-                return Log.Logger;
-                //string maxSize = Configuration["Serilog:MaxMbSize"];
-                //return new LoggerConfiguration()
-                ///*.WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],*/
-                //.WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
-                //    cappedMaxSizeMb: !String.IsNullOrEmpty(maxSize) &&
-                //        int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
-                //    .CreateLogger();
+                // https://github.com/serilog/serilog-aspnetcore
+                string maxSize = Configuration["Serilog:MaxMbSize"];
+                return new LoggerConfiguration()
+                    .Enrich.FromLogContext()
+                    .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
+                        cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
+                            int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
+                    .CreateLogger();
             });
         }
 
