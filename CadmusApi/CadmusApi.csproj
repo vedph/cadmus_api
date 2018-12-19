@@ -28,7 +28,7 @@
     <PackageReference Include="Cadmus.Core" Version="2.0.2" />
     <PackageReference Include="Cadmus.Mongo" Version="2.0.4" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.11" />
-    <PackageReference Include="MailKit" Version="2.1.0.2" />
+    <PackageReference Include="MailKit" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageReference Include="OpenIddict" Version="2.0.0" />
     <PackageReference Include="OpenIddict.MongoDb" Version="2.0.0" />
