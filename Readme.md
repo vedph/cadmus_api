@@ -48,22 +48,22 @@ To seed the database ensure that you have run the update plugins batch, and then
 
 Quick steps for __building an image__:
 
-1.ensure to __update your MyGet.org repository__. Use `MyNugetSweep` to sweep old packages and upload:
+1. ensure to __update your MyGet.org repository__. Use `MyNugetSweep` to sweep old packages and upload:
 
 	dotnet .\MyNugetSweep.dll sweep C:\Projects\_NuGet -c 3
 	dotnet .\MyNugetSweep.dll push C:\Projects\_NuGet https://www.myget.org/F/fusi/api/v2/package MYNUGETKEY
 
-2.switch to `Release` and __build__.
-3.__push the image__ to the private registry:
+2. switch to `Release` and __build__.
+3. __push the image__ to the private registry:
 
 	docker login --username naftis --password XXX
 	docker push naftis/fusi:cadmusapi
 
 In the consumer __Linux machine__:
 
-1.copy the `docker-compose.prod.yml` file in the Linux machine, renaming it to `docker-compose.yml`; also copy the `MongoSeed` folder into the folder where you copied the docker compose script;
-2.login: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password;
-3.open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
+1. copy the `docker-compose.prod.yml` file in the Linux machine, renaming it to `docker-compose.yml`; also copy the `MongoSeed` folder into the folder where you copied the docker compose script;
+2. login: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password;
+3. open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
 
 To connect to databases from the Linux Docker host, using e.g. Compass (<https://www.mongodb.com/download-center?jmp=nav#compass>):
 
@@ -92,13 +92,13 @@ In the Linux machine:
 
 To connect to databases from the Linux Docker host:
 
-1.SQL Server (e.g. SQL Operations Studio: <https://docs.microsoft.com/en-us/sql/sql-operations-studio/download?view=sql-server-2017>):
+1. SQL Server (e.g. SQL Operations Studio: <https://docs.microsoft.com/en-us/sql/sql-operations-studio/download?view=sql-server-2017>):
 
 - server: 127.0.0.1\sqlexpress,1433
 - user: SA
 - password: P4ss-W0rd!
 
-2.MongoDB (e.g. Compass: <https://www.mongodb.com/download-center?jmp=nav#compass>):
+2. MongoDB (e.g. Compass: <https://www.mongodb.com/download-center?jmp=nav#compass>):
 
 - server: 127.0.0.1
 - port: 27017
@@ -203,13 +203,13 @@ Example:
 
 - configure WEB app for Serilog: <https://stackoverflow.com/questions/35736437/how-to-log-to-sql-server-using-serilog-with-asp-net-5-dotnet-core>
 
-1.add these packages (or later versions):
+1. add these packages (or later versions):
 
 - Serilog
 - Serilog.Sinks.MSSqlServer
 - Serilog.AspNetCore
 
-2.update `appsettings.json` to include all the required Serilog SQL Server Sink configuration by adding the following JSON at the end of the file and before the last closing curly braces:
+2. update `appsettings.json` to include all the required Serilog SQL Server Sink configuration by adding the following JSON at the end of the file and before the last closing curly braces:
 
 ```json
 "Serilog": {
@@ -218,7 +218,7 @@ Example:
   }
 ```
 
-3.update the `Startup` class to configure Serilog.ILogger ASP.NET Core has a new builtin Dependency Injection feature that can be used by registering the services and their implementations through the ConfigureServices method inside Startup class so add the following section add the end of the ConfigureServices method. The Dependency Injection feature provide three types of registrations Transient, Scoped and Singleton.
+3. update the `Startup` class to configure Serilog.ILogger ASP.NET Core has a new builtin Dependency Injection feature that can be used by registering the services and their implementations through the ConfigureServices method inside Startup class so add the following section add the end of the ConfigureServices method. The Dependency Injection feature provide three types of registrations Transient, Scoped and Singleton.
 
 ```c#
 services.AddSingleton<Serilog.ILogger>(x=>
@@ -233,7 +233,7 @@ Note: should you want to log it, you can get the IP address using `HttpContext.C
 
 To connect the ASPNET logging system to Serilog: <https://github.com/serilog/serilog-aspnetcore>:
 
-1.in `Program.cs` change the Main method by adding configuration retrieval and then configuring the Serilog logger with your sink(s):
+1. in `Program.cs` change the Main method by adding configuration retrieval and then configuring the Serilog logger with your sink(s):
 
 ```cs
 public static int Main(string[] args)
@@ -274,9 +274,9 @@ public static int Main(string[] args)
 }
 ```
 
-2.in the same file, add `.UseSerilog()` to the `BuildWebHost` method `WebHost.CreateDefaultBuilder` call.
+2. in the same file, add `.UseSerilog()` to the `BuildWebHost` method `WebHost.CreateDefaultBuilder` call.
 
-3.in `appsettings.json`, replace the `Logger` configuration with `Serilog`:
+3. in `appsettings.json`, replace the `Logger` configuration with `Serilog`:
 
 ```json
   "Serilog": {

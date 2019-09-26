@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
+using System.Diagnostics;
 
 namespace CadmusApi
 {
@@ -46,6 +47,7 @@ namespace CadmusApi
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.ToString());
                 Console.WriteLine(ex.Message);
                 Console.WriteLine(ex.ToString());
                 Log.Fatal(ex, "Host terminated unexpectedly");

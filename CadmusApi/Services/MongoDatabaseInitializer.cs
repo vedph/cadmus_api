@@ -9,7 +9,7 @@ namespace CadmusApi.Services
     /// <summary>
     /// MongoDB database initializer.
     /// </summary>
-    /// <seealso cref="CadmusApi.Services.IDatabaseInitializer" />
+    /// <seealso cref="IDatabaseInitializer" />
     public sealed class MongoDatabaseInitializer : IDatabaseInitializer
     {
         private readonly IConfiguration _configuration;
@@ -69,7 +69,15 @@ namespace CadmusApi.Services
                     FirstName = section["FirstName"],
                     LastName = section["LastName"]
                 };
-                await _userManager.CreateAsync(user, section["Password"]);
+                // the true password comes from the server environment,
+                // the one in this repo config is just a mock
+                string password = section["Password"];
+                if (password.Length == 0)
+                    throw new ApplicationException("No password for the default user");
+
+                var result = await _userManager.CreateAsync(user, password);
+                if (!result.Succeeded)
+                    throw new ApplicationException("Unable to create the default user");
             }
 
             if (!await _userManager.IsInRoleAsync(user, "admin"))
