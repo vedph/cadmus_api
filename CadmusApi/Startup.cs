@@ -163,6 +163,9 @@ namespace CadmusApi
             services.AddControllers();
             // camel-case JSON in response
             services.AddMvc()
+                // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#jsonnet-support
+                // Newtonsoft is required by MongoDB
+                .AddNewtonsoftJson()
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy =
