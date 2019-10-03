@@ -66,7 +66,7 @@ namespace CadmusTool.Commands
             command.OnExecute(() =>
             {
                 int count = 100;
-                if (countOption.HasValue()) Int32.TryParse(countOption.Value(), out count);
+                if (countOption.HasValue()) int.TryParse(countOption.Value(), out count);
 
                 options.Command = new SeedDatabaseCommand(options,
                     databaseArgument.Value,
@@ -87,7 +87,7 @@ namespace CadmusTool.Commands
 
         private void AddCategoriesPart(IItem item, int index)
         {
-            TagSet set = _profile.TagSets.FirstOrDefault(t => t.Id == "categories@en");
+            TagSet set = Array.Find(_profile.TagSets, t => t.Id == "categories@en");
             if (set == null) return;
 
             CategoriesPart part = new CategoriesPart
@@ -121,11 +121,13 @@ namespace CadmusTool.Commands
                 int n = _random.Next(1, 20);
                 string keyword = NumberToWords.Convert(n);
                 if (part.Keywords.All(k => k.Value != keyword))
+                {
                     part.Keywords.Add(new Keyword
                     {
                         Language = "eng",
                         Value = keyword
                     });
+                }
             }
 
             item.Parts.Add(part);
@@ -181,10 +183,15 @@ namespace CadmusTool.Commands
                 b.Value++;
                 date.SetEndPoint(b);
             }
-            else date.SetSinglePoint(GetRandomDatation());
+            else
+            {
+                date.SetSinglePoint(GetRandomDatation());
+            }
 
-            HistoricalDatePart part = new HistoricalDatePart();
-            part.Date = date;
+            HistoricalDatePart part = new HistoricalDatePart
+            {
+                Date = date
+            };
             item.Parts.Add(part);
         }
 
@@ -230,10 +237,14 @@ namespace CadmusTool.Commands
             for (int i = 0;
                 i < (fragment.Type == LemmaVariantType.Note? _random.Next(0, 3):
                 _random.Next(1, 3)); i++)
+            {
                 fragment.Authors.Add(authors[i]);
+            }
 
             if (fragment.Type == LemmaVariantType.Note)
+            {
                 fragment.Note = LoremIpsumGenerator.Generate(10, 50);
+            }
             else
             {
                 fragment.Value = LoremIpsumGenerator.Generate(3, 10);
@@ -339,13 +350,13 @@ namespace CadmusTool.Commands
                               $"Facets: {_facets}\n" +
                               $"Count: {_count}\n");
             Serilog.Log.Information("SEED DATABASE: " +
-                         $"Database: {_database}, " + 
+                         $"Database: {_database}, " +
                          $"Profile file: {_profileText}, " +
                          $"Facets: {_facets}, " +
                          $"Count: {_count}");
 
             // create database if not exists
-            string connection = String.Format(CultureInfo.InvariantCulture,
+            string connection = string.Format(CultureInfo.InvariantCulture,
                 _config.GetConnectionString("Mongo"),
                 _database);
             ICadmusManager manager = new MongoCadmusManager();

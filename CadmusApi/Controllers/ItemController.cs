@@ -15,14 +15,13 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Items controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    // [Authorize]
     [ApiController]
     public sealed class ItemController : Controller
     {
         private static readonly Regex _pascalPropRegex = new Regex(@"""([A-Z])([^""]*)""\s*:");
         private static readonly Regex _camelPropRegex = new Regex(@"""([a-z])([^""]*)""\s*:");
-        private static readonly Regex _guidRegex = new Regex(@"^[a-fA-F0-9]{32}$");
+        private static readonly Regex _guidRegex = new Regex("^[a-fA-F0-9]{32}$");
         private static readonly Regex _userIdRegex = new Regex(@"""userId""\s*:\s*""(?<v>[^""]+)""");
 
         private readonly RepositoryService _repositoryService;
@@ -34,7 +33,7 @@ namespace CadmusApi.Controllers
         /// <exception cref="ArgumentNullException">repositoryService</exception>
         public ItemController(RepositoryService repositoryService)
         {
-            _repositoryService = repositoryService ?? 
+            _repositoryService = repositoryService ??
                 throw new ArgumentNullException(nameof(repositoryService));
         }
 
@@ -140,7 +139,7 @@ namespace CadmusApi.Controllers
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetPartFromTypeAndRole(string database, string id, 
+        public IActionResult GetPartFromTypeAndRole(string database, string id,
             string type, string role)
         {
             ICadmusRepository repository =
@@ -289,7 +288,7 @@ namespace CadmusApi.Controllers
             };
 
             // set the item's ID if specified, else go with the default newly generated one
-            if (!String.IsNullOrEmpty(model.Id) && _guidRegex.IsMatch(model.Id))
+            if (!string.IsNullOrEmpty(model.Id) && _guidRegex.IsMatch(model.Id))
                 item.Id = model.Id;
 
             ICadmusRepository repository =
@@ -318,7 +317,8 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/parts")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddPart(string database, [FromBody] RawJsonBindingModel model)
+        public IActionResult AddPart(string database,
+            [FromBody] RawJsonBindingModel model)
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
@@ -339,7 +339,10 @@ namespace CadmusApi.Controllers
                        $"\"_id\":\"{partId}\"" +
                        json.Substring(m.Index + m.Length);
             }
-            else partId = m.Groups["v"].Value;
+            else
+            {
+                partId = m.Groups["v"].Value;
+            }
 
             // override the user ID
             json = SetUserId(json, User.Identity.Name ?? "");

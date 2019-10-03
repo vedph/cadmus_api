@@ -27,7 +27,8 @@ namespace CadmusApi.Services
         /// <exception cref="ArgumentNullException">configuration</exception>
         public RepositoryService(IConfiguration configuration)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _configuration = configuration ??
+                throw new ArgumentNullException(nameof(configuration));
 
             _map = new TagToTypeMap();
             _map.Add(new[]
@@ -60,13 +61,16 @@ namespace CadmusApi.Services
         /// <exception cref="ArgumentNullException">null database</exception>
         public ICadmusRepository CreateRepository(string database)
         {
-            if (database == null) throw new ArgumentNullException(nameof(database));
+            if (database == null)
+                throw new ArgumentNullException(nameof(database));
 
             // create the repository (no need to use container here)
-            MongoCadmusRepository repository = new MongoCadmusRepository(_partTypeProvider);
+            MongoCadmusRepository repository =
+                new MongoCadmusRepository(_partTypeProvider);
+
             repository.Configure(new MongoCadmusRepositoryOptions
             {
-                ConnectionStringTemplate = _configuration["Data:ConnectionString"],
+                ConnectionStringTemplate = _configuration.GetConnectionString("Default"),
                 DatabaseName = database
             });
 

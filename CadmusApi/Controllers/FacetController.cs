@@ -12,7 +12,7 @@ namespace CadmusApi.Controllers
     /// Item facets controller.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    // [Authorize]
     [ApiController]
     public sealed class FacetController : Controller
     {
@@ -25,7 +25,7 @@ namespace CadmusApi.Controllers
         /// <exception cref="ArgumentNullException">repository</exception>
         public FacetController(RepositoryService repositoryService)
         {
-            _repositoryService = repositoryService ?? 
+            _repositoryService = repositoryService ??
                 throw new ArgumentNullException(nameof(repositoryService));
         }
 
@@ -49,7 +49,8 @@ namespace CadmusApi.Controllers
         /// In this case, you will get just 1 part for each part type.</param>
         /// <returns>list of parts</returns>
         [HttpGet("api/{database}/facets/parts")]
-        public ActionResult<PartDefinition[]> GetFacetParts(string database, [FromQuery] bool noRoles = false)
+        public ActionResult<PartDefinition[]> GetFacetParts(string database,
+            [FromQuery] bool noRoles = false)
         {
             List<PartDefinition> defs = new List<PartDefinition>();
             ICadmusRepository repository = _repositoryService.CreateRepository(database);

@@ -11,8 +11,7 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Tags controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    // [Authorize]
     [ApiController]
     public sealed class TagController : Controller
     {

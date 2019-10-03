@@ -33,7 +33,7 @@ namespace CadmusTool
                     {
                         // RootCommand will have printed help
                         return 1;
-                    } //eif
+                    }
 
                     Console.Clear();
                     await options.Command.Run();

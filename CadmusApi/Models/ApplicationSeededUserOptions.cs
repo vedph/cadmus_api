@@ -1,11 +1,9 @@
-﻿using AspNetCore.Identity.Mongo.Model;
-
-namespace CadmusApi.Models
+﻿namespace CadmusApi.Models
 {
     /// <summary>
-    /// Application user.
+    /// Seeded user options for <see cref="ApplicationUser"/>.
     /// </summary>
-    public class ApplicationUser : MongoUser
+    public sealed class ApplicationSeededUserOptions : SeededUserOptions
     {
         /// <summary>
         /// Gets or sets the first name.

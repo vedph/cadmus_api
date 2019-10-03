@@ -6,6 +6,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using System.Diagnostics;
+using Microsoft.Extensions.Hosting;
+using Serilog.Events;
+using CadmusApi.Services;
 
 namespace CadmusApi
 {
@@ -30,27 +33,54 @@ namespace CadmusApi
         }
 
         /// <summary>
+        /// Creates the host builder.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseSerilog();
+                });
+
+        /// <summary>
         /// Entry point.
         /// </summary>
         /// <param name="args">The arguments.</param>
         public static int Main(string[] args)
         {
-            DumpEnvironmentVars();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+#if DEBUG
+                .WriteTo.File("cadmus-log.txt", rollingInterval: RollingInterval.Day)
+#endif
+                .CreateLogger();
 
             try
             {
+                Log.Information("Starting host");
+                DumpEnvironmentVars();
+
                 // this is the place for seeding:
                 // see https://stackoverflow.com/questions/45148389/how-to-seed-in-entity-framework-core-2
                 // and https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.1#move-database-initialization-code
-                BuildWebHost(args).Seed().Run();
+                CreateHostBuilder(args)
+                    .UseSerilog()
+                    .Build()
+                    .Seed()     // see Services/HostSeedExtension
+                    .Run();
+
                 return 0;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.ToString());
                 Log.Fatal(ex, "Host terminated unexpectedly");
+                Debug.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
                 return 1;
             }
             finally
@@ -58,19 +88,5 @@ namespace CadmusApi
                 Log.CloseAndFlush();
             }
         }
-
-        // no need to customize configuration in startup:
-        // https://joonasw.net/view/aspnet-core-2-configuration-changes
-
-        /// <summary>
-        /// Builds the web host.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        /// <returns>wen host</returns>
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseSerilog()
-                .Build();
     }
 }

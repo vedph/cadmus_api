@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using AspNetCore.Identity.Mongo.Model;
 using CadmusApi.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace CadmusApi.Services
     public sealed class AccountService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<MongoRole> _roleManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountService"/> class.
@@ -22,7 +23,7 @@ namespace CadmusApi.Services
         /// <param name="roleManager">The role manager.</param>
         public AccountService(
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<MongoRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -36,7 +37,7 @@ namespace CadmusApi.Services
         /// <param name="roles">The roles.</param>
         /// <returns></returns>
         public async Task<IActionResult> Register(ApplicationUser user, string password,
-            IEnumerable<IdentityRole> roles)
+            IEnumerable<MongoRole> roles)
         {
             if (await _userManager.FindByEmailAsync(user.Email) != null)
                 return new BadRequestObjectResult($"User {user.Email} already exists.");

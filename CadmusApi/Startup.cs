@@ -1,26 +1,33 @@
 ﻿using System;
-using AspNet.Security.OpenIdConnect.Primitives;
+using System.IO;
+using System.Text;
+using System.Text.Json;
+using MessagingApi;
+using MessagingApi.SendGrid;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using CadmusApi.Models;
-using CadmusApi.Services;
-using Swashbuckle.AspNetCore.Swagger;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
-using Serilog;
-using MongoDB.Driver;
-using OpenIddict.Abstractions;
-using Microsoft.Extensions.PlatformAbstractions;
-using System.IO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using AspNetCore.Identity.Mongo;
+using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using System.Reflection;
+using CadmusApi.Services;
+using CadmusApi.Models;
+using AspNetCore.Identity.Mongo.Model;
 
 namespace CadmusApi
 {
     /// <summary>
     /// Startup.
     /// </summary>
-    public class Startup
+    public sealed class Startup
     {
         /// <summary>
         /// Gets the configuration.
@@ -28,12 +35,116 @@ namespace CadmusApi
         public IConfiguration Configuration { get; }
 
         /// <summary>
+        /// Gets the host environment.
+        /// </summary>
+        public IHostEnvironment HostEnvironment { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="Startup"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public Startup(IConfiguration configuration)
+        /// <param name="environment">The environment.</param>
+        public Startup(IConfiguration configuration, IHostEnvironment environment)
         {
             Configuration = configuration;
+            HostEnvironment = environment;
+        }
+
+        private void ConfigureOptionsServices(IServiceCollection services)
+        {
+            // configuration sections
+            // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
+            services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
+            services.Configure<SendGridMailerOptions>(Configuration.GetSection("SendGrid"));
+
+            // explicitly register the settings object by delegating to the IOptions object
+            services.AddSingleton(resolver =>
+                resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
+            services.AddSingleton(resolver =>
+                resolver.GetRequiredService<IOptions<SendGridMailerOptions>>().Value);
+        }
+
+        private void ConfigureCorsServices(IServiceCollection services)
+        {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyMethod()
+                    .AllowAnyHeader()
+                    // https://github.com/aspnet/SignalR/issues/2110 for AllowCredentials
+                    .AllowCredentials()
+                    .WithOrigins("http://localhost:4200",
+                                 "http://www.fusisoft.it/",
+                                 "https://www.fusisoft.it/");
+            }));
+        }
+
+        private void ConfigureAuthServices(IServiceCollection services)
+        {
+            // identity
+            string connStringTemplate = Configuration.GetConnectionString("Default");
+
+            services.AddIdentityMongoDbProvider<ApplicationUser, MongoRole>(
+                options => {},
+                mongoOptions =>
+                {
+                    mongoOptions.ConnectionString =
+                        string.Format(connStringTemplate,
+                        Configuration.GetSection("Databases")["Auth"]);
+                });
+
+            // authentication service
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+               .AddJwtBearer(options =>
+               {
+                   // NOTE: remember to set the values in configuration:
+                   // Jwt:SecureKey, Jwt:Audience, Jwt:Issuer
+                   IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
+                   string key = jwtSection["SecureKey"];
+                   if (string.IsNullOrEmpty(key))
+                       throw new ApplicationException("Required JWT SecureKey not found");
+
+                   options.SaveToken = true;
+                   options.RequireHttpsMetadata = false;
+                   options.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       ValidateIssuer = true,
+                       ValidateAudience = true,
+                       ValidAudience = jwtSection["Audience"],
+                       ValidIssuer = jwtSection["Issuer"],
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                   };
+               });
+#if DEBUG
+            // use to show more information when troubleshooting JWT issues
+            IdentityModelEventSource.ShowPII = true;
+#endif
+        }
+
+        private void ConfigureSwaggerServices(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API",
+                    Description = "Cadmus Services"
+                });
+                c.DescribeAllParametersInCamelCase();
+
+                // include XML comments
+                // (remember to check the build XML comments in the prj props)
+                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                if (File.Exists(xmlPath))
+                    c.IncludeXmlComments(xmlPath);
+            });
         }
 
         /// <summary>
@@ -42,169 +153,73 @@ namespace CadmusApi
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            // setup options with DI
-            // https://docs.asp.net/en/latest/fundamentals/configuration.html
-            services.AddOptions();
+            // configuration
+            ConfigureOptionsServices(services);
 
-            services.AddCors();
+            // CORS (before MVC)
+            ConfigureCorsServices(services);
 
+            // base services
+            services.AddControllers();
+            // camel-case JSON in response
             services.AddMvc()
-                // https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-2.1
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
-                    options.SerializerSettings.ContractResolver =
-                        new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
-                });
-
-            /* MSSQL
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                // Configure the context to use Microsoft SQL Server.
-                options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]);
-
-                // Register the entity sets needed by OpenIddict.
-                // Note: use the generic overload if you need
-                // to replace the default OpenIddict entities.
-                options.UseOpenIddict();
-            });
-
-            // Register the Identity services.
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-            */
-
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>
-                (
-                    Configuration["Auth:ConnectionString"],
-                    Configuration["Auth:DatabaseName"]
-                )
-                .AddDefaultTokenProviders();
-
-            // Configure Identity to use the same JWT claims as OpenIddict instead
-            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
-            // which saves you from doing the mapping in your authorization controller.
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
-                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
-                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
-            });
-
-            // AddCore etc: https://github.com/openiddict/openiddict-core/issues/593
-            services.AddOpenIddict()
-                .AddCore(options =>
-                {
-                    /* MSSQL
-                    options.UseEntityFrameworkCore().UseDbContext<ApplicationDbContext>();
-                    */
-                    options.UseMongoDb()
-                       .UseDatabase(new MongoClient(Configuration["Auth:ConnectionString"])
-                           .GetDatabase(Configuration["Auth:DatabaseName"]));
+                    options.JsonSerializerOptions.PropertyNamingPolicy =
+                        JsonNamingPolicy.CamelCase;
                 })
-                .AddServer(options =>
-                {
-                    // https://github.com/openiddict/openiddict-core/issues/621
-                    options.RegisterScopes(OpenIdConnectConstants.Scopes.Email,
-                               OpenIdConnectConstants.Scopes.Profile,
-                               OpenIddictConstants.Scopes.Roles);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-                    // accept anonymous clients (i.e clients that don't send a client_id)
-                    options.AcceptAnonymousClients();
-
-                    // register the ASP.NET Core MVC binder used by OpenIddict.
-                    // Note: if you don't call this method, you won't be able to
-                    // bind OpenIdConnectRequest or OpenIdConnectResponse parameters
-                    options.UseMvc();
-
-                    // enable the token endpoints
-                    options.EnableTokenEndpoint("/connect/token");
-                    options.EnableLogoutEndpoint("/connect/logout");
-                    // http://openid.net/specs/openid-connect-core-1_0.html#UserInfo
-                    options.EnableUserinfoEndpoint("/connect/userinfo");
-
-                    // enable the password flow
-                    options.AllowPasswordFlow();
-                    options.AllowRefreshTokenFlow();
-
-                    // during development, you can disable the HTTPS requirement.
-                    options.DisableHttpsRequirement();
-                })
-                .AddValidation();
+            // authentication
+            ConfigureAuthServices(services);
 
             // Add framework services
             // for IMemoryCache: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory
             services.AddMemoryCache();
 
             // user repository service
-            services.AddTransient<IUserRepository<ApplicationUser>, AspUserRepository>();
+            services.AddTransient<IUserRepository<ApplicationUser>,
+                ApplicationUserRepository>();
 
             // add configuration
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<RepositoryService, RepositoryService>();
 
             // swagger
-            // https://github.com/domaindrivendev/Swashbuckle.AspNetCore
-            services.AddSwaggerGen(options =>
-            {
-                // https://stackoverflow.com/questions/46071513/swagger-error-conflicting-schemaids-duplicate-schemaids-detected-for-types-a-a
-                options.CustomSchemaIds(x => x.FullName);
-                options.SwaggerDoc("v1", new Info
-                {
-                    Title = "Cadmus API",
-                    Version = "v1",
-                    Description = "Cadmus API"
-                });
-                options.DescribeAllParametersInCamelCase();
-
-#if DEBUG
-                // TODO find how this can work in Docker and add COPY to Dockerfile
-                string basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                string xmlPath = Path.Combine(basePath, "CadmusApi.xml");
-                options.IncludeXmlComments(xmlPath);
-#endif
-            });
-
-            // serilog
-            services.AddSingleton(_ =>
-            {
-                // https://github.com/serilog/serilog-aspnetcore
-                string maxSize = Configuration["Serilog:MaxMbSize"];
-                return new LoggerConfiguration()
-                    .Enrich.FromLogContext()
-                    .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
-                        cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
-                            int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
-                    .CreateLogger();
-            });
+            ConfigureSwaggerServices(services);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         /// <summary>
         /// Configures the specified application.
         /// </summary>
         /// <param name="app">The application.</param>
         /// <param name="env">The environment.</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
+            app.UseHttpsRedirection();
+            app.UseRouting();
             // CORS
-            // https://docs.asp.net/en/latest/security/cors.html
-            app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:4200")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod());
-
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
-            app.UseMvcWithDefaultRoute();
+            app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
+            // Swagger
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Cadmus API V1");
+                // options.BooleanValues(new object[] { 0, 1 });
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
+                // options.ShowJsonEditor();
             });
         }
     }

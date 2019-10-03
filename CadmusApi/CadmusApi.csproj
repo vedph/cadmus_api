@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>a30dab70-4455-41f4-8f86-6c755170bc81</UserSecretsId>
   </PropertyGroup>
@@ -19,30 +19,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.MongoDbCore" Version="1.1.1" />
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.0.0" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.0.5" />
     <PackageReference Include="Cadmus.Parts" Version="2.0.5" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="2.0.0" />
     <PackageReference Include="Cadmus.Core" Version="2.0.4" />
     <PackageReference Include="Cadmus.Mongo" Version="2.0.7" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.12" />
-    <PackageReference Include="MailKit" Version="2.3.1.6" />
-    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="OpenIddict" Version="2.0.0" />
-    <PackageReference Include="OpenIddict.MongoDb" Version="2.0.0" />
-    <PackageReference Include="OpenIddict.Mvc" Version="2.0.0" />
+    <PackageReference Include="MessagingApi" Version="1.0.0" />
+    <PackageReference Include="MessagingApi.SendGrid" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.0.0" />
+    <PackageReference Include="Polly" Version="7.1.1" />
     <PackageReference Include="Serilog" Version="2.8.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.0.0" />
-    <PackageReference Include="Serilog.Sinks.MongoDB" Version="4.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="4.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.0.0-rc4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc4" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.0.0-rc4" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.5.0" />
   </ItemGroup>
 
 </Project>

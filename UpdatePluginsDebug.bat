@@ -1,7 +1,7 @@
 @echo off
 echo UPDATE PLUGINS
 
-set target=CadmusTool\bin\Debug\netcoreapp2.2\Plugins\
+set target=CadmusTool\bin\Debug\netcoreapp3.0\Plugins\
 
 md %target%
 del %target%*.* /q
