@@ -19,10 +19,17 @@ namespace CadmusApi.Controllers
     [ApiController]
     public sealed class ItemController : Controller
     {
-        private static readonly Regex _pascalPropRegex = new Regex(@"""([A-Z])([^""]*)""\s*:");
-        private static readonly Regex _camelPropRegex = new Regex(@"""([a-z])([^""]*)""\s*:");
-        private static readonly Regex _guidRegex = new Regex("^[a-fA-F0-9]{32}$");
-        private static readonly Regex _userIdRegex = new Regex(@"""userId""\s*:\s*""(?<v>[^""]+)""");
+        private static readonly Regex _pascalPropRegex =
+            new Regex(@"""([A-Z])([^""]*)""\s*:");
+
+        private static readonly Regex _camelPropRegex =
+            new Regex(@"""([a-z])([^""]*)""\s*:");
+
+        private static readonly Regex _guidRegex =
+            new Regex("^[a-fA-F0-9]{32}$");
+
+        private static readonly Regex _userIdRegex =
+            new Regex(@"""userId""\s*:\s*""(?<v>[^""]+)""");
 
         private readonly RepositoryService _repositoryService;
 
@@ -73,13 +80,14 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The Mongo database name.</param>
         /// <param name="id">The identifier.</param>
-        /// <param name="parts">If set to <c>true</c>, include the parts in the returned
-        /// item.</param>
+        /// <param name="parts">If set to <c>true</c>, include the parts in the
+        /// returned item.</param>
         /// <returns>item</returns>
         [HttpGet("api/{database}/item/{id}", Name = "GetItem")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<IItem> GetItem(string database, string id, [FromQuery] bool parts)
+        public ActionResult<IItem> GetItem(string database, string id,
+            [FromQuery] bool parts)
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
@@ -127,13 +135,14 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// From the item with the specified ID, gets the part matching the specified type
-        /// and role.
+        /// From the item with the specified ID, gets the part matching the
+        /// specified type and role.
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="id">The item's ID.</param>
         /// <param name="type">The part type (e.g. "token-text").</param>
-        /// <param name="role">The part role (use "default" for the default role).</param>
+        /// <param name="role">The part role (use "default" for the default role)
+        /// .</param>
         /// <returns>part</returns>
         [HttpGet("api/{database}/item/{id}/part/{type}/{role}")]
         [Produces("application/json")]
@@ -159,8 +168,8 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// Gets the mappings between layer part role IDs and layer part IDs in the
-        /// item with the specified ID.
+        /// Gets the mappings between layer part role IDs and layer part IDs
+        /// in the item with the specified ID.
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="id">The item's identifier.</param>
@@ -187,7 +196,8 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="id">The part's identifier.</param>
-        /// <returns>array of pins, each with <c>name</c> and <c>value</c></returns>
+        /// <returns>array of pins, each with <c>name</c> and <c>value</c>
+        /// </returns>
         [HttpGet("api/{database}/part/{id}/pins")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
@@ -271,7 +281,8 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/items")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddItem(string database, [FromBody] ItemBindingModel model)
+        public IActionResult AddItem(string database,
+            [FromBody] ItemBindingModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -287,7 +298,8 @@ namespace CadmusApi.Controllers
                 UserId = User.Identity.Name,
             };
 
-            // set the item's ID if specified, else go with the default newly generated one
+            // set the item's ID if specified, else go with the default
+            // newly generated one
             if (!string.IsNullOrEmpty(model.Id) && _guidRegex.IsMatch(model.Id))
                 item.Id = model.Id;
 
@@ -307,10 +319,11 @@ namespace CadmusApi.Controllers
         /// Adds or updates the specified part.
         /// </summary>
         /// <param name="database">The database ID.</param>
-        /// <param name="model">The model with JSON code representing the part. If new, the part ID
-        /// should not be parsable as a GUID, e.g. <c>"id": "new"</c> or <c>"id": ""</c>,
-        /// or should be null (e.g. <c>"id": null</c>). At a minimum, each part should 
-        /// adhere to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name", 
+        /// <param name="model">The model with JSON code representing the part.
+        /// If new, the part ID should not be parsable as a GUID, e.g.
+        /// <c>"id": "new"</c> or <c>"id": ""</c>, or should be null
+        /// (e.g. <c>"id": null</c>). At a minimum, each part should adhere
+        /// to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name", 
         /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id", 
         /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"), 
         /// "userId" : "user-id or empty" }</c>.</param>
