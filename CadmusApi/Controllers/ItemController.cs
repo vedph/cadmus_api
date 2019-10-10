@@ -60,7 +60,7 @@ namespace CadmusApi.Controllers
 
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            PagedData<IItemInfo> page = repository.GetItemsPage(new ItemFilter
+            PagedData<IItemInfo> page = repository.GetItems(new ItemFilter
             {
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,

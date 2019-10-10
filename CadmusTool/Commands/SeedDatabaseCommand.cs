@@ -359,7 +359,7 @@ namespace CadmusTool.Commands
             string connection = string.Format(CultureInfo.InvariantCulture,
                 _config.GetConnectionString("Mongo"),
                 _database);
-            ICadmusManager manager = new MongoCadmusManager();
+            IDatabaseManager manager = new MongoDatabaseManager();
             string profileContent = LoadProfile(_profileText);
 
             if (!manager.DatabaseExists(connection))
