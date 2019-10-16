@@ -4,21 +4,22 @@ using System.ComponentModel.DataAnnotations;
 namespace CadmusApi.Models
 {
     /// <summary>
-    /// Tags set binding model.
+    /// Thesaurus binding model.
     /// </summary>
-    public sealed class TagSetBindingModel
+    public sealed class ThesaurusBindingModel
     {
         /// <summary>
         /// Gets or sets the tag set ID including its language suffix (<c>@xx</c>).
         /// </summary>
-        [Required(ErrorMessage = "Tag set ID required")]
-        [RegularExpression(@"^[a-zA-Z0-9_\-\.]+\@[a-z]{2}$", ErrorMessage = "Invalid tag set ID")]
+        [Required(ErrorMessage = "Thesaurus ID required")]
+        [RegularExpression(@"^[a-zA-Z0-9_\-\.]+\@[a-z]{2}$",
+            ErrorMessage = "Invalid thesaurus ID")]
         public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets the tags in this set.
         /// </summary>
-        public List<TagBindingModel> Tags { get; set; }
+        public List<ThesaurusEntryBindingModel> Entries { get; set; }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
@@ -28,7 +29,7 @@ namespace CadmusApi.Models
         /// </returns>
         public override string ToString()
         {
-            return $"{Id}: {Tags?.Count}";
+            return $"{Id}: {Entries?.Count}";
         }
     }
 }

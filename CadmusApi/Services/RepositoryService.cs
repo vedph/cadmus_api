@@ -17,7 +17,7 @@ namespace CadmusApi.Services
     public sealed class RepositoryService
     {
         private readonly IConfiguration _configuration;
-        private readonly TagToTypeMap _map;
+        private readonly TagAttributeToTypeMap _map;
         private readonly IPartTypeProvider _partTypeProvider;
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace CadmusApi.Services
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
 
-            _map = new TagToTypeMap();
+            _map = new TagAttributeToTypeMap();
             _map.Add(new[]
             {
                 // Cadmus.Parts
@@ -70,8 +70,8 @@ namespace CadmusApi.Services
 
             repository.Configure(new MongoCadmusRepositoryOptions
             {
-                ConnectionStringTemplate = _configuration.GetConnectionString("Default"),
-                DatabaseName = database
+                ConnectionString = string.Format(
+                    _configuration.GetConnectionString("Default"), database)
             });
 
             return repository;

@@ -35,7 +35,7 @@ namespace CadmusApi.Controllers
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of flags definitions</returns>
         [HttpGet("api/{database}/flags")]
-        public ActionResult<IFlagDefinition[]> Get(string database)
+        public ActionResult<FlagDefinition[]> Get(string database)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
             return Ok(repository.GetFlagDefinitions().ToArray());

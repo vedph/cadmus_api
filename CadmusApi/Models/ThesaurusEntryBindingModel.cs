@@ -5,7 +5,7 @@ namespace CadmusApi.Models
     /// <summary>
     /// Tag binding model.
     /// </summary>
-    public sealed class TagBindingModel
+    public sealed class ThesaurusEntryBindingModel
     {
         /// <summary>
         /// Gets or sets the tag ID.
@@ -18,7 +18,7 @@ namespace CadmusApi.Models
         /// Gets or sets the tag human readable name.
         /// </summary>
         [Required(ErrorMessage = "Tag name is required")]
-        public string Name { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
@@ -28,7 +28,7 @@ namespace CadmusApi.Models
         /// </returns>
         public override string ToString()
         {
-            return $"{Id}: {Name}";
+            return $"{Id}: {Value}";
         }
     }
 }

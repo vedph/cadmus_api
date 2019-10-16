@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Cadmus.Core.Blocks;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Lexicon.Parts;
@@ -68,7 +68,7 @@ namespace CadmusTool.Commands
             };
 
             _lemmaHomRegex = new Regex(@"^(?<l>[^(]+)(?:\s*\((?<h>\d+)\))?");
-            _tagRegex = new Regex(@"<[^>]+>");
+            _tagRegex = new Regex("<[^>]+>");
             _wsRegex = new Regex(@"\s+");
             _textCutterOptions = new TextCutterOptions
             {
@@ -119,7 +119,7 @@ namespace CadmusTool.Commands
         private static int GetHomographNumber(XElement item)
         {
             string hom = item.Descendants("hom").FirstOrDefault()?.Value;
-            return hom != null ? Int32.Parse(hom, CultureInfo.InvariantCulture) : 0;
+            return hom != null ? int.Parse(hom, CultureInfo.InvariantCulture) : 0;
         }
 
         private string BuildWordKey(string lemma, int hom)
@@ -128,10 +128,10 @@ namespace CadmusTool.Commands
 
             foreach (char c in lemma.Trim())
             {
-                if (Char.IsWhiteSpace(c) &&
+                if (char.IsWhiteSpace(c) &&
                     (sb.Length == 0 || sb[sb.Length - 1] != '_')) sb.Append('_');
-                if (Char.IsLetterOrDigit(c) || c == '\'')
-                  sb.Append(_ud.GetSegment(Char.ToLowerInvariant(c), true));
+                if (char.IsLetterOrDigit(c) || c == '\'')
+                  sb.Append(_ud.GetSegment(char.ToLowerInvariant(c), true));
             }
 
             if (hom > 0) sb.Append('-').Append(hom);
@@ -216,7 +216,7 @@ namespace CadmusTool.Commands
             return Tuple.Create(
                 m.Groups["l"].Value,
                 m.Groups["h"].Length > 0?
-                Int32.Parse(m.Groups["h"].Value, CultureInfo.InvariantCulture) : 0);
+                int.Parse(m.Groups["h"].Value, CultureInfo.InvariantCulture) : 0);
         }
 
         private void ReadWordSenseParts(XElement itemElement, Item item)
@@ -314,7 +314,7 @@ namespace CadmusTool.Commands
             StringBuilder sb = new StringBuilder(etym.ToString(SaveOptions.DisableFormatting));
             sb.Replace("<qf>", "_");
             sb.Replace("</qf>", "_");
-            string discussion = Regex.Replace(sb.ToString(), @"<[^>]+>", "").Trim();
+            string discussion = Regex.Replace(sb.ToString(), "<[^>]+>", "").Trim();
             if (discussion == "$") discussion = null;
 
             WordEtymologyPart part = new WordEtymologyPart
@@ -330,8 +330,7 @@ namespace CadmusTool.Commands
 
         private string HiRenderingToMd(string rendering, bool open)
         {
-            string sorted = new string(rendering.ToCharArray().OrderBy(c => c).ToArray());
-            switch (sorted)
+            switch (new string(rendering.ToCharArray().OrderBy(c => c).ToArray()))
             {
                 case "b":
                     return "__";
@@ -470,7 +469,7 @@ namespace CadmusTool.Commands
             try
             {
                 // create database if not exists
-                string connection = String.Format(CultureInfo.InvariantCulture,
+                string connection = string.Format(CultureInfo.InvariantCulture,
                     _config.GetConnectionString("Mongo"),
                     _database);
                 IDatabaseManager manager = new MongoDatabaseManager();

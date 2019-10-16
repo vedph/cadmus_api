@@ -9,24 +9,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace CadmusApi.Controllers
 {
     /// <summary>
-    /// Tags controller.
+    /// Thesauri controller.
     /// </summary>
     // [Authorize]
     [ApiController]
-    public sealed class TagController : Controller
+    public sealed class ThesaurusController : Controller
     {
         private readonly RepositoryService _repositoryService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TagController"/> class.
+        /// Initializes a new instance of the <see cref="ThesaurusController"/> class.
         /// </summary>
         /// <param name="repositoryService">The repository service.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public TagController(RepositoryService repositoryService)
+        public ThesaurusController(RepositoryService repositoryService)
         {
             _repositoryService = repositoryService ??
                                  throw new ArgumentNullException(nameof(repositoryService));
         }
+
+        // TODO: change routes (tags)
 
         /// <summary>
         /// Gets the list of all the tag sets IDs.
@@ -37,7 +39,7 @@ namespace CadmusApi.Controllers
         public IActionResult GetSetIds(string database)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            return Ok(repository.GetTagSetIds());
+            return Ok(repository.GetThesaurusIds());
         }
 
         /// <summary>
@@ -46,15 +48,23 @@ namespace CadmusApi.Controllers
         /// <param name="database">The database.</param>
         /// <param name="id">The tags set ID.</param>
         /// <returns>set</returns>
-        [HttpGet("api/{database}/tag/{id}", Name = "GetSet")]
+        [HttpGet("api/{database}/tag/{id}", Name = "GetThesaurus")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<TagSet> GetSet(string database, string id)
+        public ActionResult<ThesaurusModel> GetThesaurus(string database, string id)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            TagSet set = repository.GetTagSet(id);
-            if (set == null) return NotFound();
-            return Ok(set);
+            Thesaurus thesaurus = repository.GetThesaurus(id);
+            if (thesaurus == null) return NotFound();
+
+            ThesaurusModel model = new ThesaurusModel
+            {
+                Id = thesaurus.Id,
+                Language = thesaurus.GetLanguage(),
+                Entries = thesaurus.GetEntries().ToArray()
+            };
+
+            return Ok(model);
         }
 
         /// <summary>
@@ -65,24 +75,22 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/tags")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddSet(string database, [FromBody] TagSetBindingModel model)
+        public IActionResult AddThesaurus(string database,
+            [FromBody] ThesaurusBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            TagSet set = new TagSet
-            {
-                Id = model.Id,
-                Tags = (from m in model.Tags
-                        select new Tag { Id = m.Id, Name = m.Name }).ToList()
-            };
-            repository.AddTagSet(set);
+            Thesaurus thesaurus = new Thesaurus(model.Id);
+            foreach (ThesaurusEntryBindingModel entry in model.Entries)
+                thesaurus.AddEntry(new ThesaurusEntry(entry.Id, entry.Value));
+            repository.AddThesaurus(thesaurus);
 
-            return CreatedAtRoute("GetSet", new
+            return CreatedAtRoute("GetThesaurus", new
             {
                 database,
-                id = set.Id
-            }, set);
+                id = thesaurus.Id
+            }, thesaurus);
         }
 
         /// <summary>
@@ -95,7 +103,7 @@ namespace CadmusApi.Controllers
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            repository.DeleteTagSet(id);
+            repository.DeleteThesaurus(id);
         }
     }
 }

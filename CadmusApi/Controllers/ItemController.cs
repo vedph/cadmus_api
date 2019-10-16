@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Cadmus.Core.Blocks;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
@@ -53,14 +53,14 @@ namespace CadmusApi.Controllers
         /// <returns>page</returns>
         [HttpGet("api/{database}/items")]
         [ProducesResponseType(200)]
-        public ActionResult<PagedData<IItemInfo>> GetItems(string database,
+        public ActionResult<PagedData<ItemInfo>> GetItems(string database,
             [FromQuery] ItemFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            PagedData<IItemInfo> page = repository.GetItems(new ItemFilter
+            PagedData<ItemInfo> page = repository.GetItems(new ItemFilter
             {
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,
@@ -125,7 +125,7 @@ namespace CadmusApi.Controllers
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            string json = repository.GetPartJson(id);
+            string json = repository.GetPartContent(id);
 
             if (json == null) return new NotFoundResult();
             json = AdjustPartJson(json);
@@ -159,7 +159,7 @@ namespace CadmusApi.Controllers
                 .FirstOrDefault();
             if (part == null) return NotFound();
 
-            string json = repository.GetPartJson(part.Id);
+            string json = repository.GetPartContent(part.Id);
             if (json == null) return new NotFoundResult();
             json = AdjustPartJson(json);
 
@@ -206,7 +206,7 @@ namespace CadmusApi.Controllers
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            string json = repository.GetPartJson(id);
+            string json = repository.GetPartContent(id);
 
             if (json == null) return new NotFoundResult();
             // remove ISODate(...) function (this seems to be a Mongo artifact)
@@ -361,7 +361,7 @@ namespace CadmusApi.Controllers
             json = SetUserId(json, User.Identity.Name ?? "");
 
             // add the part
-            repository.AddPartJson(json);
+            repository.AddPartFromContent(json);
             return CreatedAtRoute("GetPart", new
             {
                 database,

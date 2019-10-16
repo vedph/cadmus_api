@@ -35,10 +35,10 @@ namespace CadmusApi.Controllers
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of facets</returns>
         [HttpGet("api/{database}/facets")]
-        public ActionResult<IFacet[]> Get(string database)
+        public ActionResult<FacetDefinition[]> Get(string database)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            return Ok(repository.GetFacets().ToArray());
+            return Ok(repository.GetFacetDefinitions().ToArray());
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace CadmusApi.Controllers
         {
             List<PartDefinition> defs = new List<PartDefinition>();
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
-            foreach (IFacet facet in repository.GetFacets())
+            foreach (FacetDefinition facet in repository.GetFacetDefinitions())
             {
                 foreach (PartDefinition def in facet.PartDefinitions)
                 {
