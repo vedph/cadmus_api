@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using Cadmus.Core.Blocks;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Mongo;
@@ -87,8 +87,9 @@ namespace CadmusTool.Commands
 
         private void AddCategoriesPart(IItem item, int index)
         {
-            TagSet set = Array.Find(_profile.TagSets, t => t.Id == "categories@en");
-            if (set == null) return;
+            Thesaurus thesaurus = Array.Find(_profile.Thesauri,
+                t => t.Id == "categories@en");
+            if (thesaurus == null) return;
 
             CategoriesPart part = new CategoriesPart
             {
@@ -97,11 +98,13 @@ namespace CadmusTool.Commands
             };
 
             int desired = (index & 1) == 1 ? 2 : 1;
+            IList<ThesaurusEntry> entries = thesaurus.GetEntries();
+
             while (part.Categories.Count < desired)
             {
-                int n = _random.Next(0, set.Tags.Count);
-                if (!part.Categories.Contains(set.Tags[n].Id))
-                    part.Categories.Add(set.Tags[n].Id);
+                int i = _random.Next(0, entries.Count);
+                if (!part.Categories.Contains(entries[i].Id))
+                    part.Categories.Add(entries[i].Id);
             }
 
             item.Parts.Add(part);
@@ -153,7 +156,7 @@ namespace CadmusTool.Commands
                 {
                     Value = _random.Next(-8, 6),
                     IsCentury = true,
-                    IsAbout = _random.Next(0, 10) == 0
+                    IsApproximate = _random.Next(0, 10) == 0
                 };
             }
 
@@ -359,20 +362,23 @@ namespace CadmusTool.Commands
             string connection = string.Format(CultureInfo.InvariantCulture,
                 _config.GetConnectionString("Mongo"),
                 _database);
+
             IDatabaseManager manager = new MongoDatabaseManager();
+
             string profileContent = LoadProfile(_profileText);
+            IDataProfileSerializer serializer = new JsonDataProfileSerializer();
+            _profile = serializer.Read(profileContent);
 
             if (!manager.DatabaseExists(connection))
             {
                 Console.WriteLine("Creating database...");
                 Serilog.Log.Information($"Creating database {_database}...");
 
-                manager.CreateDatabase(connection, profileContent);
+                manager.CreateDatabase(connection, _profile);
 
                 Console.WriteLine("Database created.");
                 Serilog.Log.Information("Database created.");
             }
-            _profile = new DataProfile(XElement.Parse(profileContent));
 
             Console.WriteLine("Creating repository...");
             Serilog.Log.Information("Creating repository...");

@@ -472,8 +472,12 @@ namespace CadmusTool.Commands
                 string connection = string.Format(CultureInfo.InvariantCulture,
                     _config.GetConnectionString("Mongo"),
                     _database);
+
                 IDatabaseManager manager = new MongoDatabaseManager();
                 string profileContent = LoadProfile(_profileText);
+
+                IDataProfileSerializer serializer = new JsonDataProfileSerializer();
+                _profile = serializer.Read(profileContent);
 
                 if (!_preflight)
                 {
@@ -482,13 +486,12 @@ namespace CadmusTool.Commands
                         Console.WriteLine("Creating database...");
                         Serilog.Log.Information($"Creating database {_database}...");
 
-                        manager.CreateDatabase(connection, profileContent);
+                        manager.CreateDatabase(connection, _profile);
 
                         Console.WriteLine("Database created.");
                         Serilog.Log.Information("Database created.");
                     }
                 }
-                _profile = new DataProfile(XElement.Parse(profileContent));
 
                 Console.WriteLine("Creating repository...");
                 Serilog.Log.Information("Creating repository...");

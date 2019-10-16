@@ -21,15 +21,16 @@ namespace CadmusTool.Services
             if (database == null) throw new ArgumentNullException(nameof(database));
 
             // build the tags to types map
-            TagToTypeMap map = new TagToTypeMap();
+            TagAttributeToTypeMap map = new TagAttributeToTypeMap();
             map.Add(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"), "*parts*.dll");
 
             // create the repository (no need to use container here)
             MongoCadmusRepository repository = new MongoCadmusRepository(new StandardPartTypeProvider(map));
             repository.Configure(new MongoCadmusRepositoryOptions
             {
-                ConnectionStringTemplate = _configuration.GetConnectionString("Mongo"),
-                DatabaseName = database
+                ConnectionString = string.Format(
+                    _configuration.GetConnectionString("Mongo"),
+                    database)
             });
 
             return repository;

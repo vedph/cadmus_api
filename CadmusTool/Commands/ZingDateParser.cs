@@ -145,10 +145,10 @@ namespace CadmusTool.Commands
             {
                 if (date.GetDateType() == HistoricalDateType.Range)
                 {
-                    date.A.IsAbout = true;
-                    date.B.IsAbout = true;
+                    date.A.IsApproximate = true;
+                    date.B.IsApproximate = true;
                 }
-                else date.A.IsAbout = true;
+                else date.A.IsApproximate = true;
             }
 
             return date;
