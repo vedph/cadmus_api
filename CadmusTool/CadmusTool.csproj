@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Cadmus.Core" Version="2.1.3" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.1.3" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.1.4" />
     <PackageReference Include="Cadmus.Mongo" Version="2.1.3" />
     <PackageReference Include="Cadmus.Parts" Version="2.1.3" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.1.3" />
