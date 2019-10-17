@@ -28,14 +28,12 @@ namespace CadmusApi.Controllers
                                  throw new ArgumentNullException(nameof(repositoryService));
         }
 
-        // TODO: change routes (tags)
-
         /// <summary>
         /// Gets the list of all the tag sets IDs.
         /// </summary>
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of tag sets IDs</returns>
-        [HttpGet("api/{database}/tags")]
+        [HttpGet("api/{database}/thesauri")]
         public IActionResult GetSetIds(string database)
         {
             ICadmusRepository repository = _repositoryService.CreateRepository(database);
@@ -48,7 +46,7 @@ namespace CadmusApi.Controllers
         /// <param name="database">The database.</param>
         /// <param name="id">The tags set ID.</param>
         /// <returns>set</returns>
-        [HttpGet("api/{database}/tag/{id}", Name = "GetThesaurus")]
+        [HttpGet("api/{database}/thesauri/{id}", Name = "GetThesaurus")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public ActionResult<ThesaurusModel> GetThesaurus(string database, string id)
@@ -72,7 +70,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="model">The tags set model.</param>
-        [HttpPost("api/{database}/tags")]
+        [HttpPost("api/{database}/thesauri")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult AddThesaurus(string database,
@@ -98,7 +96,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="id">The tags set ID.</param>
-        [HttpDelete("api/{database}/tag/{id}")]
+        [HttpDelete("api/{database}/thesauri/{id}")]
         public void DeleteSet(string database, string id)
         {
             ICadmusRepository repository =
