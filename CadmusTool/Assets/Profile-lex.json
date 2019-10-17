@@ -1,0 +1,148 @@
+﻿{
+  "facets": [
+    {
+      "id": "facet-lex-word",
+      "label": "word",
+      "description": "A word in a lexicon.",
+      "partDefinitions": [
+        {
+          "typeId": "net.fusisoft.lexicon.word-form",
+          "name": "form",
+          "description": "Word form.",
+          "required": true,
+          "colorKey": "80F080",
+          "groupKey": "general",
+          "sortKey": "001"
+        },
+        {
+          "typeId": "net.fusisoft.lexicon.word-sense",
+          "name": "sense",
+          "description": "Word sense.",
+          "colorKey": "8080F0",
+          "groupKey": "general",
+          "sortKey": "003"
+        },
+        {
+          "typeId": "net.fusisoft.word-phrase",
+          "name": "phrase",
+          "description": "Word phrase.",
+          "colorKey": "F080F0",
+          "groupKey": "general",
+          "sortKey": "004"
+        },
+        {
+          "typeId": "net.fusisoft.word-etymology",
+          "name": "etymology",
+          "description": "Item's token-based text.",
+          "colorKey": "8080F0",
+          "groupKey": "general",
+          "sortKey": "002"
+        },
+        {
+          "typeId": "net.fusisoft.note",
+          "name": "comments",
+          "description": "A free text note about the word.",
+          "colorKey": "F08080",
+          "groupKey": "general",
+          "sortKey": "005"
+        }
+      ]
+    }
+  ],
+  "flags": [
+    {
+      "id": "1",
+      "label": "basic",
+      "description": "Basic.",
+      "colorKey": "80F080"
+    },
+    {
+      "id": "2",
+      "label": "declining",
+      "description": "Declining.",
+      "colorKey": "F080F0"
+    },
+    {
+      "id": "4",
+      "label": "obsolete",
+      "description": "Obsolete.",
+      "colorKey": "F08080"
+    }
+  ],
+  "thesauri": [
+    {
+      "id": "link-types@en",
+      "entries": [
+        {
+          "id": "-",
+          "value": "generic"
+        },
+        {
+          "id": "ant",
+          "value": "antonym"
+        },
+        {
+          "id": "syn",
+          "value": "synonym"
+        },
+        {
+          "id": "var",
+          "value": "variant"
+        },
+        {
+          "id": "xr",
+          "value": "cross-reference"
+        }
+      ]
+    },
+    {
+      "id": "etymology-languages@en",
+      "entries": [
+        {
+          "id": "lat",
+          "value": "Latin"
+        },
+        {
+            "id": "grc",
+            "value": "Old Greek"
+        },
+        {
+            "id": "eng",
+            "value": "English"
+        },
+        {
+            "id": "enm",
+            "value": "Middle English"
+        },
+        {
+            "id": "fre",
+            "value": "French"
+        },
+        {
+            "id": "frm",
+            "value": "Middle French"
+        },
+        {
+            "id": "deu",
+            "value": "German"
+        },
+        {
+            "id": "gmh",
+            "value": "Middle German"
+        },
+        {
+            "id": "spa",
+            "value": "Spanish"
+        },
+        {
+            "id": "ita",
+            "value": "Italian"
+        },
+        {
+            "id": "gre",
+            "value": "Modern Greek"
+        }
+      ]
+    }
+  ]
+}
