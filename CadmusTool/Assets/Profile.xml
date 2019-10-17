@@ -13,7 +13,7 @@
 
         <!-- layers: each layer has the corresponding fragment ID as its role.
              Should you want to use the same fragment type with different roles, add a new part type
-             definition with role=fragment ID + dot + role ID, e.g. "fr.comment.scholarly". -->
+             definition with role=fragment ID + colon + role ID, e.g. "fr.net.fusisoft.comment:scholarly". -->
         <part type="token-text-layer" role="fr.comment" name="comments" 
               color="F8D040" sort="text-comments" group="text">Comments on text.</part>
         <part type="token-text-layer" role="fr.quotation" name="quotes"
