@@ -202,11 +202,12 @@ namespace CadmusTool.Commands
         {
             int i = _random.Next(0, part.Lines.Count);
             int y = i + 1;
-            int x = _random.Next(0, part.Lines[i].GetTokensCount()) + 1;
+            int x = _random.Next(0, part.Lines[i].GetTokens().Length) + 1;
             return $"{y}.{x}";
         }
 
-        private void AddCommentLayerFragment(string location, TokenTextLayerPart<CommentLayerFragment> part)
+        private void AddCommentLayerFragment(string location,
+            TokenTextLayerPart<CommentLayerFragment> part)
         {
             part.Fragments.Add(new CommentLayerFragment
             {
@@ -215,7 +216,8 @@ namespace CadmusTool.Commands
             });
         }
 
-        private void AddQuotationLayerFragment(string location, TokenTextLayerPart<QuotationLayerFragment> part)
+        private void AddQuotationLayerFragment(string location,
+            TokenTextLayerPart<QuotationLayerFragment> part)
         {
             part.Fragments.Add(new QuotationLayerFragment
             {
@@ -228,7 +230,8 @@ namespace CadmusTool.Commands
             });
         }
 
-        private void AddApparatusLayerFragment(string location, TokenTextLayerPart<ApparatusLayerFragment> part)
+        private void AddApparatusLayerFragment(string location,
+            TokenTextLayerPart<ApparatusLayerFragment> part)
         {
             ApparatusLayerFragment fragment = new ApparatusLayerFragment
             {
@@ -278,7 +281,8 @@ namespace CadmusTool.Commands
 
             // layer fragments:
             // comment
-            TokenTextLayerPart<CommentLayerFragment> partComments = new TokenTextLayerPart<CommentLayerFragment>
+            TokenTextLayerPart<CommentLayerFragment> partComments =
+                new TokenTextLayerPart<CommentLayerFragment>
             {
                 ItemId = item.Id,
                 UserId = item.UserId
@@ -383,7 +387,8 @@ namespace CadmusTool.Commands
             Console.WriteLine("Creating repository...");
             Serilog.Log.Information("Creating repository...");
 
-            ICadmusRepository repository = _repositoryService.CreateRepository(_database);
+            ICadmusRepository repository =
+                _repositoryService.CreateRepository(_database);
 
             Console.Write("Seeding items (.=10): ");
             int facetIndex = 0;
