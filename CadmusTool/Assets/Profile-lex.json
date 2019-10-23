@@ -51,19 +51,19 @@
   ],
   "flags": [
     {
-      "id": "1",
+      "id": 1,
       "label": "basic",
       "description": "Basic.",
       "colorKey": "80F080"
     },
     {
-      "id": "2",
+      "id": 2,
       "label": "declining",
       "description": "Declining.",
       "colorKey": "F080F0"
     },
     {
-      "id": "4",
+      "id": 4,
       "label": "obsolete",
       "description": "Obsolete.",
       "colorKey": "F08080"

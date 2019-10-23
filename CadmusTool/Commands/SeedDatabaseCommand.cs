@@ -24,7 +24,7 @@ namespace CadmusTool.Commands
         private readonly IConfiguration _config;
         private readonly RepositoryService _repositoryService;
         private readonly string _database;
-        private readonly string _profileText;
+        private readonly string _profilePath;
         private readonly string _facets;
         private readonly int _count;
         private readonly Random _random;
@@ -32,13 +32,13 @@ namespace CadmusTool.Commands
         private DataProfile _profile;
         private bool _textPartAdded;
 
-        public SeedDatabaseCommand(AppOptions options, string database, string profile,
+        public SeedDatabaseCommand(AppOptions options, string database, string profilePath,
             string facets, int count)
         {
             _config = options.Configuration;
             _repositoryService = new RepositoryService(_config);
             _database = database ?? throw new ArgumentNullException(nameof(database));
-            _profileText = profile ?? throw new ArgumentNullException(nameof(profile));
+            _profilePath = profilePath ?? throw new ArgumentNullException(nameof(profilePath));
             _facets = facets ?? throw new ArgumentNullException(nameof(facets));
             _count = count;
             _random = new Random();
@@ -55,7 +55,7 @@ namespace CadmusTool.Commands
                 "The database name");
 
             CommandArgument profileArgument = command.Argument("[profile]",
-                "The profile XML file path");
+                "The profile JSON file path");
 
             CommandArgument facetsArgument = command.Argument("[facets]",
                 "The facet(s) to be applied to inserted items, separated by commas");
@@ -353,12 +353,12 @@ namespace CadmusTool.Commands
         {
             Console.WriteLine("SEED DATABASE\n" +
                               $"Database: {_database}\n" +
-                              $"Profile file: {_profileText}\n" +
+                              $"Profile file: {_profilePath}\n" +
                               $"Facets: {_facets}\n" +
                               $"Count: {_count}\n");
             Serilog.Log.Information("SEED DATABASE: " +
                          $"Database: {_database}, " +
-                         $"Profile file: {_profileText}, " +
+                         $"Profile file: {_profilePath}, " +
                          $"Facets: {_facets}, " +
                          $"Count: {_count}");
 
@@ -369,7 +369,7 @@ namespace CadmusTool.Commands
 
             IDatabaseManager manager = new MongoDatabaseManager();
 
-            string profileContent = LoadProfile(_profileText);
+            string profileContent = LoadProfile(_profilePath);
             IDataProfileSerializer serializer = new JsonDataProfileSerializer();
             _profile = serializer.Read(profileContent);
 

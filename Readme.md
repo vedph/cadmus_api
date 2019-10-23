@@ -169,9 +169,9 @@ Import into a Cadmus database an essential subset of roughly filtered data to be
 
 	CadmusTool import-lex <lexDirectory> <databaseName> <profileXmlFilePath> [-p|--preflight]
 
-The profile XML file defines items facets and flags. You can find a sample in `CadmusTool/Assets/Profile-lex.xml`. Note that this profile is used only to provide a better editing experience, and does not reflect a real limitation for allowed parts in the database.
+The profile JSON file defines items facets and flags. You can find a sample in `CadmusTool/Assets/Profile-lex.json`. Note that this profile is used only to provide a better editing experience, and does not reflect a real limitation for allowed parts in the database.
 
-	CadmusTool import-lex c:\users\dfusi\desktop\lex cadmuslex c:\users\dfusi\desktop\Profile.xml -p
+	CadmusTool import-lex c:\users\dfusi\desktop\lex cadmuslex c:\users\dfusi\desktop\Profile.json -p
 
 ### CadmusTool - Seed
 
@@ -179,11 +179,11 @@ Seed a Cadmus database (creating it if it does not exist) with a specified numbe
 
 	CadmusTool seed <databaseName> <profileXmlFilePath> <facetsCsvList> [-c|--count itemCount]
 
-The profile XML file defines items facets and flags. You can find a sample in `CadmusTool/Assets/Profile.xml`. Note that this profile is used only to provide a better editing experience, and does not reflect a real limitation for allowed parts in the database.
+The profile JSON file defines items facets and flags. You can find a sample in `CadmusTool/Assets/Profile.json`. Note that this profile is used only to provide a better editing experience, and does not reflect a real limitation for allowed parts in the database.
 
 The items count defaults to 100. Example:
 
-	.\CadmusTool.exe seed cadmus \Projects\Core20\CadmusApi\CadmusTool\Assets\Profile.xml facet-default -c 100
+	.\CadmusTool.exe seed cadmus \Projects\Core20\CadmusApi\CadmusTool\Assets\Profile.json facet-default -c 100
 
 ### CadmusTool - Import LEX
 
@@ -195,7 +195,7 @@ Option `-p` = preflight, i.e. do not touch the target database.
 
 Example:
 
-	dotnet .\CadmusTool.dll import-lex c:\users\dfusi\desktop\lex cadmuslex c:\users\dfusi\desktop\Profile.xml -p
+	dotnet .\CadmusTool.dll import-lex c:\users\dfusi\desktop\lex cadmuslex c:\users\dfusi\desktop\Profile.json -p
 
 ## CadmusApi
 
