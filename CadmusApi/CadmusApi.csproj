@@ -20,12 +20,12 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.0.0" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.1.8" />
-    <PackageReference Include="Cadmus.Parts" Version="2.1.7" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="2.1.7" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.1.9" />
+    <PackageReference Include="Cadmus.Parts" Version="2.1.8" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="2.1.8" />
     <PackageReference Include="Cadmus.Core" Version="2.1.7" />
     <PackageReference Include="Cadmus.Mongo" Version="2.1.7" />
-    <PackageReference Include="Fusi.Antiquity" Version="1.1.20" />
+    <PackageReference Include="Fusi.Antiquity" Version="1.1.21" />
     <PackageReference Include="MessagingApi" Version="1.0.0" />
     <PackageReference Include="MessagingApi.SendGrid" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.0.0" />
