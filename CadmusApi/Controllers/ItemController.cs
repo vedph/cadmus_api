@@ -53,14 +53,14 @@ namespace CadmusApi.Controllers
         /// <returns>page</returns>
         [HttpGet("api/{database}/items")]
         [ProducesResponseType(200)]
-        public ActionResult<PagedData<ItemInfo>> GetItems(string database,
+        public ActionResult<DataPage<ItemInfo>> GetItems(string database,
             [FromQuery] ItemFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            PagedData<ItemInfo> page = repository.GetItems(new ItemFilter
+            DataPage<ItemInfo> page = repository.GetItems(new ItemFilter
             {
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,
