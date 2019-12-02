@@ -50,11 +50,11 @@ namespace CadmusApi.Controllers
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [Authorize]
-        public async Task<ActionResult<PagedData<UserModel>>> GetUsers([FromQuery] UserFilterModel filter)
+        public async Task<ActionResult<DataPage<UserModel>>> GetUsers([FromQuery] UserFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest();
 
-            PagedData<UserWithRoles<ApplicationUser>> page =
+            DataPage<UserWithRoles<ApplicationUser>> page =
                 await _repository.GetUsersAsync(filter);
 
             // prepare results (we return only a subset of user data)
@@ -62,7 +62,8 @@ namespace CadmusApi.Controllers
             foreach (var ur in page.Items)
                 results.Add(UserToModel(ur.User, ur.Roles));
 
-            return Ok(new PagedData<UserModel>(page.Total, results));
+            return Ok(new DataPage<UserModel>(
+                filter.PageNumber, filter.PageSize, page.Total, results));
         }
 
         /// <summary>

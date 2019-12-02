@@ -19,7 +19,7 @@ namespace CadmusApi.Services
         /// </summary>
         /// <param name="filter">The filter.</param>
         /// <returns></returns>
-        Task<PagedData<UserWithRoles<TUser>>> GetUsersAsync(UserFilterModel filter);
+        Task<DataPage<UserWithRoles<TUser>>> GetUsersAsync(UserFilterModel filter);
 
         /// <summary>
         /// Gets the user from his name.

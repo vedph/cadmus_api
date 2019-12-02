@@ -57,16 +57,19 @@ namespace CadmusApi.Services
         /// <param name="filter">The filter. Use page size=0 to get all the users.</param>
         /// <returns>users page</returns>
         /// <exception cref="ArgumentNullException">filter</exception>
-        public async Task<PagedData<UserWithRoles<ApplicationUser>>> GetUsersAsync(UserFilterModel filter)
+        public async Task<DataPage<UserWithRoles<ApplicationUser>>>
+            GetUsersAsync(UserFilterModel filter)
         {
             if (filter == null) throw new ArgumentNullException(nameof(filter));
 
             IQueryable<ApplicationUser> users = _userManager.Users;
 
             if (!string.IsNullOrEmpty(filter.Name))
+            {
                 users = users.Where(u => u.UserName.Contains(filter.Name) ||
                     u.LastName.Contains(filter.Name) ||
                     u.FirstName.Contains(filter.Name));
+            }
 
             int total = users.Count();
             users = users.OrderBy(u => u.UserName);
@@ -79,7 +82,8 @@ namespace CadmusApi.Services
                 results.Add(result);
             }
 
-            return new PagedData<UserWithRoles<ApplicationUser>>(total, results);
+            return new DataPage<UserWithRoles<ApplicationUser>>(
+                filter.PageNumber, filter.PageSize, total, results);
         }
 
         /// <summary>
