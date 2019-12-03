@@ -19,7 +19,6 @@ namespace CadmusApi.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [ApiController]
-    [Route("api/[controller]")]
     public sealed class AuthenticationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -111,7 +110,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="model">The login model.</param>
         [HttpPost]
-        [Route("login")]
+        [Route("api/auth/login")]
         public async Task<IActionResult> Login([FromBody] LoginBindingModel model)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(model.Username);
@@ -155,7 +154,7 @@ namespace CadmusApi.Controllers
         /// Logs the user out.
         /// </summary>
         [HttpGet]
-        [Route("logout")]
+        [Route("api/auth/logout")]
         public async Task<IActionResult> Logout()
         {
             // Ask ASP.NET Core Identity to delete the local and external cookies created

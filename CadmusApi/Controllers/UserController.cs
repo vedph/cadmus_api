@@ -49,8 +49,10 @@ namespace CadmusApi.Controllers
         [HttpGet("api/users")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [Authorize]
-        public async Task<ActionResult<DataPage<UserModel>>> GetUsers([FromQuery] UserFilterModel filter)
+        // [Authorize]
+        // TODO: re-enable when login implemented in frontend
+        public async Task<ActionResult<DataPage<UserModel>>> GetUsers(
+            [FromQuery] UserFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest();
 
@@ -77,7 +79,8 @@ namespace CadmusApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<UserModel>> GetUser([FromRoute] string name)
         {
-            UserWithRoles<ApplicationUser> user = await _repository.GetUserAsync(name);
+            UserWithRoles<ApplicationUser> user =
+                await _repository.GetUserAsync(name);
             if (user == null) return NotFound();
             return Ok(UserToModel(user.User, user.Roles));
         }
@@ -101,19 +104,21 @@ namespace CadmusApi.Controllers
         /// <summary>
         /// Gets information about all the users whose names are specified.
         /// </summary>
-        /// <param name="names">The names of the users to get information of, separated
-        /// by commas.</param>
+        /// <param name="names">The names of the users to get information of,
+        /// separated by commas.</param>
         /// <returns>array of users informations</returns>
         [HttpGet("api/users-from-names")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [Authorize]
-        public async Task<ActionResult<UserModel[]>> GetUsersFromNames([FromQuery] string names)
+        public async Task<ActionResult<UserModel[]>> GetUsersFromNames(
+            [FromQuery] string names)
         {
             string[] userNames = names.Split(',', StringSplitOptions.RemoveEmptyEntries);
             if (userNames.Length == 0) return Ok(new UserModel[0]);
 
-            IList<UserWithRoles<ApplicationUser>> users = await _repository.GetUsersFromNamesAsync(userNames);
+            IList<UserWithRoles<ApplicationUser>> users =
+                await _repository.GetUsersFromNamesAsync(userNames);
 
             // prepare results (we return only a subset of user data)
             List<UserModel> results = new List<UserModel>();
@@ -134,8 +139,6 @@ namespace CadmusApi.Controllers
         public async Task<ActionResult> UpdateUser([FromBody] UserBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest();
-
-            UserWithRoles<ApplicationUser> old = await _repository.GetUserAsync(model.UserName);
 
             await _repository.UpdateUserAsync(new ApplicationUser
             {
