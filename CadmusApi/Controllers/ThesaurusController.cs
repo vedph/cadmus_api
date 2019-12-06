@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
@@ -51,7 +52,8 @@ namespace CadmusApi.Controllers
         [ProducesResponseType(404)]
         public ActionResult<ThesaurusModel> GetThesaurus(string database, string id)
         {
-            ICadmusRepository repository = _repositoryService.CreateRepository(database);
+            ICadmusRepository repository =
+                _repositoryService.CreateRepository(database);
             Thesaurus thesaurus = repository.GetThesaurus(id);
             if (thesaurus == null) return NotFound();
 
@@ -63,6 +65,39 @@ namespace CadmusApi.Controllers
             };
 
             return Ok(model);
+        }
+
+        /// <summary>
+        /// Gets the specified set of thesauri.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="ids">The thesauri IDs, separated by commas.</param>
+        /// <returns>Object where each key is a thesaurus ID with a value
+        /// equal to the thesaurus model.</returns>
+        [HttpGet("api/{database}/thesauri-set/{ids}")]
+        [ProducesResponseType(200)]
+        public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauri(
+            string database, string ids)
+        {
+            ICadmusRepository repository =
+                _repositoryService.CreateRepository(database);
+            Dictionary<string, ThesaurusModel> dct =
+                new Dictionary<string, ThesaurusModel>();
+
+            foreach (string id in (ids ?? "")
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Distinct())
+            {
+                Thesaurus thesaurus = repository.GetThesaurus(id);
+                if (thesaurus == null) continue;
+                dct[id] = new ThesaurusModel
+                {
+                    Id = thesaurus.Id,
+                    Language = thesaurus.GetLanguage(),
+                    Entries = thesaurus.GetEntries().ToArray()
+                };
+            }
+            return Ok(dct);
         }
 
         /// <summary>
