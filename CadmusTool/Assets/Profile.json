@@ -12,7 +12,8 @@
           "required": true,
           "colorKey": "98F8F8",
           "groupKey": "general",
-          "sortKey": "categories"
+          "sortKey": "categories",
+          "editorKey": "general"
         },
         {
           "typeId": "net.fusisoft.keywords",
@@ -20,7 +21,8 @@
           "description": "Item's keywords.",
           "colorKey": "90C0F8",
           "groupKey": "general",
-          "sortKey": "keywords"
+          "sortKey": "keywords",
+          "editorKey": "general"
         },
         {
           "typeId": "net.fusisoft.note",
@@ -28,7 +30,8 @@
           "description": "A free text note about the document.",
           "colorKey": "B0A0F8",
           "groupKey": "general",
-          "sortKey": "note"
+          "sortKey": "note",
+          "editorKey": "general"
         },
         {
           "typeId": "net.fusisoft.token-text",
@@ -36,7 +39,8 @@
           "description": "Item's token-based text.",
           "colorKey": "31AB54",
           "groupKey": "text",
-          "sortKey": "text"
+          "sortKey": "text",
+          "editorKey": "general"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -45,7 +49,8 @@
           "description": "Comments on text.",
           "colorKey": "F8D040",
           "groupKey": "text",
-          "sortKey": "text-comments"
+          "sortKey": "text-comments",
+          "editorKey": "general"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -54,7 +59,8 @@
           "description": "Quotations in text.",
           "colorKey": "863577",
           "groupKey": "text",
-          "sortKey": "text-quotations"
+          "sortKey": "text-quotations",
+          "editorKey": "philology"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -63,7 +69,8 @@
           "description": "Critical apparatus.",
           "colorKey": "4B18D7",
           "groupKey": "text",
-          "sortKey": "text-apparatus"
+          "sortKey": "text-apparatus",
+          "editorKey": "philology"
         }
       ]
     }
