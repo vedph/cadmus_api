@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
@@ -19,7 +20,8 @@ namespace CadmusApi.Controllers
         private readonly RepositoryService _repositoryService;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ThesaurusController"/> class.
+        /// Initializes a new instance of the <see cref="ThesaurusController"/>
+        /// class.
         /// </summary>
         /// <param name="repositoryService">The repository service.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
@@ -30,23 +32,52 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// Gets the list of all the tag sets IDs.
+        /// Gets the list of all the thesauri IDs.
         /// </summary>
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of tag sets IDs</returns>
         [HttpGet("api/{database}/thesauri")]
         public IActionResult GetSetIds(string database)
         {
-            ICadmusRepository repository = _repositoryService.CreateRepository(database);
+            ICadmusRepository repository =
+                _repositoryService.CreateRepository(database);
             return Ok(repository.GetThesaurusIds());
         }
 
+        private static string GetFallbackId(string id, string defaultLang = "en")
+        {
+            Regex r = new Regex(@"^(?<id>.+)\@(?<lang>[a-z]{2})$");
+            Match m = r.Match(id);
+
+            // bare ID or non-default language: append @language
+            if (!m.Success || defaultLang != m.Groups["lang"].Value)
+                return id + "@" + defaultLang;
+
+            // else no fallback possible
+            return null;
+        }
+
+        private static Thesaurus GetThesaurusWithFallback(string id,
+            ICadmusRepository repository)
+        {
+            Thesaurus thesaurus = repository.GetThesaurus(id);
+            if (thesaurus != null) return thesaurus;
+
+            string fallbackId = GetFallbackId(id);
+            if (fallbackId != null)
+                thesaurus = repository.GetThesaurus(fallbackId);
+            return thesaurus;
+        }
+
         /// <summary>
-        /// Gets the tags set with the specified ID.
+        /// Gets the thesaurus with the specified ID. If the ID does not include
+        /// the language suffix (<c>@</c> + ISO639-2 letters code, e.g. <c>@en</c>),
+        /// or the requested language does not exist, the method attempts to
+        /// fallback to the default language (<c>en</c>=English).
         /// </summary>
         /// <param name="database">The database.</param>
-        /// <param name="id">The tags set ID.</param>
-        /// <returns>set</returns>
+        /// <param name="id">The thesaurus ID.</param>
+        /// <returns>Thesaurus</returns>
         [HttpGet("api/{database}/thesauri/{id}", Name = "GetThesaurus")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
@@ -54,7 +85,7 @@ namespace CadmusApi.Controllers
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
-            Thesaurus thesaurus = repository.GetThesaurus(id);
+            Thesaurus thesaurus = GetThesaurusWithFallback(id, repository);
             if (thesaurus == null) return NotFound();
 
             ThesaurusModel model = new ThesaurusModel
@@ -68,7 +99,11 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// Gets the specified set of thesauri.
+        /// Gets the specified set of thesauri. If any of the IDs does not include
+        /// the language suffix (<c>@</c> + ISO639-2 letters code, e.g. <c>@en</c>),
+        /// or the requested language does not exist, the method attempts to
+        /// fallback to the default language (<c>en</c>=English). Only the
+        /// thesauri which were found are returned.
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="ids">The thesauri IDs, separated by commas.</param>
@@ -88,7 +123,7 @@ namespace CadmusApi.Controllers
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Distinct())
             {
-                Thesaurus thesaurus = repository.GetThesaurus(id);
+                Thesaurus thesaurus = GetThesaurusWithFallback(id, repository);
                 if (thesaurus == null) continue;
                 dct[id] = new ThesaurusModel
                 {
@@ -101,10 +136,10 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// Adds or updates the specified tags set.
+        /// Adds or updates the specified thesaurus.
         /// </summary>
-        /// <param name="database">The database.</param>
-        /// <param name="model">The tags set model.</param>
+        /// <param name="database">The database ID.</param>
+        /// <param name="model">The thesaurus model.</param>
         [HttpPost("api/{database}/thesauri")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -127,12 +162,12 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// Deletes the tags set with the specified ID.
+        /// Deletes the thesaurus with the specified ID.
         /// </summary>
         /// <param name="database">The database ID.</param>
-        /// <param name="id">The tags set ID.</param>
+        /// <param name="id">The thesaurus ID.</param>
         [HttpDelete("api/{database}/thesauri/{id}")]
-        public void DeleteSet(string database, string id)
+        public void DeleteThesaurus(string database, string id)
         {
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
