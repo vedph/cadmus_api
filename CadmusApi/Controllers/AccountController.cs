@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Text;
 using CadmusApi.Models;
-using Microsoft.Extensions.Configuration;
 using MessagingApi;
 using Microsoft.Extensions.Logging;
 using CadmusApi.Services;
@@ -24,12 +22,12 @@ namespace CadmusApi.Controllers
     public sealed class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IWebHostEnvironment _environment;
+        //private readonly SignInManager<ApplicationUser> _signInManager;
+        //private readonly IWebHostEnvironment _environment;
         private readonly IMessageBuilderService _messageBuilder;
         private readonly IMailerService _mailer;
         private readonly MessagingOptions _options;
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
 
         /// <summary>
@@ -37,37 +35,31 @@ namespace CadmusApi.Controllers
         /// class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
-        /// <param name="signInManager">The sign in manager.</param>
-        /// <param name="environment">The environment.</param>
         /// <param name="messageBuilder">The message builder.</param>
         /// <param name="mailer">The mailer.</param>
         /// <param name="options">The options.</param>
-        /// <param name="configuration">The configuration.</param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">null options or userManager or
         /// signInManager or environment or messageBuilder or mailer</exception>
         public AccountController(UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IWebHostEnvironment environment,
             IMessageBuilderService messageBuilder,
             IMailerService mailer,
             IOptions<MessagingOptions> options,
-            IConfiguration configuration,
             ILogger<AccountController> logger)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
-            _signInManager = signInManager ??
-                throw new ArgumentNullException(nameof(signInManager));
-            _environment = environment ??
-                throw new ArgumentNullException(nameof(environment));
+            //_signInManager = signInManager ??
+            //    throw new ArgumentNullException(nameof(signInManager));
+            //_environment = environment ??
+            //    throw new ArgumentNullException(nameof(environment));
             _messageBuilder = messageBuilder ??
                 throw new ArgumentNullException(nameof(messageBuilder));
             _mailer = mailer ?? throw new ArgumentNullException(nameof(mailer));
             _options = options.Value;
-            _configuration = configuration ??
-                throw new ArgumentNullException(nameof(configuration));
+            //_configuration = configuration ??
+            //    throw new ArgumentNullException(nameof(configuration));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
         }
@@ -131,9 +123,6 @@ namespace CadmusApi.Controllers
 
             return null;
         }
-
-        private string GetApiRootUrl() =>
-            _configuration.GetSection("Messaging")["ApiRootUrl"];
 
         private async Task SendConfirmEmailAsync(ApplicationUser user)
         {

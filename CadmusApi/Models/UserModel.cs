@@ -1,4 +1,6 @@
-﻿namespace CadmusApi.Models
+﻿using System;
+
+namespace CadmusApi.Models
 {
     /// <summary>
     /// User.
@@ -21,9 +23,10 @@
         public string[] Roles { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this user is verified.
+        /// Gets or sets a value indicating whether the email of this
+        /// user has been confirmed.
         /// </summary>
-        public bool IsVerified { get; set; }
+        public bool EmailConfirmed { get; set; }
 
         /// <summary>
         /// Gets or sets the first name.
@@ -34,5 +37,15 @@
         /// Gets or sets the last name.
         /// </summary>
         public string LastName { get; set; }
+
+        /// <summary>
+        /// True if the user lockout is enabled.
+        /// </summary>
+        public bool LockoutEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets the lockout end date and time.
+        /// </summary>
+        public DateTime? LockoutEnd { get; set; }
     }
 }

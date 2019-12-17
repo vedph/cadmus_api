@@ -36,7 +36,9 @@ namespace CadmusApi.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Roles = roles,
-                IsVerified = user.EmailConfirmed
+                EmailConfirmed = user.EmailConfirmed,
+                LockoutEnabled = user.LockoutEnabled,
+                LockoutEnd = user.LockoutEnd?.UtcDateTime
             };
         }
 
@@ -49,8 +51,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/users")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        // [Authorize]
-        // TODO: re-enable when login implemented in frontend
+        [Authorize]
         public async Task<ActionResult<DataPage<UserModel>>> GetUsers(
             [FromQuery] UserFilterModel filter)
         {
