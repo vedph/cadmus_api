@@ -184,6 +184,13 @@ namespace CadmusApi
             services.AddTransient<IUserRepository<ApplicationUser>,
                 ApplicationUserRepository>();
 
+            // message builder service
+            // TODO: replace with a true mailer service once we have SMTP
+            services.AddTransient<IMailerService, NullMailerService>();
+
+            services.AddTransient<IMessageBuilderService,
+                FileMessageBuilderService>();
+
             // add configuration
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<RepositoryService, RepositoryService>();

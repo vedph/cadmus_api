@@ -26,8 +26,8 @@
     <PackageReference Include="Cadmus.Core" Version="2.1.9" />
     <PackageReference Include="Cadmus.Mongo" Version="2.1.12" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.21" />
-    <PackageReference Include="MessagingApi" Version="1.0.0" />
-    <PackageReference Include="MessagingApi.SendGrid" Version="1.0.0" />
+    <PackageReference Include="MessagingApi" Version="1.0.1" />
+    <PackageReference Include="MessagingApi.SendGrid" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.0" />
