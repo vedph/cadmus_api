@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using Cadmus.Core;
 using Cadmus.Core.Config;
@@ -10,6 +11,7 @@ using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CadmusApi.Controllers
 {
@@ -27,7 +29,8 @@ namespace CadmusApi.Controllers
             new Regex(@"""([a-z])([^""]*)""\s*:");
 
         private static readonly Regex _guidRegex =
-            new Regex("^[a-fA-F0-9]{32}$");
+            new Regex("^[a-fA-F0-9]{8}-" +
+                "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
 
         private static readonly Regex _userIdRegex =
             new Regex(@"""userId""\s*:\s*""(?<v>[^""]+)""");
@@ -337,31 +340,29 @@ namespace CadmusApi.Controllers
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
 
-            // add the ID if new part
-            string json = model.Raw;
-            string partId;
-            Match m = Regex.Match(json,
-                @"""_id""\s*:\s*(?:(?:""(?<v>[^""]*)"")|(?<v>:null))");
-            if (!m.Success)
-                return BadRequest("Invalid part JSON: missing id");
+            JObject doc = JObject.Parse(model.Raw);
 
-            bool isNew = !_guidRegex.IsMatch(m.Groups["v"].Value);
+            // add the ID if new part
+            JValue id = (JValue)doc["id"];
+            string partId;
+            bool isNew = id == null || !_guidRegex.IsMatch(id.Value<string>());
             if (isNew)
             {
                 partId = Guid.NewGuid().ToString("N");
-                json = json.Substring(0, m.Index) +
-                       $"\"_id\":\"{partId}\"" +
-                       json.Substring(m.Index + m.Length);
+                if (id != null) doc.Property("id").Remove();
+                doc.AddFirst(new JProperty("id", partId));
             }
             else
             {
-                partId = m.Groups["v"].Value;
+                partId = id.Value<string>();
             }
 
             // override the user ID
-            json = SetUserId(json, User.Identity.Name ?? "");
+            doc.Property("userId")?.Remove();
+            doc.Add(new JProperty("userId", User.Identity.Name ?? ""));
 
             // add the part
+            string json = doc.ToString(Formatting.None);
             repository.AddPartFromContent(json);
             return CreatedAtRoute("GetPart", new
             {
