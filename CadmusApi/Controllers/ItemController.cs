@@ -7,6 +7,7 @@ using Cadmus.Core.Storage;
 using CadmusApi.Models;
 using CadmusApi.Services;
 using Fusi.Tools.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -15,7 +16,7 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Items controller.
     /// </summary>
-    // [Authorize]
+    [Authorize]
     [ApiController]
     public sealed class ItemController : Controller
     {

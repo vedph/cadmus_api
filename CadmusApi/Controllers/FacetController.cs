@@ -4,6 +4,7 @@ using System.Linq;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadmusApi.Controllers
@@ -12,7 +13,7 @@ namespace CadmusApi.Controllers
     /// Item facets controller.
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize]
+    [Authorize]
     [ApiController]
     public sealed class FacetController : Controller
     {

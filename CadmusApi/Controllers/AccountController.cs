@@ -195,6 +195,7 @@ namespace CadmusApi.Controllers
         /// Resends the confirmation email.
         /// </summary>
         /// <param name="email">The email address to send a message to.</param>
+        [Authorize]
         [HttpGet]
         [Route("api/accounts/resendconfirm/{email}")]
         [ProducesResponseType(200)]
@@ -213,6 +214,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="name">The user name.</param>
         /// <param name="token">The confirmation token.</param>
+        [Authorize]
         [HttpGet]
         [Route("api/accounts/confirm")]
         [ProducesResponseType(200)]

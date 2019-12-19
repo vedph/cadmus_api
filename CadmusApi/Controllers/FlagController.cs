@@ -13,6 +13,7 @@ namespace CadmusApi.Controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
+    [Authorize]
     [ApiController]
     public sealed class FlagController : Controller
     {

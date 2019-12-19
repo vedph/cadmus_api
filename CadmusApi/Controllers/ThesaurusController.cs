@@ -6,6 +6,7 @@ using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
 using CadmusApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadmusApi.Controllers
@@ -13,7 +14,7 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Thesauri controller.
     /// </summary>
-    // [Authorize]
+    [Authorize]
     [ApiController]
     public sealed class ThesaurusController : Controller
     {
