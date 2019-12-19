@@ -9,26 +9,32 @@ This solution is related to:
 
 Remember to update the plugins directories with the batches included in this solution before executing. Note that for `CadmusTool` this directory should not include `Cadmus.Parts`, as this is already loaded by that project in order to seed the parts. Should you miss any plugin, a common issue is that you will see only those item's parts which are included in the plugins found.
 
-## Quick Start
+## MongoDB in Docker
+
+Run without persisting data:
+
+```ps1
+docker run --name mongo -d -p 27017:27017 mongo --noauth
+```
 
 It should be possible to run a mongo container storing data in host through a volume in `c:\users\YOURUSERNAME\data\mongo`, but in Windows this has issues:
 
-    docker run --name mongo -d -p 27017:27017 --volume c:/users/dfusi/dockerVolMongo/db:/data/db mongo --noauth
+```ps1
+docker run --name mongo -d -p 27017:27017 --volume c:/users/dfusi/dockerVolMongo/db:/data/db mongo --noauth
+```
 
 See <https://github.com/docker/for-win/issues/138> about the directory location under the user folder (permissions requirements). Yet this does not seem to work even if using elevated command prompt.
 
-Just run without persisting data:
+Workaround for data persistence is currently using a volume (<https://github.com/docker-library/mongo/issues/74>):
 
-    docker run --name mongo -d -p 27017:27017 mongo --noauth
+```ps1
+docker volume create --name=mongodata
+docker run -d -p 27017:27017 -v mongodata:/data/db --name=mongo mongo --noauth
+```
 
-To seed the database ensure that you have run the update plugins batch, and then run the CadmusTool `seed` command (see below).
+To seed the database, ensure that you have run the update plugins batch, and then run the CadmusTool `seed` command (see below).
 
-## History
-
-- 2018-09-10: updated packages and refactored API metadata by using `ActionResult<T>`.
-- 2018-06-14: replaced MSSQL with MongoDB store in authentication.
-
-## MongoDB
+## Dump and Restore
 
 **Dump/restore** uses BSON. JSON is a subset of BSON and is used for import/export with 3rd parties.
 

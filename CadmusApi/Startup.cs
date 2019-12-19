@@ -21,6 +21,9 @@ using System.Reflection;
 using CadmusApi.Services;
 using CadmusApi.Models;
 using AspNetCore.Identity.Mongo.Model;
+using Serilog;
+using Serilog.Events;
+using Serilog.Exceptions;
 
 namespace CadmusApi
 {
@@ -207,6 +210,21 @@ namespace CadmusApi
 
             // swagger
             ConfigureSwaggerServices(services);
+
+            // serilog
+            // Install-Package Serilog.Exceptions Serilog.Sinks.MongoDB
+            // https://github.com/RehanSaeed/Serilog.Exceptions
+            string maxSize = Configuration["Serilog:MaxMbSize"];
+            services.AddSingleton<ILogger>(_ => new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .Enrich.WithExceptionDetails()
+                .WriteTo.Console()
+                /*.WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],*/
+                .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
+                    cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
+                        int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
+                    .CreateLogger());
         }
 
         /// <summary>
