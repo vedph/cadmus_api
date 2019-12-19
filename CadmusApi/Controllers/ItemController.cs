@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using Cadmus.Core;
 using Cadmus.Core.Config;
@@ -267,16 +266,6 @@ namespace CadmusApi.Controllers
         #endregion
 
         #region Post
-        private static string SetUserId(string json, string value)
-        {
-            Match m = _userIdRegex.Match(json);
-            if (!m.Success) return json;
-
-            return json.Substring(0, m.Index) +
-                   $"\"userId\":\"{value}\"" +
-                   json.Substring(m.Index + m.Length);
-        }
-
         /// <summary>
         /// Adds or updates the specified item.
         /// </summary>
