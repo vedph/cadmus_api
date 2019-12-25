@@ -116,7 +116,7 @@ namespace CadmusApi.Controllers
             [FromQuery] string names)
         {
             string[] userNames = names.Split(',', StringSplitOptions.RemoveEmptyEntries);
-            if (userNames.Length == 0) return Ok(new UserModel[0]);
+            if (userNames.Length == 0) return Ok(Array.Empty<UserModel>());
 
             IList<UserWithRoles<ApplicationUser>> users =
                 await _repository.GetUsersFromNamesAsync(userNames);

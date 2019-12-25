@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
@@ -8,9 +10,11 @@ using CadmusApi.Models;
 using CadmusApi.Services;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace CadmusApi.Controllers
 {
@@ -31,20 +35,27 @@ namespace CadmusApi.Controllers
             new Regex("^[a-fA-F0-9]{8}-" +
                 "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
 
-        private static readonly Regex _userIdRegex =
-            new Regex(@"""userId""\s*:\s*""(?<v>[^""]+)""");
-
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RepositoryService _repositoryService;
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemController" /> class.
         /// </summary>
+        /// <param name="userManager">The user manager.</param>
         /// <param name="repositoryService">The repository service.</param>
+        /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">repositoryService</exception>
-        public ItemController(RepositoryService repositoryService)
+        public ItemController(UserManager<ApplicationUser> userManager,
+            RepositoryService repositoryService,
+            ILogger logger)
         {
+            _userManager = userManager ??
+                throw new ArgumentNullException(nameof(userManager));
             _repositoryService = repositoryService ??
                 throw new ArgumentNullException(nameof(repositoryService));
+            _logger = logger ??
+                throw new ArgumentNullException(nameof(logger));
         }
 
         #region Get
@@ -240,37 +251,75 @@ namespace CadmusApi.Controllers
         #region Delete
         /// <summary>
         /// Deletes the item with the specified ID.
+        /// This requires <c>admin</c> or <c>editor</c> role.
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="id">The item identifier.</param>
+        [Authorize(Roles = "admin,editor")]
         [HttpDelete("api/{database}/item/{id}")]
         public void Delete(string database, string id)
         {
+            _logger.Information("User {UserName} deleting item {ItemId} from {IP}",
+                User.Identity.Name,
+                id,
+                HttpContext.Connection.RemoteIpAddress);
+
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
             repository.DeleteItem(id, User.Identity.Name);
         }
 
+        private async Task<bool> IsUserInRole(ApplicationUser user, string role,
+            HashSet<string> excludedRoles)
+        {
+            IList<string> userRoles = await _userManager.GetRolesAsync(user);
+            return userRoles.Contains(role)
+                   && userRoles.All(r => !excludedRoles.Contains(r));
+        }
+
         /// <summary>
         /// Deletes the part with the specified ID.
+        /// This requires <c>admin</c> or <c>editor</c> role; a user with
+        /// the <c>operator</c> role can delete only the parts created by
+        /// himself.
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="id">The part identifier.</param>
+        [Authorize(Roles = "admin,editor,operator")]
         [HttpDelete("api/{database}/part/{id}")]
-        public void DeletePart(string database, string id)
+        public async Task<IActionResult> DeletePart(string database, string id)
         {
+            _logger.Information("User {UserName} deleting part {PartId} from {IP}",
+                User.Identity.Name,
+                id,
+                HttpContext.Connection.RemoteIpAddress);
+
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
+
+            // operators can delete only parts created by themselves
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            if (await IsUserInRole(user,
+                    "operator",
+                    new HashSet<string>(new string[] { "admin", "editor" }))
+                && repository.GetPartCreatorId(id) != user.UserName)
+            {
+                return Unauthorized();
+            }
+
             repository.DeletePart(id, User.Identity.Name);
+            return Ok();
         }
         #endregion
 
         #region Post
         /// <summary>
         /// Adds or updates the specified item.
+        /// This requires <c>admin</c>, <c>editor</c>, or <c>operator</c> role.
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="model">The item's model.</param>
+        [Authorize(Roles = "admin,editor,operator")]
         [HttpPost("api/{database}/items")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -291,10 +340,19 @@ namespace CadmusApi.Controllers
                 UserId = User.Identity.Name,
             };
 
+            // set the creator ID if not specified
+            if (string.IsNullOrEmpty(item.CreatorId))
+                item.CreatorId = User.Identity.Name;
+
             // set the item's ID if specified, else go with the default
             // newly generated one
             if (!string.IsNullOrEmpty(model.Id) && _guidRegex.IsMatch(model.Id))
                 item.Id = model.Id;
+
+            _logger.Information("User {UserName} saving item {ItemId} from {IP}",
+                User.Identity.Name,
+                item.Id,
+                HttpContext.Connection.RemoteIpAddress);
 
             ICadmusRepository repository =
                 _repositoryService.CreateRepository(database);
@@ -310,6 +368,7 @@ namespace CadmusApi.Controllers
 
         /// <summary>
         /// Adds or updates the specified part.
+        /// This requires <c>admin</c>, <c>editor</c>, or <c>operator</c> role.
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="model">The model with JSON code representing the part.
@@ -320,6 +379,7 @@ namespace CadmusApi.Controllers
         /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id", 
         /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"), 
         /// "userId" : "user-id or empty" }</c>.</param>
+        [Authorize(Roles = "admin,editor,operator")]
         [HttpPost("api/{database}/parts")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -346,11 +406,24 @@ namespace CadmusApi.Controllers
                 partId = id.Value<string>();
             }
 
+            // set the creator ID if not specified
+            JValue creatorId = (JValue)doc["creatorId"];
+            if (string.IsNullOrEmpty(creatorId?.ToString()))
+            {
+                if (creatorId != null) doc.Property("creatorId").Remove();
+                doc.Add(new JProperty("creatorId", User.Identity.Name));
+            }
+
             // override the user ID
             doc.Property("userId")?.Remove();
             doc.Add(new JProperty("userId", User.Identity.Name ?? ""));
 
             // add the part
+            _logger.Information("User {UserName} saving part {PartId} from {IP}",
+                User.Identity.Name,
+                partId,
+                HttpContext.Connection.RemoteIpAddress);
+
             string json = doc.ToString(Formatting.None);
             repository.AddPartFromContent(json);
             return CreatedAtRoute("GetPart", new

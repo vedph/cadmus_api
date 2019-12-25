@@ -32,20 +32,24 @@ namespace CadmusTool.Commands
         private DataProfile _profile;
         private bool _textPartAdded;
 
-        public SeedDatabaseCommand(AppOptions options, string database, string profilePath,
-            string facets, int count)
+        public SeedDatabaseCommand(AppOptions options, string database,
+            string profilePath, string facets, int count)
         {
             _config = options.Configuration;
             _repositoryService = new RepositoryService(_config);
-            _database = database ?? throw new ArgumentNullException(nameof(database));
-            _profilePath = profilePath ?? throw new ArgumentNullException(nameof(profilePath));
-            _facets = facets ?? throw new ArgumentNullException(nameof(facets));
+            _database = database
+                ?? throw new ArgumentNullException(nameof(database));
+            _profilePath = profilePath
+                ?? throw new ArgumentNullException(nameof(profilePath));
+            _facets = facets
+                ?? throw new ArgumentNullException(nameof(facets));
             _count = count;
             _random = new Random();
             _crLfRegex = new Regex(@"\r?\n");
         }
 
-        public static void Configure(CommandLineApplication command, AppOptions options)
+        public static void Configure(CommandLineApplication command,
+            AppOptions options)
         {
             command.Description = "Create and seed a Cadmus MongoDB database " +
                                   "with the specified profile and number of items.";
@@ -94,6 +98,7 @@ namespace CadmusTool.Commands
             CategoriesPart part = new CategoriesPart
             {
                 ItemId = item.Id,
+                CreatorId = item.CreatorId,
                 UserId = item.UserId
             };
 
@@ -115,6 +120,7 @@ namespace CadmusTool.Commands
             KeywordsPart part = new KeywordsPart
             {
                 ItemId = item.Id,
+                CreatorId = item.CreatorId,
                 UserId = item.UserId
             };
 
@@ -141,6 +147,7 @@ namespace CadmusTool.Commands
             NotePart part = new NotePart
             {
                 ItemId = item.Id,
+                CreatorId = item.CreatorId,
                 UserId = item.UserId,
                 Text = LoremIpsumGenerator.Generate(_random.Next(10, 60), 12)
             };
@@ -265,6 +272,7 @@ namespace CadmusTool.Commands
             TokenTextPart part = new TokenTextPart
             {
                 ItemId = item.Id,
+                CreatorId = item.CreatorId,
                 UserId = item.UserId,
             };
             string text = LoremIpsumGenerator.Generate(_random.Next(12, 36), 6);
@@ -284,9 +292,10 @@ namespace CadmusTool.Commands
             TokenTextLayerPart<CommentLayerFragment> partComments =
                 new TokenTextLayerPart<CommentLayerFragment>
             {
-                ItemId = item.Id,
-                UserId = item.UserId
-                // RoleId is set by part ctor
+                    ItemId = item.Id,
+                    CreatorId = item.CreatorId,
+                    UserId = item.UserId
+                    // RoleId is set by part ctor
             };
             AddCommentLayerFragment(GetRandomLocation(part), partComments);
             item.Parts.Add(partComments);
@@ -297,9 +306,10 @@ namespace CadmusTool.Commands
                 TokenTextLayerPart<QuotationLayerFragment> partQuotes =
                     new TokenTextLayerPart<QuotationLayerFragment>
                 {
-                    ItemId = item.Id,
-                    UserId = item.UserId
-                    // RoleId is set by part ctor
+                        ItemId = item.Id,
+                        CreatorId = item.CreatorId,
+                        UserId = item.UserId
+                        // RoleId is set by part ctor
                 };
                 AddQuotationLayerFragment(GetRandomLocation(part), partQuotes);
                 item.Parts.Add(partQuotes);
@@ -312,6 +322,7 @@ namespace CadmusTool.Commands
                     new TokenTextLayerPart<ApparatusLayerFragment>
                     {
                         ItemId = item.Id,
+                        CreatorId = item.CreatorId,
                         UserId = item.UserId,
                         // RoleId is set by part ctor
                     };
@@ -405,6 +416,7 @@ namespace CadmusTool.Commands
                                       $"item number {NumberToWords.Convert(i + 1)}.",
                         FacetId = facets[facetIndex++],
                         SortKey = $"item-{i + 1:00000}",
+                        CreatorId = oddEven,
                         UserId = oddEven,
                         Flags = (i & 1) == 1 ? 1 : 0
                     };
