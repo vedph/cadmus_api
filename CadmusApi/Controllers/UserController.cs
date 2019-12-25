@@ -111,7 +111,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/users-from-names")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<UserModel[]>> GetUsersFromNames(
             [FromQuery] string names)
         {
