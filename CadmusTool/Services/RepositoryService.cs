@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Mongo;
@@ -25,7 +26,9 @@ namespace CadmusTool.Services
             map.Add(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"), "*parts*.dll");
 
             // create the repository (no need to use container here)
-            MongoCadmusRepository repository = new MongoCadmusRepository(new StandardPartTypeProvider(map));
+            MongoCadmusRepository repository = new MongoCadmusRepository(
+                new StandardPartTypeProvider(map),
+                new StandardItemSortKeyBuilder());
             repository.Configure(new MongoCadmusRepositoryOptions
             {
                 ConnectionString = string.Format(

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Lexicon.Parts;
@@ -66,7 +67,9 @@ namespace CadmusApi.Services
 
             // create the repository (no need to use container here)
             MongoCadmusRepository repository =
-                new MongoCadmusRepository(_partTypeProvider);
+                new MongoCadmusRepository(
+                    _partTypeProvider,
+                    new StandardItemSortKeyBuilder());
 
             repository.Configure(new MongoCadmusRepositoryOptions
             {

@@ -83,10 +83,8 @@ namespace CadmusTool.Commands
 
         private static string LoadProfile(string path)
         {
-            using (StreamReader reader = File.OpenText(path))
-            {
-                return reader.ReadToEnd();
-            }
+            using StreamReader reader = File.OpenText(path);
+            return reader.ReadToEnd();
         }
 
         private void AddCategoriesPart(IItem item, int index)
