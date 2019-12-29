@@ -2,6 +2,7 @@
 using System.Linq;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
+using CadmusApi.Core;
 using CadmusApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,20 +12,18 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Items flags controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
-    // [Authorize(AuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
     [Authorize]
     [ApiController]
     public sealed class FlagController : Controller
     {
-        private readonly RepositoryService _repositoryService;
+        private readonly IRepositoryService _repositoryService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FlagController"/> class.
         /// </summary>
         /// <param name="repositoryService">The repository service.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public FlagController(RepositoryService repositoryService)
+        public FlagController(IRepositoryService repositoryService)
         {
             _repositoryService = repositoryService ??
                                  throw new ArgumentNullException(nameof(repositoryService));

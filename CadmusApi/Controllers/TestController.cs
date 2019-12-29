@@ -12,7 +12,6 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Test controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
 #if !DEBUG
     [Authorize(Roles = "admin")]
 #endif

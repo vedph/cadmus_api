@@ -24,6 +24,7 @@ using AspNetCore.Identity.Mongo.Model;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
+using CadmusApi.Core;
 
 namespace CadmusApi
 {
@@ -206,7 +207,7 @@ namespace CadmusApi
 
             // add configuration
             services.AddSingleton(_ => Configuration);
-            services.AddSingleton<RepositoryService, RepositoryService>();
+            services.AddSingleton<IRepositoryService, StandardRepositoryService>();
 
             // swagger
             ConfigureSwaggerServices(services);

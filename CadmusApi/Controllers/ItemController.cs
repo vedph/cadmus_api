@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
+using CadmusApi.Core;
 using CadmusApi.Models;
 using CadmusApi.Services;
 using Fusi.Tools.Data;
@@ -36,7 +37,7 @@ namespace CadmusApi.Controllers
                 "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RepositoryService _repositoryService;
+        private readonly IRepositoryService _repositoryService;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace CadmusApi.Controllers
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">repositoryService</exception>
         public ItemController(UserManager<ApplicationUser> userManager,
-            RepositoryService repositoryService,
+            IRepositoryService repositoryService,
             ILogger logger)
         {
             _userManager = userManager ??

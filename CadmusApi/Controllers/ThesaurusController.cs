@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
+using CadmusApi.Core;
 using CadmusApi.Models;
 using CadmusApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,7 @@ namespace CadmusApi.Controllers
     [ApiController]
     public sealed class ThesaurusController : Controller
     {
-        private readonly RepositoryService _repositoryService;
+        private readonly IRepositoryService _repositoryService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThesaurusController"/>
@@ -26,7 +27,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="repositoryService">The repository service.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public ThesaurusController(RepositoryService repositoryService)
+        public ThesaurusController(IRepositoryService repositoryService)
         {
             _repositoryService = repositoryService ??
                                  throw new ArgumentNullException(nameof(repositoryService));

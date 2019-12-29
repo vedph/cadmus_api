@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Services;
+using CadmusApi.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,19 +12,18 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Item facets controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
     [Authorize]
     [ApiController]
     public sealed class FacetController : Controller
     {
-        private readonly RepositoryService _repositoryService;
+        private readonly IRepositoryService _repositoryService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FacetController"/> class.
         /// </summary>
         /// <param name="repositoryService">The repository service.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public FacetController(RepositoryService repositoryService)
+        public FacetController(IRepositoryService repositoryService)
         {
             _repositoryService = repositoryService ??
                 throw new ArgumentNullException(nameof(repositoryService));

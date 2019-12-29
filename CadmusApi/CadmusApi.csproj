@@ -43,4 +43,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="5.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CadmusApi.Core\CadmusApi.Core.csproj" />
+  </ItemGroup>
+
 </Project>
