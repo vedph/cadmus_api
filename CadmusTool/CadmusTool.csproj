@@ -6,10 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Plugins\Seed\Readme.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="appsettings.json" CopyToPublishDirectory="PreserveNewest">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="NLog.config" CopyToPublishDirectory="PreserveNewest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\Seed\Readme.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -24,6 +31,7 @@
     <PackageReference Include="Cadmus.Mongo" Version="2.2.3" />
     <PackageReference Include="Cadmus.Parts" Version="2.2.3" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.5" />
+    <PackageReference Include="Cadmus.Seed" Version="1.0.0" />
     <PackageReference Include="Fusi.Text" Version="1.1.10" />
     <PackageReference Include="Fusi.Tools" Version="1.1.12" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
@@ -35,10 +43,6 @@
     <PackageReference Include="Serilog" Version="2.9.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Plugins\" />
   </ItemGroup>
 
 </Project>

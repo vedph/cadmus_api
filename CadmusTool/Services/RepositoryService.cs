@@ -8,13 +8,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace CadmusTool.Services
 {
-    internal class RepositoryService
+    internal sealed class RepositoryService
     {
         private readonly IConfiguration _configuration;
 
         public RepositoryService(IConfiguration configuration)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _configuration = configuration ??
+                throw new ArgumentNullException(nameof(configuration));
         }
 
         public ICadmusRepository CreateRepository(string database)
@@ -23,7 +24,8 @@ namespace CadmusTool.Services
 
             // build the tags to types map
             TagAttributeToTypeMap map = new TagAttributeToTypeMap();
-            map.Add(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"), "*parts*.dll");
+            map.Add(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"),
+                "*parts*.dll");
 
             // create the repository (no need to use container here)
             MongoCadmusRepository repository = new MongoCadmusRepository(
