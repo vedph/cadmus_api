@@ -75,6 +75,15 @@ namespace CadmusTool.Commands
 
         public Task Run()
         {
+            //string pluginDir = Path.Combine(
+            //        Directory.GetCurrentDirectory(),
+            //        "Plugins");
+            //PluginLoadContext loadContext = new PluginLoadContext(pluginDir);
+
+            //var asm = loadContext.LoadFromAssemblyPath(
+            //    Path.Combine(pluginDir, "Cadmus.Seed.Parts.dll"));
+            //return Task.CompletedTask;
+
             Console.WriteLine("SEED DATABASE\n" +
                               $"Database: {_database}\n" +
                               $"Profile file: {_profilePath}\n" +

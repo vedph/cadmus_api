@@ -14,13 +14,13 @@ namespace CadmusTool.Services
     {
         private static IList<Assembly> LoadSeedAssemblies(string directory)
         {
+            PluginLoadContext context = new PluginLoadContext(directory);
             List<Assembly> assemblies = new List<Assembly>();
 
             foreach (FileInfo file in new DirectoryInfo(directory)
                 .GetFiles("*.dll"))
             {
-                assemblies.Add(Assembly.Load(
-                    AssemblyName.GetAssemblyName(file.FullName)));
+                assemblies.Add(context.LoadFromAssemblyPath(file.FullName));
             }
 
             return assemblies;
@@ -33,8 +33,12 @@ namespace CadmusTool.Services
 
             // build the tags to types map for parts/fragments
             TagAttributeToTypeMap map = new TagAttributeToTypeMap();
-            map.Add(Path.Combine(Directory.GetCurrentDirectory(), "Plugins"),
-                "*parts*.dll");
+            string pluginDir = Path.Combine(
+                Directory.GetCurrentDirectory(), "Plugins");
+            map.Add(
+                pluginDir,
+                "*parts*.dll",
+                new PluginLoadContext(pluginDir));
 
             // build the container for seeders
             Container container = new Container();
