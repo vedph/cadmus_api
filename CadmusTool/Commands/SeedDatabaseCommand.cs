@@ -54,8 +54,10 @@ namespace CadmusTool.Commands
             command.OnExecute(() =>
             {
                 int count = 100;
-                if (countOption.HasValue()) int.TryParse(countOption.Value(),
-                    out count);
+                if (countOption.HasValue())
+                {
+                    int.TryParse(countOption.Value(), out count);
+                }
 
                 options.Command = new SeedDatabaseCommand(options,
                     databaseArgument.Value,

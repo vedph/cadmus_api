@@ -14,13 +14,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadmusTool", "CadmusTool\CadmusTool.csproj", "{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoSeed", "MongoSeed", "{7F1BCB25-BDC7-4EF4-8AA9-16CAE0E13EF7}"
-	ProjectSection(SolutionItems) = preProject
-		MongoSeed\cadmuslex.tar.gz = MongoSeed\cadmuslex.tar.gz
-		MongoSeed\Dockerfile = MongoSeed\Dockerfile
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CadmusApi.Core", "CadmusApi.Core\CadmusApi.Core.csproj", "{D2B469D8-B102-4E6C-AF8B-613377FE35EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadmusApi.Core", "CadmusApi.Core\CadmusApi.Core.csproj", "{D2B469D8-B102-4E6C-AF8B-613377FE35EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

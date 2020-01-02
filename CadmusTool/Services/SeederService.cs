@@ -17,7 +17,7 @@ namespace CadmusTool.Services
             List<Assembly> assemblies = new List<Assembly>();
 
             foreach (FileInfo file in new DirectoryInfo(directory)
-                .GetFiles("Cadmus.Seed.*.dll"))
+                .GetFiles("*.dll"))
             {
                 assemblies.Add(Assembly.Load(
                     AssemblyName.GetAssemblyName(file.FullName)));
@@ -39,7 +39,7 @@ namespace CadmusTool.Services
             // build the container for seeders
             Container container = new Container();
             var seedAssemblies = LoadSeedAssemblies(
-                Path.Combine(Directory.GetCurrentDirectory(), "Plugins", "Seed"));
+                Path.Combine(Directory.GetCurrentDirectory(), "Plugins"));
 
             // configure the seeders container
             PartSeederFactory.ConfigureServices(
