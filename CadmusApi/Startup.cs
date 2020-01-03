@@ -208,6 +208,7 @@ namespace CadmusApi
             // add configuration
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<IRepositoryService, StandardRepositoryService>();
+            services.AddSingleton<ISeederService, StandardSeederService>();
 
             // swagger
             ConfigureSwaggerServices(services);

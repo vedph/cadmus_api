@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Cadmus.Core" Version="2.2.7" />
+    <PackageReference Include="Cadmus.Seed" Version="1.0.5" />
   </ItemGroup>
 
 </Project>
