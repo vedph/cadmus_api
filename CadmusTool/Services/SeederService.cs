@@ -18,7 +18,7 @@ namespace CadmusTool.Services
             List<Assembly> assemblies = new List<Assembly>();
 
             foreach (FileInfo file in new DirectoryInfo(directory)
-                .GetFiles("*.dll"))
+                .GetFiles("*parts*.dll"))
             {
                 assemblies.Add(context.LoadFromAssemblyPath(file.FullName));
             }
@@ -50,6 +50,8 @@ namespace CadmusTool.Services
                 container,
                 new StandardPartTypeProvider(map),
                 seedAssemblies.ToArray());
+
+            container.Verify();
 
             // load seed config
             IConfigurationBuilder builder = new ConfigurationBuilder()
