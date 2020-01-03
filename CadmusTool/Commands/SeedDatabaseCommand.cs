@@ -75,7 +75,8 @@ namespace CadmusTool.Commands
                     databaseArgument.Value,
                     profileArgument.Value,
                     count,
-                    dryOption.HasValue());
+                    dryOption.HasValue(),
+                    historyOption.HasValue());
                 return 0;
             });
         }
