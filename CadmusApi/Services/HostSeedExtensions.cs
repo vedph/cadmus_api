@@ -3,7 +3,6 @@ using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Mongo;
 using Cadmus.Seed;
-using CadmusApi.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -72,10 +71,10 @@ namespace CadmusApi.Services
             Console.WriteLine("Creating repository...");
             Serilog.Log.Information("Creating repository...");
 
-            IRepositoryService repositoryService =
-                serviceProvider.GetService<IRepositoryService>();
+            IRepositoryProvider repositoryProvider =
+                serviceProvider.GetService<IRepositoryProvider>();
             ICadmusRepository repository =
-                repositoryService.CreateRepository(databaseName);
+                repositoryProvider.CreateRepository(databaseName);
 
             // seed items if database was created and item(s) are requested
             int count = 0;
@@ -86,7 +85,8 @@ namespace CadmusApi.Services
             if (seed && count > 0)
             {
                 Console.WriteLine("Seeding items...");
-                ISeederService seederService = serviceProvider.GetService<ISeederService>();
+                IPartSeederFactoryProvider seederService =
+                    serviceProvider.GetService<IPartSeederFactoryProvider>();
 
                 PartSeederFactory factory = seederService.GetFactory(profilePath);
                 CadmusSeeder seeder = new CadmusSeeder(factory);

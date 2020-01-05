@@ -2,8 +2,7 @@
 using System.Linq;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Core;
-using CadmusApi.Services;
+using Cadmus.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,17 +15,17 @@ namespace CadmusApi.Controllers
     [ApiController]
     public sealed class FlagController : Controller
     {
-        private readonly IRepositoryService _repositoryService;
+        private readonly IRepositoryProvider _repositoryProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FlagController"/> class.
         /// </summary>
-        /// <param name="repositoryService">The repository service.</param>
+        /// <param name="repositoryProvider">The repository provider.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public FlagController(IRepositoryService repositoryService)
+        public FlagController(IRepositoryProvider repositoryProvider)
         {
-            _repositoryService = repositoryService ??
-                                 throw new ArgumentNullException(nameof(repositoryService));
+            _repositoryProvider = repositoryProvider ??
+                                 throw new ArgumentNullException(nameof(repositoryProvider));
         }
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/flags")]
         public ActionResult<FlagDefinition[]> Get(string database)
         {
-            ICadmusRepository repository = _repositoryService.CreateRepository(database);
+            ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
             return Ok(repository.GetFlagDefinitions().ToArray());
         }
     }

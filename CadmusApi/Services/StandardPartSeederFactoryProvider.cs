@@ -2,7 +2,6 @@
 using Cadmus.Seed;
 using Cadmus.Seed.Parts.General;
 using Cadmus.Seed.Philology.Parts.Layers;
-using CadmusApi.Core;
 using Microsoft.Extensions.Configuration;
 using SimpleInjector;
 using System;
@@ -13,8 +12,7 @@ namespace CadmusApi.Services
     /// <summary>
     /// Standard seeders service.
     /// </summary>
-    /// <seealso cref="ISeederService" />
-    public sealed class StandardSeederService : ISeederService
+    public sealed class StandardPartSeederFactoryProvider : IPartSeederFactoryProvider
     {
         /// <summary>
         /// Gets the part/fragment seeders factory.

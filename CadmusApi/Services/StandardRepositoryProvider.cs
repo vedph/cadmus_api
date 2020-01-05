@@ -7,7 +7,6 @@ using Cadmus.Lexicon.Parts;
 using Cadmus.Mongo;
 using Cadmus.Parts.General;
 using Cadmus.Philology.Parts.Layers;
-using CadmusApi.Core;
 using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
@@ -16,18 +15,18 @@ namespace CadmusApi.Services
     /// <summary>
     /// Cadmus standard repository service.
     /// </summary>
-    public sealed class StandardRepositoryService : IRepositoryService
+    public sealed class StandardRepositoryProvider : IRepositoryProvider
     {
         private readonly IConfiguration _configuration;
         private readonly TagAttributeToTypeMap _map;
         private readonly IPartTypeProvider _partTypeProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StandardRepositoryService"/> class.
+        /// Initializes a new instance of the <see cref="StandardRepositoryProvider"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <exception cref="ArgumentNullException">configuration</exception>
-        public StandardRepositoryService(IConfiguration configuration)
+        public StandardRepositoryProvider(IConfiguration configuration)
         {
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));

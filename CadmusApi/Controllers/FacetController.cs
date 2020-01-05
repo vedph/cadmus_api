@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,17 +16,17 @@ namespace CadmusApi.Controllers
     [ApiController]
     public sealed class FacetController : Controller
     {
-        private readonly IRepositoryService _repositoryService;
+        private readonly IRepositoryProvider _repositoryProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FacetController"/> class.
         /// </summary>
-        /// <param name="repositoryService">The repository service.</param>
+        /// <param name="repositoryProvider">The repository provider.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public FacetController(IRepositoryService repositoryService)
+        public FacetController(IRepositoryProvider repositoryProvider)
         {
-            _repositoryService = repositoryService ??
-                throw new ArgumentNullException(nameof(repositoryService));
+            _repositoryProvider = repositoryProvider ??
+                throw new ArgumentNullException(nameof(repositoryProvider));
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/facets")]
         public ActionResult<FacetDefinition[]> Get(string database)
         {
-            ICadmusRepository repository = _repositoryService.CreateRepository(database);
+            ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
             return Ok(repository.GetFacetDefinitions().ToArray());
         }
 
@@ -53,7 +53,7 @@ namespace CadmusApi.Controllers
             [FromQuery] bool noRoles = false)
         {
             List<PartDefinition> defs = new List<PartDefinition>();
-            ICadmusRepository repository = _repositoryService.CreateRepository(database);
+            ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
             foreach (FacetDefinition facet in repository.GetFacetDefinitions())
             {
                 foreach (PartDefinition def in facet.PartDefinitions)

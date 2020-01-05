@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Core;
 using CadmusApi.Models;
 using CadmusApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -19,18 +19,18 @@ namespace CadmusApi.Controllers
     [ApiController]
     public sealed class ThesaurusController : Controller
     {
-        private readonly IRepositoryService _repositoryService;
+        private readonly IRepositoryProvider _repositoryProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThesaurusController"/>
         /// class.
         /// </summary>
-        /// <param name="repositoryService">The repository service.</param>
+        /// <param name="repositoryProvider">The repository provider.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public ThesaurusController(IRepositoryService repositoryService)
+        public ThesaurusController(IRepositoryProvider repositoryProvider)
         {
-            _repositoryService = repositoryService ??
-                                 throw new ArgumentNullException(nameof(repositoryService));
+            _repositoryProvider = repositoryProvider ??
+                                 throw new ArgumentNullException(nameof(repositoryProvider));
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace CadmusApi.Controllers
         public IActionResult GetSetIds(string database)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             return Ok(repository.GetThesaurusIds());
         }
 
@@ -86,7 +86,7 @@ namespace CadmusApi.Controllers
         public ActionResult<ThesaurusModel> GetThesaurus(string database, string id)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             Thesaurus thesaurus = GetThesaurusWithFallback(id, repository);
             if (thesaurus == null) return NotFound();
 
@@ -117,7 +117,7 @@ namespace CadmusApi.Controllers
             string database, string ids)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             Dictionary<string, ThesaurusModel> dct =
                 new Dictionary<string, ThesaurusModel>();
 
@@ -150,7 +150,7 @@ namespace CadmusApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            ICadmusRepository repository = _repositoryService.CreateRepository(database);
+            ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
             Thesaurus thesaurus = new Thesaurus(model.Id);
             foreach (ThesaurusEntryBindingModel entry in model.Entries)
                 thesaurus.AddEntry(new ThesaurusEntry(entry.Id, entry.Value));
@@ -172,7 +172,7 @@ namespace CadmusApi.Controllers
         public void DeleteThesaurus(string database, string id)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             repository.DeleteThesaurus(id);
         }
     }

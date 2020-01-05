@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Core;
 using CadmusApi.Models;
 using CadmusApi.Services;
 using Fusi.Tools.Data;
@@ -37,24 +36,24 @@ namespace CadmusApi.Controllers
                 "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IRepositoryService _repositoryService;
+        private readonly IRepositoryProvider _repositoryProvider;
         private readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemController" /> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
-        /// <param name="repositoryService">The repository service.</param>
+        /// <param name="repositoryProvider">The repository provider.</param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">repositoryService</exception>
         public ItemController(UserManager<ApplicationUser> userManager,
-            IRepositoryService repositoryService,
+            IRepositoryProvider repositoryProvider,
             ILogger logger)
         {
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
-            _repositoryService = repositoryService ??
-                throw new ArgumentNullException(nameof(repositoryService));
+            _repositoryProvider = repositoryProvider ??
+                throw new ArgumentNullException(nameof(repositoryProvider));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
         }
@@ -74,7 +73,7 @@ namespace CadmusApi.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             DataPage<ItemInfo> page = repository.GetItems(new ItemFilter
             {
                 PageNumber = filter.PageNumber,
@@ -105,7 +104,7 @@ namespace CadmusApi.Controllers
             [FromQuery] bool parts)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             IItem item = repository.GetItem(id, parts);
             if (item == null) return new NotFoundResult();
             return Ok(item);
@@ -139,7 +138,7 @@ namespace CadmusApi.Controllers
         public IActionResult GetPart(string database, string id)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             string json = repository.GetPartContent(id);
 
             if (json == null) return new NotFoundResult();
@@ -167,7 +166,7 @@ namespace CadmusApi.Controllers
             string type, string role)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
 
             IPart part = repository.GetItemParts(new[] {id}, type,
                     role == "default" ? null : role)
@@ -195,7 +194,7 @@ namespace CadmusApi.Controllers
         public IActionResult GetItemLayerPartIds(string database, string id)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
 
             var results = repository.GetItemLayerPartIds(id);
             return Ok(from t in results
@@ -220,7 +219,7 @@ namespace CadmusApi.Controllers
         public IActionResult GetPartPins(string database, string id)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             string json = repository.GetPartContent(id);
 
             if (json == null) return new NotFoundResult();
@@ -236,7 +235,7 @@ namespace CadmusApi.Controllers
             Match roleMatch = Regex.Match(json, "\"RoleId\":\\s*\"([^\"]+)\"");
             string role = roleMatch.Success ? roleMatch.Groups[1].Value : null;
 
-            IPartTypeProvider provider = _repositoryService.GetPartTypeProvider();
+            IPartTypeProvider provider = _repositoryProvider.GetPartTypeProvider();
             Type t = provider.Get(typeMatch.Groups[1].Value);
             IPart part = (IPart)JsonConvert.DeserializeObject(json, t);
             var result = (from p in part.GetDataPins()
@@ -266,7 +265,7 @@ namespace CadmusApi.Controllers
                 HttpContext.Connection.RemoteIpAddress);
 
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             repository.DeleteItem(id, User.Identity.Name);
         }
 
@@ -296,7 +295,7 @@ namespace CadmusApi.Controllers
                 HttpContext.Connection.RemoteIpAddress);
 
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
 
             // operators can delete only parts created by themselves
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -356,7 +355,7 @@ namespace CadmusApi.Controllers
                 HttpContext.Connection.RemoteIpAddress);
 
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
             repository.AddItem(item);
 
             return CreatedAtRoute("GetItem", new
@@ -388,7 +387,7 @@ namespace CadmusApi.Controllers
             [FromBody] RawJsonBindingModel model)
         {
             ICadmusRepository repository =
-                _repositoryService.CreateRepository(database);
+                _repositoryProvider.CreateRepository(database);
 
             JObject doc = JObject.Parse(model.Raw);
 
