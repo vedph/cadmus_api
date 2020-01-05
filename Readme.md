@@ -19,24 +19,54 @@ Thus, to build an image follow these steps:
 
 ## Consuming a Docker Image
 
-In the consumer __Linux machine__, you must have installed Docker. To install it (see <https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-engine---community-1>):
+### Ubuntu - Setup Docker
+
+In the consumer __Linux machine__, you must have installed *Docker* and *Docker compose*. To install (see <https://phoenixnap.com/kb/how-to-install-docker-on-ubuntu-18-04>):
 
 ```bash
 sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
 ```
 
-Then:
+Uninstall an older version if required:
 
-1. copy the `docker-compose.yml` file in the Linux machine.
-2. login into your Docker repository: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password.
-3. open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
+```bash
+sudo apt-get remove docker docker-engine docker.io
+```
 
-To *connect to MongoDB databases* from the Linux Docker host, using e.g. Compass (<https://www.mongodb.com/download-center?jmp=nav#compass>):
+Install:
 
-- server: 127.0.0.1
-- port: 27017
-- no authentication
+```bash
+sudo apt install docker.io
+```
+
+Automatically start Docker:
+
+```bash
+sudo systemctl start docker
+```
+
+and then:
+
+```bash
+sudo systemctl enable docker
+```
+
+Check for installation: `docker --version`.
+
+### Ubuntu - Setup Docker-Compose
+
+Install Docker compose:
+
+```bash
+sudo curl -L "https://github.com/docker/compose/releases/download/1.25.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+sudo curl -L https://raw.githubusercontent.com/docker/compose/1.25.0/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+```
+
+(replace `1.25.0` with the latest docker compose release). Test with `docker-compose --version`.
+
+### Ubuntu - Other Software
 
 Useful apps links for Ubuntu:
 
@@ -60,6 +90,18 @@ sudo npm uninstall -g @angular/cli
 sudo npm cache verify
 sudo npm install -g @angular/cli@latest
 ```
+
+### Consume Image
+
+1. copy the `docker-compose.yml` file in the Linux machine.
+2. login into your Docker repository: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password.
+3. open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
+
+To *connect to MongoDB databases* from the Linux Docker host, using e.g. Compass (<https://www.mongodb.com/download-center?jmp=nav#compass>):
+
+- server: 127.0.0.1
+- port: 27017
+- no authentication
 
 ## Dump and Restore MongoDB
 
