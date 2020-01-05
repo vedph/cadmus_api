@@ -95,7 +95,7 @@ sudo npm install -g @angular/cli@latest
 
 1. copy the `docker-compose.yml` file in the Linux machine.
 2. login into your Docker repository: `sudo docker login --username naftis`: then insert your Linux username (sudo) password, and the Docker password.
-3. open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-composer up`.
+3. open a terminal in the same folder of the Docker compose file just copied, and execute `sudo docker-compose up`.
 
 To *connect to MongoDB databases* from the Linux Docker host, using e.g. Compass (<https://www.mongodb.com/download-center?jmp=nav#compass>):
 
