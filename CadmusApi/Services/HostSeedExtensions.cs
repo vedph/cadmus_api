@@ -12,6 +12,7 @@ using System;
 using System.Data.Common;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CadmusApi.Services
@@ -22,6 +23,36 @@ namespace CadmusApi.Services
     /// </summary>
     public static class HostSeedExtensions
     {
+        /// <summary>
+        /// Resolves directory variables in the specified path.
+        /// Variables are defined at path start between <c>%</c>. Currently,
+        /// the only variable is <c>%wwwroot%</c>, which resolves to the web
+        /// content root directory.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <returns>Resolved path.</returns>
+        private static string ResolvePath(string path,
+            IServiceProvider serviceProvider)
+        {
+            if (path.IndexOf('%') > -1)
+            {
+                Match m = Regex.Match(path, "^(%[^%]+%)(.*)");
+                if (!m.Success) return path;
+
+                IHostEnvironment env = serviceProvider.GetService<IHostEnvironment>();
+                switch (m.Groups[1].Value)
+                {
+                    case "%wwwroot%":
+                        path = Path.Combine(env.ContentRootPath,
+                            "wwwroot",
+                            m.Groups[2].Value);
+                        break;
+                }
+            }
+            return path;
+        }
+
         private static void SeedCadmusDatabase(
             IServiceProvider serviceProvider,
             IConfiguration config,
@@ -33,15 +64,20 @@ namespace CadmusApi.Services
             if (string.IsNullOrEmpty(databaseName)) return;
             connString = string.Format(connString, databaseName);
 
-            // load seed profile
+            // nope if database exists
+            IDatabaseManager manager = new MongoDatabaseManager();
+            if (manager.DatabaseExists(connString)) return;
+
+            // load seed profile (nope if no profile)
             string profilePath = config["Seed:ProfilePath"];
-            if (string.IsNullOrEmpty(profilePath) || !File.Exists(profilePath))
-                return;
+            if (string.IsNullOrEmpty(profilePath)) return;
+
+            profilePath = ResolvePath(profilePath, serviceProvider);
+            if (!File.Exists(profilePath)) return;
 
             Console.WriteLine($"Loading seed profile from {profilePath}...");
             logger.LogInformation($"Loading seed profile from {profilePath}...");
 
-            IDatabaseManager manager = new MongoDatabaseManager();
             string profileContent;
             using (StreamReader reader = new StreamReader(
                 new FileStream(profilePath, FileMode.Open,
@@ -53,43 +89,39 @@ namespace CadmusApi.Services
             IDataProfileSerializer serializer = new JsonDataProfileSerializer();
             DataProfile profile = serializer.Read(profileContent);
 
-            // create database if not exists
-            bool seed = false;
-            if (!manager.DatabaseExists(connString))
-            {
-                Console.WriteLine("Creating database...");
-                logger.LogInformation("Creating database {connString}...");
+            // create database
+            Console.WriteLine("Creating database...");
+            logger.LogInformation("Creating database {connString}...");
 
-                manager.CreateDatabase(connString, profile);
+            manager.CreateDatabase(connString, profile);
 
-                Console.WriteLine("Database created.");
-                logger.LogInformation("Database created.");
-                seed = true;
-            }
+            Console.WriteLine("Database created.");
+            logger.LogInformation("Database created.");
 
-            // create repository
-            Console.WriteLine("Creating repository...");
-            Serilog.Log.Information("Creating repository...");
-
-            IRepositoryProvider repositoryProvider =
-                serviceProvider.GetService<IRepositoryProvider>();
-            ICadmusRepository repository =
-                repositoryProvider.CreateRepository(databaseName);
-
-            // seed items if database was created and item(s) are requested
+            // get seed count
             int count = 0;
             string configCount = config["Seed:ItemCount"];
             if (configCount != null && int.TryParse(configCount, out int n))
                 count = n;
 
-            if (seed && count > 0)
+            // if required, seed data
+            if (count > 0)
             {
+                Console.WriteLine("Creating repository...");
+                Serilog.Log.Information("Creating repository...");
+
+                IRepositoryProvider repositoryProvider =
+                    serviceProvider.GetService<IRepositoryProvider>();
+                ICadmusRepository repository =
+                    repositoryProvider.CreateRepository(databaseName);
+
                 Console.WriteLine("Seeding items...");
                 IPartSeederFactoryProvider seederService =
                     serviceProvider.GetService<IPartSeederFactoryProvider>();
 
                 PartSeederFactory factory = seederService.GetFactory(profilePath);
                 CadmusSeeder seeder = new CadmusSeeder(factory);
+
                 foreach (IItem item in seeder.GetItems(count))
                 {
                     Console.WriteLine($"{item}: {item.Parts.Count} parts");
