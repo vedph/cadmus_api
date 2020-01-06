@@ -21,9 +21,9 @@
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.11" />
     <PackageReference Include="Cadmus.Core" Version="2.2.8" />
     <PackageReference Include="Cadmus.Mongo" Version="2.2.8" />
-    <PackageReference Include="Cadmus.Seed" Version="1.0.8" />
-    <PackageReference Include="Cadmus.Seed.Parts" Version="1.0.8" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.8" />
+    <PackageReference Include="Cadmus.Seed" Version="1.0.9" />
+    <PackageReference Include="Cadmus.Seed.Parts" Version="1.0.9" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.9" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.22" />
     <PackageReference Include="MessagingApi" Version="1.0.1" />
     <PackageReference Include="MessagingApi.SendGrid" Version="1.0.1" />

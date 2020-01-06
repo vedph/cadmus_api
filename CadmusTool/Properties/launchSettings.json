@@ -2,7 +2,7 @@
   "profiles": {
     "CadmusTool": {
       "commandName": "Project",
-      "commandLineArgs": "seed cadmus2 \\Projects\\Core20\\CadmusApi\\CadmusTool\\Assets\\SeedProfile.json -c 100"
+      "commandLineArgs": "seed cadmus2 \\Projects\\Core20\\CadmusApi\\CadmusTool\\Assets\\SeedProfile.json -c 100 -d"
     }
   }
 }
