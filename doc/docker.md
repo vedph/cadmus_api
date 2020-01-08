@@ -7,8 +7,10 @@ Currently we cannot rely on NuGet feeds, like MyGet or Google repository. Thus, 
 Thus, to build an image follow these steps:
 
 1. run `UpdateLocalPackages.bat` to update the local packages. Ensure that the version numbers are in synch with the versions used in your projects before running.
-2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t naftis/fusi:cadmusapi`. If you forget to specify the tag, you can add it later with `docker tag <imageid> naftis/fusi:cadmusapi`.
-3. push the image into your target repository: `docker push naftis/fusi:cadmusapi`.
+
+2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/temp:cadmusapi` (for the VeDPH repository; for other repositories, just use your Docker username and repository name, e.g. `docker build . -t naftis/fusi:cadmusapi`). If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> naftis/fusi:cadmusapi`.
+
+3. push the image into your target repository: `docker push vedph2020/temp:cadmusapi`.
 
 ## Consuming a Docker Image
 
