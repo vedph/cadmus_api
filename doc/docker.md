@@ -1,12 +1,69 @@
 # Docker
 
+This section contains practical instructions for using the Cadmus Docker images.
+
+## Quick Start
+
+Quick start instructions are for those who are familiar with Docker and NodeJS. Otherwise, you can refer to the sections following this one.
+
+### 1. Backend
+
+Assuming that you already have **Docker** installed, to use Cadmus you can follow these steps:
+
+1. save the `docker-compose.yml` file somewhere in your machine.
+2. login into the (temporary) Docker repository containing our image. This is currently the VeDPH `ve2020/temp` repository: `sudo docker login --username <DOCKERUSERNAME>`. You will be prompted for the password.
+3. from a command prompt, enter the directory where you saved the `docker-compose.yml` file, and type the command `sudo docker-compose up`. This will fire a MongoDB service, create and seed databases with mock data, and start the API layer.
+4. if everything went OK, open your browser at `localhost:8080/swagger`. You will see the current Cadmus API surface.
+
+### 2. Frontend
+
+Currently I have not included the web frontend in the Docker stack, as it is still in an early state where I rework it very often. To use it you should have **NodeJS** and **Angular 8+**:
+
+1. download or clone its Git repository (`cadmus_web`).
+2. edit `src/environments/environment.ts` to change the port number; change this:
+
+```ts
+export const config = {
+  apiEndpoint: 'http://localhost:60304/api/',
+  databaseId: 'cadmus'
+}
+```
+
+into this (8080):
+
+```ts
+export const config = {
+  apiEndpoint: 'http://localhost:8080/api/',
+  databaseId: 'cadmus'
+}
+```
+
+3. open a command prompt in the root folder of the cloned/downloaded repository, and enter these commands:
+
+```bash
+npm i
+
+ng serve --aot
+```
+
+The first command restores the dependencies packages and will take some minutes; of course, it should be executed just once. The second command starts the Angular app.
+
+4. open your browser at `localhost:4200`. Login with the following (fake) credentials:
+
+- username: `zeus`
+- password: `P4ss-W0rd!`
+
+These credentials are found in the `appsettings.json` configuration file of this project. Please notice that in production they are always replaced with true credentials, set in server environment variables.
+
+You can then browse the items by clicking on the `Items` menu at the top, and explore the app on your own.
+
 ## Building a Docker Image
 
 Currently we cannot rely on NuGet feeds, like MyGet or Google repository. Thus, the temporary workaround is consuming the required packages from a local folder in the build image. These packages are copied from the local NuGet repository of your machine using a batch.
 
-Thus, to build an image follow these steps:
+Thus, to build an image I follow these steps:
 
-1. run `UpdateLocalPackages.bat` to update the local packages. Ensure that the version numbers are in synch with the versions used in your projects before running.
+1. (applies to my own environment only at this time, as per the mentioned feed workaround): run `UpdateLocalPackages.bat` to update the local packages. Ensure that the version numbers are in synch with the versions used in your projects before running.
 
 2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/temp:cadmusapi` (for the VeDPH repository; for other repositories, just use your Docker username and repository name, e.g. `docker build . -t naftis/fusi:cadmusapi`). If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> naftis/fusi:cadmusapi`.
 
