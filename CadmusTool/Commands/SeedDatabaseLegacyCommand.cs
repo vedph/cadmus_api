@@ -229,7 +229,7 @@ namespace CadmusTool.Commands
                 Location = location,
                 Author = "au-" + new string((char) (65 + _random.Next(0, 27)), 1),
                 Work = "wk-" + new string((char) (65 + _random.Next(0, 27)), 1),
-                WorkLoc = $"{_random.Next(1, 24)}.{_random.Next(1, 1001)}",
+                Citation = $"{_random.Next(1, 24)}.{_random.Next(1, 1001)}",
                 VariantOf = _random.Next(1, 10) == 3 ?
                     LoremIpsumGenerator.Generate(_random.Next(3, 20), 12) : null
             });
