@@ -11,7 +11,7 @@ xcopy %src%fusi.antiquity\1.1.22\*.nupkg .\local-packages\ /y
 xcopy %src%messagingapi\1.0.1\*.nupkg .\local-packages\ /y
 xcopy %src%messagingapi.sendgrid\1.0.1\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.core\2.2.8\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.mongo\2.2.8\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.mongo\2.2.10\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.parts\2.2.10\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.philology.parts\2.2.12\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.seed\1.0.9\*.nupkg .\local-packages\ /y
