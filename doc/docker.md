@@ -8,37 +8,30 @@ Quick start instructions are for those who are familiar with Docker and NodeJS. 
 
 ### 1. Backend
 
-Assuming that you already have **Docker** installed, to use Cadmus you can follow these steps:
+Assuming that you already have **Docker** installed, to use Cadmus you can follow these steps (which are equally valid for both Linux and Windows; of course, for Windows you should omit the `sudo` prefix where found):
 
 1. save the `docker-compose.yml` file somewhere in your machine.
+
 2. login into the (temporary) Docker repository containing our image. This is currently the VeDPH `ve2020/temp` repository: `sudo docker login --username <DOCKERUSERNAME>`. You will be prompted for the password.
+
 3. from a command prompt, enter the directory where you saved the `docker-compose.yml` file, and type the command `sudo docker-compose up`. This will fire a MongoDB service, create and seed databases with mock data, and start the API layer.
+
 4. if everything went OK, open your browser at `localhost:8080/swagger`. You will see the current Cadmus API surface.
+
+When you want to stop the service, break from it in the console and to clean up enter `sudo docker-compose down`.
 
 ### 2. Frontend
 
-Currently I have not included the web frontend in the Docker stack, as it is still in an early state where I rework it very often. To use it you should have **NodeJS** and **Angular 8+**:
+Currently I have not included the web frontend in the Docker stack, as it is still in an early state where I rework it very often. To use it you should have these installed:
+
+- **NodeJS**
+- **Angular 8+**
+
+See below on how to install them.
 
 1. download or clone its Git repository (`cadmus_web`).
-2. edit `src/environments/environment.ts` to change the port number; change this:
 
-```ts
-export const config = {
-  apiEndpoint: 'http://localhost:60304/api/',
-  databaseId: 'cadmus'
-}
-```
-
-into this (8080):
-
-```ts
-export const config = {
-  apiEndpoint: 'http://localhost:8080/api/',
-  databaseId: 'cadmus'
-}
-```
-
-3. open a command prompt in the root folder of the cloned/downloaded repository, and enter these commands:
+2. open a command prompt in the root folder of the cloned/downloaded repository, and enter these commands:
 
 ```bash
 npm i
@@ -48,7 +41,7 @@ ng serve --aot
 
 The first command restores the dependencies packages and will take some minutes; of course, it should be executed just once. The second command starts the Angular app.
 
-4. open your browser at `localhost:4200`. Login with the following (fake) credentials:
+3. open your browser at `localhost:4200`. Login with the following (fake) credentials:
 
 - username: `zeus`
 - password: `P4ss-W0rd!`

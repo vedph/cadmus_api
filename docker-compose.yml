@@ -19,7 +19,7 @@ services:
     ports:
       # - 34577:80
       # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
-      - 8080:80
+      - 60304:80
     depends_on:
       - cadmus-mongo
     # wait for mongo before starting: https://github.com/vishnubob/wait-for-it
