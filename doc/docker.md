@@ -16,7 +16,7 @@ Assuming that you already have **Docker** installed, to use Cadmus you can follo
 
 3. from a command prompt, enter the directory where you saved the `docker-compose.yml` file, and type the command `sudo docker-compose up`. This will fire a MongoDB service, create and seed databases with mock data, and start the API layer.
 
-4. if everything went OK, open your browser at `localhost:8080/swagger`. You will see the current Cadmus API surface.
+4. if everything went OK, open your browser at `localhost:60304/swagger`. You will see the current Cadmus API surface.
 
 When you want to stop the service, break from it in the console and to clean up enter `sudo docker-compose down`.
 
