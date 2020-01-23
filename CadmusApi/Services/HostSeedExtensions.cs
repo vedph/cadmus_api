@@ -89,6 +89,11 @@ namespace CadmusApi.Services
             IDataProfileSerializer serializer = new JsonDataProfileSerializer();
             DataProfile profile = serializer.Read(profileContent);
 
+            // issue warning on invalid profile
+            Console.WriteLine("Validating profile...");
+            string error = profile.Validate();
+            if (error != null) logger.LogWarning(error);
+
             // create database
             Console.WriteLine("Creating database...");
             logger.LogInformation("Creating database {connString}...");
