@@ -154,7 +154,8 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="id">The item's ID.</param>
-        /// <param name="type">The part type (e.g. "token-text").</param>
+        /// <param name="type">The part type (e.g. "token-text"). This can
+        /// be null when requesting the <c>base-text</c> role.</param>
         /// <param name="role">The part role (use "default" for the default role)
         /// .</param>
         /// <returns>part</returns>
@@ -179,6 +180,42 @@ namespace CadmusApi.Controllers
 
             object result = JsonConvert.DeserializeObject(json);
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets the base text for the item with the specified ID.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="itemId">The item identifier.</param>
+        /// <returns>Object with <c>Text</c> property, null if no base text
+        /// part found for the item.</returns>
+        [HttpGet("api/{database}/item/{id}/base-text")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public IActionResult GetBaseText(string database, string itemId)
+        {
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            IPart part = repository.GetItemParts(
+                new[] { itemId },
+                null,
+                "base-text")
+                .FirstOrDefault();
+            if (part == null) return Ok(new { Text = (string)null });
+
+            string json = repository.GetPartContent(part.Id);
+            if (json == null) return new NotFoundResult();
+            json = AdjustPartJson(json);
+
+            object result = JsonConvert.DeserializeObject(json);
+            return Ok(
+                new
+                {
+                    Text = result is IHasText txtPart
+                        ? txtPart.GetText()
+                        : null
+                });
         }
 
         /// <summary>

@@ -45,6 +45,7 @@
         },
         {
           "typeId": "net.fusisoft.token-text",
+          "roleId": "base-text",
           "name": "text",
           "description": "Item's token-based text.",
           "colorKey": "31AB54",
