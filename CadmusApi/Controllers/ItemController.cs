@@ -7,7 +7,6 @@ using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
-using CadmusApi.Services;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -67,7 +66,8 @@ namespace CadmusApi.Controllers
         /// <returns>page</returns>
         [HttpGet("api/{database}/items")]
         [ProducesResponseType(200)]
-        public ActionResult<DataPage<ItemInfo>> GetItems(string database,
+        public ActionResult<DataPage<ItemInfo>> GetItems(
+            [FromRoute] string database,
             [FromQuery] ItemFilterModel filter)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -100,7 +100,9 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/item/{id}", Name = "GetItem")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<IItem> GetItem(string database, string id,
+        public ActionResult<IItem> GetItem(
+            [FromRoute] string database,
+            [FromRoute] string id,
             [FromQuery] bool parts)
         {
             ICadmusRepository repository =
@@ -135,7 +137,9 @@ namespace CadmusApi.Controllers
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetPart(string database, string id)
+        public IActionResult GetPart(
+            [FromRoute] string database,
+            [FromRoute] string id)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -163,8 +167,11 @@ namespace CadmusApi.Controllers
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetPartFromTypeAndRole(string database, string id,
-            string type, string role)
+        public IActionResult GetPartFromTypeAndRole(
+            [FromRoute] string database,
+            [FromRoute] string id,
+            [FromRoute] string type,
+            [FromRoute] string role)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -189,33 +196,23 @@ namespace CadmusApi.Controllers
         /// <param name="itemId">The item identifier.</param>
         /// <returns>Object with <c>Text</c> property, null if no base text
         /// part found for the item.</returns>
-        [HttpGet("api/{database}/item/{id}/base-text")]
+        [HttpGet("api/{database}/item/{itemId}/base-text")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public IActionResult GetBaseText(string database, string itemId)
+        [ProducesResponseType(404)]
+        public IActionResult GetBaseText(
+            [FromRoute] string database,
+            [FromRoute] string itemId)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
 
-            IPart part = repository.GetItemParts(
+            IHasText partWithText = repository.GetItemParts(
                 new[] { itemId },
                 null,
-                "base-text")
-                .FirstOrDefault();
-            if (part == null) return Ok(new { Text = (string)null });
-
-            string json = repository.GetPartContent(part.Id);
-            if (json == null) return new NotFoundResult();
-            json = AdjustPartJson(json);
-
-            object result = JsonConvert.DeserializeObject(json);
-            return Ok(
-                new
-                {
-                    Text = result is IHasText txtPart
-                        ? txtPart.GetText()
-                        : null
-                });
+                PartBase.BASE_TEXT_ROLE_ID)
+                .FirstOrDefault() as IHasText;
+            return Ok(new { Text = partWithText?.GetText() });
         }
 
         /// <summary>
@@ -228,7 +225,9 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/item/{id}/layers")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public IActionResult GetItemLayerPartIds(string database, string id)
+        public IActionResult GetItemLayerPartIds(
+            [FromRoute] string database,
+            [FromRoute] string id)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -253,7 +252,9 @@ namespace CadmusApi.Controllers
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public IActionResult GetPartPins(string database, string id)
+        public IActionResult GetPartPins(
+            [FromRoute] string database,
+            [FromRoute] string id)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -294,7 +295,7 @@ namespace CadmusApi.Controllers
         /// <param name="id">The item identifier.</param>
         [Authorize(Roles = "admin,editor")]
         [HttpDelete("api/{database}/item/{id}")]
-        public void Delete(string database, string id)
+        public void Delete([FromRoute] string database, [FromRoute] string id)
         {
             _logger.Information("User {UserName} deleting item {ItemId} from {IP}",
                 User.Identity.Name,
@@ -324,7 +325,8 @@ namespace CadmusApi.Controllers
         /// <param name="id">The part identifier.</param>
         [Authorize(Roles = "admin,editor,operator")]
         [HttpDelete("api/{database}/part/{id}")]
-        public async Task<IActionResult> DeletePart(string database, string id)
+        public async Task<IActionResult> DeletePart(
+            [FromRoute] string database, [FromRoute] string id)
         {
             _logger.Information("User {UserName} deleting part {PartId} from {IP}",
                 User.Identity.Name,
@@ -360,7 +362,8 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/items")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddItem(string database,
+        public IActionResult AddItem(
+            [FromRoute] string database,
             [FromBody] ItemBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -420,7 +423,8 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/parts")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddPart(string database,
+        public IActionResult AddPart(
+            [FromRoute] string database,
             [FromBody] RawJsonBindingModel model)
         {
             ICadmusRepository repository =

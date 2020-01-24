@@ -71,7 +71,7 @@
           "colorKey": "D4E0A4",
           "groupKey": "text",
           "sortKey": "text-apparatus",
-          "editorKey": "philology"
+          "editorKey": "general philology"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -81,7 +81,7 @@
           "colorKey": "E0D4A4",
           "groupKey": "text",
           "sortKey": "text-apparatus",
-          "editorKey": "philology"
+          "editorKey": "general philology"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -91,7 +91,7 @@
           "colorKey": "A4E0D4",
           "groupKey": "text",
           "sortKey": "text-apparatus",
-          "editorKey": "philology"
+          "editorKey": "general philology"
         }
       ]
     }
