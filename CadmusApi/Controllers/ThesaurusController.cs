@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
-using CadmusApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,56 +37,46 @@ namespace CadmusApi.Controllers
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of tag sets IDs</returns>
         [HttpGet("api/{database}/thesauri")]
-        public IActionResult GetSetIds(string database)
+        public IActionResult GetSetIds([FromRoute] string database)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
             return Ok(repository.GetThesaurusIds());
         }
 
-        private static string GetFallbackId(string id, string defaultLang = "en")
-        {
-            Regex r = new Regex(@"^(?<id>.+)\@(?<lang>[a-z]{2})$");
-            Match m = r.Match(id);
-
-            // bare ID or non-default language: append @language
-            if (!m.Success || defaultLang != m.Groups["lang"].Value)
-                return id + "@" + defaultLang;
-
-            // else no fallback possible
-            return null;
-        }
-
-        private static Thesaurus GetThesaurusWithFallback(string id,
-            ICadmusRepository repository)
-        {
-            Thesaurus thesaurus = repository.GetThesaurus(id);
-            if (thesaurus != null) return thesaurus;
-
-            string fallbackId = GetFallbackId(id);
-            if (fallbackId != null)
-                thesaurus = repository.GetThesaurus(fallbackId);
-            return thesaurus;
-        }
-
         /// <summary>
         /// Gets the thesaurus with the specified ID. If the ID does not include
         /// the language suffix (<c>@</c> + ISO639-2 letters code, e.g. <c>@en</c>),
         /// or the requested language does not exist, the method attempts to
-        /// fallback to the default language (<c>en</c>=English).
+        /// fallback to the default language (<c>eng</c> or <c>en</c>=English).
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="id">The thesaurus ID.</param>
+        /// <param name="emptyIfNotFound">True to return an empty thesaurus
+        /// rather than a 404 when the ID was not found.</param>
         /// <returns>Thesaurus</returns>
         [HttpGet("api/{database}/thesauri/{id}", Name = "GetThesaurus")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<ThesaurusModel> GetThesaurus(string database, string id)
+        public IActionResult GetThesaurus(
+            [FromRoute] string database,
+            [FromRoute] string id,
+            [FromQuery] bool emptyIfNotFound)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
-            Thesaurus thesaurus = GetThesaurusWithFallback(id, repository);
-            if (thesaurus == null) return NotFound();
+            Thesaurus thesaurus = repository.GetThesaurus(id);
+            if (thesaurus == null)
+            {
+                return emptyIfNotFound
+                    ? Ok(new ThesaurusModel
+                    {
+                        Id = id,
+                        Language = "en",
+                        Entries = Array.Empty<ThesaurusEntry>()
+                    })
+                    : (IActionResult)NotFound();
+            }
 
             ThesaurusModel model = new ThesaurusModel
             {
@@ -104,8 +92,8 @@ namespace CadmusApi.Controllers
         /// Gets the specified set of thesauri. If any of the IDs does not include
         /// the language suffix (<c>@</c> + ISO639-2 letters code, e.g. <c>@en</c>),
         /// or the requested language does not exist, the method attempts to
-        /// fallback to the default language (<c>en</c>=English). Only the
-        /// thesauri which were found are returned.
+        /// fallback to the default language (<c>eng</c> or <c>en</c>=English).
+        /// Only the thesauri which were found are returned.
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="ids">The thesauri IDs, separated by commas.</param>
@@ -114,7 +102,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/thesauri-set/{ids}")]
         [ProducesResponseType(200)]
         public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauri(
-            string database, string ids)
+            [FromRoute] string database, [FromRoute] string ids)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -125,7 +113,7 @@ namespace CadmusApi.Controllers
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Distinct())
             {
-                Thesaurus thesaurus = GetThesaurusWithFallback(id, repository);
+                Thesaurus thesaurus = repository.GetThesaurus(id);
                 if (thesaurus == null) continue;
                 dct[id] = new ThesaurusModel
                 {
@@ -145,7 +133,8 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/thesauri")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddThesaurus(string database,
+        public IActionResult AddThesaurus(
+            [FromRoute] string database,
             [FromBody] ThesaurusBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -169,7 +158,9 @@ namespace CadmusApi.Controllers
         /// <param name="database">The database ID.</param>
         /// <param name="id">The thesaurus ID.</param>
         [HttpDelete("api/{database}/thesauri/{id}")]
-        public void DeleteThesaurus(string database, string id)
+        public void DeleteThesaurus(
+            [FromRoute] string database,
+            [FromRoute] string id)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);

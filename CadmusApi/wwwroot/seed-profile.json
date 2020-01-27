@@ -113,6 +113,10 @@
           "value": "categories"
         },
         {
+          "id": "net.fusisoft.historical-date",
+          "value": "date"
+        },
+        {
           "id": "net.fusisoft.keywords",
           "value": "keywords"
         },
@@ -129,16 +133,24 @@
           "value": "text layer"
         },
         {
+          "id": "fr.net.fusisoft.apparatus",
+          "value": "apparatus fr."
+        },
+        {
           "id": "fr.net.fusisoft.comment",
           "value": "comment fr."
+        },
+        {
+          "id": "fr.net.fusisoft.orthography",
+          "value": "orthography fr."
         },
         {
           "id": "fr.net.fusisoft.quotation",
           "value": "quotation fr."
         },
         {
-          "id": "fr.net.fusisoft.apparatus",
-          "value": "apparatus fr."
+          "id": "fr.net.fusisoft.witnesses",
+          "value": "witnesses fr."
         }
       ]
     },
