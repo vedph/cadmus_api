@@ -21,6 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{1D84805B-8BF
 	ProjectSection(SolutionItems) = preProject
 		doc\docker.md = doc\docker.md
 		doc\index.md = doc\index.md
+		doc\settings.md = doc\settings.md
 	EndProjectSection
 EndProject
 Global
