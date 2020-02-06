@@ -8,7 +8,7 @@ All these sections are located at the root level of the configuration hierarchy,
 
 - `ConnectionStrings`: object where each key is the name of a connection string. The only connection string is named `Default` and it rather is a connection string template, pointing to the MongoDB server. The database name is a placeholder represented by `{0}` in that string, and will be set at runtime.
 - `DatabaseNames`: the names of the two main Cadmus databases to be used by the API: one for the data (`Data`), another for authentication (`Auth`).
-- `Seed`: data seed profile and desired items count. This is used for seeding a newly created database when the API starts up. In the profile path you can use the `%wwwroot` placeholder to represent the web server root folder.
+- `Seed`: data seed profile and desired items count. This is used for seeding a newly created database when the API starts up. In the profile path you can use variables between `%`. The `%wwwroot%` variable is reserved to represent the web content root directory; any other variable name (excluding the `%` delimiters) is resolved from the app's configuration (or just removed when no resolution is possible). For more information about seeding, see the documentation in the backend repository (`cadmus_core`).
 - `Jwt`: JWT tokens configuration.
 - `StockUsers`: a set of stock users which get seeded into the authentication database when not found. This is an array, where each item is an object with these properties:
   - `UserName`: the username.
@@ -72,7 +72,7 @@ The Cadmus API uses the standard ASP.NET Core 3 [default configuration](https://
 
 1. settings from `appsettings.json`;
 2. settings from the environment-specific versions of `appsettings.json` (named like `appsettings.{Environment}.json`);
-3. secret manager (in the `Development` environment);
+3. secret manager (in the `Development` environment); this relies on a user secrets file, a JSON file stored on the local developer's machine, outside of the source directory (and thus of source control);
 4. environment variables;
 5. command-line arguments.
 

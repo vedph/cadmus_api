@@ -25,9 +25,10 @@ namespace CadmusApi.Services
     {
         /// <summary>
         /// Resolves directory variables in the specified path.
-        /// Variables are defined at path start between <c>%</c>. Currently,
-        /// the only variable is <c>%wwwroot%</c>, which resolves to the web
-        /// content root directory.
+        /// Variables are defined in any part of the path between <c>%</c>.
+        /// Currently, the variable <c>%wwwroot%</c> is reserved to resolve to
+        /// the web content root directory; any other variable name is looked
+        /// for in the configuration.
         /// </summary>
         /// <param name="path">The path.</param>
         /// <param name="serviceProvider">The service provider.</param>
@@ -35,22 +36,22 @@ namespace CadmusApi.Services
         private static string ResolvePath(string path,
             IServiceProvider serviceProvider)
         {
-            if (path.IndexOf('%') > -1)
-            {
-                Match m = Regex.Match(path, "^(%[^%]+%)(.*)");
-                if (!m.Success) return path;
+            if (path.IndexOf('%') == -1) return path;
 
-                IHostEnvironment env = serviceProvider.GetService<IHostEnvironment>();
-                switch (m.Groups[1].Value)
+            return new Regex("%([^%]+)%").Replace(path, (Match m) =>
+            {
+                switch (m.Groups[1].Value.ToUpperInvariant())
                 {
-                    case "%wwwroot%":
-                        path = Path.Combine(env.ContentRootPath,
-                            "wwwroot",
-                            m.Groups[2].Value);
-                        break;
+                    case "WWWROOT":
+                        IHostEnvironment env = serviceProvider
+                            .GetService<IHostEnvironment>();
+                        return Path.Combine(env.ContentRootPath, "wwwroot");
+                    default:
+                        IConfiguration config =
+                            serviceProvider.GetService<IConfiguration>();
+                        return config[m.Groups[1].Value];
                 }
-            }
-            return path;
+            });
         }
 
         private static void SeedCadmusDatabase(
