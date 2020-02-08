@@ -411,31 +411,12 @@ namespace CadmusApi.Controllers
             }, item);
         }
 
-        /// <summary>
-        /// Adds or updates the specified part.
-        /// This requires <c>admin</c>, <c>editor</c>, or <c>operator</c> role.
-        /// </summary>
-        /// <param name="database">The database ID.</param>
-        /// <param name="model">The model with JSON code representing the part.
-        /// If new, the part ID should not be parsable as a GUID, e.g.
-        /// <c>"id": "new"</c> or <c>"id": ""</c>, or should be null
-        /// (e.g. <c>"id": null</c>). At a minimum, each part should adhere
-        /// to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name", 
-        /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id", 
-        /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"), 
-        /// "userId" : "user-id or empty" }</c>.</param>
-        [Authorize(Roles = "admin,editor,operator")]
-        [HttpPost("api/{database}/parts")]
-        [ProducesResponseType(201)]
-        [ProducesResponseType(400)]
-        public IActionResult AddPart(
-            [FromRoute] string database,
-            [FromBody] RawJsonBindingModel model)
+        private Tuple<string, string> AddRawPart(string database, string raw)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
 
-            JObject doc = JObject.Parse(model.Raw);
+            JObject doc = JObject.Parse(raw);
 
             // add the ID if new part
             JValue id = (JValue)doc["id"];
@@ -472,11 +453,37 @@ namespace CadmusApi.Controllers
 
             string json = doc.ToString(Formatting.None);
             repository.AddPartFromContent(json);
+            return Tuple.Create(partId, json);
+        }
+
+        /// <summary>
+        /// Adds or updates the specified part.
+        /// This requires <c>admin</c>, <c>editor</c>, or <c>operator</c> role.
+        /// </summary>
+        /// <param name="database">The database ID.</param>
+        /// <param name="model">The model with JSON code representing the part.
+        /// If new, the part ID should not be parsable as a GUID, e.g.
+        /// <c>"id": "new"</c> or <c>"id": ""</c>, or should be null
+        /// (e.g. <c>"id": null</c>). At a minimum, each part should adhere
+        /// to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name", 
+        /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id", 
+        /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"), 
+        /// "userId" : "user-id or empty" }</c>.</param>
+        [Authorize(Roles = "admin,editor,operator")]
+        [HttpPost("api/{database}/parts")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        public IActionResult AddPart(
+            [FromRoute] string database,
+            [FromBody] RawJsonBindingModel model)
+        {
+            var idAndJson = AddRawPart(database, model.Raw);
+
             return CreatedAtRoute("GetPart", new
             {
                 database,
-                id = partId
-            }, json);
+                id = idAndJson.Item1
+            }, idAndJson.Item2);
         }
         #endregion
     }
