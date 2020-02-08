@@ -195,16 +195,16 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// Gets the base text for the item with the specified ID.
+        /// Gets the base text part and its plain text for the item with the
+        /// specified ID.
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="itemId">The item identifier.</param>
-        /// <returns>Object with <c>Text</c> property, null if no base text
-        /// part found for the item.</returns>
+        /// <returns>Object with <c>Part</c> and <c>Text</c> property, both
+        /// null if no base text part found for the item.</returns>
         [HttpGet("api/{database}/item/{itemId}/base-text")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
         public IActionResult GetBaseText(
             [FromRoute] string database,
             [FromRoute] string itemId)
@@ -217,7 +217,11 @@ namespace CadmusApi.Controllers
                 null,
                 PartBase.BASE_TEXT_ROLE_ID)
                 .FirstOrDefault() as IHasText;
-            return Ok(new { Text = partWithText?.GetText() });
+            return Ok(new
+            {
+                Part = partWithText,
+                Text = partWithText?.GetText()
+            });
         }
 
         /// <summary>
