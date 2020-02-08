@@ -220,12 +220,20 @@
           "value": "note"
         },
         {
+          "id": "net.fusisoft.tiled-text",
+          "value": "tiled text"
+        },
+        {
           "id": "net.fusisoft.token-text",
           "value": "text"
         },
         {
           "id": "net.fusisoft.token-text-layer",
           "value": "text layer"
+        },
+        {
+          "id": "net.fusisoft.tiled-text-layer",
+          "value": "tiled text layer"
         },
         {
           "id": "fr.net.fusisoft.apparatus",
@@ -363,7 +371,6 @@
   "seed": {
     "options": {
       "seed": 1,
-      "baseTextPartTypeId": "net.fusisoft.token-text",
       "users": [ "zeus" ],
       "partRoles": [],
       "fragmentRoles": []
@@ -412,6 +419,15 @@
       },
       {
         "id": "seed.net.fusisoft.token-text-layer",
+        "options": {
+          "maxFragmentCount": 3
+        }
+      },
+      {
+        "id": "seed.net.fusisoft.tiled-text"
+      },
+      {
+        "id": "seed.net.fusisoft.tiled-text-layer",
         "options": {
           "maxFragmentCount": 3
         }
