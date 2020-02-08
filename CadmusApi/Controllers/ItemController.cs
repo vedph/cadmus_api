@@ -153,15 +153,19 @@ namespace CadmusApi.Controllers
         }
 
         /// <summary>
-        /// From the item with the specified ID, gets the part matching the
-        /// specified type and role.
+        /// From the item with the specified ID, gets the first part matching
+        /// the specified type and/or role. You should use this method to
+        /// find a part which by its definition (from its type and/or role ID)
+        /// is unique. If more than 1 parts match in the item, which of them
+        /// will be returned is undetermined.
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="id">The item's ID.</param>
-        /// <param name="type">The part type (e.g. "token-text"). This can
-        /// be null when requesting the <c>base-text</c> role.</param>
-        /// <param name="role">The part role (use "default" for the default role)
-        /// .</param>
+        /// <param name="type">The part type ID, or <c>any</c> to match any
+        /// part type. This is typically used when requesting the <c>base-text</c>
+        /// role.</param>
+        /// <param name="role">The part role (use <c>default</c> for the default
+        /// role).</param>
         /// <returns>part</returns>
         [HttpGet("api/{database}/item/{id}/part/{type}/{role}")]
         [Produces("application/json")]
@@ -176,8 +180,9 @@ namespace CadmusApi.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
 
-            IPart part = repository.GetItemParts(new[] {id}, type,
-                    role == "default" ? null : role)
+            IPart part = repository.GetItemParts(new[] { id },
+                type == "any" ? null : type,
+                role == "default" ? null : role)
                 .FirstOrDefault();
             if (part == null) return NotFound();
 

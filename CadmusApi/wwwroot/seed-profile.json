@@ -149,7 +149,7 @@
           "editorKey": "general"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
+          "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.comment",
           "name": "comments",
           "description": "Comments on text.",
@@ -159,7 +159,7 @@
           "editorKey": "general"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
+          "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.apparatus",
           "name": "apparatus",
           "description": "Critical apparatus.",
@@ -169,7 +169,7 @@
           "editorKey": "general philology"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
+          "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.orthography",
           "name": "orthography",
           "description": "Standard orthography.",
@@ -179,7 +179,7 @@
           "editorKey": "general philology"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
+          "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.witnesses",
           "name": "witnesses",
           "description": "Witnesses list.",
