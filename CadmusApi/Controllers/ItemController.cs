@@ -224,30 +224,49 @@ namespace CadmusApi.Controllers
             });
         }
 
+        //[HttpGet("api/{database}/item/{id}/layers")]
+        //[Produces("application/json")]
+        //[ProducesResponseType(200)]
+        //public IActionResult GetItemLayerPartIds(
+        //    [FromRoute] string database,
+        //    [FromRoute] string id)
+        //{
+        //    ICadmusRepository repository =
+        //        _repositoryProvider.CreateRepository(database);
+
+        //    var results = repository.GetItemLayerPartIds(id);
+        //    return Ok(from t in results
+        //              select new
+        //              {
+        //                  roleId = t.Item1,
+        //                  partId = t.Item2
+        //              });
+        //}
+
         /// <summary>
-        /// Gets the mappings between layer part role IDs and layer part IDs
-        /// in the item with the specified ID.
+        /// Gets the information about all the layer parts in the item with
+        /// the specified ID. If <paramref name="absent"/> is true, the
+        /// layer parts are added also from the item's facet, even if absent
+        /// from the database. This produces the full list of all the possible
+        /// layer parts which could be connected to the given item.
         /// </summary>
         /// <param name="database">The database.</param>
-        /// <param name="id">The item's identifier.</param>
-        /// <returns>array where each item has roleId and partId</returns>
+        /// <param name="id">The identifier.</param>
+        /// <param name="absent">if set to <c>true</c> [absent].</param>
+        /// <returns>List of layer part infos.</returns>
         [HttpGet("api/{database}/item/{id}/layers")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public IActionResult GetItemLayerPartIds(
+        public IActionResult GetItemLayerInfo(
             [FromRoute] string database,
-            [FromRoute] string id)
+            [FromRoute] string id,
+            [FromQuery] bool absent)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
 
-            var results = repository.GetItemLayerPartIds(id);
-            return Ok(from t in results
-                      select new
-                      {
-                          roleId = t.Item1,
-                          partId = t.Item2
-                      });
+            IList<LayerPartInfo> parts = repository.GetItemLayerInfo(id, absent);
+            return Ok(parts);
         }
 
         /// <summary>
