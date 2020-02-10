@@ -4,7 +4,7 @@
       "id": "default",
       "label": "default",
       "description": "The default facet",
-      "colorKey":  "86ACEB",
+      "colorKey": "86ACEB",
       "partDefinitions": [
         {
           "typeId": "net.fusisoft.categories",
