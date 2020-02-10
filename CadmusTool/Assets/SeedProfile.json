@@ -1,9 +1,10 @@
 ﻿{
   "facets": [
     {
-      "id": "standard",
-      "label": "standard",
-      "description": "The standard facet",
+      "id": "default",
+      "label": "default",
+      "description": "The default facet",
+      "colorKey": "86ACEB",
       "partDefinitions": [
         {
           "typeId": "net.fusisoft.categories",
@@ -99,6 +100,7 @@
       "id": "tiled",
       "label": "tiled text",
       "description": "The tiled text facet",
+      "colorKey": "EBD586",
       "partDefinitions": [
         {
           "typeId": "net.fusisoft.categories",

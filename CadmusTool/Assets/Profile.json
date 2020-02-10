@@ -1,9 +1,10 @@
 ﻿{
   "facets": [
     {
-      "id": "facet-default",
+      "id": "default",
       "label": "default",
       "description": "The default facet",
+      "colorKey": "86ACEB",
       "partDefinitions": [
         {
           "typeId": "net.fusisoft.categories",
@@ -13,6 +14,16 @@
           "colorKey": "98F8F8",
           "groupKey": "general",
           "sortKey": "categories",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.historical-date",
+          "name": "date",
+          "description": "Historical date.",
+          "required": false,
+          "colorKey": "F898F8",
+          "groupKey": "general",
+          "sortKey": "date",
           "editorKey": "general"
         },
         {
@@ -55,23 +66,129 @@
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.quotation",
-          "name": "quotations",
-          "description": "Quotations in text.",
-          "colorKey": "863577",
-          "groupKey": "text",
-          "sortKey": "text-quotations",
-          "editorKey": "philology"
-        },
-        {
-          "typeId": "net.fusisoft.token-text-layer",
           "roleId": "fr.net.fusisoft.apparatus",
           "name": "apparatus",
           "description": "Critical apparatus.",
           "colorKey": "D4E0A4",
           "groupKey": "text",
           "sortKey": "text-apparatus",
-          "editorKey": "philology"
+          "editorKey": "general philology"
+        },
+        {
+          "typeId": "net.fusisoft.token-text-layer",
+          "roleId": "fr.net.fusisoft.orthography",
+          "name": "orthography",
+          "description": "Standard orthography.",
+          "colorKey": "E0D4A4",
+          "groupKey": "text",
+          "sortKey": "text-apparatus",
+          "editorKey": "general philology"
+        },
+        {
+          "typeId": "net.fusisoft.token-text-layer",
+          "roleId": "fr.net.fusisoft.witnesses",
+          "name": "witnesses",
+          "description": "Witnesses list.",
+          "colorKey": "A4E0D4",
+          "groupKey": "text",
+          "sortKey": "text-apparatus",
+          "editorKey": "general philology"
+        }
+      ]
+    },
+    {
+      "id": "tiled",
+      "label": "tiled text",
+      "description": "The tiled text facet",
+      "colorKey": "EBD586",
+      "partDefinitions": [
+        {
+          "typeId": "net.fusisoft.categories",
+          "name": "categories",
+          "description": "Item's categories.",
+          "required": true,
+          "colorKey": "98F8F8",
+          "groupKey": "general",
+          "sortKey": "categories",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.historical-date",
+          "name": "date",
+          "description": "Historical date.",
+          "required": false,
+          "colorKey": "F898F8",
+          "groupKey": "general",
+          "sortKey": "date",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.keywords",
+          "name": "keywords",
+          "description": "Item's keywords.",
+          "colorKey": "90C0F8",
+          "groupKey": "general",
+          "sortKey": "keywords",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.note",
+          "name": "note",
+          "description": "A free text note about the document.",
+          "colorKey": "B0A0F8",
+          "groupKey": "general",
+          "sortKey": "note",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.tiled-text",
+          "roleId": "base-text",
+          "name": "text",
+          "description": "Item's tiles-based text.",
+          "colorKey": "31AB54",
+          "groupKey": "text",
+          "sortKey": "text",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.tiled-text-layer",
+          "roleId": "fr.net.fusisoft.comment",
+          "name": "comments",
+          "description": "Comments on text.",
+          "colorKey": "F8D040",
+          "groupKey": "text",
+          "sortKey": "text-comments",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.tiled-text-layer",
+          "roleId": "fr.net.fusisoft.apparatus",
+          "name": "apparatus",
+          "description": "Critical apparatus.",
+          "colorKey": "D4E0A4",
+          "groupKey": "text",
+          "sortKey": "text-apparatus",
+          "editorKey": "general philology"
+        },
+        {
+          "typeId": "net.fusisoft.tiled-text-layer",
+          "roleId": "fr.net.fusisoft.orthography",
+          "name": "orthography",
+          "description": "Standard orthography.",
+          "colorKey": "E0D4A4",
+          "groupKey": "text",
+          "sortKey": "text-apparatus",
+          "editorKey": "general philology"
+        },
+        {
+          "typeId": "net.fusisoft.tiled-text-layer",
+          "roleId": "fr.net.fusisoft.witnesses",
+          "name": "witnesses",
+          "description": "Witnesses list.",
+          "colorKey": "A4E0D4",
+          "groupKey": "text",
+          "sortKey": "text-apparatus",
+          "editorKey": "general philology"
         }
       ]
     }
@@ -93,12 +210,20 @@
           "value": "categories"
         },
         {
+          "id": "net.fusisoft.historical-date",
+          "value": "date"
+        },
+        {
           "id": "net.fusisoft.keywords",
           "value": "keywords"
         },
         {
           "id": "net.fusisoft.note",
           "value": "note"
+        },
+        {
+          "id": "net.fusisoft.tiled-text",
+          "value": "tiled text"
         },
         {
           "id": "net.fusisoft.token-text",
@@ -109,16 +234,28 @@
           "value": "text layer"
         },
         {
+          "id": "net.fusisoft.tiled-text-layer",
+          "value": "tiled text layer"
+        },
+        {
+          "id": "fr.net.fusisoft.apparatus",
+          "value": "apparatus fr."
+        },
+        {
           "id": "fr.net.fusisoft.comment",
           "value": "comment fr."
+        },
+        {
+          "id": "fr.net.fusisoft.orthography",
+          "value": "orthography fr."
         },
         {
           "id": "fr.net.fusisoft.quotation",
           "value": "quotation fr."
         },
         {
-          "id": "fr.net.fusisoft.apparatus",
-          "value": "apparatus fr."
+          "id": "fr.net.fusisoft.witnesses",
+          "value": "witnesses fr."
         }
       ]
     },
@@ -232,5 +369,113 @@
         }
       ]
     }
-  ]
+  ],
+  "seed": {
+    "options": {
+      "seed": 1,
+      "users": [ "zeus" ],
+      "partRoles": [],
+      "fragmentRoles": []
+    },
+    "partSeeders": [
+      {
+        "id": "seed.net.fusisoft.categories",
+        "options": {
+          "maxCategoriesPerItem": 3,
+          "categories": [
+            "language.phonology",
+            "language.morphology",
+            "language.syntax",
+            "literature",
+            "geography"
+          ]
+        }
+      },
+      {
+        "id": "seed.net.fusisoft.historical-date"
+      },
+      {
+        "id": "seed.net.fusisoft.keywords",
+        "options": {
+          "languages": [
+            "eng",
+            "deu",
+            "ita",
+            "fra",
+            "spa"
+          ]
+        }
+      },
+      {
+        "id": "seed.net.fusisoft.note",
+        "options": {
+          "tags": [
+            "language",
+            "history",
+            "geography"
+          ]
+        }
+      },
+      {
+        "id": "seed.net.fusisoft.token-text"
+      },
+      {
+        "id": "seed.net.fusisoft.token-text-layer",
+        "options": {
+          "maxFragmentCount": 3
+        }
+      },
+      {
+        "id": "seed.net.fusisoft.tiled-text"
+      },
+      {
+        "id": "seed.net.fusisoft.tiled-text-layer",
+        "options": {
+          "maxFragmentCount": 3
+        }
+      }
+    ],
+    "fragmentSeeders": [
+      {
+        "id": "seed.fr.net.fusisoft.comment",
+        "options": {
+          "tags": [
+            "language",
+            "history",
+            "geography"
+          ]
+        }
+      },
+      {
+        "id": "seed.fr.net.fusisoft.apparatus",
+        "options": {
+          "authors": [
+            "Wil.",
+            "Cobet",
+            "Steph."
+          ]
+        }
+      },
+      {
+        "id": "seed.fr.net.fusisoft.orthography",
+        "options": {
+          "tags": [
+            "ph.c.occl.",
+            "ph.c.liq.",
+            "ph.c.nas."
+          ]
+        }
+      },
+      {
+        "id": "seed.fr.net.fusisoft.witnesses",
+        "options": {
+          "ids": [
+            "Fest.",
+            "Diac.",
+            "Isid."
+          ]
+        }
+      }
+    ]
+  }
 }
