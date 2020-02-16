@@ -11,6 +11,7 @@ using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -36,6 +37,7 @@ namespace CadmusApi.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IRepositoryProvider _repositoryProvider;
+        private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -43,16 +45,20 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="repositoryProvider">The repository provider.</param>
+        /// <param name="configuration">The configuration.</param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">repositoryService</exception>
         public ItemController(UserManager<ApplicationUser> userManager,
             IRepositoryProvider repositoryProvider,
+            IConfiguration configuration,
             ILogger logger)
         {
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
             _repositoryProvider = repositoryProvider ??
                 throw new ArgumentNullException(nameof(repositoryProvider));
+            _configuration = configuration ??
+                throw new ArgumentNullException(nameof(configuration));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
         }
@@ -311,6 +317,42 @@ namespace CadmusApi.Controllers
                     p.Value
                 }).ToList();
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets the layer part break chance, a number indicating whether the
+        /// layer part with the specified ID might potentially be broken
+        /// because of changes in its base text.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="id">The layer part's identifier.</param>
+        /// <returns>Object with <c>chance</c>=0 (=not broken), 1 (=potentially
+        /// broken), or 2 (=surely broken).</returns>
+        [HttpGet("api/{database}/part/{id}/break-chance")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public IActionResult GetLayerPartBreakChance(
+            [FromRoute] string database,
+            [FromRoute] string id)
+        {
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            string intervalOption = _configuration.GetSection("Editing")
+                ["BaseToLayerToleranceSeconds"];
+            int interval;
+            if (!string.IsNullOrEmpty(intervalOption)
+                && int.TryParse(intervalOption, out int n))
+            {
+                interval = n;
+            }
+            else interval = 60;
+
+            int chance = repository.GetLayerPartBreakChance(id, interval);
+            return Ok(new
+            {
+                Chance = chance
+            });
         }
         #endregion
 

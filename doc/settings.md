@@ -22,6 +22,8 @@ All these sections are located at the root level of the configuration hierarchy,
   - `ApiRootUrl`: the root URL to the API services. This is used to build clickable links in messages.
   - `AppRootUrl`: the root URL to the web application frontend. This is used to build clickable links in messages.
   - `SupportEmail`: the email address which should appear as the message's sender.
+- `Editing`: editing configuration:
+  - `BaseToLayerToleranceSeconds`: the tolerance interval, expressed in seconds, between the save time of a text part and that of its layer part. If not specified, a default value of 60 is used. This is a parameter used when detecting potential breaks in the layer parts when their base text gets edited. A layer part is potentially broken when the corresponding text part has been saved (with a different text) either after it, or a few time before it; this interval specifies that time. In both cases, this implies that the part fragments might have broken links, as the underlying text was in some way changed. To detect a potential break we can just check for last modified date and time; if the above conditions for save date and time are not met, the method can return false. If instead they are met, we must ensure that text has changed. To this end, we must go back in the text part history to find the latest save which changed the text, and refer to its date and time.
 
 ## Service-Specific Sections
 
