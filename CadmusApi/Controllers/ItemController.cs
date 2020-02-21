@@ -354,6 +354,55 @@ namespace CadmusApi.Controllers
                 Chance = chance
             });
         }
+
+        /// <summary>
+        /// Gets the reconciliation hints for the layer part with the specified
+        /// ID.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns>List of hints.</returns>
+        [HttpGet("api/{database}/part/{id}/layer-hints")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public IActionResult GetLayerPartHints(
+            [FromRoute] string database,
+            [FromRoute] string id)
+        {
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            return Ok(repository.GetLayerPartHints(id));
+        }
+
+        /// <summary>
+        /// Applies patches operations to the layer part with the specified
+        /// ID.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="id">The layer part identifier.</param>
+        /// <param name="patches">The patches to be applied.</param>
+        [Authorize(Roles = "admin,editor,operator")]
+        [HttpPost("api/{database}/part/{id}/layer-patches")]
+        [Produces("application/json")]
+        [ProducesResponseType(201)]
+        public IActionResult ApplyLayerPartPatches(
+            [FromRoute] string database,
+            [FromRoute] string id,
+            [FromBody] string[] patches)
+        {
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            string json = repository.ApplyLayerPartPatches(
+                id, User.Identity.Name, patches);
+
+            return CreatedAtRoute("GetPart", new
+            {
+                database,
+                id
+            }, json);
+        }
         #endregion
 
         #region Delete
