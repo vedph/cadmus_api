@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Cadmus.Core;
 using Cadmus.Core.Config;
+using Cadmus.Core.Layers;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
 using Fusi.Tools.Data;
@@ -365,7 +366,7 @@ namespace CadmusApi.Controllers
         [HttpGet("api/{database}/part/{id}/layer-hints")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public IActionResult GetLayerPartHints(
+        public ActionResult<LayerHint> GetLayerPartHints(
             [FromRoute] string database,
             [FromRoute] string id)
         {
