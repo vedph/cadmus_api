@@ -12,7 +12,7 @@ Assuming that you already have **Docker** installed, to use Cadmus you can follo
 
 1. save the `docker-compose.yml` file somewhere in your machine.
 
-2. login into the (temporary) Docker repository containing our image. This is currently the VeDPH `ve2020/temp` repository: `sudo docker login --username <DOCKERUSERNAME>`. You will be prompted for the password.
+2. login into Docker using your Docker account: `sudo docker login --username <DOCKERUSERNAME>`. You will be prompted for the password.
 
 3. from a command prompt, enter the directory where you saved the `docker-compose.yml` file, and type the command `sudo docker-compose up`. This will fire a MongoDB service, create and seed databases with mock data, and start the API layer.
 
@@ -58,9 +58,9 @@ Thus, to build an image I follow these steps:
 
 1. (applies to my own environment only at this time, as per the mentioned feed workaround): run `UpdateLocalPackages.bat` to update the local packages. Ensure that the version numbers are in synch with the versions used in your projects before running.
 
-2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/temp:cadmusapi` (for the VeDPH repository; for other repositories, just use your Docker username and repository name, e.g. `docker build . -t naftis/fusi:cadmusapi`). If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> naftis/fusi:cadmusapi`.
+2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/cadmus_api:cadmusapi` (for the VeDPH repository; for other repositories, just use your Docker username and repository name, e.g. `docker build . -t naftis/fusi:cadmusapi`). If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> naftis/fusi:cadmusapi`.
 
-3. push the image into your target repository: `docker push vedph2020/temp:cadmusapi`.
+3. push the image into your target repository: `docker push vedph2020/cadmus_api:cadmusapi`.
 
 ## Consuming a Docker Image
 
