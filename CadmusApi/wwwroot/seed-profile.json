@@ -368,6 +368,109 @@
           "value": "Spanish"
         }
       ]
+    },
+    {
+      "id": "apparatus-tags@en",
+      "entries": [
+        {
+          "id": "margin",
+          "value": "margin"
+        },
+        {
+          "id": "inter",
+          "value": "interlinear"
+        }
+      ]
+    },
+    {
+      "id": "apparatus-witnesses.verg-eclo@en",
+      "entries": [
+        {
+          "id": "w1",
+          "value": "Bernensis 172 cum Parisino lat. 7929, olim Floriacensis, saec. IX. [MO B. 12, saec. IX m.]"
+        },
+        {
+          "id": "w2",
+          "value": "correctores vel variae lectiones fere eiusdem aetatis"
+        },
+        {
+          "id": "w3",
+          "value": "Bernensis 165, olim Turonensis [MO B. 10, saec. IX 1/4]"
+        },
+        {
+          "id": "w4",
+          "value": "correctores vel variae lectiones fere eiusdem aetatis"
+        },
+        {
+          "id": "w5",
+          "value": "Bernensis 184 [MO B.13: saec. IX-X]"
+        },
+        {
+          "id": "w6",
+          "value": "correctores vel variae lectiones fere eiusdem aetatis"
+        },
+        {
+          "id": "w7",
+          "value": "Bernensis 255 + 239, in Gallia septentrionali oriundus [MO B. 14, saec. IX 2/3]"
+        },
+        {
+          "id": "w8",
+          "value": "Bernensis 167, origine Autissiodorensis olim creditus (desunt Aen. 12.452-579; 772-952) [MO B.11: saec. IX²]"
+        },
+        {
+          "id": "w9",
+          "value": "Oxoniensis Bodl. Auct. F. 2.8, ante annum fere 850 Parisiis exaratus in coenobio S. Germani [MO B. 155, saec. IX¹]"
+        },
+        {
+          "id": "w10",
+          "value": "Valentianensis 407 (389), olim S. Amandi Elnonensis sive in Pabula [MO B.231: saec IX²]"
+        }
+      ]
+    },
+    {
+      "id": "apparatus-authors.verg-eclo@en",
+      "entries": [
+        {
+          "id": "author1",
+          "value": "Aldhelmus (saec. VII), Opera , ed. R. Ehwald, Berolini 1913-1919."
+        },
+        {
+          "id": "author2",
+          "value": "Anthologia latina (codex Salmasianus saec. VIII), ed. A. Riese, Lipsiae 1894-1906"
+        },
+        {
+          "id": "author3",
+          "value": "Ars anonyma bernensis = GLK VIII (1870), pp. 62-142."
+        },
+        {
+          "id": "author4",
+          "value": "Arusianus Messius (saec. IV ex.), Opus grammaticum sc. Exempla elocutionum ex Vergilio Sallustio Terentio Cicerone digesta per litteras alphabeti = GLK VII (1880), pp. 449-514."
+        },
+        {
+          "id": "author5",
+          "value": "Beda Presbyterus (VII saec.), Liber de arte metrica et de orthographia = GLK VII (1880), pp. 217-294."
+        },
+        {
+          "id": "author6",
+          "value": "Brevis expositio Vergilii georgicorum, ed. H. Hagen, Lipsiae 1902, pp. 193-320."
+        },
+        {
+          "id": "author7",
+          "value": "Flavius Sosipater Charisius (saec. IV ex.), Artis grammaticae libri V = GLK I (1857), pp. 1-296."
+        },
+        {
+          "id": "author8",
+          "value": "Cledonius (saec. V), Ars grammatica = GLK V (1868), pp. 9-79."
+        },
+        {
+          "id": "author9",
+          "value": "Commentum einsidlense in Donati artem (minorem et maiorem) = GLK VIII (1870), pp. 202-274."
+        },
+        {
+          "id": "author10",
+          "value": "Marci Annaei Lucani commenta Bernensia, ed. H. Usener, Lipsiae 1869."
+        }
+      ]
     }
   ],
   "seed": {
@@ -447,14 +550,7 @@
         }
       },
       {
-        "id": "seed.fr.net.fusisoft.apparatus",
-        "options": {
-          "authors": [
-            "Wil.",
-            "Cobet",
-            "Steph."
-          ]
-        }
+        "id": "seed.fr.net.fusisoft.apparatus"
       },
       {
         "id": "seed.fr.net.fusisoft.orthography",
