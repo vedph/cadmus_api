@@ -88,6 +88,14 @@ namespace CadmusApi.Controllers
             return Ok(model);
         }
 
+        private static string PurgeThesaurusId(string id)
+        {
+            int i = id.LastIndexOf('.');
+            if (i > -1) return id.Substring(0, i);
+            i = id.LastIndexOf('@');
+            return i > -1 ? id.Substring(0, i) : id;
+        }
+
         /// <summary>
         /// Gets the specified set of thesauri. If any of the IDs does not include
         /// the language suffix (<c>@</c> + ISO639-2 letters code, e.g. <c>@en</c>),
@@ -97,12 +105,21 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database.</param>
         /// <param name="ids">The thesauri IDs, separated by commas.</param>
+        /// <param name="purgeIds">True to purge the keys (=the thesauri IDs)
+        /// of the returned dictionary, so that any scope and language suffixes
+        /// get removed. Scope starts from the last dot, language from the last
+        /// <code>@</code> character. For instance, if the requested ID is
+        /// <c>apparatus-witnesses.verg-eclo@en</c> and purging is enabled,
+        /// the dictionary key to this thesaurus will be <c>apparatus-witnesses</c>.
+        /// </param>
         /// <returns>Object where each key is a thesaurus ID with a value
         /// equal to the thesaurus model.</returns>
         [HttpGet("api/{database}/thesauri-set/{ids}")]
         [ProducesResponseType(200)]
         public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauri(
-            [FromRoute] string database, [FromRoute] string ids)
+            [FromRoute] string database,
+            [FromRoute] string ids,
+            [FromQuery] bool purgeIds)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -115,7 +132,7 @@ namespace CadmusApi.Controllers
             {
                 Thesaurus thesaurus = repository.GetThesaurus(id);
                 if (thesaurus == null) continue;
-                dct[id] = new ThesaurusModel
+                dct[purgeIds ? PurgeThesaurusId(id) : id] = new ThesaurusModel
                 {
                     Id = thesaurus.Id,
                     Language = thesaurus.GetLanguage(),
