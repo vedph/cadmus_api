@@ -18,8 +18,6 @@ namespace CadmusTool.Commands
             // configure all the app commands here
             app.Command("seed",
                 c => SeedDatabaseCommand.Configure(c, options));
-            app.Command("legacy-seed",
-                c => SeedDatabaseLegacyCommand.Configure(c, options));
             app.Command("import-lex",
                 c => ImportLexiconCommand.Configure(c, options));
 
