@@ -18,12 +18,12 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="29.0.1" />
-    <PackageReference Include="Cadmus.Core" Version="2.2.20" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.21" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.2.25" />
-    <PackageReference Include="Cadmus.Parts" Version="2.2.25" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.27" />
-    <PackageReference Include="Cadmus.Seed" Version="1.0.22" />
+    <PackageReference Include="Cadmus.Core" Version="2.2.21" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.22" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.2.26" />
+    <PackageReference Include="Cadmus.Parts" Version="2.2.26" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.28" />
+    <PackageReference Include="Cadmus.Seed" Version="1.0.23" />
     <PackageReference Include="Fusi.Text" Version="1.1.10" />
     <PackageReference Include="Fusi.Tools" Version="1.1.12" />
     <PackageReference Include="Fusi.Tools.Config" Version="1.0.10" />

@@ -312,11 +312,11 @@ namespace CadmusApi.Controllers
             Type t = provider.Get(typeMatch.Groups[1].Value);
             IPart part = (IPart)JsonConvert.DeserializeObject(json, t);
             var result = (from p in part.GetDataPins()
-                select new
-                {
-                    p.Name,
-                    p.Value
-                }).ToList();
+                          select new
+                          {
+                              p.Name,
+                              p.Value
+                          }).ToList();
             return Ok(result);
         }
 
@@ -486,8 +486,7 @@ namespace CadmusApi.Controllers
             [FromRoute] string database,
             [FromBody] ItemBindingModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             Item item = new Item
             {
@@ -524,6 +523,48 @@ namespace CadmusApi.Controllers
                 id = item.Id,
                 parts = false
             }, item);
+        }
+
+        /// <summary>
+        /// Sets the flags value for all the items with the specified IDs.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="model">The model.</param>
+        [Authorize(Roles = "admin,editor,operator")]
+        [HttpPost("api/{database}/items/flags")]
+        [ProducesResponseType(200)]
+        public IActionResult SetItemFlags(
+            [FromRoute] string database,
+            [FromBody] ItemFlagsBindingModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            repository.SetItemFlags(model.Ids, model.Flags);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Sets the group ID for all the items with the specified IDs.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="model">The model.</param>
+        [Authorize(Roles = "admin,editor,operator")]
+        [HttpPost("api/{database}/items/groupid")]
+        [ProducesResponseType(200)]
+        public IActionResult SetItemGroupId(
+            [FromRoute] string database,
+            [FromBody] ItemGroupIdBindingModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            repository.SetItemGroupId(model.Ids, model.GroupId);
+            return Ok();
         }
 
         private Tuple<string, string> AddRawPart(string database, string raw)
