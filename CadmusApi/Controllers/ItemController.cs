@@ -641,6 +641,27 @@ namespace CadmusApi.Controllers
                 id = idAndJson.Item1
             }, idAndJson.Item2);
         }
+
+        /// <summary>
+        /// Sets the thesaurus scope for all the parts with the specified IDs.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="model">The model.</param>
+        [Authorize(Roles = "admin,editor,operator")]
+        [HttpPost("api/{database}/parts/thesscope")]
+        [ProducesResponseType(200)]
+        public IActionResult SetPartThesaurusScope(
+            [FromRoute] string database,
+            [FromBody] PartThesaurusScopeBindingModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            repository.SetPartThesaurusScope(model.Ids, model.Scope);
+            return Ok();
+        }
         #endregion
     }
 }

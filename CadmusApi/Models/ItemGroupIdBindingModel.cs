@@ -8,7 +8,7 @@ namespace CadmusApi.Models
     public sealed class ItemGroupIdBindingModel
     {
         /// <summary>
-        /// The IDs of the items to set flags for.
+        /// The IDs of the items to set group ID for.
         /// </summary>
         [Required(ErrorMessage = "Item IDs not specified")]
         public string[] Ids { get; set; }
