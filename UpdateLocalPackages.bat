@@ -16,11 +16,11 @@ xcopy %src%messagingapi.sendgrid\1.0.1\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.core\2.2.21\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.mongo\2.2.26\*.nupkg .\local-packages\ /y
 
-xcopy %src%cadmus.parts\2.2.26\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.parts\2.2.27\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.philology.parts\2.2.28\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.seed\1.0.23\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.seed.parts\1.0.26\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed.parts\1.0.27\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.seed.philology.parts\1.0.25\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.archive.parts\2.2.21\*.nupkg .\local-packages\ /y
