@@ -30,9 +30,18 @@
           "typeId": "net.fusisoft.keywords",
           "name": "keywords",
           "description": "Item's keywords.",
-          "colorKey": "90C0F8",
+          "colorKey": "99CCFF",
           "groupKey": "general",
           "sortKey": "keywords",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.index-keywords",
+          "name": "index keywords",
+          "description": "Item's index keywords.",
+          "colorKey": "588BBF",
+          "groupKey": "general",
+          "sortKey": "keywords-x",
           "editorKey": "general"
         },
         {
@@ -126,9 +135,18 @@
           "typeId": "net.fusisoft.keywords",
           "name": "keywords",
           "description": "Item's keywords.",
-          "colorKey": "90C0F8",
+          "colorKey": "99CCFF",
           "groupKey": "general",
           "sortKey": "keywords",
+          "editorKey": "general"
+        },
+        {
+          "typeId": "net.fusisoft.index-keywords",
+          "name": "index keywords",
+          "description": "Item's index keywords.",
+          "colorKey": "588BBF",
+          "groupKey": "general",
+          "sortKey": "keywords-x",
           "editorKey": "general"
         },
         {
@@ -216,6 +234,10 @@
         {
           "id": "net.fusisoft.keywords",
           "value": "keywords"
+        },
+        {
+          "id": "net.fusisoft.index-keywords",
+          "value": "index keywords"
         },
         {
           "id": "net.fusisoft.note",
@@ -500,6 +522,22 @@
       {
         "id": "seed.net.fusisoft.keywords",
         "options": {
+          "languages": [
+            "eng",
+            "deu",
+            "ita",
+            "fra",
+            "spa"
+          ]
+        }
+      },
+      {
+        "id": "seed.net.fusisoft.index-keywords",
+        "options": {
+          "indexIds": [
+            "persons",
+            "places"
+          ],
           "languages": [
             "eng",
             "deu",
