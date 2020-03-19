@@ -15,3 +15,22 @@ If this is not specified, a default mock profile is used. This typically happens
 The profile source can either be a file name, or an HTTP(S) resource; in the latter case, it is assumed that it starts with `http`.
 
 When the profile source is a file name, it may contain directory variables between `%`. Currently, the variable `%wwwroot%` is reserved to resolve to the web content root directory; any other variable name is searched in the configuration.
+
+### Importing Data From JSON Dumps
+
+At startup you have the option of importing data (items and parts) from JSON dumps, after seeding has completed.
+
+You can use this option to fully create a database when it does not exists, by allowing the seeder to seed the Cadmus profile but no items, and then importing JSON dumps from one or more files or HTTP(S) resources.
+
+The import sources are specified in the `imports` section of the profile, just after the `seed` section, as a sibling of it; for instance:
+
+```json
+"imports": [
+	"https://www.mysite.org/dumps/cadmus01.json",
+	"https://www.mysite.org/dumps/cadmus02.json"
+]
+```
+
+You are free to mix file-based and HTTP-based resources; they will be synchronously processed in the order they are specified. As specified above, when the profile source is a file name it may contain directory variables between `%`.
+
+These dumps are JSON files whose root element is always an array. The objects in the array can be either items with their `parts` property (which can be empty), or just parts.

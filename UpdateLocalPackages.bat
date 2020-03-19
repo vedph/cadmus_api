@@ -13,16 +13,16 @@ xcopy %src%fusi.antiquity\1.1.22\*.nupkg .\local-packages\ /y
 xcopy %src%messagingapi\1.0.1\*.nupkg .\local-packages\ /y
 xcopy %src%messagingapi.sendgrid\1.0.1\*.nupkg .\local-packages\ /y
 
-xcopy %src%cadmus.core\2.2.22\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.mongo\2.2.27\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.core\2.2.23\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.mongo\2.2.28\*.nupkg .\local-packages\ /y
 
-xcopy %src%cadmus.parts\2.2.28\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.philology.parts\2.2.29\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.parts\2.2.29\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.philology.parts\2.2.30\*.nupkg .\local-packages\ /y
 
-xcopy %src%cadmus.seed\1.0.24\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.seed.parts\1.0.28\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.seed.philology.parts\1.0.26\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed\1.0.25\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed.parts\1.0.29\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed.philology.parts\1.0.27\*.nupkg .\local-packages\ /y
 
-xcopy %src%cadmus.archive.parts\2.2.22\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.lexicon.parts\2.2.23\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.archive.parts\2.2.23\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.lexicon.parts\2.2.24\*.nupkg .\local-packages\ /y
 pause

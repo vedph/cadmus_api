@@ -9,10 +9,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Polly;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace CadmusApi.Services
@@ -23,37 +23,6 @@ namespace CadmusApi.Services
     /// </summary>
     public static class HostSeedExtensions
     {
-        /// <summary>
-        /// Resolves directory variables in the specified path.
-        /// Variables are defined in any part of the path between <c>%</c>.
-        /// Currently, the variable <c>%wwwroot%</c> is reserved to resolve to
-        /// the web content root directory; any other variable name is looked
-        /// for in the configuration.
-        /// </summary>
-        /// <param name="path">The path.</param>
-        /// <param name="serviceProvider">The service provider.</param>
-        /// <returns>Resolved path.</returns>
-        private static string ResolvePath(string path,
-            IServiceProvider serviceProvider)
-        {
-            if (path.IndexOf('%') == -1) return path;
-
-            return new Regex("%([^%]+)%").Replace(path, (Match m) =>
-            {
-                switch (m.Groups[1].Value.ToUpperInvariant())
-                {
-                    case "WWWROOT":
-                        IHostEnvironment env = serviceProvider
-                            .GetService<IHostEnvironment>();
-                        return Path.Combine(env.ContentRootPath, "wwwroot");
-                    default:
-                        IConfiguration config =
-                            serviceProvider.GetService<IConfiguration>();
-                        return config[m.Groups[1].Value];
-                }
-            });
-        }
-
         private static async Task SeedCadmusDatabaseAsync(
             IServiceProvider serviceProvider,
             IConfiguration config,
@@ -73,26 +42,20 @@ namespace CadmusApi.Services
             string profileSource = config["Seed:ProfileSource"];
             if (string.IsNullOrEmpty(profileSource)) return;
 
-            IResourceLoader loader;
-            if (profileSource.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-            {
-                loader = new HttpResourceLoader();
-            }
-            else
-            {
-                loader = new FileResourceLoader();
-                profileSource = ResolvePath(profileSource, serviceProvider);
-            }
             Console.WriteLine($"Loading seed profile from {profileSource}...");
             logger.LogInformation($"Loading seed profile from {profileSource}...");
 
-            Stream stream = await loader.LoadResourceAsync(profileSource);
+            ResourceLoaderService loaderService =
+                new ResourceLoaderService(serviceProvider);
+
+            Stream stream = await loaderService.LoadAsync(profileSource);
             if (stream == null)
             {
                 Console.WriteLine("Error: seed profile could not be loaded");
                 return;
             }
 
+            // deserialize the profile
             string profileContent;
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
             {
@@ -109,12 +72,27 @@ namespace CadmusApi.Services
 
             // create database
             Console.WriteLine("Creating database...");
-            logger.LogInformation("Creating database {connString}...");
+            logger.LogInformation($"Creating database {connString}...");
 
             manager.CreateDatabase(connString, profile);
 
             Console.WriteLine("Database created.");
             logger.LogInformation("Database created.");
+
+            // get the required services
+            Console.WriteLine("Creating seeders factory...");
+            Serilog.Log.Information("Creating seeders factory...");
+            IPartSeederFactoryProvider seederService =
+                serviceProvider.GetService<IPartSeederFactoryProvider>();
+            PartSeederFactory factory = seederService.GetFactory(
+                loaderService.ResolvePath(profileSource));
+
+            Console.WriteLine("Creating repository...");
+            Serilog.Log.Information("Creating repository...");
+            IRepositoryProvider repositoryProvider =
+                serviceProvider.GetService<IRepositoryProvider>();
+            ICadmusRepository repository =
+                repositoryProvider.CreateRepository(databaseName);
 
             // get seed count
             int count = 0;
@@ -125,19 +103,7 @@ namespace CadmusApi.Services
             // if required, seed data
             if (count > 0)
             {
-                Console.WriteLine("Creating repository...");
-                Serilog.Log.Information("Creating repository...");
-
-                IRepositoryProvider repositoryProvider =
-                    serviceProvider.GetService<IRepositoryProvider>();
-                ICadmusRepository repository =
-                    repositoryProvider.CreateRepository(databaseName);
-
-                Console.WriteLine("Seeding items...");
-                IPartSeederFactoryProvider seederService =
-                    serviceProvider.GetService<IPartSeederFactoryProvider>();
-
-                PartSeederFactory factory = seederService.GetFactory(profileSource);
+                Console.WriteLine($"Seeding {count} items...");
                 CadmusSeeder seeder = new CadmusSeeder(factory);
 
                 foreach (IItem item in seeder.GetItems(count))
@@ -150,6 +116,24 @@ namespace CadmusApi.Services
                     }
                 }
                 Console.WriteLine("Seeding completed.");
+            }
+
+            // import data if required
+            IList<string> sources = factory.GetImports();
+            if (sources?.Count > 0)
+            {
+                PartImporter importer = new PartImporter(repository);
+
+                foreach (string source in sources)
+                {
+                    Console.WriteLine($"Importing from {source}...");
+
+                    using (Stream jsonStream =
+                        await loaderService.LoadAsync(source))
+                    {
+                        importer.Import(jsonStream);
+                    }
+                }
             }
         }
 
