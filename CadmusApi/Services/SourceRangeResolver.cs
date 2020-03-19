@@ -31,50 +31,57 @@ namespace CadmusApi.Services
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
+            return InnerResolve();
 
-            Match m = Regex.Match(source,
-                @"^\*\s+(?<m>[^\s]+)\s+(?<f>\d+)\s+(?<l>\d+)(?:\s+(?<p>\d+))?");
-
-            // not a pattern, just ret the literal source
-            if (!m.Success)
+            IEnumerable<string> InnerResolve()
             {
-                yield return source;
-                yield break;
-            }
+                Match m = Regex.Match(source,
+                  @"^\*\s+(?<m>[^\s]+)\s+(?<f>\d+)\s+(?<l>\d+)(?:\s+(?<p>\d+))?");
 
-            // it's a pattern, resolve it
-            int first = int.Parse(m.Groups["f"].Value, CultureInfo.InvariantCulture);
-            int last = int.Parse(m.Groups["l"].Value, CultureInfo.InvariantCulture);
-            int padding = m.Groups["p"].Length > 0
-                ? int.Parse(m.Groups["p"].Value)
-                : 0;
+                // not a pattern, just ret the literal source
+                if (!m.Success)
+                {
+                    yield return source;
+                    yield break;
+                }
 
-            StringBuilder sb = new StringBuilder();
-            int i = m.Groups["m"].Value.IndexOf("{N}", StringComparison.Ordinal);
+                // it's a pattern, resolve it
+                int first = int.Parse(m.Groups["f"].Value,
+                    CultureInfo.InvariantCulture);
+                int last = int.Parse(m.Groups["l"].Value,
+                    CultureInfo.InvariantCulture);
+                int padding = m.Groups["p"].Length > 0
+                    ? int.Parse(m.Groups["p"].Value)
+                    : 0;
 
-            // defensive: if no {N} just return the mask as a literal
-            if (i == -1)
-            {
-                yield return m.Groups["m"].Value;
-                yield break;
-            }
+                StringBuilder sb = new StringBuilder();
+                int i = m.Groups["m"].Value.IndexOf("{N}",
+                    StringComparison.Ordinal);
 
-            // resolve
-            string prefix = m.Groups["m"].Value.Substring(0, i);
-            string fmt = padding > 0 ? new string('0', padding) : null;
-            string suffix = m.Groups["m"].Value.Substring(i + 1);
+                // defensive: if no {N} just return the mask as a literal
+                if (i == -1)
+                {
+                    yield return m.Groups["m"].Value;
+                    yield break;
+                }
 
-            if (last < first) last = first;
+                // resolve
+                string prefix = m.Groups["m"].Value.Substring(0, i);
+                string fmt = padding > 0 ? new string('0', padding) : null;
+                string suffix = m.Groups["m"].Value.Substring(i + 1);
 
-            for (int n = first; n <= last; n++)
-            {
-                sb.Clear();
-                sb.Append(prefix);
-                sb.Append(fmt != null
-                    ? n.ToString(fmt, CultureInfo.InvariantCulture)
-                    : n.ToString(CultureInfo.InvariantCulture));
-                sb.Append(suffix);
-                yield return sb.ToString();
+                if (last < first) last = first;
+
+                for (int n = first; n <= last; n++)
+                {
+                    sb.Clear();
+                    sb.Append(prefix);
+                    sb.Append(fmt != null
+                        ? n.ToString(fmt, CultureInfo.InvariantCulture)
+                        : n.ToString(CultureInfo.InvariantCulture));
+                    sb.Append(suffix);
+                    yield return sb.ToString();
+                }
             }
         }
     }
