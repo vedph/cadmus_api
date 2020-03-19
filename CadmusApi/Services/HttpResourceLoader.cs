@@ -1,0 +1,41 @@
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
+
+namespace CadmusApi.Services
+{
+    /// <summary>
+    /// HTTP-based resource loader.
+    /// </summary>
+    /// <seealso cref="CadmusApi.Services.IResourceLoader" />
+    public sealed class HttpResourceLoader : IResourceLoader
+    {
+        /// <summary>
+        /// Loads the specified resource asynchronously.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns>
+        /// The resource stream, or null in case of error.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">source</exception>
+        public async Task<Stream> LoadResourceAsync(string source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            Stream stream;
+            try
+            {
+                HttpClient client = new HttpClient();
+                stream = await client.GetStreamAsync(source);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                stream = null;
+            }
+            return stream;
+        }
+    }
+}

@@ -54,7 +54,7 @@ namespace CadmusApi.Services
             });
         }
 
-        private static void SeedCadmusDatabase(
+        private static async Task SeedCadmusDatabaseAsync(
             IServiceProvider serviceProvider,
             IConfiguration config,
             ILogger logger)
@@ -70,19 +70,31 @@ namespace CadmusApi.Services
             if (manager.DatabaseExists(connString)) return;
 
             // load seed profile (nope if no profile)
-            string profilePath = config["Seed:ProfilePath"];
-            if (string.IsNullOrEmpty(profilePath)) return;
+            string profileSource = config["Seed:ProfileSource"];
+            if (string.IsNullOrEmpty(profileSource)) return;
 
-            profilePath = ResolvePath(profilePath, serviceProvider);
-            if (!File.Exists(profilePath)) return;
+            IResourceLoader loader;
+            if (profileSource.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+            {
+                loader = new HttpResourceLoader();
+            }
+            else
+            {
+                loader = new FileResourceLoader();
+                profileSource = ResolvePath(profileSource, serviceProvider);
+            }
+            Console.WriteLine($"Loading seed profile from {profileSource}...");
+            logger.LogInformation($"Loading seed profile from {profileSource}...");
 
-            Console.WriteLine($"Loading seed profile from {profilePath}...");
-            logger.LogInformation($"Loading seed profile from {profilePath}...");
+            Stream stream = await loader.LoadResourceAsync(profileSource);
+            if (stream == null)
+            {
+                Console.WriteLine("Error: seed profile could not be loaded");
+                return;
+            }
 
             string profileContent;
-            using (StreamReader reader = new StreamReader(
-                new FileStream(profilePath, FileMode.Open,
-                FileAccess.Read, FileShare.ReadWrite), Encoding.UTF8))
+            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
             {
                 profileContent = reader.ReadToEnd();
             }
@@ -125,7 +137,7 @@ namespace CadmusApi.Services
                 IPartSeederFactoryProvider seederService =
                     serviceProvider.GetService<IPartSeederFactoryProvider>();
 
-                PartSeederFactory factory = seederService.GetFactory(profilePath);
+                PartSeederFactory factory = seederService.GetFactory(profileSource);
                 CadmusSeeder seeder = new CadmusSeeder(factory);
 
                 foreach (IItem item in seeder.GetItems(count))
@@ -147,7 +159,7 @@ namespace CadmusApi.Services
         /// <param name="host">The host.</param>
         /// <returns>The received host, to allow concatenation.</returns>
         /// <exception cref="ArgumentNullException">serviceProvider</exception>
-        public static IHost Seed(this IHost host)
+        public static IHost SeedAsync(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -200,9 +212,12 @@ namespace CadmusApi.Services
                                     $" (sleep {timeSpan}): {exception.Message}";
                                 Console.WriteLine(message);
                                 logger.LogError(exception, message);
-                            }).Execute(() =>
+                            }).Execute(async () =>
                             {
-                                SeedCadmusDatabase(serviceProvider, config, logger);
+                                await SeedCadmusDatabaseAsync(
+                                    serviceProvider,
+                                    config,
+                                    logger);
                                 return Task.CompletedTask;
                             });
                     }).Wait();

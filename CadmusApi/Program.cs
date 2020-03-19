@@ -71,7 +71,7 @@ namespace CadmusApi
                 CreateHostBuilder(args)
                     .UseSerilog()
                     .Build()
-                    .Seed()     // see Services/HostSeedExtension
+                    .SeedAsync()     // see Services/HostSeedExtension
                     .Run();
 
                 return 0;
