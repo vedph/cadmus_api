@@ -126,11 +126,11 @@ namespace CadmusApi.Services
 
                 foreach (string source in sources)
                 {
-                    Console.WriteLine($"Importing from {source}...");
-
-                    using (Stream jsonStream =
-                        await loaderService.LoadAsync(source))
+                    foreach (string resolved in SourceRangeResolver.Resolve(source))
                     {
+                        Console.WriteLine($"Importing from {resolved}...");
+                        using Stream jsonStream =
+                            await loaderService.LoadAsync(resolved);
                         importer.Import(jsonStream);
                     }
                 }
