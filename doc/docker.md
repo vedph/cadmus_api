@@ -58,9 +58,9 @@ Thus, to build an image I follow these steps:
 
 1. (applies to my own environment only at this time, as per the mentioned feed workaround): run `UpdateLocalPackages.bat` to update the local packages. Ensure that the version numbers are in synch with the versions used in your projects before running.
 
-2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/cadmus_api:cadmusapi` (for the VeDPH repository; for other repositories, just use your Docker username and repository name, e.g. `docker build . -t naftis/fusi:cadmusapi`). If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> naftis/fusi:cadmusapi`.
+2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/cadmus_api:latest`. If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> <newtag>`.
 
-3. push the image into your target repository: `docker push vedph2020/cadmus_api:cadmusapi`.
+3. push the image into your target repository: `docker push vedph2020/cadmus_api:latest`.
 
 ## Consuming a Docker Image
 
