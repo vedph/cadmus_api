@@ -198,16 +198,19 @@ namespace CadmusApi.Services
                                 logger.LogError(exception, message);
                             }).Execute(async () =>
                             {
+                                Console.WriteLine("Seeding database...");
                                 await SeedCadmusDatabaseAsync(
                                     serviceProvider,
                                     config,
                                     logger);
+                                Console.WriteLine("Seeding completed");
                                 return Task.CompletedTask;
                             });
                     }).Wait();
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.ToString());
                     logger.LogError(ex, ex.Message);
                     throw;
                 }
