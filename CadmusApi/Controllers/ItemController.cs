@@ -88,6 +88,7 @@ namespace CadmusApi.Controllers
                 Title = filter.Title,
                 Description = filter.Description,
                 FacetId = filter.FacetId,
+                GroupId = filter.GroupId,
                 Flags = filter.Flags,
                 MinModified = filter.MinModified,
                 MaxModified = filter.MaxModified,

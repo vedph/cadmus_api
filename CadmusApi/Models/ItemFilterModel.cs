@@ -36,6 +36,11 @@ namespace CadmusApi.Models
         public string FacetId { get; set; }
 
         /// <summary>
+        /// Gets or sets the group ID to be matched.
+        /// </summary>
+        public string GroupId { get; set; }
+
+        /// <summary>
         /// The flag(s) to be matched.
         /// </summary>
         public int? Flags { get; set; }
