@@ -20,7 +20,7 @@
     <PackageReference Include="Bogus" Version="29.0.1" />
     <PackageReference Include="Cadmus.Core" Version="2.2.23" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.24" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.2.28" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.2.29" />
     <PackageReference Include="Cadmus.Parts" Version="2.2.29" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.30" />
     <PackageReference Include="Cadmus.Seed" Version="1.0.25" />
