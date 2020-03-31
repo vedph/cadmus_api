@@ -26,6 +26,7 @@ using Serilog.Events;
 using Serilog.Exceptions;
 using Cadmus.Core;
 using Cadmus.Seed;
+using Cadmus.Core.Config;
 
 namespace CadmusApi
 {
@@ -223,7 +224,10 @@ namespace CadmusApi
             // add configuration
             services.AddSingleton(_ => Configuration);
             services.AddSingleton<IRepositoryProvider, StandardRepositoryProvider>();
-            services.AddSingleton<IPartSeederFactoryProvider, StandardPartSeederFactoryProvider>();
+            services.AddSingleton<IPartSeederFactoryProvider,
+                StandardPartSeederFactoryProvider>();
+            services.AddSingleton<IItemBrowserFactoryProvider,
+                StandardItemBrowserFactoryProvider>();
 
             // swagger
             ConfigureSwaggerServices(services);
