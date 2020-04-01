@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CadmusApi.Controllers
@@ -47,7 +49,7 @@ namespace CadmusApi.Controllers
                 throw new ArgumentNullException(nameof(provider));
         }
 
-        private ItemBrowserFactory GetFactory()
+        private async Task<ItemBrowserFactory> GetFactory()
         {
             string profileSource = _configuration["Seed:ProfileSource"];
             if (string.IsNullOrEmpty(profileSource)) return null;
@@ -55,10 +57,13 @@ namespace CadmusApi.Controllers
             ResourceLoaderService loaderService =
                 new ResourceLoaderService(_serviceProvider);
 
-            string path = loaderService.ResolvePath(profileSource);
-            ItemBrowserFactory factory = _provider.GetFactory(path);
-
-            return factory;
+            string profile;
+            using (StreamReader reader = new StreamReader(
+                await loaderService.LoadAsync(profileSource), Encoding.UTF8))
+            {
+                profile = reader.ReadToEnd();
+            }
+            return _provider.GetFactory(profile);
         }
 
         /// <summary>
@@ -68,9 +73,9 @@ namespace CadmusApi.Controllers
         [HttpGet("api/browser-ids")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public string[] GetBrowserIds()
+        public async Task<string[]> GetBrowserIds()
         {
-            ItemBrowserFactory factory = GetFactory();
+            ItemBrowserFactory factory = await GetFactory();
             if (factory == null) return Array.Empty<string>();
             return factory.GetItemBrowserIds();
         }
@@ -88,7 +93,7 @@ namespace CadmusApi.Controllers
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
-        public ActionResult<DataPage<ItemInfo>> GetItems(
+        public async Task<ActionResult<DataPage<ItemInfo>>> GetItems(
             [FromRoute] string database,
             [FromRoute] string browserId,
             [FromQuery] PagingOptionsModel model)
@@ -106,7 +111,7 @@ namespace CadmusApi.Controllers
                 }
             }
 
-            ItemBrowserFactory factory = GetFactory();
+            ItemBrowserFactory factory = await GetFactory();
             if (factory == null)
             {
                 return Ok(new DataPage<ItemInfo>(model.PageNumber,

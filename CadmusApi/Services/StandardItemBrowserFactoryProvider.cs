@@ -1,6 +1,7 @@
 ﻿using Cadmus.Core.Config;
 using Cadmus.Seed.Parts.General;
 using Cadmus.Seed.Philology.Parts.Layers;
+using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
 using SimpleInjector;
 using System;
@@ -18,13 +19,13 @@ namespace CadmusApi.Services
         /// <summary>
         /// Gets the item browsers factory.
         /// </summary>
-        /// <param name="profilePath">The profile file path.</param>
+        /// <param name="profile">The profile.</param>
         /// <returns>Factory.</returns>
-        /// <exception cref="ArgumentNullException">profilePath</exception>
-        public ItemBrowserFactory GetFactory(string profilePath)
+        /// <exception cref="ArgumentNullException">profile</exception>
+        public ItemBrowserFactory GetFactory(string profile)
         {
-            if (profilePath == null)
-                throw new ArgumentNullException(nameof(profilePath));
+            if (profile == null)
+                throw new ArgumentNullException(nameof(profile));
 
             // build the tags to types map for parts/fragments
             Assembly[] seedAssemblies = new[]
@@ -48,7 +49,7 @@ namespace CadmusApi.Services
 
             // load seed configuration
             IConfigurationBuilder builder = new ConfigurationBuilder()
-                .AddJsonFile(profilePath);
+                .AddInMemoryJson(profile);
             var configuration = builder.Build();
 
             return new ItemBrowserFactory(

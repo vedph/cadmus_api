@@ -82,10 +82,15 @@ namespace CadmusApi.Services
             // get the required services
             Console.WriteLine("Creating seeders factory...");
             Serilog.Log.Information("Creating seeders factory...");
-            IPartSeederFactoryProvider seederService =
+            IPartSeederFactoryProvider factoryProvider =
                 serviceProvider.GetService<IPartSeederFactoryProvider>();
-            PartSeederFactory factory = seederService.GetFactory(
-                loaderService.ResolvePath(profileSource));
+            PartSeederFactory factory;
+            using (StreamReader reader = new StreamReader(
+                await loaderService.LoadAsync(profileSource),
+                Encoding.UTF8))
+            {
+                factory = factoryProvider.GetFactory(reader.ReadToEnd());
+            }
 
             Console.WriteLine("Creating repository...");
             Serilog.Log.Information("Creating repository...");
