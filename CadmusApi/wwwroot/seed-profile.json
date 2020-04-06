@@ -258,6 +258,10 @@
         {
           "id": "fr.net.fusisoft.witnesses",
           "value": "witnesses fr."
+        },
+        {
+          "id": "item-browser.hierarchy",
+          "value": "items hierarchy"
         }
       ]
     },
