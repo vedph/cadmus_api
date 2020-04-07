@@ -14,7 +14,7 @@ xcopy %src%messagingapi\1.0.1\*.nupkg .\local-packages\ /y
 xcopy %src%messagingapi.sendgrid\1.0.2\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.core\2.2.31\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.mongo\2.2.38\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.mongo\2.2.40\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.parts\2.2.37\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.philology.parts\2.2.38\*.nupkg .\local-packages\ /y
