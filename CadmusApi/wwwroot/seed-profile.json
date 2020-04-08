@@ -199,6 +199,11 @@
       "colorKey": "F08080"
     }
   ],
+  "browsers": [
+    {
+      "id": "net.fusisoft.item-browser.mongo.hierarchy"
+    }
+  ],
   "thesauri": [
     {
       "id": "model-types@en",

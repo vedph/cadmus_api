@@ -1,4 +1,5 @@
 ﻿using Cadmus.Core.Config;
+using Cadmus.Mongo;
 using Cadmus.Seed.Parts.General;
 using Cadmus.Seed.Philology.Parts.Layers;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
@@ -16,6 +17,18 @@ namespace CadmusApi.Services
     public sealed class StandardItemBrowserFactoryProvider :
         IItemBrowserFactoryProvider
     {
+        private readonly string _connectionString;
+
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="StandardItemBrowserFactoryProvider"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        public StandardItemBrowserFactoryProvider(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         /// <summary>
         /// Gets the item browsers factory.
         /// </summary>
@@ -28,22 +41,20 @@ namespace CadmusApi.Services
                 throw new ArgumentNullException(nameof(profile));
 
             // build the tags to types map for parts/fragments
-            Assembly[] seedAssemblies = new[]
+            Assembly[] browserAssemblies = new[]
             {
-                // Cadmus.Seed.Parts
-                typeof(NotePartSeeder).Assembly,
-                // Cadmus.Seed.Philology.Parts
-                typeof(ApparatusLayerFragmentSeeder).Assembly
+                // Cadmus.Mongo
+                typeof(MongoHierarchyItemBrowser).Assembly,
             };
             TagAttributeToTypeMap map = new TagAttributeToTypeMap();
-            map.Add(seedAssemblies);
+            map.Add(browserAssemblies);
 
             // build the container for seeders
             Container container = new Container();
             ItemBrowserFactory.ConfigureServices(
                 container,
                 new StandardPartTypeProvider(map),
-                seedAssemblies);
+                browserAssemblies);
 
             container.Verify();
 
@@ -55,7 +66,7 @@ namespace CadmusApi.Services
             return new ItemBrowserFactory(
                 container,
                 configuration,
-                configuration.GetConnectionString("Default"));
+                _connectionString);
         }
     }
 }

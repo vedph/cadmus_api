@@ -226,8 +226,9 @@ namespace CadmusApi
             services.AddSingleton<IRepositoryProvider, StandardRepositoryProvider>();
             services.AddSingleton<IPartSeederFactoryProvider,
                 StandardPartSeederFactoryProvider>();
-            services.AddSingleton<IItemBrowserFactoryProvider,
-                StandardItemBrowserFactoryProvider>();
+            services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
+                new StandardItemBrowserFactoryProvider(
+                    Configuration.GetConnectionString("Default")));
 
             // swagger
             ConfigureSwaggerServices(services);

@@ -89,10 +89,11 @@ namespace CadmusApi.Controllers
         /// <returns>
         /// Items page.
         /// </returns>
-        [HttpGet("api/{database}/items/{browserId}")]
+        [HttpGet("api/{database}/items-browser/{browserId}")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<DataPage<ItemInfo>>> GetItems(
             [FromRoute] string database,
             [FromRoute] string browserId,
@@ -107,7 +108,8 @@ namespace CadmusApi.Controllers
                 if (string.Compare(key, "pageNumber", true) != 0
                     && string.Compare(key, "pageSize", true) != 0)
                 {
-                    args[key] = queryString[key];
+                    string value = queryString[key].ToString();
+                    args[key] = value == "null"? null : value;
                 }
             }
 
@@ -119,8 +121,10 @@ namespace CadmusApi.Controllers
             }
 
             IItemBrowser browser = factory.GetItemBrowser(browserId);
+            if (browser == null)
+                return NotFound($"Item browser with ID {browserId} not found");
 
-            Task<DataPage<ItemInfo>> page = browser.BrowseAsync(database, 
+            DataPage<ItemInfo> page = await browser.BrowseAsync(database,
                 model, args);
             return Ok(page);
         }
