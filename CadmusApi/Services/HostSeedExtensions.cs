@@ -31,22 +31,36 @@ namespace CadmusApi.Services
             // build connection string
             string connString = config.GetConnectionString("Default");
             string databaseName = config["DatabaseNames:Data"];
-            if (string.IsNullOrEmpty(databaseName)) return;
+            if (string.IsNullOrEmpty(databaseName))
+            {
+                Console.WriteLine("No database name in config DatabaseNames:Data");
+                return;
+            }
             connString = string.Format(connString, databaseName);
+            Console.WriteLine($"Database: {databaseName}");
 
             // nope if database exists
             IDatabaseManager manager = new MongoDatabaseManager();
-            if (manager.DatabaseExists(connString)) return;
+            if (manager.DatabaseExists(connString))
+            {
+                Console.WriteLine($"Database {databaseName} already exists");
+                return;
+            }
 
             // load seed profile (nope if no profile)
             string profileSource = config["Seed:ProfileSource"];
-            if (string.IsNullOrEmpty(profileSource)) return;
+            if (string.IsNullOrEmpty(profileSource))
+            {
+                Console.WriteLine("No profile source in config Seed:ProfileSource");
+                return;
+            }
 
             Console.WriteLine($"Loading seed profile from {profileSource}...");
             logger.LogInformation($"Loading seed profile from {profileSource}...");
 
             ResourceLoaderService loaderService =
                 new ResourceLoaderService(serviceProvider);
+            Console.WriteLine($"Source: {loaderService.ResolveSource(profileSource)}");
 
             Stream stream = await loaderService.LoadAsync(profileSource);
             if (stream == null)
@@ -56,6 +70,7 @@ namespace CadmusApi.Services
             }
 
             // deserialize the profile
+            Console.WriteLine("Loading profile...");
             string profileContent;
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
             {

@@ -13,8 +13,7 @@
           "required": true,
           "colorKey": "98F8F8",
           "groupKey": "general",
-          "sortKey": "categories",
-          "editorKey": "general"
+          "sortKey": "categories"
         },
         {
           "typeId": "net.fusisoft.historical-date",
@@ -23,8 +22,7 @@
           "required": false,
           "colorKey": "F898F8",
           "groupKey": "general",
-          "sortKey": "date",
-          "editorKey": "general"
+          "sortKey": "date"
         },
         {
           "typeId": "net.fusisoft.keywords",
@@ -32,8 +30,7 @@
           "description": "Item's keywords.",
           "colorKey": "90C0F8",
           "groupKey": "general",
-          "sortKey": "keywords",
-          "editorKey": "general"
+          "sortKey": "keywords"
         },
         {
           "typeId": "net.fusisoft.note",
@@ -41,8 +38,7 @@
           "description": "A free text note about the document.",
           "colorKey": "B0A0F8",
           "groupKey": "general",
-          "sortKey": "note",
-          "editorKey": "general"
+          "sortKey": "note"
         },
         {
           "typeId": "net.fusisoft.token-text",
@@ -51,8 +47,7 @@
           "description": "Item's token-based text.",
           "colorKey": "31AB54",
           "groupKey": "text",
-          "sortKey": "text",
-          "editorKey": "general"
+          "sortKey": "text"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -61,8 +56,7 @@
           "description": "Comments on text.",
           "colorKey": "F8D040",
           "groupKey": "text",
-          "sortKey": "text-comments",
-          "editorKey": "general"
+          "sortKey": "text-comments"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -71,8 +65,7 @@
           "description": "Critical apparatus.",
           "colorKey": "D4E0A4",
           "groupKey": "text",
-          "sortKey": "text-apparatus",
-          "editorKey": "general philology"
+          "sortKey": "text-apparatus"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -81,8 +74,7 @@
           "description": "Standard orthography.",
           "colorKey": "E0D4A4",
           "groupKey": "text",
-          "sortKey": "text-apparatus",
-          "editorKey": "general philology"
+          "sortKey": "text-apparatus"
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
@@ -91,8 +83,7 @@
           "description": "Witnesses list.",
           "colorKey": "A4E0D4",
           "groupKey": "text",
-          "sortKey": "text-apparatus",
-          "editorKey": "general philology"
+          "sortKey": "text-apparatus"
         }
       ]
     },
@@ -109,8 +100,7 @@
           "required": true,
           "colorKey": "98F8F8",
           "groupKey": "general",
-          "sortKey": "categories",
-          "editorKey": "general"
+          "sortKey": "categories"
         },
         {
           "typeId": "net.fusisoft.historical-date",
@@ -119,8 +109,7 @@
           "required": false,
           "colorKey": "F898F8",
           "groupKey": "general",
-          "sortKey": "date",
-          "editorKey": "general"
+          "sortKey": "date"
         },
         {
           "typeId": "net.fusisoft.keywords",
@@ -128,8 +117,7 @@
           "description": "Item's keywords.",
           "colorKey": "90C0F8",
           "groupKey": "general",
-          "sortKey": "keywords",
-          "editorKey": "general"
+          "sortKey": "keywords"
         },
         {
           "typeId": "net.fusisoft.note",
@@ -137,8 +125,7 @@
           "description": "A free text note about the document.",
           "colorKey": "B0A0F8",
           "groupKey": "general",
-          "sortKey": "note",
-          "editorKey": "general"
+          "sortKey": "note"
         },
         {
           "typeId": "net.fusisoft.tiled-text",
@@ -147,8 +134,7 @@
           "description": "Item's tiles-based text.",
           "colorKey": "31AB54",
           "groupKey": "text",
-          "sortKey": "text",
-          "editorKey": "general"
+          "sortKey": "text"
         },
         {
           "typeId": "net.fusisoft.tiled-text-layer",
@@ -157,8 +143,7 @@
           "description": "Comments on text.",
           "colorKey": "F8D040",
           "groupKey": "text",
-          "sortKey": "text-comments",
-          "editorKey": "general"
+          "sortKey": "text-comments"
         },
         {
           "typeId": "net.fusisoft.tiled-text-layer",
@@ -167,8 +152,7 @@
           "description": "Critical apparatus.",
           "colorKey": "D4E0A4",
           "groupKey": "text",
-          "sortKey": "text-apparatus",
-          "editorKey": "general philology"
+          "sortKey": "text-apparatus"
         },
         {
           "typeId": "net.fusisoft.tiled-text-layer",
@@ -177,8 +161,7 @@
           "description": "Standard orthography.",
           "colorKey": "E0D4A4",
           "groupKey": "text",
-          "sortKey": "text-apparatus",
-          "editorKey": "general philology"
+          "sortKey": "text-apparatus"
         },
         {
           "typeId": "net.fusisoft.tiled-text-layer",
@@ -187,8 +170,7 @@
           "description": "Witnesses list.",
           "colorKey": "A4E0D4",
           "groupKey": "text",
-          "sortKey": "text-apparatus",
-          "editorKey": "general philology"
+          "sortKey": "text-apparatus"
         }
       ]
     }

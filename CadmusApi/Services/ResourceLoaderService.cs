@@ -68,6 +68,22 @@ namespace CadmusApi.Services
         }
 
         /// <summary>
+        /// Gets the resolved source from the specified source.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <returns>The resolved load path.</returns>
+        /// <exception cref="ArgumentNullException">source</exception>
+        public string ResolveSource(string source)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+
+            if (source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                return source;
+
+            return ResolvePath(source);
+        }
+
+        /// <summary>
         /// Gets the loader for the specified source.
         /// </summary>
         /// <param name="source">The source.</param>
@@ -76,12 +92,12 @@ namespace CadmusApi.Services
         public Task<Stream> LoadAsync(string source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
+            string resolved = ResolveSource(source);
 
-            if (source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-                return new HttpResourceLoader().LoadResourceAsync(source);
+            if (resolved.StartsWith("http", StringComparison.OrdinalIgnoreCase))
+                return new HttpResourceLoader().LoadResourceAsync(resolved);
 
-            source = ResolvePath(source);
-            return new FileResourceLoader().LoadResourceAsync(source);
+            return new FileResourceLoader().LoadResourceAsync(resolved);
         }
     }
 }
