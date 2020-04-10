@@ -10,6 +10,8 @@ xcopy %src%fusi.tools.config\1.0.11\*.nupkg .\local-packages\ /y
 xcopy %src%fusi.text\1.1.10\*.nupkg .\local-packages\ /y
 xcopy %src%fusi.antiquity\1.1.23\*.nupkg .\local-packages\ /y
 
+xcopy %src%fusi.microsoft.extensions.configuration.inmemoryjson\1.0.1\*.nupkg .\local-packages\ /y
+
 xcopy %src%messagingapi\1.0.1\*.nupkg .\local-packages\ /y
 xcopy %src%messagingapi.sendgrid\1.0.2\*.nupkg .\local-packages\ /y
 
