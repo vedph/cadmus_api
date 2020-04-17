@@ -20,6 +20,8 @@ namespace CadmusTool.Commands
                 c => SeedDatabaseCommand.Configure(c, options));
             app.Command("import-lex",
                 c => ImportLexiconCommand.Configure(c, options));
+            app.Command("index",
+                c => IndexDatabaseCommand.Configure(c, options));
 
             app.OnExecute(() =>
             {

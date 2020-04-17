@@ -1,7 +1,5 @@
 ﻿using Cadmus.Core.Config;
 using Cadmus.Mongo;
-using Cadmus.Seed.Parts.General;
-using Cadmus.Seed.Philology.Parts.Layers;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
 using SimpleInjector;
@@ -26,7 +24,8 @@ namespace CadmusApi.Services
         /// <param name="connectionString">The connection string.</param>
         public StandardItemBrowserFactoryProvider(string connectionString)
         {
-            _connectionString = connectionString;
+            _connectionString = connectionString ??
+                throw new ArgumentNullException(nameof(connectionString));
         }
 
         /// <summary>
