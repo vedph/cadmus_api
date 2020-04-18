@@ -11,7 +11,7 @@ namespace CadmusTool
     // console app structure:
     // https://github.com/iamarcel/dotnet-core-neat-console-starter
 
-    class Program
+    internal static class Program
     {
         public static int Main(string[] args)
         {

@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Bogus" Version="29.0.1" />
     <PackageReference Include="Cadmus.Core" Version="2.2.32" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="1.0.2" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="1.0.7" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.33" />
     <PackageReference Include="Cadmus.Mongo" Version="2.2.41" />
     <PackageReference Include="Cadmus.Parts" Version="2.2.39" />

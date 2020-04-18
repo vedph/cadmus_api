@@ -1,8 +1,11 @@
-﻿using Cadmus.Index.Config;
+﻿using Cadmus.Index;
+using Cadmus.Index.Config;
 using Cadmus.Index.Sql;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
 using SimpleInjector;
+using SimpleInjector.Diagnostics;
+using SimpleInjector.Lifestyles;
 using System;
 using System.Reflection;
 
@@ -32,6 +35,7 @@ namespace CadmusTool.Services
             };
 
             Container container = new Container();
+
             ItemIndexWriterFactory.ConfigureServices(
                 container,
                 indexAssemblies);

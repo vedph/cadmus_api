@@ -81,11 +81,12 @@ namespace CadmusTool.Commands
 
             string profileContent = LoadProfile(_profilePath);
 
+            string cs = string.Format(_config.GetConnectionString("Index"),
+                _database);
             IItemIndexWriterFactoryProvider provider =
-                new StaticItemIndexWriterFactoryProvider(
-                    _config.GetConnectionString("Index"));
+                new StaticItemIndexWriterFactoryProvider(cs);
             ItemIndexWriterFactory factory = provider.GetFactory(profileContent);
-            using (IItemIndexWriter writer = factory.GetItemIndexWriter())
+            IItemIndexWriter writer = factory.GetItemIndexWriter();
             using (var bar = new ProgressBar(100, "Indexing...",
                 new ProgressBarOptions
                 {
@@ -104,6 +105,7 @@ namespace CadmusTool.Commands
                     new Progress<ProgressReport>(
                         r => bar.Tick(r.Percent, r.Message)));
             }
+            writer.Close();
         }
     }
 }

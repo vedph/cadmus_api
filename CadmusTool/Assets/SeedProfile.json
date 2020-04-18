@@ -183,6 +183,14 @@
       "colorKey": "F08080"
     }
   ],
+  "browsers": [
+    {
+      "id": "net.fusisoft.item-browser.mongo.hierarchy"
+    }
+  ],
+  "indexer": {
+    "id": "item-index-writer.mysql"
+  },
   "thesauri": [
     {
       "id": "model-types@en",
