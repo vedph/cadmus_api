@@ -2,7 +2,7 @@
   "profiles": {
     "CadmusTool": {
       "commandName": "Project",
-      "commandLineArgs": "index cadmus \\Projects\\Core20\\CadmusApi\\CadmusTool\\Assets\\SeedProfile.json -c"
+      "commandLineArgs": "build-index-sql mysql"
     }
   }
 }
