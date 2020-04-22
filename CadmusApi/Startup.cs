@@ -95,7 +95,7 @@ namespace CadmusApi
                 {
                     mongoOptions.ConnectionString =
                         string.Format(connStringTemplate,
-                        Configuration.GetSection("Databases")["Auth"]);
+                        Configuration.GetSection("DatabaseNames")["Auth"]);
                 });
 
             // authentication service
