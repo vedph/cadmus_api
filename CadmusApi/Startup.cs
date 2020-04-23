@@ -89,7 +89,7 @@ namespace CadmusApi
             // identity
             string connStringTemplate = Configuration.GetConnectionString("Default");
 
-            services.AddIdentityMongoDbProvider<ApplicationUser, MongoRole>(
+            services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(
                 options => {},
                 mongoOptions =>
                 {

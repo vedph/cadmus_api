@@ -15,7 +15,7 @@ namespace CadmusApi.Services
     public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<MongoRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationUserRepository"/> class.
@@ -24,7 +24,7 @@ namespace CadmusApi.Services
         /// <param name="roleManager">The role manager.</param>
         public ApplicationUserRepository(
             UserManager<ApplicationUser> userManager,
-            RoleManager<MongoRole> roleManager)
+            RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
@@ -144,7 +144,7 @@ namespace CadmusApi.Services
                     foreach (string role in added)
                     {
                         if (await _roleManager.RoleExistsAsync(role)) continue;
-                        await _roleManager.CreateAsync(new MongoRole(role));
+                        await _roleManager.CreateAsync(new ApplicationRole(role));
                     }
 
                     // add roles to user

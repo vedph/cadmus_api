@@ -14,7 +14,7 @@ namespace CadmusApi.Services
     public sealed class AccountService
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<MongoRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountService"/> class.
@@ -23,7 +23,7 @@ namespace CadmusApi.Services
         /// <param name="roleManager">The role manager.</param>
         public AccountService(
             UserManager<ApplicationUser> userManager,
-            RoleManager<MongoRole> roleManager)
+            RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -37,7 +37,7 @@ namespace CadmusApi.Services
         /// <param name="roles">The roles.</param>
         /// <returns></returns>
         public async Task<IActionResult> Register(ApplicationUser user, string password,
-            IEnumerable<MongoRole> roles)
+            IEnumerable<ApplicationRole> roles)
         {
             if (await _userManager.FindByEmailAsync(user.Email) != null)
                 return new BadRequestObjectResult($"User {user.Email} already exists.");

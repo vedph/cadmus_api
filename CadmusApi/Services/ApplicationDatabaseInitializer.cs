@@ -20,7 +20,7 @@ namespace CadmusApi.Services
         private readonly ILogger _logger;
 
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<MongoRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly ApplicationSeededUserOptions[] _seededUsersOptions;
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace CadmusApi.Services
             _logger = loggerFactory.CreateLogger<ApplicationDatabaseInitializer>();
 
             _userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-            _roleManager = serviceProvider.GetService<RoleManager<MongoRole>>();
+            _roleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
 
             _seededUsersOptions = _configuration
                 .GetSection("StockUsers")
@@ -52,7 +52,7 @@ namespace CadmusApi.Services
                     // add role if not existing
                     if (!await _roleManager.RoleExistsAsync(roleName))
                     {
-                        await _roleManager.CreateAsync(new MongoRole
+                        await _roleManager.CreateAsync(new ApplicationRole
                         {
                             Name = roleName
                         });

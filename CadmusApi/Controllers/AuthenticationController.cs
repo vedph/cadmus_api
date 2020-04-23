@@ -22,7 +22,7 @@ namespace CadmusApi.Controllers
     public sealed class AuthenticationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<MongoRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
 
@@ -34,7 +34,7 @@ namespace CadmusApi.Controllers
         /// <param name="signInManager">The sign in manager.</param>
         /// <param name="configuration">The configuration.</param>
         public AuthenticationController(UserManager<ApplicationUser> userManager,
-            RoleManager<MongoRole> roleManager,
+            RoleManager<ApplicationRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration)
         {
@@ -64,7 +64,7 @@ namespace CadmusApi.Controllers
                 // (NBF)
                 new Claim(RegisteredClaims.Nbf, (DateTime.UtcNow - new TimeSpan(0, 0, 10)).ToString()),
 
-                new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id),
+                new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
                 new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName),
 
                 // email and its confirmation
@@ -83,7 +83,7 @@ namespace CadmusApi.Controllers
             foreach (string userRole in userRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
-                MongoRole role = await _roleManager.FindByNameAsync(userRole);
+                ApplicationRole role = await _roleManager.FindByNameAsync(userRole);
                 if (role != null && _roleManager.SupportsRoleClaims)
                 {
                     IList<Claim> roleClaims = await _roleManager.GetClaimsAsync(role);

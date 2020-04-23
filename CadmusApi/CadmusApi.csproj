@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.3.5" />
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.7.0" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.33" />
     <PackageReference Include="Cadmus.Parts" Version="2.2.39" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.39" />
