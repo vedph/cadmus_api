@@ -27,6 +27,7 @@ using Serilog.Exceptions;
 using Cadmus.Core;
 using Cadmus.Seed;
 using Cadmus.Core.Config;
+using Cadmus.Index.Config;
 
 namespace CadmusApi
 {
@@ -214,21 +215,27 @@ namespace CadmusApi
             services.AddTransient<IUserRepository<ApplicationUser>,
                 ApplicationUserRepository>();
 
-            // message builder service
+            // messaging
             // TODO: replace with a true mailer service once we have SMTP
             services.AddTransient<IMailerService, NullMailerService>();
-
             services.AddTransient<IMessageBuilderService,
                 FileMessageBuilderService>();
 
-            // add configuration
+            // configuration
             services.AddSingleton(_ => Configuration);
+            // repository
             services.AddSingleton<IRepositoryProvider, StandardRepositoryProvider>();
+            // part seeder factory provider
             services.AddSingleton<IPartSeederFactoryProvider,
                 StandardPartSeederFactoryProvider>();
+            // item browser factory provider
             services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
                 new StandardItemBrowserFactoryProvider(
                     Configuration.GetConnectionString("Default")));
+            // item index writer factory provider
+            services.AddSingleton<IItemIndexWriterFactoryProvider>(_ =>
+                new StandardItemIndexWriterFactoryProvider(
+                    Configuration.GetConnectionString("Index")));
 
             // swagger
             ConfigureSwaggerServices(services);

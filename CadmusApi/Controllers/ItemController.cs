@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Layers;
 using Cadmus.Core.Storage;
+using Cadmus.Index;
+using Cadmus.Index.Config;
 using CadmusApi.Models;
+using CadmusApi.Services;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -37,7 +42,9 @@ namespace CadmusApi.Controllers
                 "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
 
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IRepositoryProvider _repositoryProvider;
+        private readonly IItemIndexWriterFactoryProvider _indexWriterFactoryProvider;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
@@ -45,23 +52,52 @@ namespace CadmusApi.Controllers
         /// Initializes a new instance of the <see cref="ItemController" /> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
+        /// <param name="serviceProvider">The service provider.</param>
         /// <param name="repositoryProvider">The repository provider.</param>
+        /// <param name="indexWriterFactoryProvider">The index writer factory
+        /// provider.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">repositoryService</exception>
         public ItemController(UserManager<ApplicationUser> userManager,
+            IServiceProvider serviceProvider,
             IRepositoryProvider repositoryProvider,
+            IItemIndexWriterFactoryProvider indexWriterFactoryProvider,
             IConfiguration configuration,
             ILogger logger)
         {
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
+            _serviceProvider = serviceProvider ??
+                throw new ArgumentNullException(nameof(serviceProvider));
             _repositoryProvider = repositoryProvider ??
                 throw new ArgumentNullException(nameof(repositoryProvider));
+            _indexWriterFactoryProvider = indexWriterFactoryProvider ??
+                throw new ArgumentNullException(nameof(indexWriterFactoryProvider));
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
+        }
+
+        private bool IsIndexingEnabled() =>
+            _configuration.GetValue<bool>("Indexing:IsEnabled");
+
+        private async Task<ItemIndexWriterFactory> GetIndexWriterFactory()
+        {
+            string profileSource = _configuration["Seed:ProfileSource"];
+            if (string.IsNullOrEmpty(profileSource)) return null;
+
+            ResourceLoaderService loaderService =
+                new ResourceLoaderService(_serviceProvider);
+
+            string profile;
+            using (StreamReader reader = new StreamReader(
+                await loaderService.LoadAsync(profileSource), Encoding.UTF8))
+            {
+                profile = reader.ReadToEnd();
+            }
+            return _indexWriterFactoryProvider.GetFactory(profile);
         }
 
         #region Get
@@ -416,7 +452,7 @@ namespace CadmusApi.Controllers
         /// <param name="id">The item identifier.</param>
         [Authorize(Roles = "admin,editor")]
         [HttpDelete("api/{database}/item/{id}")]
-        public void Delete([FromRoute] string database, [FromRoute] string id)
+        public async Task Delete([FromRoute] string database, [FromRoute] string id)
         {
             _logger.Information("User {UserName} deleting item {ItemId} from {IP}",
                 User.Identity.Name,
@@ -426,6 +462,14 @@ namespace CadmusApi.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
             repository.DeleteItem(id, User.Identity.Name);
+
+            // update index if required
+            if (IsIndexingEnabled())
+            {
+                ItemIndexWriterFactory factory = await GetIndexWriterFactory();
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                await writer.Delete(id);
+            }
         }
 
         private async Task<bool> IsUserInRole(ApplicationUser user, string role,
@@ -467,7 +511,20 @@ namespace CadmusApi.Controllers
                 return Unauthorized();
             }
 
+            bool indexingEnabled = IsIndexingEnabled();
+            string itemId = indexingEnabled ?
+                repository.GetPartItemId(id) : null;
+
             repository.DeletePart(id, User.Identity.Name);
+
+            // update index if required
+            if (indexingEnabled)
+            {
+                ItemIndexWriterFactory factory = await GetIndexWriterFactory();
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                await writer.Write(repository.GetItem(itemId));
+            }
+
             return Ok();
         }
         #endregion
@@ -517,6 +574,13 @@ namespace CadmusApi.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
             repository.AddItem(item);
+
+            // we changed just the item's metadata, not its parts;
+            // so we prefer not to update the index, as this will happen
+            // the first time any of its parts gets saved/deleted.
+            // the price paid in terms of stale index is worth the performance
+            // gain here, also because this does not change the results of
+            // searches, but just their labels (derived from item's metadata)
 
             return CreatedAtRoute("GetItem", new
             {
@@ -568,7 +632,7 @@ namespace CadmusApi.Controllers
             return Ok();
         }
 
-        private Tuple<string, string> AddRawPart(string database, string raw)
+        private Tuple<string, string, string> AddRawPart(string database, string raw)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
@@ -581,7 +645,7 @@ namespace CadmusApi.Controllers
             bool isNew = id == null || !_guidRegex.IsMatch(id.Value<string>());
             if (isNew)
             {
-                partId = Guid.NewGuid().ToString("N");
+                partId = Guid.NewGuid().ToString();
                 if (id != null) doc.Property("id").Remove();
                 doc.AddFirst(new JProperty("id", partId));
             }
@@ -602,6 +666,9 @@ namespace CadmusApi.Controllers
             doc.Property("userId")?.Remove();
             doc.Add(new JProperty("userId", User.Identity.Name ?? ""));
 
+            // get the item's ID
+            JValue itemId = (JValue)doc["itemId"];
+
             // add the part
             _logger.Information("User {UserName} saving part {PartId} from {IP}",
                 User.Identity.Name,
@@ -610,7 +677,7 @@ namespace CadmusApi.Controllers
 
             string json = doc.ToString(Formatting.None);
             repository.AddPartFromContent(json);
-            return Tuple.Create(partId, json);
+            return Tuple.Create(itemId.Value<string>(), partId, json);
         }
 
         /// <summary>
@@ -630,17 +697,27 @@ namespace CadmusApi.Controllers
         [HttpPost("api/{database}/parts")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddPart(
+        public async Task<IActionResult> AddPart(
             [FromRoute] string database,
             [FromBody] RawJsonBindingModel model)
         {
             var idAndJson = AddRawPart(database, model.Raw);
 
+            // update index if required
+            if (IsIndexingEnabled())
+            {
+                ICadmusRepository repository =
+                    _repositoryProvider.CreateRepository(database);
+                ItemIndexWriterFactory factory = await GetIndexWriterFactory();
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                await writer.Write(repository.GetItem(idAndJson.Item1));
+            }
+
             return CreatedAtRoute("GetPart", new
             {
                 database,
-                id = idAndJson.Item1
-            }, idAndJson.Item2);
+                id = idAndJson.Item2
+            }, idAndJson.Item3);
         }
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace CadmusApi.Controllers
     /// <summary>
     /// Items browsers controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    /// <seealso cref="Controller" />
     [Authorize]
     [ApiController]
     public class ItemBrowserController : Controller

@@ -6,19 +6,35 @@ using SimpleInjector;
 using System;
 using System.Reflection;
 
-namespace CadmusTool.Services
+namespace CadmusApi.Services
 {
-    public sealed class StaticItemIndexWriterFactoryProvider :
+    /// <summary>
+    /// Standard item index writer factory provider.
+    /// </summary>
+    /// <seealso cref="IItemIndexWriterFactoryProvider" />
+    public sealed class StandardItemIndexWriterFactoryProvider :
         IItemIndexWriterFactoryProvider
     {
         private readonly string _connectionString;
 
-        public StaticItemIndexWriterFactoryProvider(string connectionString)
+        /// <summary>
+        /// Initializes a new instance of the
+        /// <see cref="StandardItemIndexWriterFactoryProvider"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection string.</param>
+        /// <exception cref="ArgumentNullException">connectionString</exception>
+        public StandardItemIndexWriterFactoryProvider(string connectionString)
         {
             _connectionString = connectionString ??
                 throw new ArgumentNullException(nameof(connectionString));
         }
 
+        /// <summary>
+        /// Gets the part/fragment seeders factory.
+        /// </summary>
+        /// <param name="profile">The profile.</param>
+        /// <returns>Factory.</returns>
+        /// <exception cref="ArgumentNullException">profile</exception>
         public ItemIndexWriterFactory GetFactory(string profile)
         {
             if (profile == null)
