@@ -6,36 +6,20 @@ using SimpleInjector;
 using System;
 using System.Reflection;
 
-namespace CadmusApi.Services
+namespace CadmusTool.Services
 {
-    /// <summary>
-    /// Standard item index writer factory provider.
-    /// </summary>
-    /// <seealso cref="IItemIndexWriterFactoryProvider" />
-    public sealed class StandardItemIndexWriterFactoryProvider :
-        IItemIndexWriterFactoryProvider
+    public sealed class StaticItemIndexFactoryProvider :
+        IItemIndexFactoryProvider
     {
         private readonly string _connectionString;
 
-        /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="StandardItemIndexWriterFactoryProvider"/> class.
-        /// </summary>
-        /// <param name="connectionString">The connection string.</param>
-        /// <exception cref="ArgumentNullException">connectionString</exception>
-        public StandardItemIndexWriterFactoryProvider(string connectionString)
+        public StaticItemIndexFactoryProvider(string connectionString)
         {
             _connectionString = connectionString ??
                 throw new ArgumentNullException(nameof(connectionString));
         }
 
-        /// <summary>
-        /// Gets the part/fragment seeders factory.
-        /// </summary>
-        /// <param name="profile">The profile.</param>
-        /// <returns>Factory.</returns>
-        /// <exception cref="ArgumentNullException">profile</exception>
-        public ItemIndexWriterFactory GetFactory(string profile)
+        public ItemIndexFactory GetFactory(string profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
@@ -49,7 +33,7 @@ namespace CadmusApi.Services
 
             Container container = new Container();
 
-            ItemIndexWriterFactory.ConfigureServices(
+            ItemIndexFactory.ConfigureServices(
                 container,
                 indexAssemblies);
 
@@ -60,7 +44,7 @@ namespace CadmusApi.Services
                 .AddInMemoryJson(profile);
             var configuration = builder.Build();
 
-            return new ItemIndexWriterFactory(
+            return new ItemIndexFactory(
                 container,
                 configuration,
                 _connectionString);

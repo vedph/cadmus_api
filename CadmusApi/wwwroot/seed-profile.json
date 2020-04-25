@@ -199,6 +199,14 @@
       "colorKey": "F08080"
     }
   ],
+  "index": {
+    "writer": {
+      "id": "item-index-writer.mysql"
+    },
+    "reader": {
+      "id": "item-index-reader.mysql"
+    }
+  },
   "browsers": [
     {
       "id": "net.fusisoft.item-browser.mongo.hierarchy"

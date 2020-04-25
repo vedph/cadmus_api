@@ -44,7 +44,6 @@ namespace CadmusApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly IRepositoryProvider _repositoryProvider;
-        private readonly IItemIndexWriterFactoryProvider _indexWriterFactoryProvider;
         private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
@@ -54,15 +53,12 @@ namespace CadmusApi.Controllers
         /// <param name="userManager">The user manager.</param>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="repositoryProvider">The repository provider.</param>
-        /// <param name="indexWriterFactoryProvider">The index writer factory
-        /// provider.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="logger">The logger.</param>
         /// <exception cref="ArgumentNullException">repositoryService</exception>
         public ItemController(UserManager<ApplicationUser> userManager,
             IServiceProvider serviceProvider,
             IRepositoryProvider repositoryProvider,
-            IItemIndexWriterFactoryProvider indexWriterFactoryProvider,
             IConfiguration configuration,
             ILogger logger)
         {
@@ -72,8 +68,6 @@ namespace CadmusApi.Controllers
                 throw new ArgumentNullException(nameof(serviceProvider));
             _repositoryProvider = repositoryProvider ??
                 throw new ArgumentNullException(nameof(repositoryProvider));
-            _indexWriterFactoryProvider = indexWriterFactoryProvider ??
-                throw new ArgumentNullException(nameof(indexWriterFactoryProvider));
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
             _logger = logger ??
@@ -82,23 +76,6 @@ namespace CadmusApi.Controllers
 
         private bool IsIndexingEnabled() =>
             _configuration.GetValue<bool>("Indexing:IsEnabled");
-
-        private async Task<ItemIndexWriterFactory> GetIndexWriterFactory()
-        {
-            string profileSource = _configuration["Seed:ProfileSource"];
-            if (string.IsNullOrEmpty(profileSource)) return null;
-
-            ResourceLoaderService loaderService =
-                new ResourceLoaderService(_serviceProvider);
-
-            string profile;
-            using (StreamReader reader = new StreamReader(
-                await loaderService.LoadAsync(profileSource), Encoding.UTF8))
-            {
-                profile = reader.ReadToEnd();
-            }
-            return _indexWriterFactoryProvider.GetFactory(profile);
-        }
 
         #region Get
         /// <summary>
@@ -466,7 +443,8 @@ namespace CadmusApi.Controllers
             // update index if required
             if (IsIndexingEnabled())
             {
-                ItemIndexWriterFactory factory = await GetIndexWriterFactory();
+                ItemIndexFactory factory = await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.Delete(id);
             }
@@ -520,7 +498,8 @@ namespace CadmusApi.Controllers
             // update index if required
             if (indexingEnabled)
             {
-                ItemIndexWriterFactory factory = await GetIndexWriterFactory();
+                ItemIndexFactory factory = await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.Write(repository.GetItem(itemId));
             }
@@ -708,7 +687,8 @@ namespace CadmusApi.Controllers
             {
                 ICadmusRepository repository =
                     _repositoryProvider.CreateRepository(database);
-                ItemIndexWriterFactory factory = await GetIndexWriterFactory();
+                ItemIndexFactory factory = await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.Write(repository.GetItem(idAndJson.Item1));
             }

@@ -1,6 +1,8 @@
 ﻿using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
+using Cadmus.Index;
+using Cadmus.Index.Config;
 using Cadmus.Mongo;
 using Cadmus.Seed;
 using Microsoft.Extensions.Configuration;
@@ -123,6 +125,15 @@ namespace CadmusApi.Services
             // if required, seed data
             if (count > 0)
             {
+                IItemIndexWriter indexWriter = null;
+                if (config.GetValue<bool>("Indexing:IsEnabled"))
+                {
+                    Console.WriteLine("Getting index writer...");
+                    ItemIndexFactory indexFactory = await ItemIndexHelper
+                        .GetIndexFactoryAsync(config, serviceProvider);
+                    indexWriter = indexFactory.GetItemIndexWriter();
+                }
+
                 Console.WriteLine($"Seeding {count} items...");
                 CadmusSeeder seeder = new CadmusSeeder(factory);
 
@@ -133,6 +144,12 @@ namespace CadmusApi.Services
                     foreach (IPart part in item.Parts)
                     {
                         repository.AddPart(part, true);
+                    }
+
+                    if (indexWriter != null)
+                    {
+                        Console.WriteLine($"Adding to index {item.Id}");
+                        await indexWriter.Write(item);
                     }
                 }
                 Console.WriteLine("Seeding completed.");

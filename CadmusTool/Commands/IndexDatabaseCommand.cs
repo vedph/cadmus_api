@@ -83,9 +83,9 @@ namespace CadmusTool.Commands
 
             string cs = string.Format(_config.GetConnectionString("Index"),
                 _database);
-            IItemIndexWriterFactoryProvider provider =
-                new StaticItemIndexWriterFactoryProvider(cs);
-            ItemIndexWriterFactory factory = provider.GetFactory(profileContent);
+            IItemIndexFactoryProvider provider =
+                new StaticItemIndexFactoryProvider(cs);
+            ItemIndexFactory factory = provider.GetFactory(profileContent);
             IItemIndexWriter writer = factory.GetItemIndexWriter();
             using (var bar = new ProgressBar(100, "Indexing...",
                 new ProgressBarOptions

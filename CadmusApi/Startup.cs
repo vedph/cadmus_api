@@ -232,10 +232,13 @@ namespace CadmusApi
             services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
                 new StandardItemBrowserFactoryProvider(
                     Configuration.GetConnectionString("Default")));
-            // item index writer factory provider
-            services.AddSingleton<IItemIndexWriterFactoryProvider>(_ =>
-                new StandardItemIndexWriterFactoryProvider(
-                    Configuration.GetConnectionString("Index")));
+            // item index factory provider
+            string indexCS = string.Format(
+                Configuration.GetConnectionString("Index"),
+                Configuration.GetValue<string>("DatabaseNames:Data"));
+            services.AddSingleton<IItemIndexFactoryProvider>(_ =>
+                new StandardItemIndexFactoryProvider(
+                    indexCS));
 
             // swagger
             ConfigureSwaggerServices(services);
