@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CadmusApi.Services
@@ -132,6 +133,14 @@ namespace CadmusApi.Services
                     ItemIndexFactory indexFactory = await ItemIndexHelper
                         .GetIndexFactoryAsync(config, serviceProvider);
                     indexWriter = indexFactory.GetItemIndexWriter();
+
+                    // delay if requested, to allow DB start
+                    int delay = config.GetValue<int>("Seed:IndexDelay");
+                    if (delay > 0)
+                    {
+                        Console.WriteLine($"Waiting for {delay} seconds...");
+                        Thread.Sleep(delay * 1000);
+                    }
                 }
 
                 Console.WriteLine($"Seeding {count} items...");
@@ -152,6 +161,7 @@ namespace CadmusApi.Services
                         await indexWriter.Write(item);
                     }
                 }
+                indexWriter?.Close();
                 Console.WriteLine("Seeding completed.");
             }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Cadmus.Core;
@@ -447,6 +445,7 @@ namespace CadmusApi.Controllers
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.Delete(id);
+                writer.Close();
             }
         }
 
@@ -502,6 +501,7 @@ namespace CadmusApi.Controllers
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.Write(repository.GetItem(itemId));
+                writer.Close();
             }
 
             return Ok();
@@ -691,6 +691,7 @@ namespace CadmusApi.Controllers
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.Write(repository.GetItem(idAndJson.Item1));
+                writer.Close();
             }
 
             return CreatedAtRoute("GetPart", new

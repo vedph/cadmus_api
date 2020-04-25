@@ -92,6 +92,8 @@ namespace CadmusApi.Controllers
 
             // search
             DataPage<ItemInfo> page = reader.Search(query, pagingOptions);
+            reader.Close();
+
             return Ok(page);
         }
     }
