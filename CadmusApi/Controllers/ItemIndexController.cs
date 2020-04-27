@@ -59,7 +59,7 @@ namespace CadmusApi.Controllers
         /// the specified page of results.
         /// </summary>
         /// <param name="model">The query model.</param>
-        /// <returns>Object with page=items page or error=error message.</returns>
+        /// <returns>Object with value=items page or error=error message.</returns>
         [HttpPost("api/{database}/search")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -114,7 +114,7 @@ namespace CadmusApi.Controllers
 
             return Ok(new
             {
-                page
+                value = page
             });
         }
     }
