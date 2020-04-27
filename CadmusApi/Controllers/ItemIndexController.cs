@@ -58,31 +58,44 @@ namespace CadmusApi.Controllers
         /// Searches the items index using the specified query, returning
         /// the specified page of results.
         /// </summary>
-        /// <param name="query">The query.</param>
-        /// <param name="options">The paging options.</param>
+        /// <param name="model">The query model.</param>
+        /// <returns>Object with page=items page or error=error message.</returns>
         [HttpPost("api/{database}/search")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Search(
-            [FromBody] string query,
-            [FromQuery] PagingOptionsModel options)
+            [FromBody] ItemQueryBindingModel model)
         {
-            // build SQL
-            ISqlQueryBuilder builder = GetSqlBuilder();
-            Tuple<string, string> sql;
-            PagingOptions pagingOptions = new PagingOptions
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            // nope if empty query
+            if (string.IsNullOrWhiteSpace(model.Query))
             {
-                PageNumber = options.PageNumber,
-                PageSize = options.PageSize
-            };
-            try
-            {
-                sql = builder.Build(query, pagingOptions);
+                return Ok(new
+                {
+                    error = "No query"
+                });
             }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+
+            //// build SQL
+            //ISqlQueryBuilder builder = GetSqlBuilder();
+            //Tuple<string, string> sql;
+            //PagingOptions pagingOptions = new PagingOptions
+            //{
+            //    PageNumber = model.PageNumber,
+            //    PageSize = model.PageSize
+            //};
+            //try
+            //{
+            //    sql = builder.Build(model.Query, pagingOptions);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return Ok(new
+            //    {
+            //        error = ex.Message
+            //    });
+            //}
 
             // get reader
             ItemIndexFactory factory =
@@ -91,10 +104,18 @@ namespace CadmusApi.Controllers
             IItemIndexReader reader = factory.GetItemIndexReader();
 
             // search
-            DataPage<ItemInfo> page = reader.Search(query, pagingOptions);
+            DataPage<ItemInfo> page = reader.Search(model.Query,
+                new PagingOptions
+                {
+                    PageNumber = model.PageNumber,
+                    PageSize = model.PageSize
+                });
             reader.Close();
 
-            return Ok(page);
+            return Ok(new
+            {
+                page
+            });
         }
     }
 }
