@@ -1,4 +1,6 @@
 ﻿using Cadmus.Core.Config;
+using System;
+using System.Linq;
 
 namespace CadmusApi.Models
 {
@@ -21,5 +23,26 @@ namespace CadmusApi.Models
         /// Gets or sets the entries.
         /// </summary>
         public ThesaurusEntry[] Entries { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.
+        /// </summary>
+        public ThesaurusModel()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.
+        /// </summary>
+        /// <param name="thesaurus">The thesaurus.</param>
+        public ThesaurusModel(Thesaurus thesaurus)
+        {
+            if (thesaurus == null)
+                throw new ArgumentNullException(nameof(thesaurus));
+
+            Id = thesaurus.Id;
+            Language = thesaurus.GetLanguage();
+            Entries = thesaurus.GetEntries().ToArray();
+        }
     }
 }

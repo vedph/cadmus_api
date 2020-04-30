@@ -5,6 +5,7 @@ using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using CadmusApi.Models;
+using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -78,12 +79,7 @@ namespace CadmusApi.Controllers
                     : (IActionResult)NotFound();
             }
 
-            ThesaurusModel model = new ThesaurusModel
-            {
-                Id = thesaurus.Id,
-                Language = thesaurus.GetLanguage(),
-                Entries = thesaurus.GetEntries().ToArray()
-            };
+            ThesaurusModel model = new ThesaurusModel(thesaurus);
 
             return Ok(model);
         }
@@ -105,7 +101,7 @@ namespace CadmusApi.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
 
-            var page = repository.GetThesauri(new ThesaurusFilter
+            DataPage<Thesaurus> page = repository.GetThesauri(new ThesaurusFilter
             {
                 PageNumber = model.PageNumber,
                 PageSize = model.PageSize,
@@ -113,7 +109,14 @@ namespace CadmusApi.Controllers
                 IsAlias = model.IsAlias,
                 Language = model.Language
             });
-            return Ok(page);
+
+            DataPage<ThesaurusModel> result = new DataPage<ThesaurusModel>(
+                page.PageNumber,
+                page.PageSize,
+                page.Total,
+                (from t in page.Items
+                 select new ThesaurusModel(t)).ToList());
+            return Ok(result);
         }
 
         private static string PurgeThesaurusId(string id)
