@@ -36,7 +36,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of tag sets IDs</returns>
-        [HttpGet("api/{database}/thesauri")]
+        [HttpGet("api/{database}/thesauri-ids")]
         public IActionResult GetSetIds([FromRoute] string database)
         {
             ICadmusRepository repository =
@@ -88,6 +88,34 @@ namespace CadmusApi.Controllers
             return Ok(model);
         }
 
+        /// <summary>
+        /// Gets the specified page of thesauri matching the filter.
+        /// </summary>
+        /// <param name="database">The database.</param>
+        /// <param name="model">The filter model.</param>
+        /// <returns>Page.</returns>
+        [HttpGet("api/{database}/thesauri")]
+        [ProducesResponseType(200)]
+        public IActionResult GetThesauri(
+            [FromRoute] string database,
+            [FromQuery] ThesaurusFilterBindingModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            ICadmusRepository repository =
+                _repositoryProvider.CreateRepository(database);
+
+            var page = repository.GetThesauri(new ThesaurusFilter
+            {
+                PageNumber = model.PageNumber,
+                PageSize = model.PageSize,
+                Id = model.Id,
+                IsAlias = model.IsAlias,
+                Language = model.Language
+            });
+            return Ok(page);
+        }
+
         private static string PurgeThesaurusId(string id)
         {
             int i = id.LastIndexOf('.');
@@ -116,7 +144,7 @@ namespace CadmusApi.Controllers
         /// equal to the thesaurus model.</returns>
         [HttpGet("api/{database}/thesauri-set/{ids}")]
         [ProducesResponseType(200)]
-        public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauri(
+        public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauriSet(
             [FromRoute] string database,
             [FromRoute] string ids,
             [FromQuery] bool purgeIds)
