@@ -60,7 +60,7 @@ Thus, to build an image I follow these steps:
 
 2. open a command prompt in the solution folder (where the `Dockerfile` is located) and run `docker build . -t vedph2020/cadmus_api:latest`. If you forget to specify the tag, you can add it later, e.g. `docker tag <imageid> <newtag>`.
 
-3. push the image into your target repository: `docker push vedph2020/cadmus_api:latest`.
+3. if you want to publish the image in the Hub, login (`docker login --username vedph`) and push the image (`docker push vedph2020/cadmus_api:latest`).
 
 ## Consuming a Docker Image
 
