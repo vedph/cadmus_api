@@ -19,12 +19,12 @@
     <PackageReference Include="Cadmus.Index.Sql" Version="1.0.34" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.39" />
     <PackageReference Include="Cadmus.Parts" Version="2.2.45" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.45" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.47" />
     <PackageReference Include="Cadmus.Core" Version="2.2.37" />
     <PackageReference Include="Cadmus.Mongo" Version="2.2.47" />
     <PackageReference Include="Cadmus.Seed" Version="1.0.40" />
     <PackageReference Include="Cadmus.Seed.Parts" Version="1.0.45" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.42" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.44" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.23" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.1" />
     <PackageReference Include="MessagingApi" Version="1.0.1" />

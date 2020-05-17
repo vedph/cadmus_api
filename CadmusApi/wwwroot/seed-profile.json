@@ -43,10 +43,18 @@
         {
           "typeId": "net.fusisoft.note",
           "name": "note",
-          "description": "A free text note about the document.",
+          "description": "A free text note.",
           "colorKey": "B0A0F8",
           "groupKey": "general",
           "sortKey": "note"
+        },
+        {
+          "typeId": "net.fusisoft.bibliography",
+          "name": "bibliography",
+          "description": "Bibliography.",
+          "colorKey": "20B2AA",
+          "groupKey": "general",
+          "sortKey": "bibliography"
         },
         {
           "typeId": "net.fusisoft.token-text",
@@ -86,12 +94,21 @@
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
+          "roleId": "fr.net.fusisoft.quotations",
+          "name": "quotations",
+          "description": "Literary quotations.",
+          "colorKey": "DAA520",
+          "groupKey": "text",
+          "sortKey": "text-quotations"
+        },
+        {
+          "typeId": "net.fusisoft.token-text-layer",
           "roleId": "fr.net.fusisoft.witnesses",
           "name": "witnesses",
           "description": "Witnesses list.",
           "colorKey": "A4E0D4",
           "groupKey": "text",
-          "sortKey": "text-apparatus"
+          "sortKey": "text-witnesses"
         }
       ]
     },
@@ -138,10 +155,18 @@
         {
           "typeId": "net.fusisoft.note",
           "name": "note",
-          "description": "A free text note about the document.",
+          "description": "A free text note.",
           "colorKey": "B0A0F8",
           "groupKey": "general",
           "sortKey": "note"
+        },
+        {
+          "typeId": "net.fusisoft.bibliography",
+          "name": "bibliography",
+          "description": "Bibliography.",
+          "colorKey": "20B2AA",
+          "groupKey": "general",
+          "sortKey": "bibliography"
         },
         {
           "typeId": "net.fusisoft.tiled-text",
@@ -180,13 +205,22 @@
           "sortKey": "text-apparatus"
         },
         {
+          "typeId": "net.fusisoft.token-text-layer",
+          "roleId": "fr.net.fusisoft.quotations",
+          "name": "quotations",
+          "description": "Literary quotations.",
+          "colorKey": "DAA520",
+          "groupKey": "text",
+          "sortKey": "text-quotations"
+        },
+        {
           "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.witnesses",
           "name": "witnesses",
           "description": "Witnesses list.",
           "colorKey": "A4E0D4",
           "groupKey": "text",
-          "sortKey": "text-apparatus"
+          "sortKey": "text-witnesses"
         }
       ]
     }
@@ -237,6 +271,10 @@
           "value": "note"
         },
         {
+          "id": "net.fusisoft.bibliography",
+          "value": "bibliography"
+        },
+        {
           "id": "net.fusisoft.tiled-text",
           "value": "tiled text"
         },
@@ -265,8 +303,8 @@
           "value": "orthography fr."
         },
         {
-          "id": "fr.net.fusisoft.quotation",
-          "value": "quotation fr."
+          "id": "fr.net.fusisoft.quotations",
+          "value": "quotations fr."
         },
         {
           "id": "fr.net.fusisoft.witnesses",
@@ -381,6 +419,68 @@
         {
           "id": "spa",
           "value": "Spanish"
+        }
+      ]
+    },
+    {
+      "id": "bibliography-types@en",
+      "entries": [
+        {
+          "id": "book",
+          "value": "book"
+        },
+        {
+          "id": "article-j",
+          "value": "journal article"
+        },
+        {
+          "id": "article-b",
+          "value": "book article"
+        },
+        {
+          "id": "article-p",
+          "value": "proceedings article"
+        },
+        {
+          "id": "review",
+          "value": "review"
+        },
+        {
+          "id": "ebook",
+          "value": "e-book"
+        },
+        {
+          "id": "site",
+          "value": "web site"
+        },
+        {
+          "id": "magazine",
+          "value": "magazine"
+        },
+        {
+          "id": "newspaper",
+          "value": "newspaper"
+        },
+        {
+          "id": "tweet",
+          "value": "tweet"
+        }
+      ]
+    },
+    {
+      "id": "bibliography-author-roles@en",
+      "entries": [
+        {
+          "id": "ed",
+          "value": "editor"
+        },
+        {
+          "id": "tr",
+          "value": "translator"
+        },
+        {
+          "id": "org",
+          "value": "organization"
         }
       ]
     },
@@ -541,6 +641,25 @@
         }
       },
       {
+        "id": "seed.net.fusisoft.bibliography",
+        "options": {
+          "authors": [
+            "Doe,Jane",
+            "Doherty,Charles",
+            "Orwell,William",
+            "Sampson,James",
+            "Voss,Francis"
+          ],
+          "journals": [
+            "AJPh",
+            "CJ",
+            "CPh",
+            "CQ",
+            "IF"
+          ]
+        }
+      },
+      {
         "id": "seed.net.fusisoft.note",
         "options": {
           "tags": [
@@ -590,6 +709,16 @@
             "ph.c.occl.",
             "ph.c.liq.",
             "ph.c.nas."
+          ]
+        }
+      },
+      {
+        "id": "seed.fr.net.fusisoft.quotations",
+        "options": {
+          "authors": [
+            "Fest.",
+            "Diac.",
+            "Isid."
           ]
         }
       },
