@@ -76,6 +76,15 @@
         },
         {
           "typeId": "net.fusisoft.token-text-layer",
+          "roleId": "fr.net.fusisoft.chronology",
+          "name": "chronology",
+          "description": "Chronological indication.",
+          "colorKey": "DDA0DD",
+          "groupKey": "text",
+          "sortKey": "text-chronology"
+        },
+        {
+          "typeId": "net.fusisoft.token-text-layer",
           "roleId": "fr.net.fusisoft.apparatus",
           "name": "apparatus",
           "description": "Critical apparatus.",
@@ -188,6 +197,15 @@
         },
         {
           "typeId": "net.fusisoft.tiled-text-layer",
+          "roleId": "fr.net.fusisoft.chronology",
+          "name": "chronology",
+          "description": "Chronological indication.",
+          "colorKey": "DDA0DD",
+          "groupKey": "text",
+          "sortKey": "text-chronology"
+        },
+        {
+          "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.apparatus",
           "name": "apparatus",
           "description": "Critical apparatus.",
@@ -205,7 +223,7 @@
           "sortKey": "text-apparatus"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
+          "typeId": "net.fusisoft.tiled-text-layer",
           "roleId": "fr.net.fusisoft.quotations",
           "name": "quotations",
           "description": "Literary quotations.",
@@ -293,6 +311,10 @@
         {
           "id": "fr.net.fusisoft.apparatus",
           "value": "apparatus fr."
+        },
+        {
+          "id": "fr.net.fusisoft.chronology",
+          "value": "chronology fr."
         },
         {
           "id": "fr.net.fusisoft.comment",
@@ -481,6 +503,23 @@
         {
           "id": "org",
           "value": "organization"
+        }
+      ]
+    },
+    {
+      "id": "chronology-tags@en",
+      "entries": [
+        {
+          "id": "bat",
+          "value": "battle"
+        },
+        {
+          "id": "prst",
+          "value": "priesthood"
+        },
+        {
+          "id": "cos",
+          "value": "consulship"
         }
       ]
     },
@@ -696,6 +735,16 @@
             "language",
             "history",
             "geography"
+          ]
+        }
+      },
+      {
+        "id": "seed.fr.net.fusisoft.chronology",
+        "options": {
+          "tags": [
+            "bat",
+            "prst",
+            "cos"
           ]
         }
       },
