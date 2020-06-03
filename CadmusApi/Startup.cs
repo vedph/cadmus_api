@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using MessagingApi;
-using MessagingApi.SendGrid;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +19,6 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using System.Reflection;
 using CadmusApi.Services;
 using CadmusApi.Models;
-using AspNetCore.Identity.Mongo.Model;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
@@ -62,13 +60,13 @@ namespace CadmusApi
             // configuration sections
             // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
             services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
-            services.Configure<SendGridMailerOptions>(Configuration.GetSection("SendGrid"));
+            services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
 
             // explicitly register the settings object by delegating to the IOptions object
             services.AddSingleton(resolver =>
                 resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
             services.AddSingleton(resolver =>
-                resolver.GetRequiredService<IOptions<SendGridMailerOptions>>().Value);
+                resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
         }
 
         private void ConfigureCorsServices(IServiceCollection services)
@@ -216,8 +214,9 @@ namespace CadmusApi
                 ApplicationUserRepository>();
 
             // messaging
-            // TODO: replace with a true mailer service once we have SMTP
-            services.AddTransient<IMailerService, NullMailerService>();
+            // TODO: you can use another mailer service here. In this case,
+            // also change the types in ConfigureOptionsServices.
+            services.AddTransient<IMailerService, DotNetMailerService>();
             services.AddTransient<IMessageBuilderService,
                 FileMessageBuilderService>();
 
