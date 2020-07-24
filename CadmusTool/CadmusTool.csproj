@@ -18,17 +18,17 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="29.0.2" />
-    <PackageReference Include="Cadmus.Core" Version="2.2.39" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="1.0.37" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.41" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.2.49" />
-    <PackageReference Include="Cadmus.Parts" Version="2.2.47" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.53" />
-    <PackageReference Include="Cadmus.Seed" Version="1.0.42" />
+    <PackageReference Include="Cadmus.Core" Version="2.2.40" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="1.0.38" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.42" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.2.50" />
+    <PackageReference Include="Cadmus.Parts" Version="2.2.48" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.54" />
+    <PackageReference Include="Cadmus.Seed" Version="1.0.43" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.1" />
     <PackageReference Include="Fusi.Text" Version="1.1.11" />
     <PackageReference Include="Fusi.Tools" Version="1.1.14" />
-    <PackageReference Include="Fusi.Tools.Config" Version="1.0.14" />
+    <PackageReference Include="Fusi.Tools.Config" Version="1.0.15" />
     <PackageReference Include="Microsoft.Extensions.CommandLineUtils" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.6" />
