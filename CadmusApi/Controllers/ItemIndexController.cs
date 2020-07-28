@@ -1,7 +1,6 @@
 ﻿using Cadmus.Core;
 using Cadmus.Index;
 using Cadmus.Index.Config;
-using Cadmus.Index.Sql;
 using CadmusApi.Models;
 using CadmusApi.Services;
 using Fusi.Tools.Data;
@@ -40,19 +39,19 @@ namespace CadmusApi.Controllers
                 throw new ArgumentNullException(nameof(serviceProvider));
         }
 
-        private ISqlQueryBuilder GetSqlBuilder()
-        {
-            string type = _configuration.GetValue<string>("Indexing:DatabaseType");
-            switch (type?.ToLowerInvariant())
-            {
-                case "mysql":
-                    return new MySqlQueryBuilder();
-                case "mssql":
-                    return new MsSqlQueryBuilder();
-                default:
-                    return null;
-            }
-        }
+        //private ISqlQueryBuilder GetSqlBuilder()
+        //{
+        //    string type = _configuration.GetValue<string>("Indexing:DatabaseType");
+        //    switch (type?.ToLowerInvariant())
+        //    {
+        //        case "mysql":
+        //            return new MySqlQueryBuilder();
+        //        case "mssql":
+        //            return new MsSqlQueryBuilder();
+        //        default:
+        //            return null;
+        //    }
+        //}
 
         /// <summary>
         /// Searches the items index using the specified query, returning
@@ -104,7 +103,51 @@ namespace CadmusApi.Controllers
             IItemIndexReader reader = factory.GetItemIndexReader();
 
             // search
-            DataPage<ItemInfo> page = reader.Search(model.Query,
+            DataPage<ItemInfo> page = reader.SearchItems(model.Query,
+                new PagingOptions
+                {
+                    PageNumber = model.PageNumber,
+                    PageSize = model.PageSize
+                });
+            reader.Close();
+
+            return Ok(new
+            {
+                value = page
+            });
+        }
+
+        /// <summary>
+        /// Searches the pins index using the specified query, returning
+        /// the specified page of results.
+        /// </summary>
+        /// <param name="model">The query model.</param>
+        /// <returns>Object with value=items page or error=error message.</returns>
+        [HttpPost("api/{database}/pin-search")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> SearchPins(
+            [FromBody] ItemQueryBindingModel model)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            // nope if empty query
+            if (string.IsNullOrWhiteSpace(model.Query))
+            {
+                return Ok(new
+                {
+                    error = "No query"
+                });
+            }
+
+            // get reader
+            ItemIndexFactory factory =
+                await ItemIndexHelper.GetIndexFactoryAsync(
+                    _configuration, _serviceProvider);
+            IItemIndexReader reader = factory.GetItemIndexReader();
+
+            // search
+            DataPage<DataPinInfo> page = reader.SearchPins(model.Query,
                 new PagingOptions
                 {
                     PageNumber = model.PageNumber,

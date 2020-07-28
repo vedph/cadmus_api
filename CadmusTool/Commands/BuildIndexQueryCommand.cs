@@ -67,7 +67,7 @@ namespace CadmusTool.Commands
             {
                 Console.WriteLine(_query);
                 Console.WriteLine();
-                var sql = _builder.Build(_query, _options);
+                var sql = _builder.BuildForItem(_query, _options);
                 Console.WriteLine(sql.Item1);
                 return Task.CompletedTask;
             }
@@ -79,7 +79,7 @@ namespace CadmusTool.Commands
                 if (string.IsNullOrEmpty(query) || query == "quit") break;
                 Console.WriteLine();
                 Console.ForegroundColor = ConsoleColor.Green;
-                var sql = _builder.Build(query, _options);
+                var sql = _builder.BuildForItem(query, _options);
                 Console.WriteLine(sql.Item1);
                 Console.ResetColor();
             }

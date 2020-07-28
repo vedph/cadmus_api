@@ -16,15 +16,15 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.7.1" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="1.0.38" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.42" />
-    <PackageReference Include="Cadmus.Parts" Version="2.2.48" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.54" />
-    <PackageReference Include="Cadmus.Core" Version="2.2.40" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.2.50" />
-    <PackageReference Include="Cadmus.Seed" Version="1.0.43" />
-    <PackageReference Include="Cadmus.Seed.Parts" Version="1.0.51" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.51" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="1.0.39" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.43" />
+    <PackageReference Include="Cadmus.Parts" Version="2.2.49" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.55" />
+    <PackageReference Include="Cadmus.Core" Version="2.2.41" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.2.51" />
+    <PackageReference Include="Cadmus.Seed" Version="1.0.44" />
+    <PackageReference Include="Cadmus.Seed.Parts" Version="1.0.52" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.52" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.24" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.1" />
     <PackageReference Include="MessagingApi" Version="1.0.1" />
