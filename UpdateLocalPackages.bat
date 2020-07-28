@@ -6,7 +6,7 @@ del .\local-packages\*.nupkg
 xcopy %src%diffmatchpatch\1.0.1\*.nupkg .\local-packages\ /y
 
 xcopy %src%fusi.tools\1.1.14\*.nupkg .\local-packages\ /y
-xcopy %src%fusi.tools.config\1.0.14\*.nupkg .\local-packages\ /y
+xcopy %src%fusi.tools.config\1.0.15\*.nupkg .\local-packages\ /y
 xcopy %src%fusi.text\1.1.11\*.nupkg .\local-packages\ /y
 xcopy %src%fusi.antiquity\1.1.24\*.nupkg .\local-packages\ /y
 
