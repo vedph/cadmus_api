@@ -27,7 +27,7 @@
     <PackageReference Include="Cadmus.Parts" Version="2.2.51" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.57" />
     <PackageReference Include="Cadmus.Core" Version="2.2.42" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.2.52" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.2.53" />
     <PackageReference Include="Cadmus.Seed" Version="1.0.46" />
     <PackageReference Include="Cadmus.Seed.Parts" Version="1.0.54" />
     <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.0.54" />

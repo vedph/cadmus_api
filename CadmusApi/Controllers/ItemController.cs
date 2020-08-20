@@ -532,13 +532,11 @@ namespace CadmusApi.Controllers
                 FacetId = model.FacetId,
                 SortKey = model.SortKey,
                 Flags = model.Flags,
-                // override the user ID
+                // override the user ID and set the creator ID,
+                // which anyway will be ignored if already set
                 UserId = User.Identity.Name,
+                CreatorId = User.Identity.Name
             };
-
-            // set the creator ID if not specified
-            if (string.IsNullOrEmpty(item.CreatorId))
-                item.CreatorId = User.Identity.Name;
 
             // set the item's ID if specified, else go with the default
             // newly generated one
@@ -641,6 +639,14 @@ namespace CadmusApi.Controllers
                 doc.Add(new JProperty("creatorId", User.Identity.Name));
             }
 
+            // override the creation time if new
+            JValue timeCreated = (JValue)doc["timeCreated"];
+            if (isNew)
+            {
+                if (timeCreated != null) doc.Property("timeCreated").Remove();
+                doc.Add(new JProperty("timeCreated", DateTime.UtcNow));
+            }
+
             // override the user ID
             doc.Property("userId")?.Remove();
             doc.Add(new JProperty("userId", User.Identity.Name ?? ""));
@@ -668,9 +674,9 @@ namespace CadmusApi.Controllers
         /// If new, the part ID should not be parsable as a GUID, e.g.
         /// <c>"id": "new"</c> or <c>"id": ""</c>, or should be null
         /// (e.g. <c>"id": null</c>). At a minimum, each part should adhere
-        /// to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name", 
-        /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id", 
-        /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"), 
+        /// to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name",
+        /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id",
+        /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"),
         /// "userId" : "user-id or empty" }</c>.</param>
         [Authorize(Roles = "admin,editor,operator")]
         [HttpPost("api/{database}/parts")]
