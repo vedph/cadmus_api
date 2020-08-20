@@ -15,6 +15,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.52\contentFiles\any\netstandard2.0\libzstd.dll" />
+    <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.52\contentFiles\any\netstandard2.0\snappy32.dll" />
+    <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.52\contentFiles\any\netstandard2.0\snappy64.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.7.1" />
     <PackageReference Include="Cadmus.Index.Sql" Version="1.0.42" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.45" />
