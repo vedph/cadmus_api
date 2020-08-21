@@ -530,6 +530,7 @@ namespace CadmusApi.Controllers
                 Title = model.Title,
                 Description = model.Description,
                 FacetId = model.FacetId,
+                GroupId = model.GroupId,
                 SortKey = model.SortKey,
                 Flags = model.Flags,
                 // override the user ID and set the creator ID,
