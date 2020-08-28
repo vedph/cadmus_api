@@ -610,6 +610,15 @@ namespace CadmusApi.Controllers
             return Ok();
         }
 
+        private static bool IsNewPart(JObject part)
+        {
+            if (!part.ContainsKey("id")) return true;
+
+            JValue id = (JValue)part["id"];
+            return id.Type == JTokenType.Null
+                || !_guidRegex.IsMatch(id.Value<string>());
+        }
+
         private Tuple<string, string, string> AddRawPart(string database, string raw)
         {
             ICadmusRepository repository =
@@ -618,38 +627,40 @@ namespace CadmusApi.Controllers
             JObject doc = JObject.Parse(raw);
 
             // add the ID if new part
-            JValue id = (JValue)doc["id"];
             string partId;
-            bool isNew = id == null || !_guidRegex.IsMatch(id.Value<string>());
+            bool isNew = IsNewPart(doc);
             if (isNew)
             {
                 partId = Guid.NewGuid().ToString();
-                if (id != null) doc.Property("id").Remove();
+                if (doc.ContainsKey("id")) doc.Property("id").Remove();
                 doc.AddFirst(new JProperty("id", partId));
             }
             else
             {
+                JValue id = (JValue)doc["id"];
                 partId = id.Value<string>();
             }
 
             // set the creator ID if not specified
             JValue creatorId = (JValue)doc["creatorId"];
-            if (string.IsNullOrEmpty(creatorId?.ToString()))
+            if (creatorId.Type == JTokenType.Null
+                || string.IsNullOrEmpty(creatorId?.Value<string>()))
             {
-                if (creatorId != null) doc.Property("creatorId").Remove();
+                if (doc.ContainsKey("creatorId"))
+                    doc.Property("creatorId").Remove();
                 doc.Add(new JProperty("creatorId", User.Identity.Name));
             }
 
             // override the creation time if new
-            JValue timeCreated = (JValue)doc["timeCreated"];
             if (isNew)
             {
-                if (timeCreated != null) doc.Property("timeCreated").Remove();
+                if (doc.ContainsKey("timeCreated"))
+                    doc.Property("timeCreated").Remove();
                 doc.Add(new JProperty("timeCreated", DateTime.UtcNow));
             }
 
             // override the user ID
-            doc.Property("userId")?.Remove();
+            if (doc.ContainsKey("userId")) doc.Property("userId").Remove();
             doc.Add(new JProperty("userId", User.Identity.Name ?? ""));
 
             // get the item's ID
