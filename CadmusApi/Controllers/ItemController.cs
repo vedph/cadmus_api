@@ -479,7 +479,7 @@ namespace CadmusApi.Controllers
                 _repositoryProvider.CreateRepository(database);
 
             // operators can delete only parts created by themselves
-            ApplicationUser user = await _userManager.GetUserAsync(User);
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
             if (await IsUserInRole(user,
                     "operator",
                     new HashSet<string>(new string[] { "admin", "editor" }))
