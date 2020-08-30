@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["CadmusApi/CadmusApi.csproj", "CadmusApi/"]
 # copy local packages to avoid using a NuGet custom feed, then restore
-COPY ./local-packages ./local-packages
-RUN dotnet restore "CadmusApi/CadmusApi.csproj" -s ./local-packages -s https://api.nuget.org/v3/index.json --verbosity n
+COPY ./local-packages /src/local-packages
+RUN dotnet restore "CadmusApi/CadmusApi.csproj" -s /src/local-packages -s https://api.nuget.org/v3/index.json --verbosity n
 # copy the content of the API project
 COPY . .
 # build it
