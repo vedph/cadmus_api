@@ -12,7 +12,7 @@ xcopy %src%fusi.antiquity\1.1.25\*.nupkg .\local-packages\ /y
 
 xcopy %src%fusi.microsoft.extensions.configuration.inmemoryjson\1.0.2\*.nupkg .\local-packages\ /y
 
-xcopy %src%messagingapi\1.0.2\*.nupkg .\local-packages\ /y
+xcopy %src%messagingapi\1.0.1\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.core\2.2.46\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.index\1.0.22\*.nupkg .\local-packages\ /y
