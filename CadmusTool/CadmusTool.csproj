@@ -21,7 +21,7 @@
     <PackageReference Include="Cadmus.Core" Version="2.2.46" />
     <PackageReference Include="Cadmus.Index.Sql" Version="1.0.46" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.2.49" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.2.58" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.2.59" />
     <PackageReference Include="Cadmus.Parts" Version="2.2.56" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.2.61" />
     <PackageReference Include="Cadmus.Seed" Version="1.0.50" />
