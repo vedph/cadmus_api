@@ -261,9 +261,12 @@ namespace Cadmus.Api.Services.Seeding
         /// Seeds the database.
         /// </summary>
         /// <param name="host">The host.</param>
+        /// <param name="accounts">True to seed the accounts.</param>
+        /// <param name="data">True to seed the data.</param>
         /// <returns>The received host, to allow concatenation.</returns>
         /// <exception cref="ArgumentNullException">serviceProvider</exception>
-        public static async Task<IHost> SeedAsync(this IHost host)
+        public static async Task<IHost> SeedAsync(this IHost host,
+            bool accounts = true, bool data = true)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -277,9 +280,11 @@ namespace Cadmus.Api.Services.Seeding
                     IConfiguration config =
                         serviceProvider.GetService<IConfiguration>();
 
-                    await SeedAccountsAsync(serviceProvider);
+                    if (accounts)
+                        await SeedAccountsAsync(serviceProvider);
 
-                    await SeedCadmusAsync(serviceProvider);
+                    if (data)
+                        await SeedCadmusAsync(serviceProvider);
                 }
                 catch (Exception ex)
                 {
