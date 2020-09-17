@@ -5,14 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Hosting;
 using CadmusApi.Models;
-using AspNetCore.Identity.Mongo.Model;
 
 namespace CadmusApi.Services
 {
     /// <summary>
-    /// Application database initializer.
+    /// Application's user accounts database initializer.
     /// </summary>
     public sealed class ApplicationDatabaseInitializer
     {

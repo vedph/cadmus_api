@@ -26,6 +26,50 @@ namespace CadmusApi.Services
     /// </summary>
     public static class HostSeedExtensions
     {
+        private static async Task SeedItemsAsync(
+            IServiceProvider serviceProvider, IConfiguration config,
+            PartSeederFactory factory, ICadmusRepository repository,
+            int count)
+        {
+            IItemIndexWriter indexWriter = null;
+            if (config.GetValue<bool>("Indexing:IsEnabled"))
+            {
+                Console.WriteLine("Getting index writer...");
+                ItemIndexFactory indexFactory = await ItemIndexHelper
+                    .GetIndexFactoryAsync(config, serviceProvider);
+                indexWriter = indexFactory.GetItemIndexWriter();
+
+                // delay if requested, to allow DB start
+                int delay = config.GetValue<int>("Seed:IndexDelay");
+                if (delay > 0)
+                {
+                    Console.WriteLine($"Waiting for {delay} seconds...");
+                    Thread.Sleep(delay * 1000);
+                }
+            }
+
+            Console.WriteLine($"Seeding {count} items...");
+            CadmusSeeder seeder = new CadmusSeeder(factory);
+
+            foreach (IItem item in seeder.GetItems(count))
+            {
+                Console.WriteLine($"{item}: {item.Parts.Count} parts");
+                repository.AddItem(item, true);
+                foreach (IPart part in item.Parts)
+                {
+                    repository.AddPart(part, true);
+                }
+
+                if (indexWriter != null)
+                {
+                    Console.WriteLine($"Adding to index {item.Id}");
+                    await indexWriter.Write(item);
+                }
+            }
+            indexWriter?.Close();
+            Console.WriteLine("Seeding completed.");
+        }
+
         private static async Task SeedCadmusDatabaseAsync(
             IServiceProvider serviceProvider,
             IConfiguration config,
@@ -126,43 +170,8 @@ namespace CadmusApi.Services
             // if required, seed data
             if (count > 0)
             {
-                IItemIndexWriter indexWriter = null;
-                if (config.GetValue<bool>("Indexing:IsEnabled"))
-                {
-                    Console.WriteLine("Getting index writer...");
-                    ItemIndexFactory indexFactory = await ItemIndexHelper
-                        .GetIndexFactoryAsync(config, serviceProvider);
-                    indexWriter = indexFactory.GetItemIndexWriter();
-
-                    // delay if requested, to allow DB start
-                    int delay = config.GetValue<int>("Seed:IndexDelay");
-                    if (delay > 0)
-                    {
-                        Console.WriteLine($"Waiting for {delay} seconds...");
-                        Thread.Sleep(delay * 1000);
-                    }
-                }
-
-                Console.WriteLine($"Seeding {count} items...");
-                CadmusSeeder seeder = new CadmusSeeder(factory);
-
-                foreach (IItem item in seeder.GetItems(count))
-                {
-                    Console.WriteLine($"{item}: {item.Parts.Count} parts");
-                    repository.AddItem(item, true);
-                    foreach (IPart part in item.Parts)
-                    {
-                        repository.AddPart(part, true);
-                    }
-
-                    if (indexWriter != null)
-                    {
-                        Console.WriteLine($"Adding to index {item.Id}");
-                        await indexWriter.Write(item);
-                    }
-                }
-                indexWriter?.Close();
-                Console.WriteLine("Seeding completed.");
+                await SeedItemsAsync(serviceProvider, config, factory,
+                    repository, count);
             }
 
             // import data if required
@@ -184,13 +193,77 @@ namespace CadmusApi.Services
             }
         }
 
+        private static Task SeedAccountsAsync(IServiceProvider serviceProvider)
+        {
+            ApplicationDatabaseInitializer initializer =
+                new ApplicationDatabaseInitializer(serviceProvider);
+
+            return Policy.Handle<DbException>()
+                .WaitAndRetry(new[]
+                {
+                    TimeSpan.FromSeconds(10),
+                    TimeSpan.FromSeconds(30),
+                    TimeSpan.FromSeconds(60)
+                }, (exception, timeSpan, _) =>
+                {
+                    ILogger logger = serviceProvider
+                        .GetService<ILoggerFactory>()
+                        .CreateLogger(typeof(HostSeedExtensions));
+
+                    string message = "Unable to connect to DB" +
+                        $" (sleep {timeSpan}): {exception.Message}";
+                    Console.WriteLine(message);
+                    logger.LogError(exception, message);
+                }).Execute(async () =>
+                {
+                    await initializer.SeedAsync();
+                });
+        }
+
+        private static Task SeedCadmusAsync(IServiceProvider serviceProvider)
+        {
+            return Policy.Handle<DbException>()
+                .WaitAndRetry(new[]
+                {
+                    TimeSpan.FromSeconds(10),
+                    TimeSpan.FromSeconds(30),
+                    TimeSpan.FromSeconds(60)
+                }, (exception, timeSpan, _) =>
+                {
+                    ILogger logger = serviceProvider
+                        .GetService<ILoggerFactory>()
+                        .CreateLogger(typeof(HostSeedExtensions));
+
+                    string message = "Unable to connect to DB" +
+                        $" (sleep {timeSpan}): {exception.Message}";
+                    Console.WriteLine(message);
+                    logger.LogError(exception, message);
+                }).Execute(async () =>
+                {
+                    IConfiguration config =
+                        serviceProvider.GetService<IConfiguration>();
+
+                    ILogger logger = serviceProvider
+                        .GetService<ILoggerFactory>()
+                        .CreateLogger(typeof(HostSeedExtensions));
+
+                    Console.WriteLine("Seeding database...");
+                    await SeedCadmusDatabaseAsync(
+                        serviceProvider,
+                        config,
+                        logger);
+                    Console.WriteLine("Seeding completed");
+                    return Task.CompletedTask;
+                });
+        }
+
         /// <summary>
         /// Seeds the database.
         /// </summary>
         /// <param name="host">The host.</param>
         /// <returns>The received host, to allow concatenation.</returns>
         /// <exception cref="ArgumentNullException">serviceProvider</exception>
-        public static IHost SeedAsync(this IHost host)
+        public static async Task<IHost> SeedAsync(this IHost host)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -204,56 +277,9 @@ namespace CadmusApi.Services
                     IConfiguration config =
                         serviceProvider.GetService<IConfiguration>();
 
-                    Task.Run(async () =>
-                    {
-                        // seed accounts database
-                        ApplicationDatabaseInitializer initializer =
-                            new ApplicationDatabaseInitializer(serviceProvider);
+                    await SeedAccountsAsync(serviceProvider);
 
-                        await Policy.Handle<DbException>()
-                            .WaitAndRetry(new[]
-                            {
-                                TimeSpan.FromSeconds(10),
-                                TimeSpan.FromSeconds(30),
-                                TimeSpan.FromSeconds(60)
-                            }, (exception, timeSpan, _) =>
-                            {
-                                string message = "Unable to connect to DB" +
-                                    $" (sleep {timeSpan}): {exception.Message}";
-                                Console.WriteLine(message);
-                                logger.LogError(exception, message);
-                            }).Execute(async () =>
-                            {
-                                await initializer.SeedAsync();
-                            });
-                    }).Wait();
-
-                    // seed Cadmus database
-                    Task.Run(async () =>
-                    {
-                        await Policy.Handle<DbException>()
-                            .WaitAndRetry(new[]
-                            {
-                                TimeSpan.FromSeconds(10),
-                                TimeSpan.FromSeconds(30),
-                                TimeSpan.FromSeconds(60)
-                            }, (exception, timeSpan, _) =>
-                            {
-                                string message = "Unable to connect to DB" +
-                                    $" (sleep {timeSpan}): {exception.Message}";
-                                Console.WriteLine(message);
-                                logger.LogError(exception, message);
-                            }).Execute(async () =>
-                            {
-                                Console.WriteLine("Seeding database...");
-                                await SeedCadmusDatabaseAsync(
-                                    serviceProvider,
-                                    config,
-                                    logger);
-                                Console.WriteLine("Seeding completed");
-                                return Task.CompletedTask;
-                            });
-                    }).Wait();
+                    await SeedCadmusAsync(serviceProvider);
                 }
                 catch (Exception ex)
                 {

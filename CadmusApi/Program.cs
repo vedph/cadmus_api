@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
 using CadmusApi.Services;
+using System.Threading.Tasks;
 
 namespace CadmusApi
 {
@@ -48,7 +48,7 @@ namespace CadmusApi
         /// Entry point.
         /// </summary>
         /// <param name="args">The arguments.</param>
-        public static int Main(string[] args)
+        public static async Task<int> Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -62,23 +62,24 @@ namespace CadmusApi
 
             try
             {
-                Log.Information("Starting host");
+                Log.Information("Starting Cadmus API host");
                 DumpEnvironmentVars();
 
                 // this is the place for seeding:
                 // see https://stackoverflow.com/questions/45148389/how-to-seed-in-entity-framework-core-2
                 // and https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.1#move-database-initialization-code
-                CreateHostBuilder(args)
+                var host = await CreateHostBuilder(args)
                     .UseSerilog()
                     .Build()
-                    .SeedAsync()     // see Services/HostSeedExtension
-                    .Run();
+                    .SeedAsync(); // see Services/HostSeedExtension
+
+                host.Run();
 
                 return 0;
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "Host terminated unexpectedly");
+                Log.Fatal(ex, "Cadmus API host terminated unexpectedly");
                 Debug.WriteLine(ex.ToString());
                 Console.WriteLine(ex.ToString());
                 return 1;
