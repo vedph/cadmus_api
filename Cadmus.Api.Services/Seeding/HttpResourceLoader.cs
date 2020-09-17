@@ -4,12 +4,11 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// HTTP-based resource loader.
     /// </summary>
-    /// <seealso cref="CadmusApi.Services.IResourceLoader" />
     public sealed class HttpResourceLoader : IResourceLoader
     {
         /// <summary>

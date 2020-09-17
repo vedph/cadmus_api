@@ -1,11 +1,12 @@
 ﻿using Fusi.Tools.Data;
 using CadmusApi.Models;
-using CadmusApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cadmus.Api.Services;
+using Cadmus.Api.Services.Auth;
 
 namespace CadmusApi.Controllers
 {

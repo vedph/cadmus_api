@@ -1,4 +1,6 @@
-﻿namespace CadmusApi.Models
+﻿using Cadmus.Api.Services.Auth;
+
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// Seeded user options for <see cref="ApplicationUser"/>.

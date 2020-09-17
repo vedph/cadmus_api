@@ -4,10 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Identity;
-using CadmusApi.Models;
-using AspNetCore.Identity.Mongo.Model;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Auth
 {
     /// <summary>
     /// ASP.NET Core users repository.

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// Options read from configuration for the users seeded at startup,

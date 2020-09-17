@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using CadmusApi.Models;
+using Cadmus.Api.Services.Auth;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// Application's user accounts database initializer.

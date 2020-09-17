@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// Parts and items importer. This is used to import parts and their items

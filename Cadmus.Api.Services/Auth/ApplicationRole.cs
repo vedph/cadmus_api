@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Services.Auth
 {
     /// <summary>
     /// Application role.

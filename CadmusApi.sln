@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "doc", "doc", "{1D84805B-8BF
 		doc\settings.md = doc\settings.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmus.Api.Services", "Cadmus.Api.Services\Cadmus.Api.Services.csproj", "{1DD10ED7-20D0-4642-8C18-3198E5D721A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

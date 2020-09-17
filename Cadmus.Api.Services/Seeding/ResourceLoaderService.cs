@@ -6,7 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// Service used to load resources via <see cref="IResourceLoader"/>'s.

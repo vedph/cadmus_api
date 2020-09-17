@@ -18,6 +18,9 @@
     <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.52\contentFiles\any\netstandard2.0\libzstd.dll" />
     <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.52\contentFiles\any\netstandard2.0\snappy32.dll" />
     <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.52\contentFiles\any\netstandard2.0\snappy64.dll" />
+    <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.59\contentFiles\any\netstandard2.0\libzstd.dll" />
+    <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.59\contentFiles\any\netstandard2.0\snappy32.dll" />
+    <Content Remove="C:\Users\dfusi\.nuget\packages\cadmus.mongo\2.2.59\contentFiles\any\netstandard2.0\snappy64.dll" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +54,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.6.1" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cadmus.Api.Services\Cadmus.Api.Services.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,7 +18,6 @@ using AspNetCore.Identity.Mongo;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using System.Reflection;
 using CadmusApi.Services;
-using CadmusApi.Models;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
@@ -26,6 +25,8 @@ using Cadmus.Core;
 using Cadmus.Seed;
 using Cadmus.Core.Config;
 using Cadmus.Index.Config;
+using Cadmus.Api.Services.Auth;
+using Cadmus.Api.Services.Messaging;
 
 namespace CadmusApi
 {

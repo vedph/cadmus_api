@@ -1,6 +1,6 @@
 ﻿using AspNetCore.Identity.Mongo.Model;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Services.Auth
 {
     /// <summary>
     /// Application user.

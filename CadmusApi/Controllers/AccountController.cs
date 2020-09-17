@@ -10,7 +10,7 @@ using System.Text;
 using CadmusApi.Models;
 using MessagingApi;
 using Microsoft.Extensions.Logging;
-using CadmusApi.Services;
+using Cadmus.Api.Services.Auth;
 
 namespace CadmusApi.Controllers
 {

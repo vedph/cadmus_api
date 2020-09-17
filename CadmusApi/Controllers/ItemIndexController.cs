@@ -1,8 +1,8 @@
-﻿using Cadmus.Core;
+﻿using Cadmus.Api.Services.Seeding;
+using Cadmus.Core;
 using Cadmus.Index;
 using Cadmus.Index.Config;
 using CadmusApi.Models;
-using CadmusApi.Services;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,20 +39,6 @@ namespace CadmusApi.Controllers
                 throw new ArgumentNullException(nameof(serviceProvider));
         }
 
-        //private ISqlQueryBuilder GetSqlBuilder()
-        //{
-        //    string type = _configuration.GetValue<string>("Indexing:DatabaseType");
-        //    switch (type?.ToLowerInvariant())
-        //    {
-        //        case "mysql":
-        //            return new MySqlQueryBuilder();
-        //        case "mssql":
-        //            return new MsSqlQueryBuilder();
-        //        default:
-        //            return null;
-        //    }
-        //}
-
         /// <summary>
         /// Searches the items index using the specified query, returning
         /// the specified page of results.
@@ -75,26 +61,6 @@ namespace CadmusApi.Controllers
                     error = "No query"
                 });
             }
-
-            //// build SQL
-            //ISqlQueryBuilder builder = GetSqlBuilder();
-            //Tuple<string, string> sql;
-            //PagingOptions pagingOptions = new PagingOptions
-            //{
-            //    PageNumber = model.PageNumber,
-            //    PageSize = model.PageSize
-            //};
-            //try
-            //{
-            //    sql = builder.Build(model.Query, pagingOptions);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Ok(new
-            //    {
-            //        error = ex.Message
-            //    });
-            //}
 
             // get reader
             ItemIndexFactory factory =

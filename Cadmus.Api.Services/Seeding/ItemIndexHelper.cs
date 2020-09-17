@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// Item index helper.

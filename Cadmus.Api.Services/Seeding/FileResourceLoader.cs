@@ -2,12 +2,11 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Seeding
 {
     /// <summary>
     /// File-system based resource loader.
     /// </summary>
-    /// <seealso cref="CadmusApi.Services.IResourceLoader" />
     public sealed class FileResourceLoader : IResourceLoader
     {
         /// <summary>

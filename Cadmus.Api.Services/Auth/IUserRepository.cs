@@ -3,9 +3,8 @@ using Fusi.Tools.Data;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
-using CadmusApi.Models;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Auth
 {
     /// <summary>
     /// User repository. This is a wrapper around the users managed by the framework,

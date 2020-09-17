@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using System.Text;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Messaging
 {
     /// <summary>
     /// File-based message builder service. This service uses templates from

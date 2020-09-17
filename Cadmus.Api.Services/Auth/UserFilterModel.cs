@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Services.Auth
 {
     /// <summary>
     /// Users filter model.

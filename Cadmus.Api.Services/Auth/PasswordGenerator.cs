@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services.Auth
 {
     /// <summary>
     /// Password generator.

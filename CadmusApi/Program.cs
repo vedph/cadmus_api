@@ -7,7 +7,7 @@ using Serilog;
 using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
 using Serilog.Events;
-using CadmusApi.Services;
+using Cadmus.Api.Services.Seeding;
 using System.Threading.Tasks;
 
 namespace CadmusApi
