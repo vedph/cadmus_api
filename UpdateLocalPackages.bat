@@ -22,9 +22,9 @@ xcopy %src%cadmus.mongo\2.2.59\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.parts\2.2.56\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.philology.parts\2.2.61\*.nupkg .\local-packages\ /y
 
-xcopy %src%cadmus.seed\1.0.50\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.seed.parts\1.0.59\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.seed.philology.parts\1.0.58\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed\1.0.51\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed.parts\1.0.60\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed.philology.parts\1.0.59\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.archive.parts\2.2.48\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.lexicon.parts\2.2.49\*.nupkg .\local-packages\ /y
