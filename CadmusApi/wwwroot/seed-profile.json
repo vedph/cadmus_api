@@ -7,7 +7,7 @@
       "colorKey": "86ACEB",
       "partDefinitions": [
         {
-          "typeId": "net.fusisoft.categories",
+          "typeId": "it.vedph.categories",
           "name": "categories",
           "description": "Item's categories.",
           "required": true,
@@ -16,7 +16,7 @@
           "sortKey": "categories"
         },
         {
-          "typeId": "net.fusisoft.historical-date",
+          "typeId": "it.vedph.historical-date",
           "name": "date",
           "description": "Historical date.",
           "required": false,
@@ -25,7 +25,7 @@
           "sortKey": "date"
         },
         {
-          "typeId": "net.fusisoft.keywords",
+          "typeId": "it.vedph.keywords",
           "name": "keywords",
           "description": "Item's keywords.",
           "colorKey": "99CCFF",
@@ -33,7 +33,7 @@
           "sortKey": "keywords"
         },
         {
-          "typeId": "net.fusisoft.index-keywords",
+          "typeId": "it.vedph.index-keywords",
           "name": "index keywords",
           "description": "Item's index keywords.",
           "colorKey": "588BBF",
@@ -41,7 +41,7 @@
           "sortKey": "keywords-x"
         },
         {
-          "typeId": "net.fusisoft.note",
+          "typeId": "it.vedph.note",
           "name": "note",
           "description": "A free text note.",
           "colorKey": "B0A0F8",
@@ -49,7 +49,7 @@
           "sortKey": "note"
         },
         {
-          "typeId": "net.fusisoft.bibliography",
+          "typeId": "it.vedph.bibliography",
           "name": "bibliography",
           "description": "Bibliography.",
           "colorKey": "20B2AA",
@@ -57,7 +57,7 @@
           "sortKey": "bibliography"
         },
         {
-          "typeId": "net.fusisoft.token-text",
+          "typeId": "it.vedph.token-text",
           "roleId": "base-text",
           "name": "text",
           "description": "Item's token-based text.",
@@ -66,8 +66,8 @@
           "sortKey": "text"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.comment",
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.comment",
           "name": "comments",
           "description": "Comments on text.",
           "colorKey": "F8D040",
@@ -75,8 +75,8 @@
           "sortKey": "text-comments"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.chronology",
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.chronology",
           "name": "chronology",
           "description": "Chronological indication.",
           "colorKey": "DDA0DD",
@@ -84,8 +84,8 @@
           "sortKey": "text-chronology"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.apparatus",
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.apparatus",
           "name": "apparatus",
           "description": "Critical apparatus.",
           "colorKey": "D4E0A4",
@@ -93,8 +93,8 @@
           "sortKey": "text-apparatus"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.orthography",
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.orthography",
           "name": "orthography",
           "description": "Standard orthography.",
           "colorKey": "E0D4A4",
@@ -102,8 +102,8 @@
           "sortKey": "text-apparatus"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.quotations",
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.quotations",
           "name": "quotations",
           "description": "Literary quotations.",
           "colorKey": "DAA520",
@@ -111,8 +111,8 @@
           "sortKey": "text-quotations"
         },
         {
-          "typeId": "net.fusisoft.token-text-layer",
-          "roleId": "fr.net.fusisoft.witnesses",
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.witnesses",
           "name": "witnesses",
           "description": "Witnesses list.",
           "colorKey": "A4E0D4",
@@ -128,7 +128,7 @@
       "colorKey": "EBD586",
       "partDefinitions": [
         {
-          "typeId": "net.fusisoft.categories",
+          "typeId": "it.vedph.categories",
           "name": "categories",
           "description": "Item's categories.",
           "required": true,
@@ -137,7 +137,7 @@
           "sortKey": "categories"
         },
         {
-          "typeId": "net.fusisoft.historical-date",
+          "typeId": "it.vedph.historical-date",
           "name": "date",
           "description": "Historical date.",
           "required": false,
@@ -146,7 +146,7 @@
           "sortKey": "date"
         },
         {
-          "typeId": "net.fusisoft.keywords",
+          "typeId": "it.vedph.keywords",
           "name": "keywords",
           "description": "Item's keywords.",
           "colorKey": "99CCFF",
@@ -154,7 +154,7 @@
           "sortKey": "keywords"
         },
         {
-          "typeId": "net.fusisoft.index-keywords",
+          "typeId": "it.vedph.index-keywords",
           "name": "index keywords",
           "description": "Item's index keywords.",
           "colorKey": "588BBF",
@@ -162,7 +162,7 @@
           "sortKey": "keywords-x"
         },
         {
-          "typeId": "net.fusisoft.note",
+          "typeId": "it.vedph.note",
           "name": "note",
           "description": "A free text note.",
           "colorKey": "B0A0F8",
@@ -170,7 +170,7 @@
           "sortKey": "note"
         },
         {
-          "typeId": "net.fusisoft.bibliography",
+          "typeId": "it.vedph.bibliography",
           "name": "bibliography",
           "description": "Bibliography.",
           "colorKey": "20B2AA",
@@ -178,7 +178,7 @@
           "sortKey": "bibliography"
         },
         {
-          "typeId": "net.fusisoft.tiled-text",
+          "typeId": "it.vedph.tiled-text",
           "roleId": "base-text",
           "name": "text",
           "description": "Item's tiles-based text.",
@@ -187,8 +187,8 @@
           "sortKey": "text"
         },
         {
-          "typeId": "net.fusisoft.tiled-text-layer",
-          "roleId": "fr.net.fusisoft.comment",
+          "typeId": "it.vedph.tiled-text-layer",
+          "roleId": "fr.it.vedph.comment",
           "name": "comments",
           "description": "Comments on text.",
           "colorKey": "F8D040",
@@ -196,8 +196,8 @@
           "sortKey": "text-comments"
         },
         {
-          "typeId": "net.fusisoft.tiled-text-layer",
-          "roleId": "fr.net.fusisoft.chronology",
+          "typeId": "it.vedph.tiled-text-layer",
+          "roleId": "fr.it.vedph.chronology",
           "name": "chronology",
           "description": "Chronological indication.",
           "colorKey": "DDA0DD",
@@ -205,8 +205,8 @@
           "sortKey": "text-chronology"
         },
         {
-          "typeId": "net.fusisoft.tiled-text-layer",
-          "roleId": "fr.net.fusisoft.apparatus",
+          "typeId": "it.vedph.tiled-text-layer",
+          "roleId": "fr.it.vedph.apparatus",
           "name": "apparatus",
           "description": "Critical apparatus.",
           "colorKey": "D4E0A4",
@@ -214,8 +214,8 @@
           "sortKey": "text-apparatus"
         },
         {
-          "typeId": "net.fusisoft.tiled-text-layer",
-          "roleId": "fr.net.fusisoft.orthography",
+          "typeId": "it.vedph.tiled-text-layer",
+          "roleId": "fr.it.vedph.orthography",
           "name": "orthography",
           "description": "Standard orthography.",
           "colorKey": "E0D4A4",
@@ -223,8 +223,8 @@
           "sortKey": "text-apparatus"
         },
         {
-          "typeId": "net.fusisoft.tiled-text-layer",
-          "roleId": "fr.net.fusisoft.quotations",
+          "typeId": "it.vedph.tiled-text-layer",
+          "roleId": "fr.it.vedph.quotations",
           "name": "quotations",
           "description": "Literary quotations.",
           "colorKey": "DAA520",
@@ -232,8 +232,8 @@
           "sortKey": "text-quotations"
         },
         {
-          "typeId": "net.fusisoft.tiled-text-layer",
-          "roleId": "fr.net.fusisoft.witnesses",
+          "typeId": "it.vedph.tiled-text-layer",
+          "roleId": "fr.it.vedph.witnesses",
           "name": "witnesses",
           "description": "Witnesses list.",
           "colorKey": "A4E0D4",
@@ -261,7 +261,7 @@
   },
   "browsers": [
     {
-      "id": "net.fusisoft.item-browser.mongo.hierarchy"
+      "id": "it.vedph.item-browser.mongo.hierarchy"
     }
   ],
   "thesauri": [
@@ -269,67 +269,67 @@
       "id": "model-types@en",
       "entries": [
         {
-          "id": "net.fusisoft.categories",
+          "id": "it.vedph.categories",
           "value": "categories"
         },
         {
-          "id": "net.fusisoft.historical-date",
+          "id": "it.vedph.historical-date",
           "value": "date"
         },
         {
-          "id": "net.fusisoft.keywords",
+          "id": "it.vedph.keywords",
           "value": "keywords"
         },
         {
-          "id": "net.fusisoft.index-keywords",
+          "id": "it.vedph.index-keywords",
           "value": "index keywords"
         },
         {
-          "id": "net.fusisoft.note",
+          "id": "it.vedph.note",
           "value": "note"
         },
         {
-          "id": "net.fusisoft.bibliography",
+          "id": "it.vedph.bibliography",
           "value": "bibliography"
         },
         {
-          "id": "net.fusisoft.tiled-text",
+          "id": "it.vedph.tiled-text",
           "value": "tiled text"
         },
         {
-          "id": "net.fusisoft.token-text",
+          "id": "it.vedph.token-text",
           "value": "text"
         },
         {
-          "id": "net.fusisoft.token-text-layer",
+          "id": "it.vedph.token-text-layer",
           "value": "text layer"
         },
         {
-          "id": "net.fusisoft.tiled-text-layer",
+          "id": "it.vedph.tiled-text-layer",
           "value": "tiled text layer"
         },
         {
-          "id": "fr.net.fusisoft.apparatus",
+          "id": "fr.it.vedph.apparatus",
           "value": "apparatus fr."
         },
         {
-          "id": "fr.net.fusisoft.chronology",
+          "id": "fr.it.vedph.chronology",
           "value": "chronology fr."
         },
         {
-          "id": "fr.net.fusisoft.comment",
+          "id": "fr.it.vedph.comment",
           "value": "comment fr."
         },
         {
-          "id": "fr.net.fusisoft.orthography",
+          "id": "fr.it.vedph.orthography",
           "value": "orthography fr."
         },
         {
-          "id": "fr.net.fusisoft.quotations",
+          "id": "fr.it.vedph.quotations",
           "value": "quotations fr."
         },
         {
-          "id": "fr.net.fusisoft.witnesses",
+          "id": "fr.it.vedph.witnesses",
           "value": "witnesses fr."
         }
       ]
@@ -636,7 +636,7 @@
     },
     "partSeeders": [
       {
-        "id": "seed.net.fusisoft.categories",
+        "id": "seed.it.vedph.categories",
         "options": {
           "maxCategoriesPerItem": 3,
           "categories": [
@@ -649,10 +649,10 @@
         }
       },
       {
-        "id": "seed.net.fusisoft.historical-date"
+        "id": "seed.it.vedph.historical-date"
       },
       {
-        "id": "seed.net.fusisoft.keywords",
+        "id": "seed.it.vedph.keywords",
         "options": {
           "languages": [
             "eng",
@@ -664,7 +664,7 @@
         }
       },
       {
-        "id": "seed.net.fusisoft.index-keywords",
+        "id": "seed.it.vedph.index-keywords",
         "options": {
           "indexIds": [
             "persons",
@@ -680,7 +680,7 @@
         }
       },
       {
-        "id": "seed.net.fusisoft.bibliography",
+        "id": "seed.it.vedph.bibliography",
         "options": {
           "authors": [
             "Doe,Jane",
@@ -699,7 +699,7 @@
         }
       },
       {
-        "id": "seed.net.fusisoft.note",
+        "id": "seed.it.vedph.note",
         "options": {
           "tags": [
             "language",
@@ -709,19 +709,19 @@
         }
       },
       {
-        "id": "seed.net.fusisoft.token-text"
+        "id": "seed.it.vedph.token-text"
       },
       {
-        "id": "seed.net.fusisoft.token-text-layer",
+        "id": "seed.it.vedph.token-text-layer",
         "options": {
           "maxFragmentCount": 3
         }
       },
       {
-        "id": "seed.net.fusisoft.tiled-text"
+        "id": "seed.it.vedph.tiled-text"
       },
       {
-        "id": "seed.net.fusisoft.tiled-text-layer",
+        "id": "seed.it.vedph.tiled-text-layer",
         "options": {
           "maxFragmentCount": 3
         }
@@ -729,7 +729,7 @@
     ],
     "fragmentSeeders": [
       {
-        "id": "seed.fr.net.fusisoft.comment",
+        "id": "seed.fr.it.vedph.comment",
         "options": {
           "tags": [
             "language",
@@ -739,7 +739,7 @@
         }
       },
       {
-        "id": "seed.fr.net.fusisoft.chronology",
+        "id": "seed.fr.it.vedph.chronology",
         "options": {
           "tags": [
             "bat",
@@ -749,10 +749,10 @@
         }
       },
       {
-        "id": "seed.fr.net.fusisoft.apparatus"
+        "id": "seed.fr.it.vedph.apparatus"
       },
       {
-        "id": "seed.fr.net.fusisoft.orthography",
+        "id": "seed.fr.it.vedph.orthography",
         "options": {
           "tags": [
             "ph.c.occl.",
@@ -762,7 +762,7 @@
         }
       },
       {
-        "id": "seed.fr.net.fusisoft.quotations",
+        "id": "seed.fr.it.vedph.quotations",
         "options": {
           "authors": [
             "Fest.",
@@ -772,7 +772,7 @@
         }
       },
       {
-        "id": "seed.fr.net.fusisoft.witnesses",
+        "id": "seed.fr.it.vedph.witnesses",
         "options": {
           "ids": [
             "Fest.",

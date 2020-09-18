@@ -6,7 +6,7 @@
       "description": "A word in a lexicon.",
       "partDefinitions": [
         {
-          "typeId": "net.fusisoft.lexicon.word-form",
+          "typeId": "it.vedph.lexicon.word-form",
           "name": "form",
           "description": "Word form.",
           "required": true,
@@ -15,7 +15,7 @@
           "sortKey": "001"
         },
         {
-          "typeId": "net.fusisoft.lexicon.word-sense",
+          "typeId": "it.vedph.lexicon.word-sense",
           "name": "sense",
           "description": "Word sense.",
           "colorKey": "8080F0",
@@ -23,7 +23,7 @@
           "sortKey": "003"
         },
         {
-          "typeId": "net.fusisoft.word-phrase",
+          "typeId": "it.vedph.word-phrase",
           "name": "phrase",
           "description": "Word phrase.",
           "colorKey": "F080F0",
@@ -31,7 +31,7 @@
           "sortKey": "004"
         },
         {
-          "typeId": "net.fusisoft.word-etymology",
+          "typeId": "it.vedph.word-etymology",
           "name": "etymology",
           "description": "Item's token-based text.",
           "colorKey": "8080F0",
@@ -39,7 +39,7 @@
           "sortKey": "002"
         },
         {
-          "typeId": "net.fusisoft.note",
+          "typeId": "it.vedph.note",
           "name": "comments",
           "description": "A free text note about the word.",
           "colorKey": "F08080",
