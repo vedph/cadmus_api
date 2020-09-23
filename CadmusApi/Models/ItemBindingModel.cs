@@ -50,7 +50,7 @@ namespace CadmusApi.Models
         /// <summary>
         /// The sort key for the item. This is a value used to sort items in a list.
         /// </summary>
-        [Required(ErrorMessage = "Sort key not specified")]
+        // [Required(ErrorMessage = "Sort key not specified")]
         [MaxLength(1000)]
         public string SortKey { get; set; }
 
