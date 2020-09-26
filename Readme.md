@@ -4,6 +4,20 @@ API layer for the Cadmus content editor.
 
 Please find other [documentation](doc/index.md) under `doc`.
 
+Note: if IIS starts complaining that the port is in use, you can find out which process uses it by executing (e.g. for port 60304):
+
+```ps1
+netstat -ano | findstr 60304
+```
+
+If this does not report anything, then try looking at the reserved ranges with:
+
+```ps1
+netsh interface ipv4 show excludedportrange protocol=tcp
+```
+
+Should your port be included in the reserved range, change it by picking some number outside the reserved ones.
+
 ## Profile
 
 A Cadmus profile is a JSON document used to define items facets, parts, flags, and taxonomies (thesauri).
