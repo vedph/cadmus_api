@@ -7,7 +7,8 @@
     <Product>Cadmus</Product>
     <Description>Cadmus API services</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
+    <Copyright>by Daniele Fusi</Copyright>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -24,7 +25,7 @@
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.7.2" />
     <PackageReference Include="Cadmus.Core" Version="2.3.0" />
     <PackageReference Include="Cadmus.Index" Version="1.1.0" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.3.0" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.3.1" />
     <PackageReference Include="Cadmus.Seed" Version="1.1.0" />
     <PackageReference Include="Fusi.Tools" Version="1.1.15" />
     <PackageReference Include="MessagingApi" Version="1.0.1" />
