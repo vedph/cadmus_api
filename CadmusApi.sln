@@ -13,11 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Pack.bat = Pack.bat
 		Readme.md = Readme.md
 		UpdateLocalPackages.bat = UpdateLocalPackages.bat
-		UpdatePluginsDebug.bat = UpdatePluginsDebug.bat
-		UpdatePluginsRelease.bat = UpdatePluginsRelease.bat
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CadmusTool", "CadmusTool\CadmusTool.csproj", "{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadmus.Api.Services", "Cadmus.Api.Services\Cadmus.Api.Services.csproj", "{1DD10ED7-20D0-4642-8C18-3198E5D721A4}"
 EndProject
@@ -31,10 +27,6 @@ Global
 		{0A43E185-42D6-4629-A133-9E24643D84A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A43E185-42D6-4629-A133-9E24643D84A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A43E185-42D6-4629-A133-9E24643D84A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5338D936-0D4A-4234-8CE3-B7A3DF012DD7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Release|Any CPU.ActiveCfg = Release|Any CPU

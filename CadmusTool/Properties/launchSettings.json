@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "CadmusTool": {
-      "commandName": "Project",
-      "commandLineArgs": "build-index-sql mysql"
-    }
-  }
-}
