@@ -1,57 +1,59 @@
-﻿using Cadmus.Index.Config;
-using Cadmus.Index.Sql;
+﻿using Cadmus.Core.Config;
+using Cadmus.Mongo;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
 using SimpleInjector;
 using System;
 using System.Reflection;
 
-namespace CadmusApi.Services
+namespace Cadmus.Api.Services
 {
     /// <summary>
-    /// Standard item index writer factory provider.
+    /// Standard items browser factory provider.
     /// </summary>
-    /// <seealso cref="IItemIndexFactoryProvider" />
-    public sealed class StandardItemIndexFactoryProvider :
-        IItemIndexFactoryProvider
+    /// <seealso cref="IItemBrowserFactoryProvider" />
+    public sealed class StandardItemBrowserFactoryProvider :
+        IItemBrowserFactoryProvider
     {
         private readonly string _connectionString;
 
         /// <summary>
         /// Initializes a new instance of the
-        /// <see cref="StandardItemIndexFactoryProvider"/> class.
+        /// <see cref="StandardItemBrowserFactoryProvider"/> class.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        /// <exception cref="ArgumentNullException">connectionString</exception>
-        public StandardItemIndexFactoryProvider(string connectionString)
+        public StandardItemBrowserFactoryProvider(string connectionString)
         {
             _connectionString = connectionString ??
                 throw new ArgumentNullException(nameof(connectionString));
         }
 
         /// <summary>
-        /// Gets the part/fragment seeders factory.
+        /// Gets the item browsers factory.
         /// </summary>
         /// <param name="profile">The profile.</param>
         /// <returns>Factory.</returns>
         /// <exception cref="ArgumentNullException">profile</exception>
-        public ItemIndexFactory GetFactory(string profile)
+        public ItemBrowserFactory GetFactory(string profile)
         {
             if (profile == null)
                 throw new ArgumentNullException(nameof(profile));
 
-            // build the container for seeders
-            Assembly[] indexAssemblies = new[]
+            // build the tags to types map for parts/fragments
+            Assembly[] browserAssemblies = new[]
             {
-                // Cadmus.Index.Sql
-                typeof(MySqlItemIndexWriter).Assembly
+                // Cadmus.Mongo
+                typeof(MongoHierarchyItemBrowser).Assembly,
             };
+            TagAttributeToTypeMap map = new TagAttributeToTypeMap();
+            map.Add(browserAssemblies);
 
+            // build the container
             Container container = new Container();
-
-            ItemIndexFactory.ConfigureServices(
+            ItemBrowserFactory.ConfigureServices(
                 container,
-                indexAssemblies);
+                new StandardPartTypeProvider(map),
+                browserAssemblies);
 
             container.Verify();
 
@@ -60,7 +62,7 @@ namespace CadmusApi.Services
                 .AddInMemoryJson(profile);
             var configuration = builder.Build();
 
-            return new ItemIndexFactory(
+            return new ItemBrowserFactory(
                 container,
                 configuration,
                 _connectionString);

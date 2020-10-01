@@ -13,20 +13,20 @@ using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 namespace CadmusApi.Services
 {
     /// <summary>
-    /// Cadmus standard repository service.
+    /// Application's repository provider.
     /// </summary>
-    public sealed class StandardRepositoryProvider : IRepositoryProvider
+    public sealed class AppRepositoryProvider : IRepositoryProvider
     {
         private readonly IConfiguration _configuration;
         private readonly TagAttributeToTypeMap _map;
         private readonly IPartTypeProvider _partTypeProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StandardRepositoryProvider"/> class.
+        /// Initializes a new instance of the <see cref="AppRepositoryProvider"/> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <exception cref="ArgumentNullException">configuration</exception>
-        public StandardRepositoryProvider(IConfiguration configuration)
+        public AppRepositoryProvider(IConfiguration configuration)
         {
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
@@ -37,7 +37,7 @@ namespace CadmusApi.Services
                 // Cadmus.Parts
                 typeof(NotePart).GetTypeInfo().Assembly,
                 // Cadmus.Lexicon.Parts
-                typeof(WordFormPart).GetTypeInfo().Assembly,
+                // typeof(WordFormPart).GetTypeInfo().Assembly,
                 // Cadmus.Philology.Parts
                 typeof(ApparatusLayerFragment).GetTypeInfo().Assembly
             });

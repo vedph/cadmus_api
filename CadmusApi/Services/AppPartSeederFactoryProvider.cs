@@ -11,9 +11,9 @@ using System.Reflection;
 namespace CadmusApi.Services
 {
     /// <summary>
-    /// Standard seeders service.
+    /// Application's part seeders factory provider.
     /// </summary>
-    public sealed class StandardPartSeederFactoryProvider : IPartSeederFactoryProvider
+    public sealed class AppPartSeederFactoryProvider : IPartSeederFactoryProvider
     {
         /// <summary>
         /// Gets the part/fragment seeders factory.

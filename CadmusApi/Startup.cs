@@ -27,6 +27,7 @@ using Cadmus.Core.Config;
 using Cadmus.Index.Config;
 using Cadmus.Api.Services.Auth;
 using Cadmus.Api.Services.Messaging;
+using Cadmus.Api.Services;
 
 namespace CadmusApi
 {
@@ -224,10 +225,10 @@ namespace CadmusApi
             // configuration
             services.AddSingleton(_ => Configuration);
             // repository
-            services.AddSingleton<IRepositoryProvider, StandardRepositoryProvider>();
+            services.AddSingleton<IRepositoryProvider, AppRepositoryProvider>();
             // part seeder factory provider
             services.AddSingleton<IPartSeederFactoryProvider,
-                StandardPartSeederFactoryProvider>();
+                AppPartSeederFactoryProvider>();
             // item browser factory provider
             services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
                 new StandardItemBrowserFactoryProvider(
