@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Models
 {
     /// <summary>
     /// Thesaurus model.

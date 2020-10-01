@@ -7,7 +7,7 @@ using Cadmus.Core.Storage;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CadmusApi.Controllers
+namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Item facets controller.

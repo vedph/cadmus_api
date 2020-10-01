@@ -58,6 +58,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cadmus.Api.Controllers\Cadmus.Api.Controllers.csproj" />
+    <ProjectReference Include="..\Cadmus.Api.Models\Cadmus.Api.Models.csproj" />
     <ProjectReference Include="..\Cadmus.Api.Services\Cadmus.Api.Services.csproj" />
   </ItemGroup>
 

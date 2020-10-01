@@ -4,7 +4,7 @@ using System.Linq;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Models;
+using Cadmus.Api.Models;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

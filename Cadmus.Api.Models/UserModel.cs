@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Models
 {
     /// <summary>
     /// User.

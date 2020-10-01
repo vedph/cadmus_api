@@ -1,8 +1,7 @@
 ﻿using Fusi.Tools.Data;
-using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Models
 {
     /// <summary>
     /// Paging options model.
@@ -20,5 +19,16 @@ namespace CadmusApi.Models
         /// </summary>
         [Range(0, 100)]
         public int PageSize { get; set; }
+
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="string" /> that represents this instance.
+        /// </returns>
+        public override string ToString()
+        {
+            return $"{PageNumber}x{PageSize}";
+        }
     }
 }

@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadmus.Api.Services", "Cadmus.Api.Services\Cadmus.Api.Services.csproj", "{1DD10ED7-20D0-4642-8C18-3198E5D721A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmus.Api.Models", "Cadmus.Api.Models\Cadmus.Api.Models.csproj", "{27170474-129F-428C-9A2F-8BEFC543BFB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmus.Api.Controllers", "Cadmus.Api.Controllers\Cadmus.Api.Controllers.csproj", "{2C14DFBA-6F84-49EE-8B55-3C9FCE76F5FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DD10ED7-20D0-4642-8C18-3198E5D721A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27170474-129F-428C-9A2F-8BEFC543BFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27170474-129F-428C-9A2F-8BEFC543BFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27170474-129F-428C-9A2F-8BEFC543BFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27170474-129F-428C-9A2F-8BEFC543BFB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C14DFBA-6F84-49EE-8B55-3C9FCE76F5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C14DFBA-6F84-49EE-8B55-3C9FCE76F5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C14DFBA-6F84-49EE-8B55-3C9FCE76F5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C14DFBA-6F84-49EE-8B55-3C9FCE76F5FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

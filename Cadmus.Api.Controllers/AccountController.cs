@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Text;
-using CadmusApi.Models;
+using Cadmus.Api.Models;
 using MessagingApi;
 using Microsoft.Extensions.Logging;
 using Cadmus.Api.Services.Auth;
 
-namespace CadmusApi.Controllers
+namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Account controller.

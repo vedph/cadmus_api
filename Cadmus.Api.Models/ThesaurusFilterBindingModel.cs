@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Models
 {
     /// <summary>
     /// Thesaurus filter binding model.

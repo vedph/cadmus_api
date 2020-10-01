@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CadmusApi.Models
+namespace Cadmus.Api.Models
 {
     /// <summary>
     /// Items group ID binding model.

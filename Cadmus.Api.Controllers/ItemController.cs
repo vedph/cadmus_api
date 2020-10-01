@@ -11,7 +11,7 @@ using Cadmus.Core.Layers;
 using Cadmus.Core.Storage;
 using Cadmus.Index;
 using Cadmus.Index.Config;
-using CadmusApi.Models;
+using Cadmus.Api.Models;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 
-namespace CadmusApi.Controllers
+namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Items controller.

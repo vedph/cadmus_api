@@ -2,9 +2,22 @@
 
 API layer for the Cadmus content editor.
 
-Please find other [documentation](doc/index.md) under `doc`.
+This API is the default API serving general and philological parts, and contains all the shared components which can be used to compose your own API:
 
-Note: if IIS starts complaining that the port is in use, you can find out which process uses it by executing (e.g. for port 60304):
+- `Cadmus.Api.Models`: API data models.
+- `Cadmus.Api.Services`: API services.
+- `Cadmus.Api.Controllers`: API controllers.
+
+The API application proper just adds a couple of application-specific services implementations:
+
+- `AppPartSeederFactoryProvider` implementing `IPartSeederFactoryProvider`;
+- `AppRepositoryProvider` implementing `IRepositoryProvider`.
+
+Both these services depend on the parts you choose to support, so they are implemented at the application level.
+
+## Developer Note About Port
+
+There seems to be an issue with VS in launching IIS Express at a given port. If IIS starts complaining that the port is in use, you can find out which process uses it by executing (e.g. for port 60304):
 
 ```ps1
 netstat -ano | findstr 60304

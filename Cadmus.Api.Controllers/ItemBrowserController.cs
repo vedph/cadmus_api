@@ -3,8 +3,7 @@ using Cadmus.Api.Services.Seeding;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
-using CadmusApi.Models;
-using CadmusApi.Services;
+using Cadmus.Api.Models;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -16,7 +15,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CadmusApi.Controllers
+namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Items browsers controller.

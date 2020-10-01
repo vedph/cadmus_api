@@ -1,5 +1,5 @@
 ﻿using Fusi.Tools.Data;
-using CadmusApi.Models;
+using Cadmus.Api.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;

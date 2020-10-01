@@ -9,11 +9,11 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using RegisteredClaims = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 using Microsoft.Extensions.Configuration;
-using CadmusApi.Models;
+using Cadmus.Api.Models;
 using Cadmus.Api.Services;
 using Cadmus.Api.Services.Auth;
 
-namespace CadmusApi.Controllers
+namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Authentication controller.

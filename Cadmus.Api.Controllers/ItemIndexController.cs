@@ -2,7 +2,7 @@
 using Cadmus.Core;
 using Cadmus.Index;
 using Cadmus.Index.Config;
-using CadmusApi.Models;
+using Cadmus.Api.Models;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
-namespace CadmusApi.Controllers
+namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Items index.
