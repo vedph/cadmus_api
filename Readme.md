@@ -1,5 +1,7 @@
 # CadmusApi
 
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.0.2 -t vedph2020/cadmus_api:latest` (replace with the current version).
+
 API layer for the Cadmus content editor.
 
 This API is the default API serving general and philological parts, and contains all the shared components which can be used to compose your own API:
