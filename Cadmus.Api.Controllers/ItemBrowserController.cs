@@ -1,5 +1,4 @@
-﻿using Cadmus.Api.Services;
-using Cadmus.Api.Services.Seeding;
+﻿using Cadmus.Api.Services.Seeding;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;

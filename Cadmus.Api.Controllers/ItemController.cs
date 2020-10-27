@@ -26,7 +26,7 @@ namespace Cadmus.Api.Controllers
     /// <summary>
     /// Items controller.
     /// </summary>
-    [Authorize]
+    // [Authorize]
     [ApiController]
     public sealed class ItemController : Controller
     {
