@@ -29,6 +29,7 @@ using Cadmus.Api.Services.Auth;
 using Cadmus.Api.Services.Messaging;
 using Cadmus.Api.Services;
 using System.Linq;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace CadmusApi
 {
@@ -276,6 +277,13 @@ namespace CadmusApi
         /// <param name="env">The environment.</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-2.2#configure-a-reverse-proxy-server
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor
+                    | ForwardedHeaders.XForwardedProto
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
