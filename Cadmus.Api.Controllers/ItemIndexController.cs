@@ -69,12 +69,21 @@ namespace Cadmus.Api.Controllers
             IItemIndexReader reader = factory.GetItemIndexReader();
 
             // search
-            DataPage<ItemInfo> page = reader.SearchItems(model.Query,
-                new PagingOptions
-                {
-                    PageNumber = model.PageNumber,
-                    PageSize = model.PageSize
-                });
+            DataPage<ItemInfo> page;
+            try
+            {
+                page = reader.SearchItems(model.Query,
+                    new PagingOptions
+                    {
+                        PageNumber = model.PageNumber,
+                        PageSize = model.PageSize
+                    });
+            }
+            catch (CadmusQueryException exception)
+            {
+                return Ok(new { error = exception.Message });
+            }
+
             reader.Close();
 
             return Ok(new
@@ -113,12 +122,21 @@ namespace Cadmus.Api.Controllers
             IItemIndexReader reader = factory.GetItemIndexReader();
 
             // search
-            DataPage<DataPinInfo> page = reader.SearchPins(model.Query,
-                new PagingOptions
-                {
-                    PageNumber = model.PageNumber,
-                    PageSize = model.PageSize
-                });
+            DataPage<DataPinInfo> page;
+            try
+            {
+                page = reader.SearchPins(model.Query,
+                    new PagingOptions
+                    {
+                        PageNumber = model.PageNumber,
+                        PageSize = model.PageSize
+                    });
+            }
+            catch (CadmusQueryException exception)
+            {
+                return Ok(new { error = exception.Message });
+            }
+
             reader.Close();
 
             return Ok(new
