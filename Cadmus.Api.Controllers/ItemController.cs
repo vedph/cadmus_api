@@ -26,7 +26,7 @@ namespace Cadmus.Api.Controllers
     /// <summary>
     /// Items controller.
     /// </summary>
-    // [Authorize]
+    [Authorize]
     [ApiController]
     public sealed class ItemController : Controller
     {
@@ -212,6 +212,30 @@ namespace Cadmus.Api.Controllers
 
             object result = JsonConvert.DeserializeObject(json);
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Gets the data pin definitions for the specified type ID.
+        /// </summary>
+        /// <param name="typeId">The type identifier: this is the type ID
+        /// of the part or fragment, e.g. <c>it.vedph.token-text</c> or
+        /// <c>fr.it.vedph.comment</c>.</param>
+        /// <returns>Definitions, empty if type ID not found or no definitions
+        /// were present. The <c>type</c> property in the definition is
+        /// 0=string, 1=boolean, 2=integer, 3=decimal.</returns>
+        [HttpGet("api/{database}/pin-defs/{typeId}")]
+        [Produces("application/json")]
+        [ProducesResponseType(200)]
+        public DataPinDefinition[] GetDataPinDefinitions([FromRoute] string typeId)
+        {
+            IPartTypeProvider provider = _repositoryProvider.GetPartTypeProvider();
+            Type t = provider.Get(typeId);
+            if (typeof(IHasDataPins).IsAssignableFrom(t))
+            {
+                IHasDataPins p = Activator.CreateInstance(t) as IHasDataPins;
+                return p.GetDataPinDefinitions().ToArray();
+            }
+            return new DataPinDefinition[0];
         }
 
         /// <summary>
