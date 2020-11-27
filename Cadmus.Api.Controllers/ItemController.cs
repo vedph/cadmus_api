@@ -640,7 +640,8 @@ namespace Cadmus.Api.Controllers
             if (!part.ContainsKey("id")) return true;
 
             JValue id = (JValue)part["id"];
-            return id.Type == JTokenType.Null
+            return id == null
+                || id.Type == JTokenType.Null
                 || !_guidRegex.IsMatch(id.Value<string>());
         }
 
@@ -663,12 +664,13 @@ namespace Cadmus.Api.Controllers
             else
             {
                 JValue id = (JValue)doc["id"];
-                partId = id.Value<string>();
+                partId = id?.Value<string>();
             }
 
             // set the creator ID if not specified
             JValue creatorId = (JValue)doc["creatorId"];
-            if (creatorId.Type == JTokenType.Null
+            if (creatorId == null
+                || creatorId.Type == JTokenType.Null
                 || string.IsNullOrEmpty(creatorId?.Value<string>()))
             {
                 if (doc.ContainsKey("creatorId"))
