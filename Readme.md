@@ -1,6 +1,6 @@
 # CadmusApi
 
-Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.0.9 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.0.10 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
