@@ -20,11 +20,11 @@ xcopy %src%cadmus.index.sql\1.1.5\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.mongo\2.3.5\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.parts\2.3.2\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.philology.parts\2.3.2\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.philology.parts\2.3.3\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.seed\1.1.3\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.seed.parts\1.1.3\*.nupkg .\local-packages\ /y
-xcopy %src%cadmus.seed.philology.parts\1.1.3\*.nupkg .\local-packages\ /y
+xcopy %src%cadmus.seed.philology.parts\1.1.5\*.nupkg .\local-packages\ /y
 
 xcopy %src%cadmus.archive.parts\2.3.2\*.nupkg .\local-packages\ /y
 xcopy %src%cadmus.lexicon.parts\2.3.2\*.nupkg .\local-packages\ /y
