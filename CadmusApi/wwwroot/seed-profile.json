@@ -49,6 +49,14 @@
           "sortKey": "note"
         },
         {
+          "typeId": "it.vedph.comment",
+          "name": "comment",
+          "description": "Comment.",
+          "colorKey": "B2E0AA",
+          "groupKey": "general",
+          "sortKey": "comment"
+        },
+        {
           "typeId": "it.vedph.bibliography",
           "name": "bibliography",
           "description": "Bibliography.",
@@ -287,6 +295,10 @@
         {
           "id": "it.vedph.note",
           "value": "note"
+        },
+        {
+          "id": "it.vedph.comment",
+          "value": "comment"
         },
         {
           "id": "it.vedph.bibliography",
@@ -709,6 +721,13 @@
         }
       },
       {
+        "id": "seed.it.vedph.comment",
+        "options": {
+          "languages": [ "eng", "ita" ],
+          "categories": [ "language.phonology", "language.syntax", "history" ]
+        }
+      },
+      {
         "id": "seed.it.vedph.token-text"
       },
       {
@@ -731,11 +750,8 @@
       {
         "id": "seed.fr.it.vedph.comment",
         "options": {
-          "tags": [
-            "language",
-            "history",
-            "geography"
-          ]
+          "languages": [ "eng", "ita" ],
+          "categories": [ "language.phonology", "language.syntax", "history" ]
         }
       },
       {

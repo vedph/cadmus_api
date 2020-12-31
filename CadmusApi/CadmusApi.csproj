@@ -28,12 +28,12 @@
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="6.7.2" />
     <PackageReference Include="Cadmus.Index.Sql" Version="1.1.5" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.3.2" />
-    <PackageReference Include="Cadmus.Parts" Version="2.3.2" />
+    <PackageReference Include="Cadmus.Parts" Version="2.3.4" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.3.3" />
     <PackageReference Include="Cadmus.Core" Version="2.3.2" />
     <PackageReference Include="Cadmus.Mongo" Version="2.3.5" />
     <PackageReference Include="Cadmus.Seed" Version="1.1.4" />
-    <PackageReference Include="Cadmus.Seed.Parts" Version="1.1.4" />
+    <PackageReference Include="Cadmus.Seed.Parts" Version="1.1.7" />
     <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.1.5" />
     <PackageReference Include="Fusi.Antiquity" Version="1.1.25" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.2" />
