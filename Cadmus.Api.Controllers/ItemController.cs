@@ -763,7 +763,7 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
 
-            repository.SetPartThesaurusScope(model.Ids, model.Scope);
+            repository.SetPartThesaurusScope(model.Ids, model.Scope ?? "");
             return Ok();
         }
         #endregion
