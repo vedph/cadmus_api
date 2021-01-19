@@ -9,7 +9,7 @@
     <Product>Cadmus</Product>
     <Description>Cadmus API services</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.16</Version>
+    <Version>1.0.17</Version>
     <Copyright>by Daniele Fusi</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
@@ -35,10 +35,13 @@
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
     <PackageReference Include="Fusi.Tools" Version="1.1.16" />
     <PackageReference Include="MessagingApi" Version="1.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />

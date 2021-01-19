@@ -713,10 +713,10 @@ namespace Cadmus.Api.Controllers
         /// If new, the part ID should not be parsable as a GUID, e.g.
         /// <c>"id": "new"</c> or <c>"id": ""</c>, or should be null
         /// (e.g. <c>"id": null</c>). At a minimum, each part should adhere
-        /// to this model: <c>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name",
+        /// to this model: <code>{ "id" : "32-chars-GUID-value", "_t" : "C#-part-name",
         /// "itemId" : "32-chars-GUID-value", "typeId" : "type-id",
         /// "roleId" : null or "role-id", "timeModified" : "ISO date and time"),
-        /// "userId" : "user-id or empty" }</c>.</param>
+        /// "userId" : "user-id or empty" }</code>.</param>
         [Authorize(Roles = "admin,editor,operator")]
         [HttpPost("api/{database}/parts")]
         [ProducesResponseType(201)]
