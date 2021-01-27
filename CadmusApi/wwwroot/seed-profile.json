@@ -65,6 +65,14 @@
           "sortKey": "bibliography"
         },
         {
+          "typeId": "it.vedph.ext-bibliography",
+          "name": "ext-bibliography",
+          "description": "External bibliography.",
+          "colorKey": "82B0AD",
+          "groupKey": "general",
+          "sortKey": "bibliography-ext"
+        },
+        {
           "typeId": "it.vedph.token-text",
           "roleId": "base-text",
           "name": "text",
@@ -303,6 +311,10 @@
         {
           "id": "it.vedph.bibliography",
           "value": "bibliography"
+        },
+        {
+          "id": "it.vedph.ext-bibliography",
+          "value": "ext-bibliography"
         },
         {
           "id": "it.vedph.tiled-text",
@@ -709,6 +721,9 @@
             "IF"
           ]
         }
+      },
+      {
+        "id": "seed.it.vedph.ext-bibliography"
       },
       {
         "id": "seed.it.vedph.note",
