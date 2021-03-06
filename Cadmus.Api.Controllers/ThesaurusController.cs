@@ -8,6 +8,7 @@ using Cadmus.Api.Models;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CadmusApi.Controllers
 {
@@ -19,6 +20,7 @@ namespace CadmusApi.Controllers
     public sealed class ThesaurusController : Controller
     {
         private readonly IRepositoryProvider _repositoryProvider;
+        private readonly ILogger<ThesaurusController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThesaurusController"/>
@@ -26,10 +28,12 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="repositoryProvider">The repository provider.</param>
         /// <exception cref="ArgumentNullException">repository</exception>
-        public ThesaurusController(IRepositoryProvider repositoryProvider)
+        public ThesaurusController(IRepositoryProvider repositoryProvider,
+            ILogger<ThesaurusController> logger)
         {
             _repositoryProvider = repositoryProvider ??
                                  throw new ArgumentNullException(nameof(repositoryProvider));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -178,6 +182,7 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="model">The thesaurus model.</param>
+        [Authorize(Roles = "admin,editor,operator")]
         [HttpPost("api/{database}/thesauri")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
@@ -187,11 +192,20 @@ namespace CadmusApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            _logger.LogInformation("User {UserName} adding thesaurus {ThesaurusId}",
+                User.Identity.Name,
+                model.Id);
+
             ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
             Thesaurus thesaurus = new Thesaurus(model.Id);
             foreach (ThesaurusEntryBindingModel entry in model.Entries)
                 thesaurus.AddEntry(new ThesaurusEntry(entry.Id, entry.Value));
             repository.AddThesaurus(thesaurus);
+
+            _logger.LogInformation(
+                "User {UserName} successfully added thesaurus {ThesaurusId}",
+                User.Identity.Name,
+                model.Id);
 
             return CreatedAtRoute("GetThesaurus", new
             {
@@ -205,14 +219,24 @@ namespace CadmusApi.Controllers
         /// </summary>
         /// <param name="database">The database ID.</param>
         /// <param name="id">The thesaurus ID.</param>
+        [Authorize(Roles = "admin,editor")]
         [HttpDelete("api/{database}/thesauri/{id}")]
         public void DeleteThesaurus(
             [FromRoute] string database,
             [FromRoute] string id)
         {
+            _logger.LogInformation("User {UserName} deleting thesaurus {ThesaurusId}",
+                User.Identity.Name,
+                id);
+
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
             repository.DeleteThesaurus(id);
+
+            _logger.LogInformation(
+                "User {UserName} successfully deleted thesaurus {ThesaurusId}",
+                User.Identity.Name,
+                id);
         }
     }
 }

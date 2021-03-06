@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cadmus.Api.Services;
 using Cadmus.Api.Services.Auth;
+using Microsoft.Extensions.Logging;
 
 namespace CadmusApi.Controllers
 {
@@ -17,15 +18,18 @@ namespace CadmusApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository<ApplicationUser> _repository;
+        private readonly ILogger<UserController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController" /> class.
         /// </summary>
         /// <param name="repository">The repository.</param>
         /// <exception cref="ArgumentNullException">userManager</exception>
-        public UserController(IUserRepository<ApplicationUser> repository)
+        public UserController(IUserRepository<ApplicationUser> repository,
+            ILogger<UserController> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         private static UserModel UserToModel(ApplicationUser user, string[] roles)
@@ -142,6 +146,10 @@ namespace CadmusApi.Controllers
         {
             if (!ModelState.IsValid) return BadRequest();
 
+            _logger.LogInformation("User {UserName} updating user {UpdatedUser}",
+                User.Identity.Name,
+                model.UserName);
+
             await _repository.UpdateUserAsync(new ApplicationUser
             {
                 UserName = model.UserName,
@@ -152,6 +160,11 @@ namespace CadmusApi.Controllers
                 LockoutEnabled = model.LockoutEnabled,
                 LockoutEnd = model.LockoutEnd
             }, model.Roles);
+
+            _logger.LogInformation(
+                "User {UserName} successfully updated user {UpdatedUser}",
+                User.Identity.Name,
+                model.UserName);
 
             return Ok();
         }

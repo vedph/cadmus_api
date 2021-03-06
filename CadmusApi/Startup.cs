@@ -30,6 +30,7 @@ using Cadmus.Api.Services.Messaging;
 using Cadmus.Api.Services;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
+using MessagingApi.SendGrid;
 
 namespace CadmusApi
 {
@@ -64,13 +65,16 @@ namespace CadmusApi
             // configuration sections
             // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
             services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
-            services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
+            // services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
+            services.Configure<SendGridMailerOptions>(Configuration.GetSection("Mailer"));
 
             // explicitly register the settings object by delegating to the IOptions object
             services.AddSingleton(resolver =>
                 resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
+            //services.AddSingleton(resolver =>
+            //    resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
             services.AddSingleton(resolver =>
-                resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
+                resolver.GetRequiredService<IOptions<SendGridMailerOptions>>().Value);
         }
 
         private void ConfigureCorsServices(IServiceCollection services)
@@ -228,7 +232,8 @@ namespace CadmusApi
             // messaging
             // TODO: you can use another mailer service here. In this case,
             // also change the types in ConfigureOptionsServices.
-            services.AddTransient<IMailerService, DotNetMailerService>();
+            // services.AddTransient<IMailerService, DotNetMailerService>();
+            services.AddTransient<IMailerService, SendGridMailerService>();
             services.AddTransient<IMessageBuilderService,
                 FileMessageBuilderService>();
 
