@@ -11,23 +11,21 @@ using Cadmus.Api.Models;
 using MessagingApi;
 using Microsoft.Extensions.Logging;
 using Cadmus.Api.Services.Auth;
+using System.Linq;
 
 namespace Cadmus.Api.Controllers
 {
     /// <summary>
     /// Account controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    /// <seealso cref="Controller" />
     [ApiController]
     public sealed class AccountController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        //private readonly SignInManager<ApplicationUser> _signInManager;
-        //private readonly IWebHostEnvironment _environment;
         private readonly IMessageBuilderService _messageBuilder;
         private readonly IMailerService _mailer;
         private readonly MessagingOptions _options;
-        //private readonly IConfiguration _configuration;
         private readonly ILogger<AccountController> _logger;
 
         /// <summary>
@@ -50,16 +48,10 @@ namespace Cadmus.Api.Controllers
             if (options == null) throw new ArgumentNullException(nameof(options));
             _userManager = userManager ??
                 throw new ArgumentNullException(nameof(userManager));
-            //_signInManager = signInManager ??
-            //    throw new ArgumentNullException(nameof(signInManager));
-            //_environment = environment ??
-            //    throw new ArgumentNullException(nameof(environment));
             _messageBuilder = messageBuilder ??
                 throw new ArgumentNullException(nameof(messageBuilder));
             _mailer = mailer ?? throw new ArgumentNullException(nameof(mailer));
             _options = options.Value;
-            //_configuration = configuration ??
-            //    throw new ArgumentNullException(nameof(configuration));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
         }
@@ -156,14 +148,29 @@ namespace Cadmus.Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            _logger.LogInformation(
+                "[ACCOUNT] {UserName} registering user {RegisteredUserName} " +
+                "from {IP} ",
+                User.Identity.Name,
+                model.Name,
+                HttpContext.Connection.RemoteIpAddress);
+
             // ensure that email and user do not exist
             ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
             if (user != null)
+            {
+                _logger.LogWarning("Email address already registered: {RegisteredEmail}",
+                    model.Email);
                 return BadRequest("Email address already registered");
+            }
 
             user = await _userManager.FindByNameAsync(model.Name);
             if (user != null)
+            {
+                _logger.LogWarning("User name already registered: {RegisteredUserName}",
+                    model.Name);
                 return BadRequest("User name already registered");
+            }
 
             // register
             user = new ApplicationUser
@@ -175,11 +182,15 @@ namespace Cadmus.Api.Controllers
             };
             IdentityResult result =
                 await _userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded) return GetErrorResult(result);
+            if (!result.Succeeded)
+            {
+                _logger.LogError("Error registering user {RegisteredUserName}: " +
+                    string.Join("; ", from e in result.Errors select e.ToString()));
+                return GetErrorResult(result);
+            }
 
             // log
             _logger.LogInformation(
-            // Serilog.Log.Information(
                 "[ACCOUNT] {UserName} registered user {RegisteredUserName} " +
                 "from {IP} ",
                 User.Identity.Name,
@@ -205,7 +216,10 @@ namespace Cadmus.Api.Controllers
             ApplicationUser user = await _userManager.FindByEmailAsync(email);
             if (user == null) return BadRequest("Email address not registered");
 
+            _logger.LogInformation("Resending email confirmation");
             await SendConfirmEmailAsync(user);
+            _logger.LogInformation("Email confirmation re-sent");
+
             return Ok();
         }
 
@@ -225,6 +239,8 @@ namespace Cadmus.Api.Controllers
             ApplicationUser user = await _userManager.FindByNameAsync(name);
             if (user == null) return BadRequest();
 
+            _logger.LogInformation("Confirming registration");
+
             // this API endpoint is accessed by users when clicking the
             // confirmation URL found in their email text. Thus, this endpoint
             // must reply with an HTML page for the end users.
@@ -239,6 +255,7 @@ namespace Cadmus.Api.Controllers
             // if already confirmed, do nothing
             if (user.EmailConfirmed)
             {
+                _logger.LogInformation("Registration already confirmed");
                 page = _messageBuilder.BuildMessage(
                     "page-email-already-confirmed", dct).Content;
                 return new FileStreamResult(
@@ -248,12 +265,15 @@ namespace Cadmus.Api.Controllers
             IdentityResult result = await _userManager.ConfirmEmailAsync(user, token);
             if (!result.Succeeded)
             {
+                _logger.LogInformation("Invalid confirmation token");
                 page = _messageBuilder.BuildMessage(
                     "page-invalid-email-confirm-token", dct).Content;
                 return new FileStreamResult(
                     new MemoryStream(Encoding.UTF8.GetBytes(page)), "text/html");
             }
+            _logger.LogInformation("Registration successfully confirmed");
 
+            _logger.LogInformation("Sending confirmation message");
             Message message = _messageBuilder.BuildMessage(
                 "registration-confirmed", new Dictionary<string, string>
                 {
@@ -262,6 +282,7 @@ namespace Cadmus.Api.Controllers
                     ["UserName"] = user.UserName
                 });
             await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+            _logger.LogInformation("Confirmation message sent");
 
             page = _messageBuilder.BuildMessage("page-email-confirmed", dct).Content;
             return new FileStreamResult(new MemoryStream(
@@ -282,14 +303,31 @@ namespace Cadmus.Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            _logger.LogInformation("Change password request for {UserEmail}",
+                model.Email);
+
             ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null) return BadRequest();
+            if (user == null)
+            {
+                _logger.LogWarning("Change password: no user with email {UserEmail}",
+                    model.Email);
+                return BadRequest();
+            }
 
             IdentityResult result = await _userManager.ChangePasswordAsync(user,
                 model.OldPassword,
                 model.NewPassword);
 
-            if (!result.Succeeded) return GetErrorResult(result);
+            if (!result.Succeeded)
+            {
+                _logger.LogError("Error changing password for {UserEmail}: " +
+                    string.Join("; ", from e in result.Errors select e.ToString(),
+                    model.Email));
+
+                return GetErrorResult(result);
+            }
+            _logger.LogInformation("Successfully changed password for {UserEmail}",
+                model.Email);
 
             return Ok();
         }
@@ -309,15 +347,27 @@ namespace Cadmus.Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
+            _logger.LogInformation("Reset password request for {UserEmail}",
+                model.Email);
+
             ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
-            if (user == null) return BadRequest();
+            if (user == null)
+            {
+                _logger.LogWarning("Reset password: no user with email {UserEmail}",
+                    model.Email);
+                return BadRequest();
+            }
 
             string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            _logger.LogInformation("Reset password token generated for {UserEmail}",
+                model.Email);
 
             string url = _options.ApiRootUrl + Url.Action(
                 "ResetPassword", "Account",
                 new { name = user.UserName, token });
 
+            _logger.LogInformation("Sending reset password token to {UserEmail}",
+                model.Email);
             Message message = _messageBuilder.BuildMessage("reset-password",
                 new Dictionary<string, string>
                 {
@@ -325,6 +375,8 @@ namespace Cadmus.Api.Controllers
                     ["ResetUrl"] = url
                 });
             await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+            _logger.LogInformation("Reset password token sent to {UserEmail}",
+                model.Email);
 
             return Ok();
         }
@@ -341,16 +393,31 @@ namespace Cadmus.Api.Controllers
         public async Task<IActionResult> ResetPassword([FromQuery] string name,
             [FromQuery] string token)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(name);
-            if (user == null) return BadRequest();
+            _logger.LogInformation("Apply password reset for {UserName}", name);
 
+            ApplicationUser user = await _userManager.FindByNameAsync(name);
+            if (user == null)
+            {
+                _logger.LogWarning("Apply password reset: user {UserName} not found",
+                    name);
+                return BadRequest();
+            }
+
+            _logger.LogInformation("Setting new password for {UserName}", name);
             PasswordGenerator generator = new PasswordGenerator();
             string newPassword = generator.Generate();
 
             IdentityResult result =
                 await _userManager.ResetPasswordAsync(user, token, newPassword);
-            if (!result.Succeeded) return GetErrorResult(result);
+            if (!result.Succeeded)
+            {
+                _logger.LogError("Error setting new password for {UserName}: " +
+                   string.Join("; ", from e in result.Errors select e.ToString(),
+                   name));
+                return GetErrorResult(result);
+            }
 
+            _logger.LogInformation("Sending new password to {UserEmail}", user.Email);
             Message message = _messageBuilder.BuildMessage("password-reset",
                 new Dictionary<string, string>
                 {
@@ -360,6 +427,7 @@ namespace Cadmus.Api.Controllers
                     ["NewPassword"] = newPassword
                 });
             await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+            _logger.LogInformation("New password sent to {UserEmail}", user.Email);
 
             return Ok();
         }
@@ -370,20 +438,40 @@ namespace Cadmus.Api.Controllers
         /// <param name="name">The user name</param>
         [Authorize(Roles = "admin")]
         [HttpDelete("api/accounts/{name}")]
-        public async Task DeleteUser(string name)
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> DeleteUser(string name)
         {
+            _logger.LogInformation("{UserName} deleting user {DeletedUserName}",
+                User.Identity.Name,
+                name);
+
             ApplicationUser user = await _userManager.FindByNameAsync(name);
-            if (user == null) return;
+            if (user == null)
+            {
+                _logger.LogWarning("Delete user: user {DeletedUserName} not found",
+                    name);
+                return BadRequest("No such user: " + name);
+            }
+
+            if (user.UserName == name)
+            {
+                _logger.LogWarning(
+                    "Delete user: user {DeletedUserName} cannot delete himself",
+                    name);
+                return BadRequest($"User {name} cannot delete himself");
+            }
 
             await _userManager.DeleteAsync(user);
 
-            // Serilog.Log.Information(
             _logger.LogInformation(
                 "[ACCOUNT] {UserName} deleted user {DeletedUserName} " +
                 "from {IP}",
                 User.Identity.Name,
                 name,
                 HttpContext.Connection.RemoteIpAddress);
+
+            return NoContent();
         }
     }
 }

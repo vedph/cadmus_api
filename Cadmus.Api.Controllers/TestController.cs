@@ -6,6 +6,7 @@ using MessagingApi;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace CadmusApi.Controllers
@@ -22,6 +23,7 @@ namespace CadmusApi.Controllers
         private readonly ILogger<TestController> _logger;
         private readonly IMessageBuilderService _messageBuilderService;
         private readonly IMailerService _mailerService;
+        private readonly IConfiguration _config;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TestController" /> class.
@@ -32,13 +34,16 @@ namespace CadmusApi.Controllers
         /// <exception cref="ArgumentNullException">logger</exception>
         public TestController(ILogger<TestController> logger,
             IMessageBuilderService messageBuilderService,
-            IMailerService mailerService)
+            IMailerService mailerService,
+            IConfiguration config)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _messageBuilderService = messageBuilderService ??
                 throw new ArgumentNullException(nameof(messageBuilderService));
             _mailerService = mailerService ??
                 throw new ArgumentNullException(nameof(mailerService));
+            _config = config ??
+                throw new ArgumentNullException(nameof(config));
         }
 
         /// <summary>
@@ -76,13 +81,24 @@ namespace CadmusApi.Controllers
         [ProducesResponseType(200)]
         public async Task SendEmail()
         {
+            string to = _config.GetValue<string>("Mailer:TestRecipient");
+            if (string.IsNullOrEmpty(to))
+            {
+                _logger.LogWarning("No recipient defined for test email");
+                return;
+            }
+
+            _logger.LogInformation("Building test email message for " + to);
             var message = _messageBuilderService.BuildMessage("test-message", null);
+
             if (message != null)
             {
+                _logger.LogInformation("Sending test email message");
                 await _mailerService.SendEmailAsync(
-                    "dfusi@hotmail.com",
-                    "Daniele Fusi",
+                    to,
+                    "Test Recipient",
                     message);
+                _logger.LogInformation("Test email message sent");
             }
         }
     }
