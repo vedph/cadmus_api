@@ -143,17 +143,17 @@ namespace CadmusApi.Controllers
         /// <param name="purgeIds">True to purge the keys (=the thesauri IDs)
         /// of the returned dictionary, so that any scope and language suffixes
         /// get removed. Scope starts from the last dot, language from the last
-        /// <code>@</code> character. For instance, if the requested ID is
+        /// <c>@</c> character. For instance, if the requested ID is
         /// <c>apparatus-witnesses.verg-eclo@en</c> and purging is enabled,
         /// the dictionary key to this thesaurus will be <c>apparatus-witnesses</c>.
         /// </param>
         /// <returns>Object where each key is a thesaurus ID with a value
         /// equal to the thesaurus model.</returns>
-        [HttpGet("api/{database}/thesauri-set/{ids}")]
+        [HttpGet("api/{database}/thesauri-set")]
         [ProducesResponseType(200)]
         public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauriSet(
             [FromRoute] string database,
-            [FromRoute] string ids,
+            [FromQuery] string ids,
             [FromQuery] bool purgeIds)
         {
             ICadmusRepository repository =

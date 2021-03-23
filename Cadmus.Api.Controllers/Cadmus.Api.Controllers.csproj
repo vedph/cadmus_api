@@ -10,7 +10,7 @@
     <Description>Cadmus API controllers.</Description>
     <Copyright>By Daniele Fusi</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.18</Version>
+    <Version>1.0.19</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
   </PropertyGroup>
@@ -31,7 +31,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="5.0.0" />
     <PackageReference Include="Serilog" Version="2.10.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.8.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.9.0" />
   </ItemGroup>
 
   <ItemGroup>
