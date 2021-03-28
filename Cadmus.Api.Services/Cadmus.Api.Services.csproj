@@ -9,7 +9,7 @@
     <Product>Cadmus</Product>
     <Description>Cadmus API services</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>1.0.21</Version>
+    <Version>1.0.22</Version>
     <Copyright>by Daniele Fusi</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
@@ -27,11 +27,11 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.0.0" />
-    <PackageReference Include="Cadmus.Core" Version="2.3.5" />
-    <PackageReference Include="Cadmus.Index" Version="1.1.6" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="1.1.8" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.3.8" />
-    <PackageReference Include="Cadmus.Seed" Version="1.1.7" />
+    <PackageReference Include="Cadmus.Core" Version="2.3.6" />
+    <PackageReference Include="Cadmus.Index" Version="1.1.7" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="1.1.9" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.3.9" />
+    <PackageReference Include="Cadmus.Seed" Version="1.1.8" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
     <PackageReference Include="Fusi.Tools" Version="1.1.16" />
     <PackageReference Include="MessagingApi" Version="1.0.2" />

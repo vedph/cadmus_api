@@ -54,10 +54,6 @@ services:
       - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
       - MESSAGING__APPROOTURL=http://cadmusapi.com/
       - MESSAGING__SUPPORTEMAIL=support@cadmus.com
-      - SENDGRID__ISENABLED=true
-      - SENDGRID__SENDEREMAIL=info@cadmus.com
-      - SENDGRID__SENDERNAME=cadmus
-      - SENDGRID__APIKEY=todo
       - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/cadmus-logs
       - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
     networks:

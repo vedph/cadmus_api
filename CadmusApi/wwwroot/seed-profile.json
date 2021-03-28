@@ -57,6 +57,14 @@
           "sortKey": "comment"
         },
         {
+          "typeId": "it.vedph.doc-references",
+          "name": "references",
+          "description": "Documental references.",
+          "colorKey": "BEF0AA",
+          "groupKey": "general",
+          "sortKey": "references"
+        },
+        {
           "typeId": "it.vedph.bibliography",
           "name": "bibliography",
           "description": "Bibliography.",
@@ -307,6 +315,10 @@
         {
           "id": "it.vedph.comment",
           "value": "comment"
+        },
+        {
+          "id": "it.vedph.doc-references",
+          "value": "references"
         },
         {
           "id": "it.vedph.bibliography",
@@ -702,6 +714,9 @@
             "spa"
           ]
         }
+      },
+      {
+        "id": "seed.it.vedph.doc-references"
       },
       {
         "id": "seed.it.vedph.bibliography",
