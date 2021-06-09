@@ -446,20 +446,20 @@ namespace Cadmus.Api.Controllers
                 User.Identity.Name,
                 name);
 
+            if (User.Identity.Name == name)
+            {
+                _logger.LogWarning(
+                    "Delete user: user {DeletedUserName} cannot delete himself",
+                    name);
+                return BadRequest($"User {name} cannot delete himself");
+            }
+
             ApplicationUser user = await _userManager.FindByNameAsync(name);
             if (user == null)
             {
                 _logger.LogWarning("Delete user: user {DeletedUserName} not found",
                     name);
                 return BadRequest("No such user: " + name);
-            }
-
-            if (user.UserName == name)
-            {
-                _logger.LogWarning(
-                    "Delete user: user {DeletedUserName} cannot delete himself",
-                    name);
-                return BadRequest($"User {name} cannot delete himself");
             }
 
             await _userManager.DeleteAsync(user);
