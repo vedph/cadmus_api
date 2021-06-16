@@ -481,6 +481,10 @@
       ]
     },
     {
+      "id": "bibliography-languages@en",
+      "targetId": "languages"
+    },
+    {
       "id": "bibliography-types@en",
       "entries": [
         {
