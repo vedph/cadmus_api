@@ -42,11 +42,22 @@ namespace CadmusApi.Controllers
         /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of tag sets IDs</returns>
         [HttpGet("api/{database}/thesauri-ids")]
-        public IActionResult GetSetIds([FromRoute] string database)
+        public IActionResult GetSetIds([FromRoute] string database,
+            [FromQuery] ThesaurusLookupBindingModel filter)
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository(database);
-            return Ok(repository.GetThesaurusIds());
+
+            return Ok(filter.IsEmpty()
+                ? repository.GetThesaurusIds()
+                : repository.GetThesaurusIds(new ThesaurusFilter
+                {
+                    PageNumber = 1,
+                    PageSize = filter.Limit,
+                    Id = filter.Id,
+                    IsAlias = filter.IsAlias,
+                    Language = filter.Language,
+                }));
         }
 
         /// <summary>
