@@ -26,7 +26,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.2.0" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="1.1.18" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="1.1.19" />
     <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.3.10" />
     <PackageReference Include="Cadmus.Parts" Version="2.3.15" />
     <PackageReference Include="Cadmus.Philology.Parts" Version="2.3.11" />
@@ -51,9 +51,9 @@
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.1.2" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Serilog.Sinks.MongoDB" Version="4.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.5" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.1" />
+    <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
   </ItemGroup>
 
   <ItemGroup>

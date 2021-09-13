@@ -469,7 +469,7 @@ namespace Cadmus.Api.Controllers
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
-                await writer.Delete(id);
+                await writer.DeleteItem(id);
                 writer.Close();
             }
         }
@@ -513,19 +513,19 @@ namespace Cadmus.Api.Controllers
                 return Unauthorized();
             }
 
-            bool indexingEnabled = IsIndexingEnabled();
-            string itemId = indexingEnabled ?
-                repository.GetPartItemId(id) : null;
+            // bool indexingEnabled = IsIndexingEnabled();
+            // string itemId = indexingEnabled ?
+            //    repository.GetPartItemId(id) : null;
 
             repository.DeletePart(id, User.Identity.Name);
 
             // update index if required
-            if (indexingEnabled)
+            if (IsIndexingEnabled())
             {
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
-                await writer.Write(repository.GetItem(itemId));
+                await writer.DeletePart(id);
                 writer.Close();
             }
 
@@ -544,7 +544,7 @@ namespace Cadmus.Api.Controllers
         [HttpPost("api/{database}/items")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
-        public IActionResult AddItem(
+        public async Task<IActionResult> AddItem(
             [FromRoute] string database,
             [FromBody] ItemBindingModel model)
         {
@@ -578,12 +578,15 @@ namespace Cadmus.Api.Controllers
                 _repositoryProvider.CreateRepository(database);
             repository.AddItem(item);
 
-            // we changed just the item's metadata, not its parts;
-            // so we prefer not to update the index, as this will happen
-            // the first time any of its parts gets saved/deleted.
-            // the price paid in terms of stale index is worth the performance
-            // gain here, also because this does not change the results of
-            // searches, but just their labels (derived from item's metadata)
+            // update index
+            if (IsIndexingEnabled())
+            {
+                ItemIndexFactory factory = await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                await writer.WriteItem(item);
+                writer.Close();
+            }
 
             return CreatedAtRoute("GetItem", new
             {
@@ -735,7 +738,11 @@ namespace Cadmus.Api.Controllers
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
                 IItemIndexWriter writer = factory.GetItemIndexWriter();
-                await writer.Write(repository.GetItem(idAndJson.Item1));
+
+                IPart part = repository.GetPart<IPart>(idAndJson.Item2);
+                await writer.WritePart(
+                    repository.GetItem(idAndJson.Item1),
+                    part);
                 writer.Close();
             }
 

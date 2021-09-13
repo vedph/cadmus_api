@@ -63,7 +63,7 @@ namespace Cadmus.Api.Services.Seeding
                 if (indexWriter != null)
                 {
                     Console.WriteLine($"Adding to index {item.Id}");
-                    await indexWriter.Write(item);
+                    await indexWriter.WriteItem(item);
                 }
             }
             indexWriter?.Close();
