@@ -53,7 +53,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.12.2" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.13.1" />
   </ItemGroup>
 
   <ItemGroup>

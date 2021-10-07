@@ -31,6 +31,9 @@ using Cadmus.Api.Services;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
 using MessagingApi.SendGrid;
+using Cadmus.Index.Graph;
+using Cadmus.Index.MySql;
+using Cadmus.Index.Sql;
 
 namespace CadmusApi
 {
@@ -239,15 +242,19 @@ namespace CadmusApi
 
             // configuration
             services.AddSingleton(_ => Configuration);
+
             // repository
             services.AddSingleton<IRepositoryProvider, AppRepositoryProvider>();
+
             // part seeder factory provider
             services.AddSingleton<IPartSeederFactoryProvider,
                 AppPartSeederFactoryProvider>();
+
             // item browser factory provider
             services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
                 new StandardItemBrowserFactoryProvider(
                     Configuration.GetConnectionString("Default")));
+
             // item index factory provider
             string indexCS = string.Format(
                 Configuration.GetConnectionString("Index"),
@@ -255,6 +262,17 @@ namespace CadmusApi
             services.AddSingleton<IItemIndexFactoryProvider>(_ =>
                 new StandardItemIndexFactoryProvider(
                     indexCS));
+
+            // graph repository
+            services.AddSingleton<IGraphRepository>(_ =>
+            {
+                var repository = new MySqlGraphRepository();
+                repository.Configure(new SqlOptions
+                {
+                    ConnectionString = indexCS
+                });
+                return repository;
+            });
 
             // swagger
             ConfigureSwaggerServices(services);

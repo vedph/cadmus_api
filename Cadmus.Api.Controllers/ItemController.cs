@@ -20,6 +20,9 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Cadmus.Index.Graph;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog.Extensions.Logging;
 
 namespace Cadmus.Api.Controllers
 {
@@ -75,6 +78,9 @@ namespace Cadmus.Api.Controllers
 
         private bool IsIndexingEnabled() =>
             _configuration.GetValue<bool>("Indexing:IsEnabled");
+
+        private bool IsGraphEnabled() =>
+            _configuration.GetValue<bool>("Indexing:IsGraphEnabled");
 
         #region Get
         /// <summary>
@@ -466,11 +472,15 @@ namespace Cadmus.Api.Controllers
             // update index if required
             if (IsIndexingEnabled())
             {
+                bool isGraphEnabled = IsGraphEnabled();
+
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
                 await writer.DeleteItem(id);
                 writer.Close();
+
+                UpdateGraphForDeletion(id);
             }
         }
 
@@ -513,20 +523,20 @@ namespace Cadmus.Api.Controllers
                 return Unauthorized();
             }
 
-            // bool indexingEnabled = IsIndexingEnabled();
-            // string itemId = indexingEnabled ?
-            //    repository.GetPartItemId(id) : null;
-
             repository.DeletePart(id, User.Identity.Name);
 
             // update index if required
             if (IsIndexingEnabled())
             {
+                bool isGraphEnabled = IsGraphEnabled();
+
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
                 await writer.DeletePart(id);
                 writer.Close();
+
+                UpdateGraphForDeletion(id);
             }
 
             return Ok();
@@ -534,6 +544,62 @@ namespace Cadmus.Api.Controllers
         #endregion
 
         #region Post
+        private IGraphRepository GetGraphRepository()
+        {
+            IGraphRepository graphRepository =
+                _serviceProvider.GetService<IGraphRepository>();
+            if (graphRepository == null)
+                _logger?.Error("Unable to get IGraphRepository service");
+            return graphRepository;
+        }
+
+        private void UpdateGraph(IItem item)
+        {
+            IGraphRepository graphRepository = GetGraphRepository();
+            if (graphRepository == null) return;
+
+            _logger.Information("Mapping " + item);
+            NodeMapper mapper = new NodeMapper(graphRepository)
+            {
+                Logger = new SerilogLoggerFactory(_logger)
+                    .CreateLogger(nameof(ItemController))
+            };
+            GraphSet set = mapper.MapItem(item);
+
+            _logger.Information("Updating graph " + set);
+            GraphUpdater updater = new GraphUpdater(graphRepository);
+            updater.Update(set);
+        }
+
+        private void UpdateGraph(IItem item, IPart part,
+            IList<Tuple<string,string>> pins)
+        {
+            IGraphRepository graphRepository = GetGraphRepository();
+            if (graphRepository == null) return;
+
+            _logger.Information("Mapping " + part);
+            NodeMapper mapper = new NodeMapper(graphRepository)
+            {
+                Logger = new SerilogLoggerFactory(_logger)
+                    .CreateLogger(nameof(ItemController))
+            };
+            GraphSet set = mapper.MapPins(item, part, pins);
+
+            _logger.Information("Updating graph " + set);
+            GraphUpdater updater = new GraphUpdater(graphRepository);
+            updater.Update(set);
+        }
+
+        private void UpdateGraphForDeletion(string id)
+        {
+            IGraphRepository graphRepository = GetGraphRepository();
+            if (graphRepository == null) return;
+
+            _logger.Information("Updating graph for deleted " + id);
+            GraphUpdater updater = new GraphUpdater(graphRepository);
+            updater.Delete(id);
+        }
+
         /// <summary>
         /// Adds or updates the specified item.
         /// This requires <c>admin</c>, <c>editor</c>, or <c>operator</c> role.
@@ -581,11 +647,15 @@ namespace Cadmus.Api.Controllers
             // update index
             if (IsIndexingEnabled())
             {
+                bool isGraphEnabled = IsGraphEnabled();
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
                 await writer.WriteItem(item);
                 writer.Close();
+
+                // graph
+                if (isGraphEnabled) UpdateGraph(item);
             }
 
             return CreatedAtRoute("GetItem", new
@@ -733,17 +803,37 @@ namespace Cadmus.Api.Controllers
             // update index if required
             if (IsIndexingEnabled())
             {
+                bool isGraphEnabled = IsGraphEnabled();
+
                 ICadmusRepository repository =
                     _repositoryProvider.CreateRepository(database);
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
 
                 IPart part = repository.GetPart<IPart>(idAndJson.Item2);
                 await writer.WritePart(
                     repository.GetItem(idAndJson.Item1),
                     part);
                 writer.Close();
+
+                // graph
+                if (isGraphEnabled)
+                {
+                    IItem item = repository.GetItem(part.ItemId);
+                    if (item != null)
+                    {
+                        GraphDataPinFilter filter = writer.DataPinFilter
+                            as GraphDataPinFilter;
+                        if (filter != null)
+                        {
+                            var pins = filter.GetSortedGraphPins()
+                                .Select(p => Tuple.Create(p.Name, p.Value))
+                                .ToList();
+                            UpdateGraph(item, part, pins);
+                        }
+                    }
+                }
             }
 
             return CreatedAtRoute("GetPart", new
