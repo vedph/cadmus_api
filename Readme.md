@@ -17,21 +17,29 @@ The API application proper just adds a couple of application-specific services i
 
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
+## History
+
+- 2021-10-15: API breaking change for Mongo authentication database, introduced by AspNetCore.Identity.Mongo 8.3.1 which deleted two properties from `MongoUser`. You can realign existing databases with this update command:
+
+```js
+/*
+Removed fields:
+AuthenticatorKey = null
+RecoveryCodes = []
+*/
+db.Users.updateMany({}, { $unset: {"AuthenticatorKey": 1, "RecoveryCodes": 1} });
+```
+
+This applies since Cadmus.Api.Controllers 1.3.0, Cadmus.Api.Services 1.2.0.
+
 ## Developer Note About Port
 
-There seems to be an issue with VS in launching IIS Express at a given port. If IIS starts complaining that the port is in use, you can find out which process uses it by executing (e.g. for port 60304):
+There seems to be an issue with VS in launching IIS Express at a given port in Windows. If IIS starts complaining that the port is in use, run in an elevated prompt:
 
 ```ps1
-netstat -ano | findstr 60304
+net stop winnat
+net start winnat
 ```
-
-If this does not report anything, then try looking at the reserved ranges with:
-
-```ps1
-netsh interface ipv4 show excludedportrange protocol=tcp
-```
-
-Should your port be included in the reserved range, change it by picking some number outside the reserved ones.
 
 ## Profile
 
