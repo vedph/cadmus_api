@@ -3,6 +3,7 @@ using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Index;
 using Cadmus.Index.Config;
+using Cadmus.Index.Graph;
 using Cadmus.Mongo;
 using Cadmus.Seed;
 using Microsoft.Extensions.Configuration;
@@ -26,19 +27,57 @@ namespace Cadmus.Api.Services.Seeding
     /// </summary>
     public static class HostSeedExtensions
     {
+        private static void UpdateGraph(IItem item, IGraphRepository repository,
+            ILogger logger)
+        {
+            NodeMapper mapper = new NodeMapper(repository)
+            {
+                Logger = logger
+            };
+            GraphSet set = mapper.MapItem(item);
+
+            logger.LogInformation("Updating graph " + set);
+            GraphUpdater updater = new GraphUpdater(repository);
+            updater.Update(set);
+        }
+
         private static async Task SeedItemsAsync(
             IServiceProvider serviceProvider, IConfiguration config,
             PartSeederFactory factory, ICadmusRepository repository,
-            int count)
+            int count, string graphSql)
         {
+            ILogger logger = serviceProvider
+                .GetService<ILoggerFactory>()
+                .CreateLogger(typeof(HostSeedExtensions));
+
+            // determine if graph is enabled, and eventually get the graph repository
+            bool isGraphEnabled = config.GetValue<bool>("Indexing:IsGraphEnabled");
+            // when graph is enabled, index is automatically enabled
+            bool isIndexEnabled = isGraphEnabled ||
+                config.GetValue<bool>("Indexing:IsEnabled");
+
+            IGraphRepository graphRepository = null;
             IItemIndexWriter indexWriter = null;
-            if (config.GetValue<bool>("Indexing:IsEnabled"))
+
+            // get graph and index services
+            if (isGraphEnabled)
+            {
+                graphRepository = serviceProvider.GetService<IGraphRepository>();
+                if (graphRepository == null)
+                    logger?.LogError("Unable to get IGraphRepository service");
+            }
+            if (isIndexEnabled)
             {
                 Console.WriteLine("Getting index writer...");
                 ItemIndexFactory indexFactory = await ItemIndexHelper
                     .GetIndexFactoryAsync(config, serviceProvider);
-                indexWriter = indexFactory.GetItemIndexWriter();
+                indexWriter = indexFactory.GetItemIndexWriter(isGraphEnabled,
+                    graphSql);
+            }
 
+            // wait before indexing if requested
+            if (isIndexEnabled)
+            {
                 // delay if requested, to allow DB start
                 int delay = config.GetValue<int>("Seed:IndexDelay");
                 if (delay > 0)
@@ -48,6 +87,7 @@ namespace Cadmus.Api.Services.Seeding
                 }
             }
 
+            // seed items with their parts
             Console.WriteLine($"Seeding {count} items...");
             CadmusSeeder seeder = new CadmusSeeder(factory);
 
@@ -60,10 +100,15 @@ namespace Cadmus.Api.Services.Seeding
                     repository.AddPart(part, true);
                 }
 
+                // write the item's index data if requested
                 if (indexWriter != null)
                 {
                     Console.WriteLine($"Adding to index {item.Id}");
                     await indexWriter.WriteItem(item);
+
+                    // update also the graph if enabled
+                    if (isGraphEnabled)
+                        UpdateGraph(item, graphRepository, logger);
                 }
             }
             indexWriter?.Close();
@@ -73,6 +118,7 @@ namespace Cadmus.Api.Services.Seeding
         private static async Task SeedCadmusDatabaseAsync(
             IServiceProvider serviceProvider,
             IConfiguration config,
+            string graphSql,
             ILogger logger)
         {
             // build connection string
@@ -171,7 +217,7 @@ namespace Cadmus.Api.Services.Seeding
             if (count > 0)
             {
                 await SeedItemsAsync(serviceProvider, config, factory,
-                    repository, count);
+                    repository, count, graphSql);
             }
 
             // import data if required
@@ -220,7 +266,8 @@ namespace Cadmus.Api.Services.Seeding
                 });
         }
 
-        private static Task SeedCadmusAsync(IServiceProvider serviceProvider)
+        private static Task SeedCadmusAsync(IServiceProvider serviceProvider,
+            string graphSql)
         {
             return Policy.Handle<DbException>()
                 .WaitAndRetry(new[]
@@ -251,6 +298,7 @@ namespace Cadmus.Api.Services.Seeding
                     await SeedCadmusDatabaseAsync(
                         serviceProvider,
                         config,
+                        graphSql,
                         logger);
                     Console.WriteLine("Seeding completed");
                     return Task.CompletedTask;
@@ -263,10 +311,13 @@ namespace Cadmus.Api.Services.Seeding
         /// <param name="host">The host.</param>
         /// <param name="accounts">True to seed the accounts.</param>
         /// <param name="data">True to seed the data.</param>
+        /// <param name="graphSql">The optional SQL code to seed the index
+        /// for using it with the graph. This is usually provided by
+        /// project-specific implementations.</param>
         /// <returns>The received host, to allow concatenation.</returns>
         /// <exception cref="ArgumentNullException">serviceProvider</exception>
         public static async Task<IHost> SeedAsync(this IHost host,
-            bool accounts = true, bool data = true)
+            bool accounts = true, bool data = true, string graphSql = null)
         {
             using (var scope = host.Services.CreateScope())
             {
@@ -284,7 +335,7 @@ namespace Cadmus.Api.Services.Seeding
                         await SeedAccountsAsync(serviceProvider);
 
                     if (data)
-                        await SeedCadmusAsync(serviceProvider);
+                        await SeedCadmusAsync(serviceProvider, graphSql);
                 }
                 catch (Exception ex)
                 {
