@@ -42,7 +42,7 @@ namespace Cadmus.Api.Models
 
             Id = thesaurus.Id;
             Language = thesaurus.GetLanguage();
-            Entries = thesaurus.GetEntries().ToArray();
+            Entries = thesaurus.Entries?.ToArray() ?? Array.Empty<ThesaurusEntry>();
         }
     }
 }
