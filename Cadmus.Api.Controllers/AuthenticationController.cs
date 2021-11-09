@@ -53,6 +53,7 @@ namespace Cadmus.Api.Controllers
         {
             // https://tools.ietf.org/html/rfc7519#section-4
 
+            DateTimeOffset now = new DateTimeOffset(DateTime.UtcNow);
             IdentityOptions options = new IdentityOptions();
             List<Claim> claims = new List<Claim>
             {
@@ -63,10 +64,15 @@ namespace Cadmus.Api.Controllers
                 new Claim(RegisteredClaims.Jti, Guid.NewGuid().ToString()),
 
                 // (NBF)
-                new Claim(RegisteredClaims.Nbf, (DateTime.UtcNow - new TimeSpan(0, 0, 10)).ToString()),
+                //new Claim(RegisteredClaims.Nbf, (DateTime.UtcNow - new TimeSpan(0, 0, 10)).ToString()),
+                new Claim(RegisteredClaims.Nbf,
+                    (now - new TimeSpan(0, 0, 10)).ToUnixTimeSeconds().ToString()),
 
                 new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
                 new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName),
+
+                // (IAT) issued at
+                new Claim(RegisteredClaims.Iat, now.ToUnixTimeSeconds().ToString()),
 
                 // email and its confirmation
                 new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
