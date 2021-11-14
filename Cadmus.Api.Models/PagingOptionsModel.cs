@@ -6,7 +6,7 @@ namespace Cadmus.Api.Models
     /// <summary>
     /// Paging options model.
     /// </summary>
-    public sealed class PagingOptionsModel : IPagingOptions
+    public class PagingOptionsModel : IPagingOptions
     {
         /// <summary>
         /// The page number (1-N).
