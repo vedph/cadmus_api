@@ -1,7 +1,7 @@
 ﻿using Cadmus.Index.Graph;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cadmus.Api.Models
+namespace Cadmus.Api.Models.Graph
 {
     /// <summary>
     /// Triples filter binding model.

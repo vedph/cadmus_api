@@ -19,6 +19,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2021-11-15: graph controller API.
 - 2021-10-24: integrated graph in database initializer.
 - 2021-10-15: API breaking change for Mongo authentication database, introduced by AspNetCore.Identity.Mongo 8.3.1 which deleted two properties from `MongoUser`. You can realign existing databases with this update command:
 

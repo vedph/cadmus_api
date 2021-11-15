@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cadmus.Api.Models
+namespace Cadmus.Api.Models.Graph
 {
     /// <summary>
     /// Graph node filter binding model.
