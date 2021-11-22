@@ -26,15 +26,15 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="1.2.10" />
-    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.4.2" />
-    <PackageReference Include="Cadmus.Parts" Version="2.5.5" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="2.4.3" />
-    <PackageReference Include="Cadmus.Core" Version="2.4.2" />
-    <PackageReference Include="Cadmus.Mongo" Version="2.4.3" />
-    <PackageReference Include="Cadmus.Seed" Version="1.2.2" />
-    <PackageReference Include="Cadmus.Seed.Parts" Version="1.3.6" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.2.4" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="1.3.0" />
+    <PackageReference Include="Cadmus.Lexicon.Parts" Version="2.5.0" />
+    <PackageReference Include="Cadmus.Parts" Version="2.6.0" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="2.5.0" />
+    <PackageReference Include="Cadmus.Core" Version="2.5.0" />
+    <PackageReference Include="Cadmus.Mongo" Version="2.5.0" />
+    <PackageReference Include="Cadmus.Seed" Version="1.3.0" />
+    <PackageReference Include="Cadmus.Seed.Parts" Version="1.4.0" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.3.0" />
     <PackageReference Include="Fusi.Antiquity" Version="1.2.0" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
     <PackageReference Include="MessagingApi" Version="1.0.2" />
@@ -49,7 +49,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="Serilog.Exceptions" Version="8.0.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="4.2.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

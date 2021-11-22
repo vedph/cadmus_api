@@ -39,14 +39,13 @@ namespace CadmusApi.Controllers
         /// <summary>
         /// Gets the list of all the thesauri IDs.
         /// </summary>
-        /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of tag sets IDs</returns>
-        [HttpGet("api/{database}/thesauri-ids")]
-        public IActionResult GetSetIds([FromRoute] string database,
+        [HttpGet("api/thesauri-ids")]
+        public IActionResult GetSetIds(
             [FromQuery] ThesaurusLookupBindingModel filter)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             return Ok(filter.IsEmpty()
                 ? repository.GetThesaurusIds()
@@ -66,21 +65,19 @@ namespace CadmusApi.Controllers
         /// or the requested language does not exist, the method attempts to
         /// fallback to the default language (<c>eng</c> or <c>en</c>=English).
         /// </summary>
-        /// <param name="database">The database.</param>
         /// <param name="id">The thesaurus ID.</param>
         /// <param name="emptyIfNotFound">True to return an empty thesaurus
         /// rather than a 404 when the ID was not found.</param>
         /// <returns>Thesaurus</returns>
-        [HttpGet("api/{database}/thesauri/{id}", Name = "GetThesaurus")]
+        [HttpGet("api/thesauri/{id}", Name = "GetThesaurus")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public IActionResult GetThesaurus(
-            [FromRoute] string database,
             [FromRoute] string id,
             [FromQuery] bool emptyIfNotFound)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
             Thesaurus thesaurus = repository.GetThesaurus(id);
             if (thesaurus == null)
             {
@@ -102,19 +99,17 @@ namespace CadmusApi.Controllers
         /// <summary>
         /// Gets the specified page of thesauri matching the filter.
         /// </summary>
-        /// <param name="database">The database.</param>
         /// <param name="model">The filter model.</param>
         /// <returns>Page.</returns>
-        [HttpGet("api/{database}/thesauri")]
+        [HttpGet("api/thesauri")]
         [ProducesResponseType(200)]
         public IActionResult GetThesauri(
-            [FromRoute] string database,
             [FromQuery] ThesaurusFilterBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             DataPage<Thesaurus> page = repository.GetThesauri(new ThesaurusFilter
             {
@@ -149,7 +144,6 @@ namespace CadmusApi.Controllers
         /// fallback to the default language (<c>eng</c> or <c>en</c>=English).
         /// Only the thesauri which were found are returned.
         /// </summary>
-        /// <param name="database">The database.</param>
         /// <param name="ids">The thesauri IDs, separated by commas.</param>
         /// <param name="purgeIds">True to purge the keys (=the thesauri IDs)
         /// of the returned dictionary, so that any scope and language suffixes
@@ -160,15 +154,14 @@ namespace CadmusApi.Controllers
         /// </param>
         /// <returns>Object where each key is a thesaurus ID with a value
         /// equal to the thesaurus model.</returns>
-        [HttpGet("api/{database}/thesauri-set")]
+        [HttpGet("api/thesauri-set")]
         [ProducesResponseType(200)]
         public ActionResult<Dictionary<string,ThesaurusModel>> GetThesauriSet(
-            [FromRoute] string database,
             [FromQuery] string ids,
             [FromQuery] bool purgeIds)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
             Dictionary<string, ThesaurusModel> dct =
                 new Dictionary<string, ThesaurusModel>();
 
@@ -192,14 +185,12 @@ namespace CadmusApi.Controllers
         /// <summary>
         /// Adds or updates the specified thesaurus.
         /// </summary>
-        /// <param name="database">The database ID.</param>
         /// <param name="model">The thesaurus model.</param>
         [Authorize(Roles = "admin,editor,operator")]
-        [HttpPost("api/{database}/thesauri")]
+        [HttpPost("api/thesauri")]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         public IActionResult AddThesaurus(
-            [FromRoute] string database,
             [FromBody] ThesaurusBindingModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -208,7 +199,7 @@ namespace CadmusApi.Controllers
                 User.Identity.Name,
                 model.Id);
 
-            ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
+            ICadmusRepository repository = _repositoryProvider.CreateRepository();
             Thesaurus thesaurus = new Thesaurus(model.Id);
             foreach (ThesaurusEntryBindingModel entry in model.Entries)
                 thesaurus.AddEntry(new ThesaurusEntry(entry.Id, entry.Value));
@@ -221,7 +212,6 @@ namespace CadmusApi.Controllers
 
             return CreatedAtRoute("GetThesaurus", new
             {
-                database,
                 id = thesaurus.Id
             }, thesaurus);
         }
@@ -229,12 +219,10 @@ namespace CadmusApi.Controllers
         /// <summary>
         /// Deletes the thesaurus with the specified ID.
         /// </summary>
-        /// <param name="database">The database ID.</param>
         /// <param name="id">The thesaurus ID.</param>
         [Authorize(Roles = "admin,editor")]
-        [HttpDelete("api/{database}/thesauri/{id}")]
+        [HttpDelete("api/thesauri/{id}")]
         public void DeleteThesaurus(
-            [FromRoute] string database,
             [FromRoute] string id)
         {
             _logger.LogInformation("User {UserName} deleting thesaurus {ThesaurusId}",
@@ -242,7 +230,7 @@ namespace CadmusApi.Controllers
                 id);
 
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
             repository.DeleteThesaurus(id);
 
             _logger.LogInformation(

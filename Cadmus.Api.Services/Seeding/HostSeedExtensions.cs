@@ -205,7 +205,7 @@ namespace Cadmus.Api.Services.Seeding
             IRepositoryProvider repositoryProvider =
                 serviceProvider.GetService<IRepositoryProvider>();
             ICadmusRepository repository =
-                repositoryProvider.CreateRepository(databaseName);
+                repositoryProvider.CreateRepository();
 
             // get seed count
             int count = 0;

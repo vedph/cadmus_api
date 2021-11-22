@@ -32,15 +32,14 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Gets the list of all the items facets.
         /// </summary>
-        /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of facets</returns>
-        [HttpGet("api/{database}/facets")]
+        [HttpGet("api/facets")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public ActionResult<FacetDefinition[]> Get(string database)
+        public ActionResult<FacetDefinition[]> Get()
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
             return Ok(repository.GetFacetDefinitions().ToArray());
         }
 
@@ -68,18 +67,15 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Gets the facet with the specified ID.
         /// </summary>
-        /// <param name="database">The database.</param>
         /// <param name="id">The facet ID.</param>
-        [HttpGet("api/{database}/facets/{id}")]
+        [HttpGet("api/facets/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public ActionResult<PartDefinition> GetFacet(
-            string database,
-            [FromRoute] string id)
+        public ActionResult<PartDefinition> GetFacet([FromRoute] string id)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             FacetDefinition facet = repository.GetFacetDefinition(id);
             if (facet == null) return NotFound();
@@ -89,18 +85,16 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Gets the facet assigned to the item with the specified ID.
         /// </summary>
-        /// <param name="database">The database.</param>
         /// <param name="id">The item ID.</param>
-        [HttpGet("api/{database}/facets/items/{id}")]
+        [HttpGet("api/facets/items/{id}")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public ActionResult<PartDefinition> GetFacetFromItemId(
-            string database,
             [FromRoute] string id)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             IItem item = repository.GetItem(id, false);
             if (item?.FacetId == null) return NotFound();
@@ -111,10 +105,9 @@ namespace Cadmus.Api.Controllers
         }
 
         /// <summary>
-        /// Gets the list of all the parts defined in the specified 
+        /// Gets the list of all the parts defined in the specified
         /// item's facet.
         /// </summary>
-        /// <param name="database">The name of the Mongo database.</param>
         /// <param name="id">The facet ID.</param>
         /// <param name="noRoles">True to ignore the roles when collecting
         /// parts from facets.
@@ -122,15 +115,15 @@ namespace Cadmus.Api.Controllers
         /// <returns>List of parts, sorted by their sort key, and then by
         /// type and role IDs, should the sort key not be enough to distinguish
         /// them (which should not happen).</returns>
-        [HttpGet("api/{database}/facets/{id}/parts")]
+        [HttpGet("api/facets/{id}/parts")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public ActionResult<PartDefinition[]> GetFacetParts(string database,
+        public ActionResult<PartDefinition[]> GetFacetParts(
             [FromRoute] string id,
             [FromQuery] bool noRoles = false)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             FacetDefinition facet = repository.GetFacetDefinition(id);
             PartDefinition[] result = CollectFacetParts(facet, noRoles);
@@ -141,7 +134,6 @@ namespace Cadmus.Api.Controllers
         /// Gets the list of all the parts defined in the facet assigned
         /// to the specified item.
         /// </summary>
-        /// <param name="database">The name of the Mongo database.</param>
         /// <param name="id">The item ID. The facet ID will be retrieved
         /// from the item.</param>
         /// <param name="noRoles">True to ignore the roles when collecting
@@ -150,16 +142,15 @@ namespace Cadmus.Api.Controllers
         /// <returns>List of parts, sorted by their sort key, and then by
         /// type and role IDs, should the sort key not be enough to distinguish
         /// them (which should not happen).</returns>
-        [HttpGet("api/{database}/item-facets/{id}/parts")]
+        [HttpGet("api/item-facets/{id}/parts")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         public ActionResult<PartDefinition[]> GetFacetPartsFromItem(
-            string database,
             [FromRoute] string id,
             [FromQuery] bool noRoles = false)
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             IItem item = repository.GetItem(id, false);
             PartDefinition[] result;
@@ -180,15 +171,14 @@ namespace Cadmus.Api.Controllers
         /// <remarks>In a set of facets, the layer parts have all the same type,
         /// and have a role ID starting with <c>fr.</c>. This method finds
         /// the first part with this role ID, and returns its type ID.</remarks>
-        /// <param name="database">The database.</param>
         /// <returns>An object with <c>TypeId</c>=type ID or null.</returns>
-        [HttpGet("api/{database}/facets/layer-type-id")]
+        [HttpGet("api/facets/layer-type-id")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
-        public IActionResult GetTextLayerPartTypeId(string database)
+        public IActionResult GetTextLayerPartTypeId()
         {
             ICadmusRepository repository =
-                _repositoryProvider.CreateRepository(database);
+                _repositoryProvider.CreateRepository();
 
             foreach (FacetDefinition facet in repository.GetFacetDefinitions())
             {

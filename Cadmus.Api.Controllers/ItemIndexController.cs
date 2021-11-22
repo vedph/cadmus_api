@@ -45,7 +45,7 @@ namespace Cadmus.Api.Controllers
         /// </summary>
         /// <param name="model">The query model.</param>
         /// <returns>Object with value=items page or error=error message.</returns>
-        [HttpPost("api/{database}/search")]
+        [HttpPost("api/search/items")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Search(
@@ -98,7 +98,7 @@ namespace Cadmus.Api.Controllers
         /// </summary>
         /// <param name="model">The query model.</param>
         /// <returns>Object with value=items page or error=error message.</returns>
-        [HttpPost("api/{database}/pin-search")]
+        [HttpPost("api/search/pins")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> SearchPins(

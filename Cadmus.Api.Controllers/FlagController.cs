@@ -31,12 +31,11 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Gets the list of all the items flags definitions.
         /// </summary>
-        /// <param name="database">The name of the Mongo database.</param>
         /// <returns>list of flags definitions</returns>
-        [HttpGet("api/{database}/flags")]
-        public ActionResult<FlagDefinition[]> Get(string database)
+        [HttpGet("api/flags")]
+        public ActionResult<FlagDefinition[]> Get()
         {
-            ICadmusRepository repository = _repositoryProvider.CreateRepository(database);
+            ICadmusRepository repository = _repositoryProvider.CreateRepository();
             return Ok(repository.GetFlagDefinitions().ToArray());
         }
     }

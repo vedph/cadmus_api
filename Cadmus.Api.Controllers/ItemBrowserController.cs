@@ -70,7 +70,7 @@ namespace Cadmus.Api.Controllers
         /// Gets a list of all the browser IDs registered in the profile.
         /// </summary>
         /// <returns>Array of strings.</returns>
-        [HttpGet("api/browser-ids")]
+        [HttpGet("api/item-browsers/ids")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         public async Task<string[]> GetBrowserIds()
@@ -83,19 +83,17 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Gets a page of items using the specified browser.
         /// </summary>
-        /// <param name="database">The database.</param>
         /// <param name="browserId">The browser identifier.</param>
         /// <param name="model">The model.</param>
         /// <returns>
         /// Items page.
         /// </returns>
-        [HttpGet("api/{database}/items-browser/{browserId}")]
+        [HttpGet("api/item-browsers/{browserId}/items")]
         [Produces("application/json")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<ActionResult<DataPage<ItemInfo>>> GetItems(
-            [FromRoute] string database,
             [FromRoute] string browserId,
             [FromQuery] PagingOptionsModel model)
         {
@@ -124,7 +122,8 @@ namespace Cadmus.Api.Controllers
             if (browser == null)
                 return NotFound($"Item browser with ID {browserId} not found");
 
-            DataPage<ItemInfo> page = await browser.BrowseAsync(database,
+            DataPage<ItemInfo> page = await browser.BrowseAsync(
+                _configuration.GetValue<string>("DatabaseNames:Data"),
                 model, args);
             return Ok(page);
         }

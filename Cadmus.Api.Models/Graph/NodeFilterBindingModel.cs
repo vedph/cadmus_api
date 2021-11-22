@@ -69,7 +69,7 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the classes identifiers to match only those nodes
         /// which are inside any of the listed classes.
         /// </summary>
-        public List<string> ClassIds { get; set; }
+        public List<int> ClassIds { get; set; }
 
         /// <summary>
         /// Convert to <see cref="NodeFilter"/>.
