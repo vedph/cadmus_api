@@ -283,6 +283,11 @@
       "id": "item-index-reader.mysql"
     }
   },
+  "graph": {
+    "repository": {
+      "id": "graph-repository.sql-my"
+    }
+  },
   "browsers": [
     {
       "id": "it.vedph.item-browser.mongo.hierarchy"
