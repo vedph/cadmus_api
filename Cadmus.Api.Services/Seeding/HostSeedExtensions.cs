@@ -37,8 +37,7 @@ namespace Cadmus.Api.Services.Seeding
             GraphSet set = mapper.MapItem(item);
 
             logger.LogInformation("Updating graph " + set);
-            GraphUpdater updater = new GraphUpdater(repository);
-            updater.Update(set);
+            repository.UpdateGraph(set);
         }
 
         private static async Task SeedItemsAsync(

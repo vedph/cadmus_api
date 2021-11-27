@@ -523,8 +523,7 @@ namespace Cadmus.Api.Controllers
             GraphSet set = mapper.MapItem(item);
 
             _logger.Information("Updating graph " + set);
-            GraphUpdater updater = new GraphUpdater(graphRepository);
-            updater.Update(set);
+            graphRepository.UpdateGraph(set);
         }
 
         private void UpdateGraph(IItem item, IPart part,
@@ -542,8 +541,7 @@ namespace Cadmus.Api.Controllers
             GraphSet set = mapper.MapPins(item, part, pins);
 
             _logger.Information("Updating graph " + set);
-            GraphUpdater updater = new GraphUpdater(graphRepository);
-            updater.Update(set);
+            graphRepository.UpdateGraph(set);
         }
 
         private void UpdateGraphForDeletion(string id)
@@ -552,8 +550,7 @@ namespace Cadmus.Api.Controllers
             if (graphRepository == null) return;
 
             _logger.Information("Updating graph for deleted " + id);
-            GraphUpdater updater = new GraphUpdater(graphRepository);
-            updater.Delete(id);
+            graphRepository.DeleteGraphSet(id);
         }
 
         /// <summary>
