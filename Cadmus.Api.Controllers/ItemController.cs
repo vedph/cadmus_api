@@ -314,8 +314,8 @@ namespace Cadmus.Api.Controllers
             Match typeMatch = Regex.Match(json, "\"TypeId\":\\s*\"([^\"]+)\"");
             if (!typeMatch.Success) return NotFound();
 
-            Match roleMatch = Regex.Match(json, "\"RoleId\":\\s*\"([^\"]+)\"");
-            string role = roleMatch.Success ? roleMatch.Groups[1].Value : null;
+            // Match roleMatch = Regex.Match(json, "\"RoleId\":\\s*\"([^\"]+)\"");
+            // string role = roleMatch.Success ? roleMatch.Groups[1].Value : null;
 
             IPartTypeProvider provider = _repositoryProvider.GetPartTypeProvider();
             Type t = provider.Get(typeMatch.Groups[1].Value);
