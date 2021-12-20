@@ -270,7 +270,7 @@ namespace Cadmus.Api.Controllers
         /// from the database. This produces the full list of all the possible
         /// layer parts which could be connected to the given item.
         /// </summary>
-        /// <param name="id">The identifier.</param>
+        /// <param name="id">The identifier or <c>new</c> for a new item.</param>
         /// <param name="absent">if set to <c>true</c> [absent].</param>
         /// <returns>List of layer part infos.</returns>
         [HttpGet("api/items/{id}/layers")]
