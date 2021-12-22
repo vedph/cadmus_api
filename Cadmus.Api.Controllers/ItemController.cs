@@ -438,7 +438,7 @@ namespace Cadmus.Api.Controllers
                 await writer.DeleteItem(id);
                 writer.Close();
 
-                UpdateGraphForDeletion(id);
+                if (isGraphEnabled) UpdateGraphForDeletion(id);
             }
         }
 
@@ -492,7 +492,7 @@ namespace Cadmus.Api.Controllers
                 await writer.DeletePart(id);
                 writer.Close();
 
-                UpdateGraphForDeletion(id);
+                if (isGraphEnabled) UpdateGraphForDeletion(id);
             }
 
             return Ok();
