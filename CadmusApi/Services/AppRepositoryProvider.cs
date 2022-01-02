@@ -3,9 +3,9 @@ using System.Reflection;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
+using Cadmus.General.Parts;
 using Cadmus.Mongo;
-using Cadmus.Parts.General;
-using Cadmus.Philology.Parts.Layers;
+using Cadmus.Philology.Parts;
 using Microsoft.Extensions.Configuration;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
@@ -17,7 +17,6 @@ namespace CadmusApi.Services
     public sealed class AppRepositoryProvider : IRepositoryProvider
     {
         private readonly IConfiguration _configuration;
-        private readonly TagAttributeToTypeMap _map;
         private readonly IPartTypeProvider _partTypeProvider;
 
         /// <summary>
@@ -30,13 +29,11 @@ namespace CadmusApi.Services
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
 
-            _map = new TagAttributeToTypeMap();
+            TagAttributeToTypeMap _map = new();
             _map.Add(new[]
             {
-                // Cadmus.Parts
+                // Cadmus.General.Parts
                 typeof(NotePart).GetTypeInfo().Assembly,
-                // Cadmus.Lexicon.Parts
-                // typeof(WordFormPart).GetTypeInfo().Assembly,
                 // Cadmus.Philology.Parts
                 typeof(ApparatusLayerFragment).GetTypeInfo().Assembly
             });
@@ -62,9 +59,7 @@ namespace CadmusApi.Services
         {
             // create the repository (no need to use container here)
             MongoCadmusRepository repository =
-                new MongoCadmusRepository(
-                    _partTypeProvider,
-                    new StandardItemSortKeyBuilder());
+                new(_partTypeProvider, new StandardItemSortKeyBuilder());
 
             repository.Configure(new MongoCadmusRepositoryOptions
             {

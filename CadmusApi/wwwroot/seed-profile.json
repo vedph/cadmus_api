@@ -7,6 +7,15 @@
       "colorKey": "86ACEB",
       "partDefinitions": [
         {
+          "typeId": "it.vedph.metadata",
+          "name": "metadata",
+          "description": "Item's metadata.",
+          "isRequired": true,
+          "colorKey": "F8C0C0",
+          "groupKey": "general",
+          "sortKey": "metadata"
+        },
+        {
           "typeId": "it.vedph.categories",
           "name": "categories",
           "description": "Item's categories.",
@@ -23,6 +32,15 @@
           "colorKey": "F898F8",
           "groupKey": "general",
           "sortKey": "date"
+        },
+        {
+          "typeId": "it.vedph.events",
+          "name": "events",
+          "description": "Historical events.",
+          "isRequired": false,
+          "colorKey": "C898C8",
+          "groupKey": "general",
+          "sortKey": "events"
         },
         {
           "typeId": "it.vedph.keywords",
@@ -152,6 +170,15 @@
       "colorKey": "EBD586",
       "partDefinitions": [
         {
+          "typeId": "it.vedph.metadata",
+          "name": "metadata",
+          "description": "Item's metadata.",
+          "isRequired": true,
+          "colorKey": "F8C0C0",
+          "groupKey": "general",
+          "sortKey": "metadata"
+        },
+        {
           "typeId": "it.vedph.categories",
           "name": "categories",
           "description": "Item's categories.",
@@ -168,6 +195,15 @@
           "colorKey": "F898F8",
           "groupKey": "general",
           "sortKey": "date"
+        },
+        {
+          "typeId": "it.vedph.events",
+          "name": "events",
+          "description": "Historical events.",
+          "isRequired": false,
+          "colorKey": "C898C8",
+          "groupKey": "general",
+          "sortKey": "events"
         },
         {
           "typeId": "it.vedph.keywords",
@@ -298,12 +334,20 @@
       "id": "model-types@en",
       "entries": [
         {
+          "id": "it.vedph.metadata",
+          "value": "metadata"
+        },
+        {
           "id": "it.vedph.categories",
           "value": "categories"
         },
         {
           "id": "it.vedph.historical-date",
           "value": "date"
+        },
+        {
+          "id": "it.vedph.events",
+          "value": "events"
         },
         {
           "id": "it.vedph.keywords",
@@ -681,6 +725,9 @@
     },
     "partSeeders": [
       {
+        "id": "seed.it.vedph.metadata"
+      },
+      {
         "id": "seed.it.vedph.categories",
         "options": {
           "maxCategoriesPerItem": 3,
@@ -695,6 +742,9 @@
       },
       {
         "id": "seed.it.vedph.historical-date"
+      },
+      {
+        "id": "seed.it.vedph.events"
       },
       {
         "id": "seed.it.vedph.keywords",

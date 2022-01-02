@@ -19,6 +19,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2022-01-02: upgraded to use part libraries moved out of the original Cadmus core solution.
 - 2021-12-22: fix to part/item deletion when graph is disabled.
 - 2021-12-18: updated packages.
 - 2021-11-22: refactored API endpoints removing the legacy database name. This bumped API library versions to 3.0.0.
