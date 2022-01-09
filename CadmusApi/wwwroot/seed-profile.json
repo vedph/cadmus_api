@@ -59,6 +59,14 @@
           "sortKey": "keywords-x"
         },
         {
+          "typeId": "it.vedph.names",
+          "name": "names",
+          "description": "Proper name(s).",
+          "colorKey": "C0F0F8",
+          "groupKey": "general",
+          "sortKey": "names"
+        },
+        {
           "typeId": "it.vedph.note",
           "name": "note",
           "description": "A free text note.",
@@ -222,6 +230,14 @@
           "sortKey": "keywords-x"
         },
         {
+          "typeId": "it.vedph.names",
+          "name": "names",
+          "description": "Proper name(s).",
+          "colorKey": "C0F0F8",
+          "groupKey": "general",
+          "sortKey": "names"
+        },
+        {
           "typeId": "it.vedph.note",
           "name": "note",
           "description": "A free text note.",
@@ -356,6 +372,10 @@
         {
           "id": "it.vedph.index-keywords",
           "value": "index keywords"
+        },
+        {
+          "id": "it.vedph.names",
+          "value": "names"
         },
         {
           "id": "it.vedph.note",
@@ -528,6 +548,23 @@
           "value": "Spanish"
         }
       ]
+    },
+    {
+      "id": "name-piece-types@en",
+      "entries": [
+        {
+          "id": "first",
+          "value": "first"
+        },
+        {
+          "id": "last",
+          "value": "last"
+        }
+      ]
+    },
+    {
+      "id": "name-languages@en",
+      "targetId": "languages"
     },
     {
       "id": "bibliography-languages@en",
@@ -798,6 +835,9 @@
       },
       {
         "id": "seed.it.vedph.ext-bibliography"
+      },
+      {
+        "id": "seed.it.vedph.names"
       },
       {
         "id": "seed.it.vedph.note",
