@@ -1,6 +1,6 @@
 # CadmusApi
 
-Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.0.12 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.0.13 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -19,7 +19,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-- 2022-01-09: upgraded including new NamesPart.
+- 2022-01-16: added `ChronotopesPart`. Image: 1.0.13.
+- 2022-01-09: upgraded including new `NamesPart`.
 - 2022-01-02: upgraded to use part libraries moved out of the original Cadmus core solution.
 - 2021-12-22: fix to part/item deletion when graph is disabled.
 - 2021-12-18: updated packages.

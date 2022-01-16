@@ -34,6 +34,15 @@
           "sortKey": "date"
         },
         {
+          "typeId": "it.vedph.chronotopes",
+          "name": "chronotopes",
+          "description": "Date/time indications.",
+          "isRequired": false,
+          "colorKey": "F887C8",
+          "groupKey": "general",
+          "sortKey": "chronotopes"
+        },
+        {
           "typeId": "it.vedph.historical-events",
           "name": "events",
           "description": "Historical events.",
@@ -205,6 +214,15 @@
           "sortKey": "date"
         },
         {
+          "typeId": "it.vedph.chronotopes",
+          "name": "chronotopes",
+          "description": "Date/time indications.",
+          "isRequired": false,
+          "colorKey": "F887C8",
+          "groupKey": "general",
+          "sortKey": "chronotopes"
+        },
+        {
           "typeId": "it.vedph.historical-events",
           "name": "events",
           "description": "Historical events.",
@@ -360,6 +378,10 @@
         {
           "id": "it.vedph.historical-date",
           "value": "date"
+        },
+        {
+          "id": "it.vedph.chronotopes",
+          "value": "chronotopes"
         },
         {
           "id": "it.vedph.historical-events",
@@ -779,6 +801,9 @@
       },
       {
         "id": "seed.it.vedph.historical-date"
+      },
+      {
+        "id": "seed.it.vedph.chronotopes"
       },
       {
         "id": "seed.it.vedph.historical-events"
