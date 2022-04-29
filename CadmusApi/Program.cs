@@ -23,7 +23,7 @@ namespace CadmusApi
         {
             Console.WriteLine("ENVIRONMENT VARIABLES:");
             IDictionary dct = Environment.GetEnvironmentVariables();
-            List<string> keys = new List<string>();
+            List<string> keys = new();
             var enumerator = dct.GetEnumerator();
             while (enumerator.MoveNext())
             {
@@ -83,7 +83,7 @@ namespace CadmusApi
                         Debug.WriteLine($"Serilog:ConnectionString override = {cs}");
                         Console.WriteLine($"Serilog:ConnectionString override = {cs}");
 
-                        Dictionary<string, string> dct = new Dictionary<string, string>
+                        Dictionary<string, string> dct = new()
                         {
                             { "Serilog:ConnectionString", cs }
                         };

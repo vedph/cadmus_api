@@ -6,7 +6,6 @@ using MessagingApi;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -68,14 +67,14 @@ namespace CadmusApi
             // configuration sections
             // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
             services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
-            // services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
+            // services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"))
             services.Configure<SendGridMailerOptions>(Configuration.GetSection("Mailer"));
 
             // explicitly register the settings object by delegating to the IOptions object
             services.AddSingleton(resolver =>
                 resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
             //services.AddSingleton(resolver =>
-            //    resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
+            //    resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value)
             services.AddSingleton(resolver =>
                 resolver.GetRequiredService<IOptions<SendGridMailerOptions>>().Value);
         }
@@ -150,7 +149,7 @@ namespace CadmusApi
 #endif
         }
 
-        private void ConfigureSwaggerServices(IServiceCollection services)
+        private static void ConfigureSwaggerServices(IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
@@ -219,7 +218,6 @@ namespace CadmusApi
                     options.JsonSerializerOptions.PropertyNamingPolicy =
                         JsonNamingPolicy.CamelCase;
                 });
-                //.SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             // authentication
             ConfigureAuthServices(services);
@@ -235,7 +233,7 @@ namespace CadmusApi
             // messaging
             // TODO: you can use another mailer service here. In this case,
             // also change the types in ConfigureOptionsServices.
-            // services.AddTransient<IMailerService, DotNetMailerService>();
+            // services.AddTransient<IMailerService, DotNetMailerService>()
             services.AddTransient<IMailerService, SendGridMailerService>();
             services.AddTransient<IMessageBuilderService,
                 FileMessageBuilderService>();
@@ -328,7 +326,6 @@ namespace CadmusApi
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                //options.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Docs");
                 string url = Configuration.GetValue<string>("Swagger:Endpoint");
                 if (string.IsNullOrEmpty(url)) url = "v1/swagger.json";
                 options.SwaggerEndpoint(url, "V1 Docs");

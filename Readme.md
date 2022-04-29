@@ -1,6 +1,6 @@
 # CadmusApi
 
-Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.0.14 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.1.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -18,6 +18,10 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 1.1.0
+
+- 2022-04-29: upgraded Cadmus packages to NET 6.
 
 ### 1.0.14
 
