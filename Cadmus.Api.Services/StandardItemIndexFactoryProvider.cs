@@ -1,4 +1,5 @@
-﻿using Cadmus.Index.Config;
+﻿using Cadmus.Graph.MySql;
+using Cadmus.Index.Config;
 using Cadmus.Index.MySql;
 using Cadmus.Index.Sql;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
@@ -45,7 +46,9 @@ namespace Cadmus.Api.Services
             Assembly[] indexAssemblies = new[]
             {
                 // Cadmus.Index.Sql
-                typeof(MySqlItemIndexWriter).Assembly
+                typeof(MySqlItemIndexWriter).Assembly,
+                // Cadmus.Graph.MySql
+                typeof(MySqlGraphRepository).Assembly
             };
 
             Container container = new();
