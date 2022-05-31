@@ -54,7 +54,7 @@ namespace Cadmus.Api.Services.Seeding
                     ? int.Parse(m.Groups["p"].Value)
                     : 0;
 
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new();
                 int i = m.Groups["m"].Value.IndexOf("{N}",
                     StringComparison.Ordinal);
 

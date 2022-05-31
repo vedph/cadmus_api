@@ -1,4 +1,4 @@
-﻿using Cadmus.Index.Graph;
+﻿using Cadmus.Graph;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,7 +37,7 @@ namespace Cadmus.Api.Models.Graph
         /// <summary>
         /// Gets or sets the type of the source.
         /// </summary>
-        public NodeSourceType? SourceType { get; set; }
+        public int? SourceType { get; set; }
 
         /// <summary>
         /// Gets or sets the sid.

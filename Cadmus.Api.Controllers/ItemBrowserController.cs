@@ -55,10 +55,10 @@ namespace Cadmus.Api.Controllers
             if (string.IsNullOrEmpty(profileSource)) return null;
 
             ResourceLoaderService loaderService =
-                new ResourceLoaderService(_serviceProvider);
+                new(_serviceProvider);
 
             string profile;
-            using (StreamReader reader = new StreamReader(
+            using (StreamReader reader = new(
                 await loaderService.LoadAsync(profileSource), Encoding.UTF8))
             {
                 profile = reader.ReadToEnd();
@@ -100,7 +100,7 @@ namespace Cadmus.Api.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             IQueryCollection queryString = HttpContext.Request.Query;
-            Dictionary<string, string> args = new Dictionary<string, string>();
+            Dictionary<string, string> args = new();
             foreach (string key in queryString.Keys)
             {
                 if (string.Compare(key, "pageNumber", true) != 0

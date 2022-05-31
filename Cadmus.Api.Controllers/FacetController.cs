@@ -47,7 +47,7 @@ namespace Cadmus.Api.Controllers
             FacetDefinition facet,
             bool noRoles)
         {
-            List<PartDefinition> defs = new List<PartDefinition>();
+            List<PartDefinition> defs = new();
 
             if (facet != null)
             {

@@ -72,7 +72,7 @@ namespace Cadmus.Api.Services.Auth
             int total = users.Count();
             users = users.OrderBy(u => u.UserName);
 
-            List<UserWithRoles<ApplicationUser>> results = new List<UserWithRoles<ApplicationUser>>();
+            List<UserWithRoles<ApplicationUser>> results = new();
             foreach (ApplicationUser user in users.Skip(filter.GetSkipCount())
                 .Take(filter.PageSize == 0 ? total : filter.PageSize))
             {
@@ -94,7 +94,7 @@ namespace Cadmus.Api.Services.Auth
         {
             if (names == null) throw new ArgumentNullException(nameof(names));
 
-            List<UserWithRoles<ApplicationUser>> results = new List<UserWithRoles<ApplicationUser>>();
+            List<UserWithRoles<ApplicationUser>> results = new();
             foreach (string name in names)
             {
                 ApplicationUser user = await _userManager.FindByNameAsync(name);
@@ -129,8 +129,8 @@ namespace Cadmus.Api.Services.Auth
             // roles
             if (roles != null)
             {
-                HashSet<string> oldRoles = new HashSet<string>(await _userManager.GetRolesAsync(old));
-                HashSet<string> newRoles = new HashSet<string>(roles);
+                HashSet<string> oldRoles = new(await _userManager.GetRolesAsync(old));
+                HashSet<string> newRoles = new(roles);
 
                 var removed = oldRoles.Except(newRoles).ToList();
                 if (removed.Count > 0) await _userManager.RemoveFromRolesAsync(old, removed);

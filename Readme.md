@@ -1,6 +1,6 @@
 # CadmusApi
 
-Quick Docker image build: `docker build . -t vedph2020/cadmus_api:1.1.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:4.0.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -18,6 +18,10 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 4.0.0
+
+- 2022-05-31: replaced graph mapping with [new library](https://github.com/vedph/cadmus-graph). The new library no more relies on data pins (that was a legacy hack to allow for projection when there was no time for a more powerful solution). The graph mapping library is still experimental, but it allows for a more robust approach to RDF-like projection. As no production project is currently using the graph, they will not be affected anyway. Conversely, projects willing to use it will be able to start from a more powerful and future-proof codebase. Note that the Docker version number has been aligned with the library version number.
 
 ### 1.1.0
 
@@ -52,7 +56,7 @@ This applies since Cadmus.Api.Controllers 1.3.0, Cadmus.Api.Services 1.2.0.
 
 ## Developer Note About Port
 
-There seems to be an issue with VS in launching IIS Express at a given port in Windows. If IIS starts complaining that the port is in use, run in an elevated prompt:
+Sometimes, there seems to be an issue with VS in launching IIS Express at a given port in Windows. If IIS starts complaining that the port is in use, run in an elevated prompt:
 
 ```ps1
 net stop winnat

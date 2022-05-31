@@ -53,9 +53,9 @@ namespace Cadmus.Api.Controllers
         {
             // https://tools.ietf.org/html/rfc7519#section-4
 
-            DateTimeOffset now = new DateTimeOffset(DateTime.UtcNow);
-            IdentityOptions options = new IdentityOptions();
-            List<Claim> claims = new List<Claim>
+            DateTimeOffset now = new(DateTime.UtcNow);
+            IdentityOptions options = new();
+            List<Claim> claims = new()
             {
                 // (SUB) the principal that is the subject of the JWT
                 new Claim(RegisteredClaims.Sub, user.UserName),
@@ -131,13 +131,13 @@ namespace Cadmus.Api.Controllers
                 // ensure that this key is at least 16 chars long
                 IConfigurationSection jwtSection = _configuration.GetSection("Jwt");
                 string key = jwtSection["SecureKey"];
-                SymmetricSecurityKey authSigningKey = new SymmetricSecurityKey(
+                SymmetricSecurityKey authSigningKey = new(
                     Encoding.UTF8.GetBytes(key));
 
                 // Note: don't include "www" in your Audience!
                 // it seems it gets stripped whence mismatch and 401
 
-                JwtSecurityToken token = new JwtSecurityToken(
+                JwtSecurityToken token = new(
                     issuer: jwtSection["Issuer"],
                     audience: jwtSection["Audience"],
                     expires: DateTime.Now.AddHours(3),

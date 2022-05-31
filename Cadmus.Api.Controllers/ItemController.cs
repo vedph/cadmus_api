@@ -20,9 +20,9 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
-using Cadmus.Index.Graph;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog.Extensions.Logging;
+using Cadmus.Graph;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Cadmus.Api.Controllers
 {
@@ -34,19 +34,20 @@ namespace Cadmus.Api.Controllers
     public sealed class ItemController : Controller
     {
         private static readonly Regex _pascalPropRegex =
-            new Regex(@"""([A-Z])([^""]*)""\s*:");
+            new(@"""([A-Z])([^""]*)""\s*:");
 
         private static readonly Regex _camelPropRegex =
-            new Regex(@"""([a-z])([^""]*)""\s*:");
+            new(@"""([a-z])([^""]*)""\s*:");
 
         private static readonly Regex _guidRegex =
-            new Regex("^[a-fA-F0-9]{8}-" +
+            new("^[a-fA-F0-9]{8}-" +
                 "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly IRepositoryProvider _repositoryProvider;
         private readonly IConfiguration _configuration;
+        private readonly IMemoryCache _cache;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -62,6 +63,7 @@ namespace Cadmus.Api.Controllers
             IServiceProvider serviceProvider,
             IRepositoryProvider repositoryProvider,
             IConfiguration configuration,
+            IMemoryCache cache,
             ILogger logger)
         {
             _userManager = userManager ??
@@ -72,6 +74,8 @@ namespace Cadmus.Api.Controllers
                 throw new ArgumentNullException(nameof(repositoryProvider));
             _configuration = configuration ??
                 throw new ArgumentNullException(nameof(configuration));
+            _cache = cache ??
+                throw new ArgumentNullException(nameof(cache));
             _logger = logger ??
                 throw new ArgumentNullException(nameof(logger));
         }
@@ -233,7 +237,7 @@ namespace Cadmus.Api.Controllers
                 IHasDataPins p = Activator.CreateInstance(t) as IHasDataPins;
                 return p.GetDataPinDefinitions().ToArray();
             }
-            return new DataPinDefinition[0];
+            return Array.Empty<DataPinDefinition>();
         }
 
         /// <summary>
@@ -314,9 +318,6 @@ namespace Cadmus.Api.Controllers
             Match typeMatch = Regex.Match(json, "\"TypeId\":\\s*\"([^\"]+)\"");
             if (!typeMatch.Success) return NotFound();
 
-            // Match roleMatch = Regex.Match(json, "\"RoleId\":\\s*\"([^\"]+)\"");
-            // string role = roleMatch.Success ? roleMatch.Groups[1].Value : null;
-
             IPartTypeProvider provider = _repositoryProvider.GetPartTypeProvider();
             Type t = provider.Get(typeMatch.Groups[1].Value);
             IPart part = (IPart)JsonConvert.DeserializeObject(json, t);
@@ -348,14 +349,10 @@ namespace Cadmus.Api.Controllers
 
             string intervalOption = _configuration.GetSection("Editing")
                 ["BaseToLayerToleranceSeconds"];
-            int interval;
-            if (!string.IsNullOrEmpty(intervalOption)
-                && int.TryParse(intervalOption, out int n))
-            {
-                interval = n;
-            }
-            else interval = 60;
-
+            int interval = !string.IsNullOrEmpty(intervalOption)
+                && int.TryParse(intervalOption, out int n)
+                ? n
+                : 60;
             int chance = repository.GetLayerPartBreakChance(id, interval);
             return Ok(new
             {
@@ -434,7 +431,7 @@ namespace Cadmus.Api.Controllers
 
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.DeleteItem(id);
                 writer.Close();
 
@@ -488,7 +485,7 @@ namespace Cadmus.Api.Controllers
 
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.DeletePart(id);
                 writer.Close();
 
@@ -505,7 +502,11 @@ namespace Cadmus.Api.Controllers
             IGraphRepository graphRepository =
                 _serviceProvider.GetService<IGraphRepository>();
             if (graphRepository == null)
+            {
                 _logger?.Error("Unable to get IGraphRepository service");
+                return null;
+            }
+            graphRepository.Cache = _cache;
             return graphRepository;
         }
 
@@ -514,34 +515,19 @@ namespace Cadmus.Api.Controllers
             IGraphRepository graphRepository = GetGraphRepository();
             if (graphRepository == null) return;
 
-            _logger.Information("Mapping " + item);
-            NodeMapper mapper = new NodeMapper(graphRepository)
-            {
-                Logger = new SerilogLoggerFactory(_logger)
-                    .CreateLogger(nameof(ItemController))
-            };
-            GraphSet set = mapper.MapItem(item);
-
-            _logger.Information("Updating graph " + set);
-            graphRepository.UpdateGraph(set);
+            _logger.Information("Updating graph for item " + item);
+            GraphUpdater updater = new(graphRepository);
+            updater.Update(item);
         }
 
-        private void UpdateGraph(IItem item, IPart part,
-            IList<Tuple<string,string>> pins)
+        private void UpdateGraph(IItem item, IPart part)
         {
             IGraphRepository graphRepository = GetGraphRepository();
             if (graphRepository == null) return;
 
-            _logger.Information("Mapping " + part);
-            NodeMapper mapper = new NodeMapper(graphRepository)
-            {
-                Logger = new SerilogLoggerFactory(_logger)
-                    .CreateLogger(nameof(ItemController))
-            };
-            GraphSet set = mapper.MapPins(item, part, pins);
-
-            _logger.Information("Updating graph " + set);
-            graphRepository.UpdateGraph(set);
+            _logger.Information("Updating graph for part " + part);
+            GraphUpdater updater = new(graphRepository);
+            updater.Update(item, part);
         }
 
         private void UpdateGraphForDeletion(string id)
@@ -567,7 +553,7 @@ namespace Cadmus.Api.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            Item item = new Item
+            Item item = new()
             {
                 Title = model.Title,
                 Description = model.Description,
@@ -601,7 +587,7 @@ namespace Cadmus.Api.Controllers
                 bool isGraphEnabled = IsGraphEnabled();
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
                 await writer.WriteItem(item);
                 writer.Close();
 
@@ -753,7 +739,7 @@ namespace Cadmus.Api.Controllers
                     _repositoryProvider.CreateRepository();
                 ItemIndexFactory factory = await ItemIndexHelper
                     .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter(isGraphEnabled);
+                IItemIndexWriter writer = factory.GetItemIndexWriter();
 
                 IPart part = repository.GetPart<IPart>(idAndJson.Item2);
                 await writer.WritePart(
@@ -765,18 +751,7 @@ namespace Cadmus.Api.Controllers
                 if (isGraphEnabled)
                 {
                     IItem item = repository.GetItem(part.ItemId);
-                    if (item != null)
-                    {
-                        GraphDataPinFilter filter = writer.DataPinFilter
-                            as GraphDataPinFilter;
-                        if (filter != null)
-                        {
-                            var pins = filter.GetSortedGraphPins()
-                                .Select(p => Tuple.Create(p.Name, p.Value))
-                                .ToList();
-                            UpdateGraph(item, part, pins);
-                        }
-                    }
+                    if (item != null) UpdateGraph(item, part);
                 }
             }
 

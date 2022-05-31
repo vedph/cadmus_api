@@ -69,7 +69,7 @@ namespace CadmusApi.Controllers
         [ProducesResponseType(500)]
         public IActionResult RaiseError()
         {
-            Exception exception = new Exception("Fake exception raised for test purposes");
+            Exception exception = new("Fake exception raised for test purposes");
             _logger.LogError(exception, "Fake exception");
             throw exception;
         }

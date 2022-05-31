@@ -31,10 +31,10 @@ namespace Cadmus.Api.Services.Seeding
             if (string.IsNullOrEmpty(profileSource)) return null;
 
             ResourceLoaderService loaderService =
-                new ResourceLoaderService(serviceProvider);
+                new(serviceProvider);
 
             string profile;
-            using (StreamReader reader = new StreamReader(
+            using (StreamReader reader = new(
                 await loaderService.LoadAsync(profileSource), Encoding.UTF8))
             {
                 profile = reader.ReadToEnd();

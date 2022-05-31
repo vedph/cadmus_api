@@ -48,7 +48,7 @@ namespace Cadmus.Api.Services
                 typeof(MySqlItemIndexWriter).Assembly
             };
 
-            Container container = new Container();
+            Container container = new();
 
             ItemIndexFactory.ConfigureServices(
                 container,

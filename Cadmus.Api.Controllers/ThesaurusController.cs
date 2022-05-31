@@ -91,7 +91,7 @@ namespace CadmusApi.Controllers
                     : (IActionResult)NotFound();
             }
 
-            ThesaurusModel model = new ThesaurusModel(thesaurus);
+            ThesaurusModel model = new(thesaurus);
 
             return Ok(model);
         }
@@ -120,7 +120,7 @@ namespace CadmusApi.Controllers
                 Language = model.Language
             });
 
-            DataPage<ThesaurusModel> result = new DataPage<ThesaurusModel>(
+            DataPage<ThesaurusModel> result = new(
                 page.PageNumber,
                 page.PageSize,
                 page.Total,
@@ -163,7 +163,7 @@ namespace CadmusApi.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
             Dictionary<string, ThesaurusModel> dct =
-                new Dictionary<string, ThesaurusModel>();
+                new();
 
             foreach (string id in (ids ?? "")
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -200,7 +200,7 @@ namespace CadmusApi.Controllers
                 model.Id);
 
             ICadmusRepository repository = _repositoryProvider.CreateRepository();
-            Thesaurus thesaurus = new Thesaurus(model.Id);
+            Thesaurus thesaurus = new(model.Id);
             foreach (ThesaurusEntryBindingModel entry in model.Entries)
                 thesaurus.AddEntry(new ThesaurusEntry(entry.Id, entry.Value));
             repository.AddThesaurus(thesaurus);

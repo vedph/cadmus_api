@@ -64,7 +64,7 @@ namespace Cadmus.Api.Services.Auth
         public string AllSpecialChars { get; }
 
         private readonly string _allAvailableChars;
-        private readonly RandomSecure _randomSecure = new RandomSecure();
+        private readonly RandomSecure _randomSecure = new();
         private readonly int _minNumberOfChars;
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Cadmus.Api.Services.Auth
     internal static class Extensions
     {
         private static readonly Lazy<RandomSecure> RandomSecure =
-            new Lazy<RandomSecure>(() => new RandomSecure());
+            new(() => new RandomSecure());
         public static IEnumerable<T> ShuffleSecure<T>(this IEnumerable<T> source)
         {
             T[] sourceArray = source.ToArray();

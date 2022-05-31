@@ -30,9 +30,10 @@ using Cadmus.Api.Services;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
 using MessagingApi.SendGrid;
-using Cadmus.Index.Graph;
 using Cadmus.Index.MySql;
 using Cadmus.Index.Sql;
+using Cadmus.Graph;
+using Cadmus.Graph.MySql;
 
 namespace CadmusApi
 {
@@ -231,7 +232,7 @@ namespace CadmusApi
                 ApplicationUserRepository>();
 
             // messaging
-            // TODO: you can use another mailer service here. In this case,
+            // you can use another mailer service here. In this case,
             // also change the types in ConfigureOptionsServices.
             // services.AddTransient<IMailerService, DotNetMailerService>()
             services.AddTransient<IMailerService, SendGridMailerService>();

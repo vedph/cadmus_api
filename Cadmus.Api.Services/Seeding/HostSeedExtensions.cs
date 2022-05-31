@@ -1,11 +1,12 @@
 ﻿using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
+using Cadmus.Graph;
 using Cadmus.Index;
 using Cadmus.Index.Config;
-using Cadmus.Index.Graph;
 using Cadmus.Mongo;
 using Cadmus.Seed;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -27,19 +28,6 @@ namespace Cadmus.Api.Services.Seeding
     /// </summary>
     public static class HostSeedExtensions
     {
-        private static void UpdateGraph(IItem item, IGraphRepository repository,
-            ILogger logger)
-        {
-            NodeMapper mapper = new NodeMapper(repository)
-            {
-                Logger = logger
-            };
-            GraphSet set = mapper.MapItem(item);
-
-            logger.LogInformation("Updating graph " + set);
-            repository.UpdateGraph(set);
-        }
-
         private static async Task SeedItemsAsync(
             IServiceProvider serviceProvider, IConfiguration config,
             PartSeederFactory factory, ICadmusRepository repository,
@@ -55,23 +43,26 @@ namespace Cadmus.Api.Services.Seeding
             bool isIndexEnabled = isGraphEnabled ||
                 config.GetValue<bool>("Indexing:IsEnabled");
 
-            IGraphRepository graphRepository = null;
             IItemIndexWriter indexWriter = null;
 
-            // get graph and index services
-            if (isGraphEnabled)
-            {
-                graphRepository = serviceProvider.GetService<IGraphRepository>();
-                if (graphRepository == null)
-                    logger?.LogError("Unable to get IGraphRepository service");
-            }
+            // get index service if required
             if (isIndexEnabled)
             {
                 Console.WriteLine("Getting index writer...");
                 ItemIndexFactory indexFactory = await ItemIndexHelper
                     .GetIndexFactoryAsync(config, serviceProvider);
-                indexWriter = indexFactory.GetItemIndexWriter(isGraphEnabled,
-                    graphSql);
+                indexWriter = indexFactory.GetItemIndexWriter(graphSql);
+            }
+
+            // get graph service if required
+            GraphUpdater graphUpdater = null;
+            if (isGraphEnabled)
+            {
+                var graphRepository = serviceProvider.GetService<IGraphRepository>();
+                if (graphRepository == null)
+                    logger?.LogError("Unable to get IGraphRepository service");
+                graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
+                graphUpdater = new GraphUpdater(graphRepository);
             }
 
             // wait before indexing if requested
@@ -88,16 +79,14 @@ namespace Cadmus.Api.Services.Seeding
 
             // seed items with their parts
             Console.WriteLine($"Seeding {count} items...");
-            CadmusSeeder seeder = new CadmusSeeder(factory);
+            CadmusSeeder seeder = new(factory);
 
             foreach (IItem item in seeder.GetItems(count))
             {
                 Console.WriteLine($"{item}: {item.Parts.Count} parts");
                 repository.AddItem(item, true);
                 foreach (IPart part in item.Parts)
-                {
                     repository.AddPart(part, true);
-                }
 
                 // write the item's index data if requested
                 if (indexWriter != null)
@@ -107,7 +96,10 @@ namespace Cadmus.Api.Services.Seeding
 
                     // update also the graph if enabled
                     if (isGraphEnabled)
-                        UpdateGraph(item, graphRepository, logger);
+                    {
+                        Console.WriteLine($"Adding to graph {item.Id}");
+                        graphUpdater.Update(item);
+                    }
                 }
             }
             indexWriter?.Close();
@@ -151,7 +143,7 @@ namespace Cadmus.Api.Services.Seeding
             logger.LogInformation($"Loading seed profile from {profileSource}...");
 
             ResourceLoaderService loaderService =
-                new ResourceLoaderService(serviceProvider);
+                new(serviceProvider);
             Console.WriteLine($"Source: {loaderService.ResolveSource(profileSource)}");
 
             Stream stream = await loaderService.LoadAsync(profileSource);
@@ -164,7 +156,7 @@ namespace Cadmus.Api.Services.Seeding
             // deserialize the profile
             Console.WriteLine("Loading profile...");
             string profileContent;
-            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+            using (StreamReader reader = new(stream, Encoding.UTF8))
             {
                 profileContent = reader.ReadToEnd();
             }
@@ -192,7 +184,7 @@ namespace Cadmus.Api.Services.Seeding
             IPartSeederFactoryProvider factoryProvider =
                 serviceProvider.GetService<IPartSeederFactoryProvider>();
             PartSeederFactory factory;
-            using (StreamReader reader = new StreamReader(
+            using (StreamReader reader = new(
                 await loaderService.LoadAsync(profileSource),
                 Encoding.UTF8))
             {
@@ -223,7 +215,7 @@ namespace Cadmus.Api.Services.Seeding
             IList<string> sources = factory.GetImports();
             if (sources?.Count > 0)
             {
-                PartImporter importer = new PartImporter(repository);
+                PartImporter importer = new(repository);
 
                 foreach (string source in sources)
                 {
@@ -241,7 +233,7 @@ namespace Cadmus.Api.Services.Seeding
         private static Task SeedAccountsAsync(IServiceProvider serviceProvider)
         {
             ApplicationDatabaseInitializer initializer =
-                new ApplicationDatabaseInitializer(serviceProvider);
+                new(serviceProvider);
 
             return Policy.Handle<DbException>()
                 .WaitAndRetry(new[]
@@ -327,9 +319,6 @@ namespace Cadmus.Api.Services.Seeding
 
                 try
                 {
-                    IConfiguration config =
-                        serviceProvider.GetService<IConfiguration>();
-
                     if (accounts)
                         await SeedAccountsAsync(serviceProvider);
 

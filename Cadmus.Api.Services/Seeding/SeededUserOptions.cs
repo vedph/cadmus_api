@@ -38,7 +38,7 @@ namespace Cadmus.Api.Services.Seeding
         /// </returns>
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.Append(UserName);
             if (Roles?.Length > 0)
             {

@@ -1,5 +1,4 @@
-﻿using Cadmus.Index.Graph;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Cadmus.Api.Models.Graph
 {
@@ -36,13 +35,13 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the optional node's label. Most nodes have a label
         /// to ease their editing.
         /// </summary>
-        [MaxLength(500)]
+        [MaxLength(1000)]
         public string Label { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the source for this node.
         /// </summary>
-        public NodeSourceType SourceType { get; set; }
+        public int SourceType { get; set; }
 
         /// <summary>
         /// Gets or sets the source ID for this node.

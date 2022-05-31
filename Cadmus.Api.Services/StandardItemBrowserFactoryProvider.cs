@@ -45,11 +45,11 @@ namespace Cadmus.Api.Services
                 // Cadmus.Mongo
                 typeof(MongoHierarchyItemBrowser).Assembly,
             };
-            TagAttributeToTypeMap map = new TagAttributeToTypeMap();
+            TagAttributeToTypeMap map = new();
             map.Add(browserAssemblies);
 
             // build the container
-            Container container = new Container();
+            Container container = new();
             ItemBrowserFactory.ConfigureServices(
                 container,
                 new StandardPartTypeProvider(map),

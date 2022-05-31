@@ -66,7 +66,7 @@ namespace CadmusApi.Controllers
                 await _repository.GetUsersAsync(filter);
 
             // prepare results (we return only a subset of user data)
-            List<UserModel> results = new List<UserModel>();
+            List<UserModel> results = new();
             foreach (var ur in page.Items)
                 results.Add(UserToModel(ur.User, ur.Roles));
 
@@ -127,7 +127,7 @@ namespace CadmusApi.Controllers
                 await _repository.GetUsersFromNamesAsync(userNames);
 
             // prepare results (we return only a subset of user data)
-            List<UserModel> results = new List<UserModel>();
+            List<UserModel> results = new();
             foreach (var ur in users)
                 results.Add(UserToModel(ur.User, ur.Roles));
 

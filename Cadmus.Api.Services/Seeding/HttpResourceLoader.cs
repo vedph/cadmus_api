@@ -26,7 +26,7 @@ namespace Cadmus.Api.Services.Seeding
             Stream stream;
             try
             {
-                HttpClient client = new HttpClient();
+                HttpClient client = new();
                 stream = await client.GetStreamAsync(source);
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-﻿using Cadmus.Index.Graph;
+﻿using Cadmus.Graph;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cadmus.Api.Models.Graph

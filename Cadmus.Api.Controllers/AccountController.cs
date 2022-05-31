@@ -245,7 +245,7 @@ namespace Cadmus.Api.Controllers
             // confirmation URL found in their email text. Thus, this endpoint
             // must reply with an HTML page for the end users.
             string page;
-            Dictionary<string, string> dct = new Dictionary<string, string>
+            Dictionary<string, string> dct = new()
             {
                 ["FirstName"] = user.FirstName,
                 ["LastName"] = user.LastName,
@@ -404,7 +404,7 @@ namespace Cadmus.Api.Controllers
             }
 
             _logger.LogInformation("Setting new password for {UserName}", name);
-            PasswordGenerator generator = new PasswordGenerator();
+            PasswordGenerator generator = new();
             string newPassword = generator.Generate();
 
             IdentityResult result =

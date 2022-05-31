@@ -1,7 +1,7 @@
 ﻿using Cadmus.Api.Models.Graph;
 using Cadmus.Api.Services.Seeding;
+using Cadmus.Graph;
 using Cadmus.Index.Config;
-using Cadmus.Index.Graph;
 using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +41,7 @@ namespace Cadmus.Api.Controllers
         /// <returns>A page of nodes.</returns>
         [HttpGet("api/graph/nodes")]
         [ProducesResponseType(200)]
-        public async Task<DataPage<NodeResult>> GetNodes([FromQuery]
+        public async Task<DataPage<UriNode>> GetNodes([FromQuery]
             NodeFilterBindingModel model)
         {
             ItemIndexFactory factory = await ItemIndexHelper
@@ -59,13 +59,13 @@ namespace Cadmus.Api.Controllers
         [HttpGet("api/graph/nodes/{id}", Name = "GetNode")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<NodeResult>> GetNode(int id)
+        public async Task<ActionResult<UriNode>> GetNode(int id)
         {
             ItemIndexFactory factory = await ItemIndexHelper
                 .GetIndexFactoryAsync(_configuration, _serviceProvider);
 
             IGraphRepository repository = factory.GetGraphRepository();
-            NodeResult node = repository.GetNode(id);
+            UriNode node = repository.GetNode(id);
             if (node == null) return NotFound();
             return Ok(node);
         }
@@ -83,14 +83,15 @@ namespace Cadmus.Api.Controllers
                 .GetIndexFactoryAsync(_configuration, _serviceProvider);
 
             IGraphRepository repository = factory.GetGraphRepository();
-            Node node = new Node
+            UriNode node = new()
             {
                 Id = repository.AddUri(model.Uri),
                 IsClass = model.IsClass,
                 Tag = model.Tag,
                 Label = model.Label,
                 SourceType = model.SourceType,
-                Sid = model.Sid
+                Sid = model.Sid,
+                Uri = model.Uri
             };
             repository.AddNode(node);
             return CreatedAtRoute("GetNode", node);
@@ -119,7 +120,7 @@ namespace Cadmus.Api.Controllers
         /// <returns>Page with triples.</returns>
         [HttpGet("api/graph/triples")]
         [ProducesResponseType(200)]
-        public async Task<DataPage<TripleResult>> GetTriples([FromQuery]
+        public async Task<DataPage<UriTriple>> GetTriples([FromQuery]
             TripleFilterBindingModel model)
         {
             ItemIndexFactory factory = await ItemIndexHelper
@@ -137,13 +138,13 @@ namespace Cadmus.Api.Controllers
         [HttpGet("api/graph/triples/{id}", Name = "GetTriple")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<NodeResult>> GetTriple(int id)
+        public async Task<ActionResult<UriNode>> GetTriple(int id)
         {
             ItemIndexFactory factory = await ItemIndexHelper
                 .GetIndexFactoryAsync(_configuration, _serviceProvider);
 
             IGraphRepository repository = factory.GetGraphRepository();
-            TripleResult triple = repository.GetTriple(id);
+            UriTriple triple = repository.GetTriple(id);
             if (triple == null) return NotFound();
             return Ok(triple);
         }
@@ -163,7 +164,7 @@ namespace Cadmus.Api.Controllers
 
             IGraphRepository repository = factory.GetGraphRepository();
 
-            Triple triple = new Triple
+            Triple triple = new()
             {
                 Id = model.Id,
                 SubjectId = model.SubjectId,
