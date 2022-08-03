@@ -38,7 +38,7 @@
     <PackageReference Include="Cadmus.Mongo" Version="4.0.1" />
     <PackageReference Include="Cadmus.Seed" Version="4.0.1" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
-    <PackageReference Include="Fusi.Tools" Version="2.1.1" />
+    <PackageReference Include="Fusi.Tools" Version="2.1.5" />
     <PackageReference Include="MessagingApi" Version="1.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
