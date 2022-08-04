@@ -92,11 +92,19 @@
           "sortKey": "comment"
         },
         {
+          "typeId": "it.vedph.external-ids",
+          "name": "external IDs",
+          "description": "External identifiers.",
+          "colorKey": "BEE0CA",
+          "groupKey": "references",
+          "sortKey": "identifiers"
+        },
+        {
           "typeId": "it.vedph.doc-references",
           "name": "references",
           "description": "Documental references.",
           "colorKey": "BEF0AA",
-          "groupKey": "general",
+          "groupKey": "references",
           "sortKey": "references"
         },
         {
@@ -104,7 +112,7 @@
           "name": "bibliography",
           "description": "Bibliography.",
           "colorKey": "20B2AA",
-          "groupKey": "general",
+          "groupKey": "references",
           "sortKey": "bibliography"
         },
         {
@@ -112,7 +120,7 @@
           "name": "ext-bibliography",
           "description": "External bibliography.",
           "colorKey": "82B0AD",
-          "groupKey": "general",
+          "groupKey": "references",
           "sortKey": "bibliography-ext"
         },
         {
@@ -374,6 +382,10 @@
         {
           "id": "it.vedph.categories",
           "value": "categories"
+        },
+        {
+          "id": "it.vedph.external-ids",
+          "value": "external IDs"
         },
         {
           "id": "it.vedph.historical-date",
@@ -717,15 +729,15 @@
         },
         {
           "id": "w8",
-          "value": "Bernensis 167, origine Autissiodorensis olim creditus (desunt Aen. 12.452-579; 772-952) [MO B.11: saec. IX²]"
+          "value": "Bernensis 167, origine Autissiodorensis olim creditus (desunt Aen. 12.452-579; 772-952) [MO B.11: saec. IXï¿½]"
         },
         {
           "id": "w9",
-          "value": "Oxoniensis Bodl. Auct. F. 2.8, ante annum fere 850 Parisiis exaratus in coenobio S. Germani [MO B. 155, saec. IX¹]"
+          "value": "Oxoniensis Bodl. Auct. F. 2.8, ante annum fere 850 Parisiis exaratus in coenobio S. Germani [MO B. 155, saec. IXï¿½]"
         },
         {
           "id": "w10",
-          "value": "Valentianensis 407 (389), olim S. Amandi Elnonensis sive in Pabula [MO B.231: saec IX²]"
+          "value": "Valentianensis 407 (389), olim S. Amandi Elnonensis sive in Pabula [MO B.231: saec IXï¿½]"
         }
       ]
     },
@@ -857,6 +869,9 @@
             "IF"
           ]
         }
+      },
+      {
+        "id": "seed.it.vedph.external-ids"
       },
       {
         "id": "seed.it.vedph.ext-bibliography"

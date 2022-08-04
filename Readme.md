@@ -1,6 +1,19 @@
-# CadmusApi
+# Cadmus API
 
-Quick Docker image build: `docker build . -t vedph2020/cadmus_api:4.0.2 -t vedph2020/cadmus_api:latest` (replace with the current version).
+- [Cadmus API](#cadmus-api)
+	- [History](#history)
+		- [4.0.3](#403)
+		- [4.0.2](#402)
+		- [4.0.1](#401)
+		- [4.0.0](#400)
+		- [1.1.0](#110)
+		- [1.0.14](#1014)
+		- [1.0.13](#1013)
+	- [Developer Note About Port](#developer-note-about-port)
+	- [Profile](#profile)
+		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
+
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:4.0.3 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -19,6 +32,9 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 4.0.3
+
+- 2022-08-04: updated `Cadmus.General.Parts` package where `ExternalId` has been replaced with `AssertedId`.
 - 2022-08-01: updated packages.
 - 2022-07-14: updated packages.
 
@@ -96,8 +112,8 @@ The import sources are specified in the `imports` section of the profile, just a
 
 ```json
 "imports": [
-	"https://www.mysite.org/dumps/cadmus01.json",
-	"https://www.mysite.org/dumps/cadmus02.json"
+  "https://www.mysite.org/dumps/cadmus01.json",
+  "https://www.mysite.org/dumps/cadmus02.json"
 ]
 ```
 
