@@ -14,7 +14,6 @@ namespace Cadmus.Api.Services.Seeding
     /// </summary>
     public sealed class ApplicationDatabaseInitializer
     {
-        private readonly IConfiguration _configuration;
         private readonly ILogger _logger;
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -27,7 +26,8 @@ namespace Cadmus.Api.Services.Seeding
         /// </summary>
         public ApplicationDatabaseInitializer(IServiceProvider serviceProvider)
         {
-            _configuration = serviceProvider.GetService<IConfiguration>();
+            IConfiguration configuration =
+                serviceProvider.GetService<IConfiguration>();
 
             ILoggerFactory loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             _logger = loggerFactory.CreateLogger<ApplicationDatabaseInitializer>();
@@ -35,7 +35,7 @@ namespace Cadmus.Api.Services.Seeding
             _userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
             _roleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
 
-            _seededUsersOptions = _configuration
+            _seededUsersOptions = configuration
                 .GetSection("StockUsers")
                 .Get<ApplicationSeededUserOptions[]>();
         }

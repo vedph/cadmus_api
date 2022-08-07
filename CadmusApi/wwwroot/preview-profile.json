@@ -1,0 +1,26 @@
+{
+  "JsonRenderers": [
+    {
+      "Keys": "it.vedph.note",
+      "Id": "it.vedph.json-renderer.null"
+    },
+    {
+      "Keys": "it.vedph.token-text",
+      "Id": "it.vedph.json-renderer.null"
+    },
+    {
+      "Keys": "it.vedph.token-text-layer|fr.it.vedph.comment",
+      "Id": "it.vedph.json-renderer.null"
+    },
+    {
+      "Keys": "it.vedph.token-text-layer|fr.it.vedph.orthography",
+      "Id": "it.vedph.json-renderer.null"
+    }
+  ],
+  "TextPartFlatteners": [
+    {
+      "Keys": "it.vedph.token-text",
+      "Id": "it.vedph.text-flattener.token"
+    }
+  ]
+}

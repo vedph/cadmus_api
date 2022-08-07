@@ -34,6 +34,10 @@ using Cadmus.Index.MySql;
 using Cadmus.Index.Sql;
 using Cadmus.Graph;
 using Cadmus.Graph.MySql;
+using Cadmus.Export.Preview;
+using Cadmus.Core.Storage;
+using Cadmus.Api.Services.Seeding;
+using System.Threading.Tasks;
 
 namespace CadmusApi
 {
@@ -131,7 +135,7 @@ namespace CadmusApi
                    IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
                    string key = jwtSection["SecureKey"];
                    if (string.IsNullOrEmpty(key))
-                       throw new ApplicationException("Required JWT SecureKey not found");
+                       throw new InvalidOperationException("Required JWT SecureKey not found");
 
                    options.SaveToken = true;
                    options.RequireHttpsMetadata = false;
@@ -193,6 +197,48 @@ namespace CadmusApi
                 }
                 });
             });
+        }
+
+        private CadmusPreviewer GetPreviewer(IServiceProvider provider)
+        {
+            // nope if disabled
+            if (!Configuration
+                .GetSection("Preview")
+                .GetSection("IsEnabled").Get<bool>())
+            {
+                return null;
+            }
+
+            // get profile source
+            ILogger logger = provider.GetService<ILogger>();
+            IHostEnvironment env = provider.GetService<IHostEnvironment>();
+            string path = Path.Combine(env.ContentRootPath,
+                "wwwroot", "preview-profile.json");
+            if (!File.Exists(path))
+            {
+                Console.WriteLine($"Preview profile expected at {path} not found");
+                logger.Error($"Preview profile expected at {path} not found");
+                return null;
+            }
+
+            // load profile
+            Console.WriteLine($"Loading preview profile from {path}...");
+            logger.Information($"Loading preview profile from {path}...");
+            string profile;
+            using (StreamReader reader = new(new FileStream(
+                path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
+            {
+                profile = reader.ReadToEnd();
+            }
+
+            // configure the previewer
+            ICadmusRepository repository =
+                    provider.GetService<IRepositoryProvider>().CreateRepository();
+            ICadmusPreviewFactoryProvider factoryProvider =
+                new StandardCadmusPreviewFactoryProvider();
+            CadmusPreviewFactory factory = factoryProvider.GetFactory(profile);
+
+            return new CadmusPreviewer(repository, factory);
         }
 
         /// <summary>
@@ -272,6 +318,9 @@ namespace CadmusApi
                 });
                 return repository;
             });
+
+            // previewer: this will return null if preview is not enabled/not found
+            services.AddSingleton(p => GetPreviewer(p));
 
             // swagger
             ConfigureSwaggerServices(services);

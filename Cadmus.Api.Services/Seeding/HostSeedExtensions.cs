@@ -142,8 +142,7 @@ namespace Cadmus.Api.Services.Seeding
             Console.WriteLine($"Loading seed profile from {profileSource}...");
             logger.LogInformation($"Loading seed profile from {profileSource}...");
 
-            ResourceLoaderService loaderService =
-                new(serviceProvider);
+            ResourceLoaderService loaderService = new(serviceProvider);
             Console.WriteLine($"Source: {loaderService.ResolveSource(profileSource)}");
 
             Stream stream = await loaderService.LoadAsync(profileSource);

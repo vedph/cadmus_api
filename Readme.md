@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [4.1.0](#410)
 		- [4.0.3](#403)
 		- [4.0.2](#402)
 		- [4.0.1](#401)
@@ -13,7 +14,7 @@
 	- [Profile](#profile)
 		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
 
-Quick Docker image build: `docker build . -t vedph2020/cadmus_api:4.0.3 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick Docker image build: `docker build . -t vedph2020/cadmus_api:4.1.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -31,6 +32,32 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 4.1.0
+
+- 2022-08-07: added [preview feature](https://github.com/vedph/cadmus-migration). This feature must be explicitly opted in. To add preview capabilities to an existing API:
+
+1. in `appsettings.json`, add this entry:
+
+```json
+"Preview": {
+  "IsEnabled": true
+}
+```
+
+2. eventually add a different preview factory provider. The standard one is already found in `Cadmus.Api.Services` (`StandardCadmusPreviewFactoryProvider`), and usually this is enough.
+
+3. in `Startup.cs`:
+
+- add `GetPreviewerAsync`.
+- in `ConfigureServices`, add this line:
+
+```cs
+// previewer: this will return null if preview is not enabled/not found
+services.AddSingleton(p => GetPreviewer(p));
+```
+
+4. in `wwwroot` add `preview-profile.json` with your profile. Note that currently I've not added any true transformation, but I just use null renderers for a few objects.
 
 ### 4.0.3
 

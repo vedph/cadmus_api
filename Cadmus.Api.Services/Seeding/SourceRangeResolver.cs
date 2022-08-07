@@ -66,9 +66,9 @@ namespace Cadmus.Api.Services.Seeding
                 }
 
                 // resolve
-                string prefix = m.Groups["m"].Value.Substring(0, i);
+                string prefix = m.Groups["m"].Value[..i];
                 string fmt = padding > 0 ? new string('0', padding) : null;
-                string suffix = m.Groups["m"].Value.Substring(i + 1);
+                string suffix = m.Groups["m"].Value[(i + 1)..];
 
                 if (last < first) last = first;
 

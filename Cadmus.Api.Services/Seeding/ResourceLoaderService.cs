@@ -48,7 +48,7 @@ namespace Cadmus.Api.Services.Seeding
         {
             if (path is null) throw new ArgumentNullException(nameof(path));
 
-            if (path.IndexOf('%') == -1) return path;
+            if (!path.Contains('%')) return path;
 
             return new Regex("%([^%]+)%").Replace(path, (Match m) =>
             {
