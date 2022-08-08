@@ -55,7 +55,7 @@ Both these services depend on the parts you choose to support, so they are imple
 - in `ConfigureServices`, add this line:
 
 ```cs
-// previewer: this will return null if preview is not enabled/not found
+// previewer
 services.AddSingleton(p => GetPreviewer(p));
 ```
 

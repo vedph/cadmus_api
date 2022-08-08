@@ -30,14 +30,11 @@ using Cadmus.Api.Services;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
 using MessagingApi.SendGrid;
-using Cadmus.Index.MySql;
 using Cadmus.Index.Sql;
 using Cadmus.Graph;
 using Cadmus.Graph.MySql;
 using Cadmus.Export.Preview;
 using Cadmus.Core.Storage;
-using Cadmus.Api.Services.Seeding;
-using System.Threading.Tasks;
 
 namespace CadmusApi
 {
@@ -201,12 +198,18 @@ namespace CadmusApi
 
         private CadmusPreviewer GetPreviewer(IServiceProvider provider)
         {
+            // get dependencies
+            ICadmusRepository repository =
+                    provider.GetService<IRepositoryProvider>().CreateRepository();
+            ICadmusPreviewFactoryProvider factoryProvider =
+                new StandardCadmusPreviewFactoryProvider();
+
             // nope if disabled
-            if (!Configuration
-                .GetSection("Preview")
-                .GetSection("IsEnabled").Get<bool>())
+            if (!Configuration.GetSection("Preview").GetSection("IsEnabled")
+                .Get<bool>())
             {
-                return null;
+                return new CadmusPreviewer(repository,
+                    factoryProvider.GetFactory("{}"));
             }
 
             // get profile source
@@ -218,7 +221,8 @@ namespace CadmusApi
             {
                 Console.WriteLine($"Preview profile expected at {path} not found");
                 logger.Error($"Preview profile expected at {path} not found");
-                return null;
+                return new CadmusPreviewer(repository,
+                    factoryProvider.GetFactory("{}"));
             }
 
             // load profile
@@ -230,12 +234,6 @@ namespace CadmusApi
             {
                 profile = reader.ReadToEnd();
             }
-
-            // configure the previewer
-            ICadmusRepository repository =
-                    provider.GetService<IRepositoryProvider>().CreateRepository();
-            ICadmusPreviewFactoryProvider factoryProvider =
-                new StandardCadmusPreviewFactoryProvider();
             CadmusPreviewFactory factory = factoryProvider.GetFactory(profile);
 
             return new CadmusPreviewer(repository, factory);
@@ -319,7 +317,7 @@ namespace CadmusApi
                 return repository;
             });
 
-            // previewer: this will return null if preview is not enabled/not found
+            // previewer
             services.AddSingleton(p => GetPreviewer(p));
 
             // swagger
