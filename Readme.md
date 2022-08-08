@@ -33,6 +33,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2022-08-08: updated migration package to include Markdown support.
+
 ### 4.1.0
 
 - 2022-08-07: added [preview feature](https://github.com/vedph/cadmus-migration). This feature must be explicitly opted in. To add preview capabilities to an existing API:
