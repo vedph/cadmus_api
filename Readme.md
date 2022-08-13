@@ -33,6 +33,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2022-08-11: updated migration package to include filters and added argument to preview build blocks API.
 - 2022-08-08: updated migration package to include Markdown support.
 
 ### 4.1.0
@@ -51,7 +52,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 3. in `Startup.cs`:
 
-- add `GetPreviewerAsync`.
+- add `GetPreviewerAsync` (see [here](./CadmusApi/Startup.cs)).
 - in `ConfigureServices`, add this line:
 
 ```cs
@@ -59,7 +60,9 @@ Both these services depend on the parts you choose to support, so they are imple
 services.AddSingleton(p => GetPreviewer(p));
 ```
 
-4. in `wwwroot` add `preview-profile.json` with your profile. Note that currently I've not added any true transformation, but I just use null renderers for a few objects.
+This configures the previewer service. When preview is not enabled, this will just return a do-nothing service.
+
+4. in `wwwroot` add `preview-profile.json` with your profile. Note that in most cases here I've not added any true transformation, but I just use null renderers for a few objects. The only transformation used exempli gratia is for `it.vedph.note` (note part), which gets rendered into HTML via XSLT followed by Markdown processing.
 
 ### 4.0.3
 

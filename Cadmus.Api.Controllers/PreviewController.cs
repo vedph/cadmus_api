@@ -81,7 +81,9 @@ namespace Cadmus.Api.Controllers
         /// specified ID with all the layers specified.
         /// </summary>
         /// <param name="id">The base text part's identifier.</param>
-        /// <param name="layerId">The layer parts identifiers.</param>
+        /// <param name="layerId">The layer parts identifiers. Optionally,
+        /// each identifier can be suffixed with <c>=</c> followed by
+        /// an arbitrary ID to assign to the layer type of that part.</param>
         /// <returns>List of block rows.</returns>
         [HttpGet("api/preview/text-parts/{id}")]
         [ProducesResponseType(200)]
@@ -89,7 +91,25 @@ namespace Cadmus.Api.Controllers
             [FromQuery] string[] layerId)
         {
             if (!IsPreviewEnabled()) return Array.Empty<TextBlockRow>();
-            return _previewer.BuildTextBlocks(id, layerId);
+
+            List<string> pids = new();
+            List<string> lids = new();
+            for (int i = 0; i < layerId.Length; i++)
+            {
+                int j = layerId[i].IndexOf('=');
+                if (j == -1)
+                {
+                    pids.Add(layerId[i]);
+                    lids.Add(null);
+                }
+                else
+                {
+                    pids.Add(layerId[i][0..j]);
+                    lids.Add(layerId[i][(j + 1)..]);
+                }
+            }
+
+            return _previewer.BuildTextBlocks(id, pids, lids);
         }
     }
 }
