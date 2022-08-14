@@ -2,6 +2,8 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [4.1.2](#412)
+		- [4.1.1](#411)
 	    - [4.1.0](#410)
 		- [4.0.3](#403)
 		- [4.0.2](#402)
@@ -32,6 +34,12 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 4.1.2
+
+- 2022-08-14: added methods to graph controller from Cadmus Graph sample API.
+
+### 4.1.1
 
 - 2022-08-11: updated migration package to include filters and added argument to preview build blocks API.
 - 2022-08-08: updated migration package to include Markdown support.

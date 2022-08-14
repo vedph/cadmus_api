@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Cadmus.Api.Controllers
@@ -68,6 +69,73 @@ namespace Cadmus.Api.Controllers
             UriNode node = repository.GetNode(id);
             if (node == null) return NotFound();
             return Ok(node);
+        }
+
+        /// <summary>
+        /// Get the specified set of nodes.
+        /// </summary>
+        /// <param name="ids">The IDs of the nodes to get.</param>
+        /// <returns>Node.</returns>
+        [HttpGet("api/graph/nodes-set")]
+        [ProducesResponseType(200)]
+        public async Task<IList<UriNode>> GetNodeSet([FromQuery] IList<int> ids)
+        {
+            ItemIndexFactory factory = await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+
+            IGraphRepository repository = factory.GetGraphRepository();
+            return repository.GetNodes(ids);
+        }
+
+        [HttpGet("api/graph/nodes-by-uri")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult> GetNodeByUri([FromQuery] string uri)
+        {
+            ItemIndexFactory factory = await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+
+            IGraphRepository repository = factory.GetGraphRepository();
+            UriNode node = repository.GetNodeByUri(uri);
+            if (node == null) return NotFound();
+            return Ok(node);
+        }
+
+        [HttpGet("api/graph/walk/triples")]
+        [ProducesResponseType(200)]
+        public async Task<DataPage<TripleGroup>> GetTripleGroups([FromQuery]
+            TripleFilterBindingModel model)
+        {
+            ItemIndexFactory factory = await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+
+            IGraphRepository repository = factory.GetGraphRepository();
+            return repository.GetTripleGroups(
+                model.ToTripleFilter(), model.Sort ?? "Cu");
+        }
+
+        [HttpGet("api/graph/walk/nodes")]
+        [ProducesResponseType(200)]
+        public async Task<DataPage<UriNode>> GetLinkedNodes([FromQuery]
+            LinkedNodeFilterBindingModel model)
+        {
+            ItemIndexFactory factory = await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+
+            IGraphRepository repository = factory.GetGraphRepository();
+            return repository.GetLinkedNodes(model.ToLinkedNodeFilter());
+        }
+
+        [HttpGet("api/graph/walk/nodes/literal")]
+        [ProducesResponseType(200)]
+        public async Task<DataPage<UriTriple>> GetLinkedLiterals([FromQuery]
+            LinkedLiteralFilterBindingModel model)
+        {
+            ItemIndexFactory factory = await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+
+            IGraphRepository repository = factory.GetGraphRepository();
+            return repository.GetLinkedLiterals(model.ToLinkedLiteralFilter());
         }
 
         /// <summary>

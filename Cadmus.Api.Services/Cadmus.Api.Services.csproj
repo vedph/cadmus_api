@@ -9,12 +9,12 @@
     <Product>Cadmus</Product>
     <Description>Cadmus API services</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>4.1.1</Version>
+    <Version>4.1.2</Version>
     <Copyright>by Daniele Fusi</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>4.1.1</FileVersion>
-    <AssemblyVersion>4.1.1</AssemblyVersion>
+    <FileVersion>4.1.2</FileVersion>
+    <AssemblyVersion>4.1.2</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,8 +31,8 @@
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
     <PackageReference Include="Cadmus.Core" Version="4.0.3" />
     <PackageReference Include="Cadmus.Export" Version="0.0.7" />
-	<PackageReference Include="Cadmus.Graph" Version="0.0.4" />
-	<PackageReference Include="Cadmus.Graph.MySql" Version="0.0.4" />
+	<PackageReference Include="Cadmus.Graph" Version="0.0.5" />
+	<PackageReference Include="Cadmus.Graph.MySql" Version="0.0.5" />
     <PackageReference Include="Cadmus.Index" Version="4.0.3" />
     <PackageReference Include="Cadmus.Index.MySql" Version="4.0.3" />
     <PackageReference Include="Cadmus.Index.Sql" Version="4.0.3" />
