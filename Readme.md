@@ -60,7 +60,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 3. in `Startup.cs`:
 
-- add `GetPreviewerAsync` (see [here](./CadmusApi/Startup.cs)).
+- add `GetPreviewer` (see [here](./CadmusApi/Startup.cs)).
 - in `ConfigureServices`, add this line:
 
 ```cs
