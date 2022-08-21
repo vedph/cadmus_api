@@ -34,16 +34,21 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Gets all the Cadmus objects keys registered for preview.
         /// </summary>
-        /// <param name="flatteners">if set to <c>true</c>, get keys for
-        /// text flatteners. If <c>false</c>, get keys for JSON renderers.
+        /// <param name="type">The type of component key to get: <c>F</c>
+        /// =text flatteners, <c>C</c>=item composers, <c>J</c>=JSON renderers.
         /// </param>
         /// <returns>List of unique keys.</returns>
         [HttpGet("api/preview/keys")]
         [ProducesResponseType(200)]
-        public HashSet<string> GetKeys([FromQuery] bool flatteners)
+        public HashSet<string> GetKeys([FromQuery] char type)
         {
             if (!IsPreviewEnabled()) return new HashSet<string>();
-            return _previewer.GetKeys(flatteners);
+            return char.ToUpperInvariant(type) switch
+            {
+                'F' => _previewer.GetFlattenerKeys(),
+                'C' => _previewer.GetComposerKeys(),
+                _ => _previewer.GetJsonRendererKeys(),
+            };
         }
 
         /// <summary>

@@ -110,6 +110,7 @@ namespace Cadmus.Api.Controllers
                 FacetId = filter.FacetId,
                 GroupId = filter.GroupId,
                 Flags = filter.Flags,
+                FlagMatching = filter.FlagMatching,
                 MinModified = filter.MinModified,
                 MaxModified = filter.MaxModified,
                 UserId = filter.UserId

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cadmus.Core.Storage;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cadmus.Api.Models
@@ -44,6 +45,11 @@ namespace Cadmus.Api.Models
         /// The flag(s) to be matched.
         /// </summary>
         public int? Flags { get; set; }
+
+        /// <summary>
+        /// The matching mode used for <see cref="Flags"/>, when specified.
+        /// </summary>
+        public FlagMatching FlagMatching { get; set; }
 
         /// <summary>
         /// Minimum modified date and time.
