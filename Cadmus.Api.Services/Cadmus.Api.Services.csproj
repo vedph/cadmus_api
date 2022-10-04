@@ -30,9 +30,9 @@
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
     <PackageReference Include="Cadmus.Core" Version="4.0.4" />
-    <PackageReference Include="Cadmus.Export" Version="0.0.11" />
-	<PackageReference Include="Cadmus.Graph" Version="0.0.5" />
-	<PackageReference Include="Cadmus.Graph.MySql" Version="0.0.5" />
+    <PackageReference Include="Cadmus.Export" Version="0.0.15" />
+	<PackageReference Include="Cadmus.Graph" Version="0.0.6" />
+	<PackageReference Include="Cadmus.Graph.MySql" Version="0.0.6" />
     <PackageReference Include="Cadmus.Index" Version="4.0.4" />
     <PackageReference Include="Cadmus.Index.MySql" Version="4.0.4" />
     <PackageReference Include="Cadmus.Index.Sql" Version="4.0.4" />
@@ -40,7 +40,7 @@
     <PackageReference Include="Cadmus.Seed" Version="4.0.4" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
     <PackageReference Include="Fusi.Tools" Version="2.1.9" />
-    <PackageReference Include="MessagingApi" Version="1.0.2" />
+    <PackageReference Include="MessagingApi" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />

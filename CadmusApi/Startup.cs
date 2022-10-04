@@ -35,6 +35,8 @@ using Cadmus.Graph;
 using Cadmus.Graph.MySql;
 using Cadmus.Export.Preview;
 using Cadmus.Core.Storage;
+using System.Globalization;
+using System.Configuration;
 
 namespace CadmusApi
 {
@@ -208,8 +210,8 @@ namespace CadmusApi
             if (!Configuration.GetSection("Preview").GetSection("IsEnabled")
                 .Get<bool>())
             {
-                return new CadmusPreviewer(repository,
-                    factoryProvider.GetFactory("{}"));
+                return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
+                    repository);
             }
 
             // get profile source
@@ -221,8 +223,8 @@ namespace CadmusApi
             {
                 Console.WriteLine($"Preview profile expected at {path} not found");
                 logger.Error($"Preview profile expected at {path} not found");
-                return new CadmusPreviewer(repository,
-                    factoryProvider.GetFactory("{}"));
+                return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
+                    repository);
             }
 
             // load profile
@@ -235,8 +237,11 @@ namespace CadmusApi
                 profile = reader.ReadToEnd();
             }
             CadmusPreviewFactory factory = factoryProvider.GetFactory(profile);
+            factory.ConnectionString = string.Format(CultureInfo.InvariantCulture,
+                Configuration.GetConnectionString("Default"),
+                Configuration.GetValue<string>("DatabaseNames:Data"));
 
-            return new CadmusPreviewer(repository, factory);
+            return new CadmusPreviewer(factory, repository);
         }
 
         /// <summary>
@@ -332,7 +337,6 @@ namespace CadmusApi
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.WithExceptionDetails()
                 .WriteTo.Console()
-                /*.WriteTo.MSSqlServer(Configuration["Serilog:ConnectionString"],*/
                 .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
                     cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
                         int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
@@ -357,9 +361,27 @@ namespace CadmusApi
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                // https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0&tabs=visual-studio
+                app.UseExceptionHandler("/Error");
+                if (Configuration.GetValue<bool>("Server:UseHSTS"))
+                {
+                    Console.WriteLine("HSTS: yes");
+                    app.UseHsts();
+                }
+                else Console.WriteLine("HSTS: no");
+            }
 
-            app.UseHttpsRedirection();
+            if (Configuration.GetValue<bool>("Server:UseHttpsRedirection"))
+            {
+                Console.WriteLine("HttpsRedirection: yes");
+                app.UseHttpsRedirection();
+            }
+            else Console.WriteLine("HttpsRedirection: no");
+
             app.UseRouting();
+
             // CORS
             app.UseCors("CorsPolicy");
             app.UseAuthentication();

@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [4.1.4](#414)
 	    - [4.1.3](#413)
 	    - [4.1.2](#412)
 		- [4.1.1](#411)
@@ -17,7 +18,7 @@
 	- [Profile](#profile)
 		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:4.1.3 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:4.1.4 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -36,7 +37,21 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-- 2022-09-14L updated packages.
+### 4.1.4
+
+- 2022-10-04:
+  - updated packages.
+  - added apparatus preview in `preview-profile.json`.
+  - made HTTPS optional in `Startup.cs`. New environment variables: `Server:UseHSTS` and `Server:UseHttpsRedirection`, both defaulting to false.
+  - set connection string of preview factory in `Startup.cs` preview configuration. This is now required to avoid issues with those filters requiring a database connection, so you should add this line to the method in any API using the preview infrastructure:
+
+```cs
+factory.ConnectionString = string.Format(CultureInfo.InvariantCulture,
+                Configuration.GetConnectionString("Default"),
+                Configuration.GetValue<string>("DatabaseNames:Data"));
+```
+
+- 2022-09-14: updated packages.
 
 ### 4.1.3
 

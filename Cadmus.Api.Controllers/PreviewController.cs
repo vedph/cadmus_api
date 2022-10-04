@@ -54,31 +54,36 @@ namespace Cadmus.Api.Controllers
         /// <summary>
         /// Renders the part with the specified ID.
         /// </summary>
-        /// <param name="id">The part's identifier.</param>
+        /// <param name="itemId">The item's identifier.</param>
+        /// <param name="partId">The part's identifier.</param>
         /// <returns>Rendition or empty string.</returns>
-        [HttpGet("api/preview/parts/{id}")]
+        [HttpGet("api/preview/items/{itemId}/parts/{partId}")]
         [ProducesResponseType(200)]
-        public RenditionModel RenderPart([FromRoute] string id)
+        public RenditionModel RenderPart([FromRoute] string itemId,
+            [FromRoute] string partId)
         {
             if (!IsPreviewEnabled()) return new RenditionModel("");
-            return new RenditionModel(_previewer.RenderPart(id));
+            return new RenditionModel(_previewer.RenderPart(itemId, partId));
         }
 
         /// <summary>
         /// Renders the fragment at index <paramref name="frIndex"/> in the layer
-        /// part with ID equal to <paramref name="id"/>.
+        /// part with ID equal to <paramref name="partId"/>.
         /// </summary>
-        /// <param name="id">The part's identifier.</param>
+        /// <param name="itemId">The item's identifier.</param>
+        /// <param name="partId">The part's identifier.</param>
         /// <param name="frIndex">The index of the fragment in the part (0-N).
         /// </param>
         /// <returns>Rendition or empty string.</returns>
-        [HttpGet("api/preview/parts/{id}/{frIndex}")]
+        [HttpGet("api/preview/items/{itemId}/parts/{partId}/{frIndex}")]
         [ProducesResponseType(200)]
-        public RenditionModel RenderFragment([FromRoute] string id,
+        public RenditionModel RenderFragment([FromRoute] string itemId,
+            [FromRoute] string partId,
             [FromRoute] int frIndex)
         {
             if (!IsPreviewEnabled()) return new RenditionModel("");
-            return new RenditionModel(_previewer.RenderFragment(id, frIndex));
+            return new RenditionModel(_previewer.RenderFragment(
+                itemId, partId, frIndex));
         }
 
         /// <summary>

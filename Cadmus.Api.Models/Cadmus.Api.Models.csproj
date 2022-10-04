@@ -19,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Cadmus.Core" Version="4.0.4" />
-    <PackageReference Include="Cadmus.Graph" Version="0.0.5" />
+    <PackageReference Include="Cadmus.Graph" Version="0.0.6" />
     <PackageReference Include="Cadmus.Index" Version="4.0.4" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>

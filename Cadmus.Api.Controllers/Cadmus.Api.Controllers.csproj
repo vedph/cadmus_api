@@ -26,7 +26,7 @@
     <PackageReference Include="Cadmus.Seed" Version="4.0.4" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
     <PackageReference Include="Fusi.Tools" Version="2.1.9" />
-    <PackageReference Include="MessagingApi" Version="1.0.2" />
+    <PackageReference Include="MessagingApi" Version="2.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="6.0.0" />
