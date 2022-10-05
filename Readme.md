@@ -37,6 +37,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2022-10-05: updated version numbers and published to NuGet.
+
 ### 4.1.4
 
 - 2022-10-04:
