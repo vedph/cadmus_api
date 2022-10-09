@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [4.1.5](#415)
 	    - [4.1.4](#414)
 	    - [4.1.3](#413)
 	    - [4.1.2](#412)
@@ -37,6 +38,9 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 4.1.5
+
+- 2022-10-09: updated packages (`Cadmus.Migration`) and version numbers and published to NuGet.
 - 2022-10-05: updated version numbers and published to NuGet.
 
 ### 4.1.4
