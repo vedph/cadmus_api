@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+		- [4.1.6](#416)
 	    - [4.1.5](#415)
 	    - [4.1.4](#414)
 	    - [4.1.3](#413)
@@ -19,7 +20,7 @@
 	- [Profile](#profile)
 		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:4.1.4 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:4.1.6 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -37,6 +38,12 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 4.1.6
+
+- 2022-10-10:
+  - updated packages.
+  - fixes to sample previews.
 
 ### 4.1.5
 
