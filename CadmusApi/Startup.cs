@@ -292,7 +292,12 @@ namespace CadmusApi
             services.AddSingleton(_ => Configuration);
 
             // repository
-            services.AddSingleton<IRepositoryProvider, AppRepositoryProvider>();
+            // services.AddSingleton<IRepositoryProvider, AppRepositoryProvider>();
+            string dataCS = string.Format(
+                Configuration.GetConnectionString("Default"),
+                Configuration.GetValue<string>("DatabaseNames:Data"));
+            services.AddSingleton<IRepositoryProvider>(
+                _ => new AppRepositoryProvider { ConnectionString = dataCS });
 
             // part seeder factory provider
             services.AddSingleton<IPartSeederFactoryProvider,

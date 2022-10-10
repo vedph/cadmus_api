@@ -6,29 +6,29 @@ using Cadmus.Core.Storage;
 using Cadmus.General.Parts;
 using Cadmus.Mongo;
 using Cadmus.Philology.Parts;
-using Microsoft.Extensions.Configuration;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
 namespace CadmusApi.Services
 {
     /// <summary>
-    /// Application's repository provider.
+    /// Application's repository provider. Usually, this is implemented in your
+    /// project's Services library. Here we have no specific project, so we
+    /// just provide an API app service here.
     /// </summary>
     public sealed class AppRepositoryProvider : IRepositoryProvider
     {
-        private readonly IConfiguration _configuration;
         private readonly IPartTypeProvider _partTypeProvider;
+
+        /// <summary>
+        /// Gets or sets the connection string.
+        /// </summary>
+        public string ConnectionString { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AppRepositoryProvider"/> class.
         /// </summary>
-        /// <param name="configuration">The configuration.</param>
         /// <exception cref="ArgumentNullException">configuration</exception>
-        public AppRepositoryProvider(IConfiguration configuration)
+        public AppRepositoryProvider()
         {
-            _configuration = configuration ??
-                throw new ArgumentNullException(nameof(configuration));
-
             TagAttributeToTypeMap _map = new();
             _map.Add(new[]
             {
@@ -63,9 +63,9 @@ namespace CadmusApi.Services
 
             repository.Configure(new MongoCadmusRepositoryOptions
             {
-                ConnectionString = string.Format(
-                    _configuration.GetConnectionString("Default"),
-                    _configuration.GetValue<string>("DatabaseNames:Data"))
+                ConnectionString = ConnectionString ??
+                    throw new InvalidOperationException(
+                    "No connection string set for IRepositoryProvider implementation")
             });
 
             return repository;

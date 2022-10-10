@@ -2,6 +2,8 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+		- [4.2.0](#420)
+	    - [4.1.7](#417)
 		- [4.1.6](#416)
 	    - [4.1.5](#415)
 	    - [4.1.4](#414)
@@ -39,7 +41,15 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-- 2022-10-10: fix to comment preview sample.
+### 4.2.0
+
+- 2022-10-10: updated packages to incorporate breaking change for `IRepositoryProvider`.
+
+### 4.1.7
+
+- 2022-10-10:
+  - updated to `Cadmus.Core.IRepositoryProvider` with database name.
+  - fix to comment preview sample.
 
 ### 4.1.6
 
