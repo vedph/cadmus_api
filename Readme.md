@@ -39,6 +39,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2022-10-10: fix to comment preview sample.
+
 ### 4.1.6
 
 - 2022-10-10:
