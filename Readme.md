@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [4.2.1](#421)
 		- [4.2.0](#420)
 	    - [4.1.7](#417)
 		- [4.1.6](#416)
@@ -40,6 +41,10 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 4.2.1
+
+- 2022-10-11: updated packages.
 
 ### 4.2.0
 
