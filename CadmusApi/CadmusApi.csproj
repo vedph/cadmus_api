@@ -33,14 +33,14 @@
     <PackageReference Include="Cadmus.Core" Version="4.1.0" />
     <PackageReference Include="Cadmus.Mongo" Version="4.1.0" />
     <PackageReference Include="Cadmus.Seed" Version="4.1.0" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="2.1.0" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="4.0.0" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="2.1.1" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="4.0.1" />
     <PackageReference Include="Fusi.Antiquity" Version="2.0.0" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
     <PackageReference Include="MessagingApi" Version="2.0.1" />
     <PackageReference Include="MessagingApi.SendGrid" Version="2.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.10" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.10" />
@@ -53,7 +53,7 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.3.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.23.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.24.0" />
   </ItemGroup>
 
   <ItemGroup>

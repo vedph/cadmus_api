@@ -36,7 +36,6 @@ using Cadmus.Graph.MySql;
 using Cadmus.Export.Preview;
 using Cadmus.Core.Storage;
 using System.Globalization;
-using System.Configuration;
 
 namespace CadmusApi
 {
@@ -123,9 +122,12 @@ namespace CadmusApi
             services
                 .AddAuthentication(options =>
                 {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme =
+                        JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme =
+                        JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme =
+                        JwtBearerDefaults.AuthenticationScheme;
                 })
                .AddJwtBearer(options =>
                {
@@ -134,7 +136,10 @@ namespace CadmusApi
                    IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
                    string key = jwtSection["SecureKey"];
                    if (string.IsNullOrEmpty(key))
-                       throw new InvalidOperationException("Required JWT SecureKey not found");
+                   {
+                       throw new InvalidOperationException(
+                           "Required JWT SecureKey not found");
+                   }
 
                    options.SaveToken = true;
                    options.RequireHttpsMetadata = false;
@@ -144,7 +149,8 @@ namespace CadmusApi
                        ValidateAudience = true,
                        ValidAudience = jwtSection["Audience"],
                        ValidIssuer = jwtSection["Issuer"],
-                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                       IssuerSigningKey = new SymmetricSecurityKey(
+                           Encoding.UTF8.GetBytes(key))
                    };
                });
 #if DEBUG
@@ -167,7 +173,8 @@ namespace CadmusApi
 
                 // include XML comments
                 // (remember to check the build XML comments in the prj props)
-                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                string xmlFile =
+                $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 if (File.Exists(xmlPath))
                     c.IncludeXmlComments(xmlPath);
@@ -232,7 +239,8 @@ namespace CadmusApi
             logger.Information($"Loading preview profile from {path}...");
             string profile;
             using (StreamReader reader = new(new FileStream(
-                path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
+                path, FileMode.Open, FileAccess.Read, FileShare.Read),
+                Encoding.UTF8))
             {
                 profile = reader.ReadToEnd();
             }
