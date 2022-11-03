@@ -687,12 +687,24 @@
       "id": "event-types@en",
       "entries": [
         {
-          "id": "birth",
-          "value": "crm:E67_birth"
+          "id": "-",
+          "value": "any"
         },
         {
-          "id": "death",
-          "value": "crm:E69_death"
+          "id": "-.rdfs:label",
+          "value": "any: label"
+        },
+        {
+          "id": "person",
+          "value": "person"
+        },
+        {
+          "id": "person.crm:E67_birth",
+          "value": "person: birth"
+        },
+        {
+          "id": "person.crm:E69_death",
+          "value": "person: death"
         }
       ]
     },
@@ -700,12 +712,19 @@
       "id": "event-relations@en",
       "entries": [
         {
-          "id": "mother",
-          "value": "crm:P96_by_mother"
+          "id": "-.x:mock",
+          "value": "mock"
         },
         {
-          "id": "father",
-          "value": "crm:P97_from_father"
+          "id": "person.crm:P96_by_mother",
+          "value": "mother"
+        },
+        {
+          "id": "person.crm:P97_from_father",
+          "value": "father"
+        },
+        {
+          "id": ""
         }
       ]
     },

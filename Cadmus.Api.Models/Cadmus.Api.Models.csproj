@@ -10,17 +10,17 @@
     <Description>Cadmus API models</Description>
     <Copyright>By Daniele Fusi</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>4.2.0</Version>
+    <Version>4.2.2</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>4.2.0</FileVersion>
-    <AssemblyVersion>4.2.0</AssemblyVersion>
+    <FileVersion>4.2.2</FileVersion>
+    <AssemblyVersion>4.2.2</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cadmus.Core" Version="4.1.0" />
-    <PackageReference Include="Cadmus.Graph" Version="0.0.8" />
-    <PackageReference Include="Cadmus.Index" Version="4.1.0" />
+    <PackageReference Include="Cadmus.Core" Version="4.1.1" />
+    <PackageReference Include="Cadmus.Graph" Version="0.0.9" />
+    <PackageReference Include="Cadmus.Index" Version="4.1.1" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
