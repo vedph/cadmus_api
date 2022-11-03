@@ -42,7 +42,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-- 2022-11-03: updated packages.
+- 2022-11-03: updated packages (no library version update or push).
 - 2022-10-25: updated packages.
 
 ### 4.2.1
