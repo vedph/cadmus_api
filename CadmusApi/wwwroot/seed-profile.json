@@ -684,6 +684,32 @@
       ]
     },
     {
+      "id": "event-types@en",
+      "entries": [
+        {
+          "id": "birth",
+          "value": "crm:E67_birth"
+        },
+        {
+          "id": "death",
+          "value": "crm:E69_death"
+        }
+      ]
+    },
+    {
+      "id": "event-relations@en",
+      "entries": [
+        {
+          "id": "mother",
+          "value": "crm:P96_by_mother"
+        },
+        {
+          "id": "father",
+          "value": "crm:P97_from_father"
+        }
+      ]
+    },
+    {
       "id": "apparatus-tags@en",
       "entries": [
         {
