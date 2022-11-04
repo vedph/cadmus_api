@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using RegisteredClaims = System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames;
 using Microsoft.Extensions.Configuration;
 using Cadmus.Api.Models;
-using Cadmus.Api.Services;
 using Cadmus.Api.Services.Auth;
 
 namespace Cadmus.Api.Controllers
@@ -18,7 +17,7 @@ namespace Cadmus.Api.Controllers
     /// <summary>
     /// Authentication controller.
     /// </summary>
-    /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    /// <seealso cref="Controller" />
     [ApiController]
     public sealed class AuthenticationController : Controller
     {
@@ -94,10 +93,7 @@ namespace Cadmus.Api.Controllers
                 if (role != null && _roleManager.SupportsRoleClaims)
                 {
                     IList<Claim> roleClaims = await _roleManager.GetClaimsAsync(role);
-                    foreach (Claim roleClaim in roleClaims)
-                    {
-                        claims.Add(roleClaim);
-                    }
+                    claims.AddRange(roleClaims);
                 }
             }
 
@@ -105,9 +101,9 @@ namespace Cadmus.Api.Controllers
             // http://docs.oasis-open.org/imi/identity/v1.0/os/identity-1.0-spec-os.html#_Toc229451870
 
             claims.Add(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname",
-                user.FirstName));
+                user.FirstName!));
             claims.Add(new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname",
-                user.LastName));
+                user.LastName!));
 
             return claims;
         }
@@ -140,8 +136,8 @@ namespace Cadmus.Api.Controllers
                 JwtSecurityToken token = new(
                     issuer: jwtSection["Issuer"],
                     audience: jwtSection["Audience"],
-                    expires: DateTime.Now.AddHours(3),
                     claims: claims,
+                    expires: DateTime.Now.AddHours(3),
                     signingCredentials: new SigningCredentials(
                         authSigningKey,
                         SecurityAlgorithms.HmacSha256)

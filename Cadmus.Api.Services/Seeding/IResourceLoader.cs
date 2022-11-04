@@ -13,6 +13,6 @@ namespace Cadmus.Api.Services.Seeding
         /// </summary>
         /// <param name="source">The source.</param>
         /// <returns>The resource stream.</returns>
-        Task<Stream> LoadResourceAsync(string source);
+        Task<Stream?> LoadResourceAsync(string source);
     }
 }

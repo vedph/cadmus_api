@@ -31,10 +31,10 @@ namespace Cadmus.Api.Services.Seeding
         private static async Task SeedItemsAsync(
             IServiceProvider serviceProvider, IConfiguration config,
             PartSeederFactory factory, ICadmusRepository repository,
-            int count, string graphSql)
+            int count, string? graphSql)
         {
-            ILogger logger = serviceProvider
-                .GetService<ILoggerFactory>()
+            ILogger? logger = serviceProvider
+                .GetService<ILoggerFactory>()!
                 .CreateLogger(typeof(HostSeedExtensions));
 
             // determine if graph is enabled, and eventually get the graph repository
@@ -43,26 +43,32 @@ namespace Cadmus.Api.Services.Seeding
             bool isIndexEnabled = isGraphEnabled ||
                 config.GetValue<bool>("Indexing:IsEnabled");
 
-            IItemIndexWriter indexWriter = null;
+            IItemIndexWriter? indexWriter = null;
 
             // get index service if required
             if (isIndexEnabled)
             {
                 Console.WriteLine("Getting index writer...");
-                ItemIndexFactory indexFactory = await ItemIndexHelper
+                ItemIndexFactory? indexFactory = await ItemIndexHelper
                     .GetIndexFactoryAsync(config, serviceProvider);
-                indexWriter = indexFactory.GetItemIndexWriter(graphSql);
+                indexWriter = indexFactory?.GetItemIndexWriter(graphSql);
             }
 
             // get graph service if required
-            GraphUpdater graphUpdater = null;
+            GraphUpdater? graphUpdater = null;
             if (isGraphEnabled)
             {
-                var graphRepository = serviceProvider.GetService<IGraphRepository>();
+                IGraphRepository? graphRepository =
+                    serviceProvider.GetService<IGraphRepository>();
                 if (graphRepository == null)
+                {
                     logger?.LogError("Unable to get IGraphRepository service");
-                graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
-                graphUpdater = new GraphUpdater(graphRepository);
+                }
+                else
+                {
+                    graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
+                    graphUpdater = new GraphUpdater(graphRepository);
+                }
             }
 
             // wait before indexing if requested
@@ -95,7 +101,7 @@ namespace Cadmus.Api.Services.Seeding
                     await indexWriter.WriteItem(item);
 
                     // update also the graph if enabled
-                    if (isGraphEnabled)
+                    if (isGraphEnabled && graphUpdater != null)
                     {
                         Console.WriteLine($"Adding to graph {item.Id}");
                         graphUpdater.Update(item);
@@ -109,8 +115,8 @@ namespace Cadmus.Api.Services.Seeding
         private static async Task SeedCadmusDatabaseAsync(
             IServiceProvider serviceProvider,
             IConfiguration config,
-            string graphSql,
-            ILogger logger)
+            string? graphSql,
+            ILogger? logger)
         {
             // build connection string
             string connString = config.GetConnectionString("Default");
@@ -140,7 +146,8 @@ namespace Cadmus.Api.Services.Seeding
             }
 
             Console.WriteLine($"Loading seed profile from {profileSource}...");
-            logger.LogInformation($"Loading seed profile from {profileSource}...");
+            logger?.LogInformation("Loading seed profile from {ProfileSource}...",
+                profileSource);
 
             ResourceLoaderService loaderService = new(serviceProvider);
             Console.WriteLine($"Source: {loaderService.ResolveSource(profileSource)}");
@@ -165,23 +172,24 @@ namespace Cadmus.Api.Services.Seeding
 
             // issue warning on invalid profile
             Console.WriteLine("Validating profile...");
-            string error = profile.Validate();
-            if (error != null) logger.LogWarning(error);
+            string? error = profile.Validate();
+            if (error != null)
+                logger?.LogWarning("Error validating profile: {Error}", error);
 
             // create database
             Console.WriteLine("Creating database...");
-            logger.LogInformation($"Creating database {connString}...");
+            logger?.LogInformation("Creating database {ConnString}...", connString);
 
             manager.CreateDatabase(connString, profile);
 
             Console.WriteLine("Database created.");
-            logger.LogInformation("Database created.");
+            logger?.LogInformation("Database created.");
 
             // get the required services
             Console.WriteLine("Creating seeders factory...");
             Serilog.Log.Information("Creating seeders factory...");
             IPartSeederFactoryProvider factoryProvider =
-                serviceProvider.GetService<IPartSeederFactoryProvider>();
+                serviceProvider.GetService<IPartSeederFactoryProvider>()!;
             PartSeederFactory factory;
             using (StreamReader reader = new(
                 await loaderService.LoadAsync(profileSource),
@@ -193,9 +201,8 @@ namespace Cadmus.Api.Services.Seeding
             Console.WriteLine("Creating repository...");
             Serilog.Log.Information("Creating repository...");
             IRepositoryProvider repositoryProvider =
-                serviceProvider.GetService<IRepositoryProvider>();
-            ICadmusRepository repository =
-                repositoryProvider.CreateRepository();
+                serviceProvider.GetService<IRepositoryProvider>()!;
+            ICadmusRepository repository = repositoryProvider.CreateRepository();
 
             // get seed count
             int count = 0;
@@ -211,7 +218,7 @@ namespace Cadmus.Api.Services.Seeding
             }
 
             // import data if required
-            IList<string> sources = factory.GetImports();
+            IList<string>? sources = factory.GetImports();
             if (sources?.Count > 0)
             {
                 PartImporter importer = new(repository);
@@ -242,22 +249,18 @@ namespace Cadmus.Api.Services.Seeding
                     TimeSpan.FromSeconds(60)
                 }, (exception, timeSpan, _) =>
                 {
-                    ILogger logger = serviceProvider
-                        .GetService<ILoggerFactory>()
+                    ILogger? logger = serviceProvider.GetService<ILoggerFactory>()!
                         .CreateLogger(typeof(HostSeedExtensions));
 
                     string message = "Unable to connect to DB" +
                         $" (sleep {timeSpan}): {exception.Message}";
                     Console.WriteLine(message);
-                    logger.LogError(exception, message);
-                }).Execute(async () =>
-                {
-                    await initializer.SeedAsync();
-                });
+                    logger?.LogError(exception, message);
+                }).Execute(async () => await initializer.SeedAsync());
         }
 
         private static Task SeedCadmusAsync(IServiceProvider serviceProvider,
-            string graphSql)
+            string? graphSql)
         {
             return Policy.Handle<DbException>()
                 .WaitAndRetry(new[]
@@ -267,21 +270,21 @@ namespace Cadmus.Api.Services.Seeding
                     TimeSpan.FromSeconds(60)
                 }, (exception, timeSpan, _) =>
                 {
-                    ILogger logger = serviceProvider
-                        .GetService<ILoggerFactory>()
+                    ILogger? logger = serviceProvider
+                        .GetService<ILoggerFactory>()!
                         .CreateLogger(typeof(HostSeedExtensions));
 
                     string message = "Unable to connect to DB" +
                         $" (sleep {timeSpan}): {exception.Message}";
                     Console.WriteLine(message);
-                    logger.LogError(exception, message);
+                    logger?.LogError(exception, message);
                 }).Execute(async () =>
                 {
                     IConfiguration config =
-                        serviceProvider.GetService<IConfiguration>();
+                        serviceProvider.GetService<IConfiguration>()!;
 
-                    ILogger logger = serviceProvider
-                        .GetService<ILoggerFactory>()
+                    ILogger? logger = serviceProvider
+                        .GetService<ILoggerFactory>()!
                         .CreateLogger(typeof(HostSeedExtensions));
 
                     Console.WriteLine("Seeding database...");
@@ -307,13 +310,13 @@ namespace Cadmus.Api.Services.Seeding
         /// <returns>The received host, to allow concatenation.</returns>
         /// <exception cref="ArgumentNullException">serviceProvider</exception>
         public static async Task<IHost> SeedAsync(this IHost host,
-            bool accounts = true, bool data = true, string graphSql = null)
+            bool accounts = true, bool data = true, string? graphSql = null)
         {
             using (var scope = host.Services.CreateScope())
             {
                 IServiceProvider serviceProvider = scope.ServiceProvider;
-                ILogger logger = serviceProvider
-                    .GetService<ILoggerFactory>()
+                ILogger? logger = serviceProvider
+                    .GetService<ILoggerFactory>()!
                     .CreateLogger(typeof(HostSeedExtensions));
 
                 try

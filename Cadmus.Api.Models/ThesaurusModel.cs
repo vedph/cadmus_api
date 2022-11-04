@@ -1,5 +1,6 @@
 ﻿using Cadmus.Core.Config;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Cadmus.Api.Models
@@ -12,17 +13,17 @@ namespace Cadmus.Api.Models
         /// <summary>
         /// Gets or sets the thesaurus identifier.
         /// </summary>
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the language.
         /// </summary>
-        public string Language { get; set; }
+        public string? Language { get; set; }
 
         /// <summary>
         /// Gets or sets the entries.
         /// </summary>
-        public ThesaurusEntry[] Entries { get; set; }
+        public IList<ThesaurusEntry>? Entries { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.

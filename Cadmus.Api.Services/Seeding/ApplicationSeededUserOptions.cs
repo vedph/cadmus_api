@@ -10,11 +10,11 @@ namespace Cadmus.Api.Services.Seeding
         /// <summary>
         /// Gets or sets the first name.
         /// </summary>
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// Gets or sets the last name.
         /// </summary>
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
     }
 }

@@ -56,12 +56,12 @@ namespace Cadmus.Api.Services.Seeding
                 {
                     case "WWWROOT":
                         IHostEnvironment env =
-                            _serviceProvider.GetService<IHostEnvironment>();
+                            _serviceProvider.GetService<IHostEnvironment>()!;
                         return Path.Combine(env.ContentRootPath, "wwwroot");
 
                     default:
                         IConfiguration config =
-                            _serviceProvider.GetService<IConfiguration>();
+                            _serviceProvider.GetService<IConfiguration>()!;
                         return config[m.Groups[1].Value];
                 }
             });
@@ -95,9 +95,9 @@ namespace Cadmus.Api.Services.Seeding
             string resolved = ResolveSource(source);
 
             if (resolved.StartsWith("http", StringComparison.OrdinalIgnoreCase))
-                return new HttpResourceLoader().LoadResourceAsync(resolved);
+                return new HttpResourceLoader().LoadResourceAsync(resolved)!;
 
-            return new FileResourceLoader().LoadResourceAsync(resolved);
+            return new FileResourceLoader().LoadResourceAsync(resolved)!;
         }
     }
 }

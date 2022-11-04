@@ -134,7 +134,7 @@ namespace Cadmus.Api.Controllers
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
-            IItem item = repository.GetItem(id, parts);
+            IItem? item = repository.GetItem(id, parts);
             if (item == null) return new NotFoundResult();
             return Ok(item);
         }
@@ -168,12 +168,12 @@ namespace Cadmus.Api.Controllers
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
-            string json = repository.GetPartContent(id);
+            string? json = repository.GetPartContent(id);
 
             if (json == null) return new NotFoundResult();
             json = AdjustPartJson(json);
 
-            object part = JsonConvert.DeserializeObject(json);
+            object part = JsonConvert.DeserializeObject(json)!;
             return Ok(part);
         }
 
@@ -203,17 +203,17 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            IPart part = repository.GetItemParts(new[] { id },
+            IPart? part = repository.GetItemParts(new[] { id },
                 type == "any" ? null : type,
                 role == "default" ? null : role)
                 .FirstOrDefault();
             if (part == null) return NotFound();
 
-            string json = repository.GetPartContent(part.Id);
+            string? json = repository.GetPartContent(part.Id);
             if (json == null) return new NotFoundResult();
             json = AdjustPartJson(json);
 
-            object result = JsonConvert.DeserializeObject(json);
+            object result = JsonConvert.DeserializeObject(json)!;
             return Ok(result);
         }
 
@@ -232,11 +232,12 @@ namespace Cadmus.Api.Controllers
         public DataPinDefinition[] GetDataPinDefinitions([FromRoute] string typeId)
         {
             IPartTypeProvider provider = _repositoryProvider.GetPartTypeProvider();
-            Type t = provider.Get(typeId);
+            Type t = provider.Get(typeId)!;
             if (typeof(IHasDataPins).IsAssignableFrom(t))
             {
-                IHasDataPins p = Activator.CreateInstance(t) as IHasDataPins;
-                return p.GetDataPinDefinitions().ToArray();
+                IHasDataPins? p = Activator.CreateInstance(t) as IHasDataPins;
+                return p?.GetDataPinDefinitions()?.ToArray()
+                    ?? Array.Empty<DataPinDefinition>();
             }
             return Array.Empty<DataPinDefinition>();
         }
@@ -256,7 +257,7 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            IHasText partWithText = repository.GetItemParts(
+            IHasText? partWithText = repository.GetItemParts(
                 new[] { id },
                 null,
                 PartBase.BASE_TEXT_ROLE_ID)
@@ -307,7 +308,7 @@ namespace Cadmus.Api.Controllers
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
-            string json = repository.GetPartContent(id);
+            string? json = repository.GetPartContent(id);
 
             if (json == null) return new NotFoundResult();
             // remove ISODate(...) function (this seems to be a Mongo artifact)
@@ -320,8 +321,8 @@ namespace Cadmus.Api.Controllers
             if (!typeMatch.Success) return NotFound();
 
             IPartTypeProvider provider = _repositoryProvider.GetPartTypeProvider();
-            Type t = provider.Get(typeMatch.Groups[1].Value);
-            IPart part = (IPart)JsonConvert.DeserializeObject(json, t);
+            Type t = provider.Get(typeMatch.Groups[1].Value)!;
+            IPart part = (IPart)JsonConvert.DeserializeObject(json, t)!;
             var result = (from p in part.GetDataPins()
                           select new
                           {
@@ -397,7 +398,7 @@ namespace Cadmus.Api.Controllers
                 _repositoryProvider.CreateRepository();
 
             string json = repository.ApplyLayerPartPatches(
-                id, User.Identity.Name, patches);
+                id, User.Identity!.Name!, patches)!;
 
             return CreatedAtRoute("GetPart", new
             {
@@ -417,22 +418,22 @@ namespace Cadmus.Api.Controllers
         public async Task Delete([FromRoute] string id)
         {
             _logger.Information("User {UserName} deleting item {ItemId} from {IP}",
-                User.Identity.Name,
+                User.Identity!.Name,
                 id,
                 HttpContext.Connection.RemoteIpAddress);
 
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
-            repository.DeleteItem(id, User.Identity.Name);
+            repository.DeleteItem(id, User.Identity!.Name!);
 
             // update index if required
             if (IsIndexingEnabled())
             {
                 bool isGraphEnabled = IsGraphEnabled();
 
-                ItemIndexFactory factory = await ItemIndexHelper
-                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                ItemIndexFactory factory = (await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+                IItemIndexWriter writer = factory.GetItemIndexWriter()!;
                 await writer.DeleteItem(id);
                 writer.Close();
 
@@ -460,7 +461,7 @@ namespace Cadmus.Api.Controllers
         public async Task<IActionResult> DeletePart([FromRoute] string id)
         {
             _logger.Information("User {UserName} deleting part {PartId} from {IP}",
-                User.Identity.Name,
+                User.Identity!.Name!,
                 id,
                 HttpContext.Connection.RemoteIpAddress);
 
@@ -468,7 +469,8 @@ namespace Cadmus.Api.Controllers
                 _repositoryProvider.CreateRepository();
 
             // operators can delete only parts created by themselves
-            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            ApplicationUser user = await _userManager.FindByNameAsync(
+                User.Identity.Name);
             if (await IsUserInRole(user,
                     "operator",
                     new HashSet<string>(new string[] { "admin", "editor" }))
@@ -477,16 +479,16 @@ namespace Cadmus.Api.Controllers
                 return Unauthorized();
             }
 
-            repository.DeletePart(id, User.Identity.Name);
+            repository.DeletePart(id, User.Identity!.Name!);
 
             // update index if required
             if (IsIndexingEnabled())
             {
                 bool isGraphEnabled = IsGraphEnabled();
 
-                ItemIndexFactory factory = await ItemIndexHelper
-                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                ItemIndexFactory factory = (await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+                IItemIndexWriter writer = factory.GetItemIndexWriter()!;
                 await writer.DeletePart(id);
                 writer.Close();
 
@@ -498,9 +500,9 @@ namespace Cadmus.Api.Controllers
         #endregion
 
         #region Post
-        private IGraphRepository GetGraphRepository()
+        private IGraphRepository? GetGraphRepository()
         {
-            IGraphRepository graphRepository =
+            IGraphRepository? graphRepository =
                 _serviceProvider.GetService<IGraphRepository>();
             if (graphRepository == null)
             {
@@ -513,7 +515,7 @@ namespace Cadmus.Api.Controllers
 
         private void UpdateGraph(IItem item)
         {
-            IGraphRepository graphRepository = GetGraphRepository();
+            IGraphRepository? graphRepository = GetGraphRepository();
             if (graphRepository == null) return;
 
             _logger.Information("Updating graph for item " + item);
@@ -523,7 +525,7 @@ namespace Cadmus.Api.Controllers
 
         private void UpdateGraph(IItem item, IPart part)
         {
-            IGraphRepository graphRepository = GetGraphRepository();
+            IGraphRepository? graphRepository = GetGraphRepository();
             if (graphRepository == null) return;
 
             _logger.Information("Updating graph for part " + part);
@@ -533,7 +535,7 @@ namespace Cadmus.Api.Controllers
 
         private void UpdateGraphForDeletion(string id)
         {
-            IGraphRepository graphRepository = GetGraphRepository();
+            IGraphRepository? graphRepository = GetGraphRepository();
             if (graphRepository == null) return;
 
             _logger.Information("Updating graph for deleted " + id);
@@ -556,16 +558,16 @@ namespace Cadmus.Api.Controllers
 
             Item item = new()
             {
-                Title = model.Title,
-                Description = model.Description,
-                FacetId = model.FacetId,
+                Title = model.Title!,
+                Description = model.Description!,
+                FacetId = model.FacetId!,
                 GroupId = model.GroupId,
-                SortKey = model.SortKey,
+                SortKey = model.SortKey!,
                 Flags = model.Flags,
                 // override the user ID and set the creator ID,
                 // which anyway will be ignored if already set
-                UserId = User.Identity.Name,
-                CreatorId = User.Identity.Name
+                UserId = User.Identity!.Name!,
+                CreatorId = User.Identity!.Name!
             };
 
             // set the item's ID if specified, else go with the default
@@ -586,9 +588,9 @@ namespace Cadmus.Api.Controllers
             if (IsIndexingEnabled())
             {
                 bool isGraphEnabled = IsGraphEnabled();
-                ItemIndexFactory factory = await ItemIndexHelper
-                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                ItemIndexFactory factory = (await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+                IItemIndexWriter writer = factory.GetItemIndexWriter()!;
                 await writer.WriteItem(item);
                 writer.Close();
 
@@ -618,7 +620,8 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            repository.SetItemFlags(model.Ids, model.Flags);
+            if (model.Ids != null)
+                repository.SetItemFlags(model.Ids, model.Flags);
             return Ok();
         }
 
@@ -637,7 +640,8 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            repository.SetItemGroupId(model.Ids, model.GroupId);
+            if (model.Ids != null)
+                repository.SetItemGroupId(model.Ids, model.GroupId);
             return Ok();
         }
 
@@ -645,10 +649,10 @@ namespace Cadmus.Api.Controllers
         {
             if (!part.ContainsKey("id")) return true;
 
-            JValue id = (JValue)part["id"];
+            JValue id = (JValue)part["id"]!;
             return id == null
                 || id.Type == JTokenType.Null
-                || !_guidRegex.IsMatch(id.Value<string>());
+                || !_guidRegex.IsMatch(id.Value<string>()!);
         }
 
         private Tuple<string, string, string> AddRawPart(string raw)
@@ -664,40 +668,40 @@ namespace Cadmus.Api.Controllers
             if (isNew)
             {
                 partId = Guid.NewGuid().ToString();
-                if (doc.ContainsKey("id")) doc.Property("id").Remove();
+                if (doc.ContainsKey("id")) doc.Property("id")!.Remove();
                 doc.AddFirst(new JProperty("id", partId));
             }
             else
             {
-                JValue id = (JValue)doc["id"];
-                partId = id?.Value<string>();
+                JValue id = (JValue)doc["id"]!;
+                partId = id.Value<string>()!;
             }
 
             // set the creator ID if not specified
-            JValue creatorId = (JValue)doc["creatorId"];
+            JValue creatorId = (JValue)doc["creatorId"]!;
             if (creatorId == null
                 || creatorId.Type == JTokenType.Null
                 || string.IsNullOrEmpty(creatorId?.Value<string>()))
             {
                 if (doc.ContainsKey("creatorId"))
-                    doc.Property("creatorId").Remove();
-                doc.Add(new JProperty("creatorId", User.Identity.Name));
+                    doc.Property("creatorId")!.Remove();
+                doc.Add(new JProperty("creatorId", User.Identity!.Name));
             }
 
             // override the creation time if new
             if (isNew)
             {
                 if (doc.ContainsKey("timeCreated"))
-                    doc.Property("timeCreated").Remove();
+                    doc.Property("timeCreated")!.Remove();
                 doc.Add(new JProperty("timeCreated", DateTime.UtcNow));
             }
 
             // override the user ID
-            if (doc.ContainsKey("userId")) doc.Property("userId").Remove();
-            doc.Add(new JProperty("userId", User.Identity.Name ?? ""));
+            if (doc.ContainsKey("userId")) doc.Property("userId")!.Remove();
+            doc.Add(new JProperty("userId", User.Identity!.Name ?? ""));
 
             // get the item's ID
-            JValue itemId = (JValue)doc["itemId"];
+            JValue itemId = (JValue)doc["itemId"]!;
 
             // add the part
             _logger.Information("User {UserName} saving part {PartId} from {IP}",
@@ -707,7 +711,7 @@ namespace Cadmus.Api.Controllers
 
             string json = doc.ToString(Formatting.None);
             repository.AddPartFromContent(json);
-            return Tuple.Create(itemId.Value<string>(), partId, json);
+            return Tuple.Create(itemId.Value<string>()!, partId, json);
         }
 
         /// <summary>
@@ -729,7 +733,7 @@ namespace Cadmus.Api.Controllers
         public async Task<IActionResult> AddPart(
             [FromBody] RawJsonBindingModel model)
         {
-            var idAndJson = AddRawPart(model.Raw);
+            var idAndJson = AddRawPart(model.Raw!);
 
             // update index if required
             if (IsIndexingEnabled())
@@ -738,21 +742,26 @@ namespace Cadmus.Api.Controllers
 
                 ICadmusRepository repository =
                     _repositoryProvider.CreateRepository();
-                ItemIndexFactory factory = await ItemIndexHelper
-                    .GetIndexFactoryAsync(_configuration, _serviceProvider);
-                IItemIndexWriter writer = factory.GetItemIndexWriter();
+                ItemIndexFactory factory = (await ItemIndexHelper
+                    .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+                IItemIndexWriter writer = factory.GetItemIndexWriter()!;
 
-                IPart part = repository.GetPart<IPart>(idAndJson.Item2);
-                await writer.WritePart(
-                    repository.GetItem(idAndJson.Item1),
-                    part);
-                writer.Close();
-
-                // graph
-                if (isGraphEnabled)
+                IPart? part = repository.GetPart<IPart>(idAndJson.Item2);
+                if (part != null)
                 {
-                    IItem item = repository.GetItem(part.ItemId);
-                    if (item != null) UpdateGraph(item, part);
+                    IItem? item = repository.GetItem(idAndJson.Item1);
+                    if (item != null)
+                    {
+                        await writer.WritePart(item, part);
+                    }
+                    writer.Close();
+
+                    // graph
+                    if (isGraphEnabled)
+                    {
+                        item = repository.GetItem(part.ItemId);
+                        if (item != null) UpdateGraph(item, part);
+                    }
                 }
             }
 
@@ -777,7 +786,7 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            repository.SetPartThesaurusScope(model.Ids, model.Scope ?? "");
+            repository.SetPartThesaurusScope(model.Ids!, model.Scope ?? "");
             return Ok();
         }
         #endregion

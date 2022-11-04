@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Cadmus.Api.Models
@@ -12,14 +13,14 @@ namespace Cadmus.Api.Models
         /// The user's nickname.
         /// </summary>
         [Required]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// The user's email address.
         /// </summary>
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// True if the user's email address was confirmed.
@@ -43,18 +44,18 @@ namespace Cadmus.Api.Models
         /// </summary>
         [Required]
         [MaxLength(50)]
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// The user's last name.
         /// </summary>
         [Required]
         [MaxLength(50)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// The user's roles.
         /// </summary>
-        public string[] Roles { get; set; }
+        public IList<string>? Roles { get; set; }
     }
 }

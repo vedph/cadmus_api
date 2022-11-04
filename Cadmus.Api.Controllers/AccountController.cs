@@ -94,7 +94,7 @@ namespace Cadmus.Api.Controllers
             });
         }
 
-        private IActionResult GetErrorResult(IdentityResult result)
+        private IActionResult? GetErrorResult(IdentityResult result)
         {
             if (result == null) return StatusCode(500);
 
@@ -125,13 +125,14 @@ namespace Cadmus.Api.Controllers
                 "ConfirmRegistration", "Account",
                 new { name = user.UserName, token });
 
-            Message message = _messageBuilder.BuildMessage("confirm-registration",
+            Message? message = _messageBuilder.BuildMessage("confirm-registration",
                 new Dictionary<string, string>
                 {
                     ["UserName"] = user.UserName,
                     ["ConfirmationUrl"] = url
                 });
-            await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+            if (message != null)
+                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
         }
 
         /// <summary>
@@ -151,7 +152,7 @@ namespace Cadmus.Api.Controllers
             _logger.LogInformation(
                 "[ACCOUNT] {UserName} registering user {RegisteredUserName} " +
                 "from {IP} ",
-                User.Identity.Name,
+                User.Identity!.Name,
                 model.Name,
                 HttpContext.Connection.RemoteIpAddress);
 
@@ -184,9 +185,10 @@ namespace Cadmus.Api.Controllers
                 await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                _logger.LogError("Error registering user {RegisteredUserName}: " +
+                _logger.LogError("Error registering user {RegisteredUserName}: {Error}",
+                    model.Name,
                     string.Join("; ", from e in result.Errors select e.ToString()));
-                return GetErrorResult(result);
+                return GetErrorResult(result) ?? Ok();
             }
 
             // log
@@ -244,11 +246,11 @@ namespace Cadmus.Api.Controllers
             // this API endpoint is accessed by users when clicking the
             // confirmation URL found in their email text. Thus, this endpoint
             // must reply with an HTML page for the end users.
-            string page;
+            string? page;
             Dictionary<string, string> dct = new()
             {
-                ["FirstName"] = user.FirstName,
-                ["LastName"] = user.LastName,
+                ["FirstName"] = user.FirstName!,
+                ["LastName"] = user.LastName!,
                 ["UserName"] = user.UserName
             };
 
@@ -257,7 +259,7 @@ namespace Cadmus.Api.Controllers
             {
                 _logger.LogInformation("Registration already confirmed");
                 page = _messageBuilder.BuildMessage(
-                    "page-email-already-confirmed", dct).Content;
+                    "page-email-already-confirmed", dct)?.Content ?? "";
                 return new FileStreamResult(
                     new MemoryStream(Encoding.UTF8.GetBytes(page)), "text/html");
             }
@@ -267,24 +269,28 @@ namespace Cadmus.Api.Controllers
             {
                 _logger.LogInformation("Invalid confirmation token");
                 page = _messageBuilder.BuildMessage(
-                    "page-invalid-email-confirm-token", dct).Content;
+                    "page-invalid-email-confirm-token", dct)?.Content ?? "";
                 return new FileStreamResult(
                     new MemoryStream(Encoding.UTF8.GetBytes(page)), "text/html");
             }
             _logger.LogInformation("Registration successfully confirmed");
 
             _logger.LogInformation("Sending confirmation message");
-            Message message = _messageBuilder.BuildMessage(
+            Message? message = _messageBuilder.BuildMessage(
                 "registration-confirmed", new Dictionary<string, string>
                 {
-                    ["FirstName"] = user.FirstName,
-                    ["LastName"] = user.LastName,
+                    ["FirstName"] = user.FirstName!,
+                    ["LastName"] = user.LastName!,
                     ["UserName"] = user.UserName
                 });
-            await _mailer.SendEmailAsync(user.Email, user.UserName, message);
-            _logger.LogInformation("Confirmation message sent");
+            if (message != null)
+            {
+                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                _logger.LogInformation("Confirmation message sent");
+            }
 
-            page = _messageBuilder.BuildMessage("page-email-confirmed", dct).Content;
+            page = _messageBuilder.BuildMessage("page-email-confirmed", dct)
+                ?.Content ?? "";
             return new FileStreamResult(new MemoryStream(
                 Encoding.UTF8.GetBytes(page)), "text/html");
         }
@@ -320,11 +326,11 @@ namespace Cadmus.Api.Controllers
 
             if (!result.Succeeded)
             {
-                _logger.LogError("Error changing password for {UserEmail}: " +
-                    string.Join("; ", from e in result.Errors select e.ToString(),
-                    model.Email));
+                _logger.LogError("Error changing password for {UserEmail}: {Error}",
+                    model.Email,
+                    string.Join("; ", from e in result.Errors select e.ToString()));
 
-                return GetErrorResult(result);
+                return GetErrorResult(result) ?? Ok();
             }
             _logger.LogInformation("Successfully changed password for {UserEmail}",
                 model.Email);
@@ -368,15 +374,18 @@ namespace Cadmus.Api.Controllers
 
             _logger.LogInformation("Sending reset password token to {UserEmail}",
                 model.Email);
-            Message message = _messageBuilder.BuildMessage("reset-password",
+            Message? message = _messageBuilder.BuildMessage("reset-password",
                 new Dictionary<string, string>
                 {
                     ["UserName"] = user.UserName,
                     ["ResetUrl"] = url
                 });
-            await _mailer.SendEmailAsync(user.Email, user.UserName, message);
-            _logger.LogInformation("Reset password token sent to {UserEmail}",
-                model.Email);
+            if (message != null)
+            {
+                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                _logger.LogInformation("Reset password token sent to {UserEmail}",
+                    model.Email);
+            }
 
             return Ok();
         }
@@ -411,23 +420,26 @@ namespace Cadmus.Api.Controllers
                 await _userManager.ResetPasswordAsync(user, token, newPassword);
             if (!result.Succeeded)
             {
-                _logger.LogError("Error setting new password for {UserName}: " +
-                   string.Join("; ", from e in result.Errors select e.ToString(),
-                   name));
-                return GetErrorResult(result);
+                _logger.LogError("Error setting new password for {UserName}: {Error}",
+                    name,
+                   string.Join("; ", from e in result.Errors select e.ToString()));
+                return GetErrorResult(result) ?? Ok();
             }
 
             _logger.LogInformation("Sending new password to {UserEmail}", user.Email);
-            Message message = _messageBuilder.BuildMessage("password-reset",
+            Message? message = _messageBuilder.BuildMessage("password-reset",
                 new Dictionary<string, string>
                 {
-                    ["FirstName"] = user.FirstName,
-                    ["LastName"] = user.LastName,
+                    ["FirstName"] = user.FirstName!,
+                    ["LastName"] = user.LastName!,
                     ["UserName"] = user.UserName,
                     ["NewPassword"] = newPassword
                 });
-            await _mailer.SendEmailAsync(user.Email, user.UserName, message);
-            _logger.LogInformation("New password sent to {UserEmail}", user.Email);
+            if (message != null)
+            {
+                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                _logger.LogInformation("New password sent to {UserEmail}", user.Email);
+            }
 
             return Ok();
         }
@@ -443,7 +455,7 @@ namespace Cadmus.Api.Controllers
         public async Task<IActionResult> DeleteUser(string name)
         {
             _logger.LogInformation("{UserName} deleting user {DeletedUserName}",
-                User.Identity.Name,
+                User.Identity!.Name,
                 name);
 
             if (User.Identity.Name == name)

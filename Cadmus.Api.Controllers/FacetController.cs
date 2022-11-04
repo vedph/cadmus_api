@@ -77,7 +77,7 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            FacetDefinition facet = repository.GetFacetDefinition(id);
+            FacetDefinition? facet = repository.GetFacetDefinition(id);
             if (facet == null) return NotFound();
             return Ok(facet);
         }
@@ -96,17 +96,16 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            IItem item = repository.GetItem(id, false);
+            IItem? item = repository.GetItem(id, false);
             if (item?.FacetId == null) return NotFound();
 
-            FacetDefinition facet = repository.GetFacetDefinition(item.FacetId);
+            FacetDefinition? facet = repository.GetFacetDefinition(item.FacetId);
             if (facet == null) return NotFound();
             return Ok(facet);
         }
 
         /// <summary>
-        /// Gets the list of all the parts defined in the specified
-        /// item's facet.
+        /// Gets the list of all the parts defined in the specified item's facet.
         /// </summary>
         /// <param name="id">The facet ID.</param>
         /// <param name="noRoles">True to ignore the roles when collecting
@@ -125,7 +124,10 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            FacetDefinition facet = repository.GetFacetDefinition(id);
+            FacetDefinition? facet = repository.GetFacetDefinition(id);
+            if (facet == null)
+                return Ok(Array.Empty<PartDefinition>());
+
             PartDefinition[] result = CollectFacetParts(facet, noRoles);
             return Ok(result);
         }
@@ -149,15 +151,15 @@ namespace Cadmus.Api.Controllers
             [FromRoute] string id,
             [FromQuery] bool noRoles = false)
         {
-            ICadmusRepository repository =
-                _repositoryProvider.CreateRepository();
+            ICadmusRepository repository = _repositoryProvider.CreateRepository();
 
-            IItem item = repository.GetItem(id, false);
+            IItem? item = repository.GetItem(id, false);
             PartDefinition[] result;
 
             if (item?.FacetId != null)
             {
-                FacetDefinition facet = repository.GetFacetDefinition(item.FacetId);
+                FacetDefinition? facet = repository.GetFacetDefinition(item.FacetId);
+                if (facet == null) return Ok(Array.Empty<PartDefinition>());
                 result = CollectFacetParts(facet, noRoles);
             }
             else result = Array.Empty<PartDefinition>();
@@ -182,13 +184,13 @@ namespace Cadmus.Api.Controllers
 
             foreach (FacetDefinition facet in repository.GetFacetDefinitions())
             {
-                PartDefinition partDef = facet.PartDefinitions
+                PartDefinition? partDef = facet.PartDefinitions
                     .Find(d => d.RoleId?.StartsWith(
                         PartBase.FR_PREFIX, StringComparison.Ordinal) == true);
                 if (partDef != null)
                     return Ok(new { partDef.TypeId });
             }
-            return Ok(new { TypeId = (string)null });
+            return Ok(new { TypeId = (string?)null });
         }
     }
 }

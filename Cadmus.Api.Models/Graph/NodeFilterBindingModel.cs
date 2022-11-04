@@ -13,7 +13,7 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets any portion of the node's UID to match.
         /// </summary>
         [MaxLength(500)]
-        public string Uid { get; set; }
+        public string? Uid { get; set; }
 
         /// <summary>
         /// Gets or sets the class filter to match.
@@ -26,13 +26,13 @@ namespace Cadmus.Api.Models.Graph
         /// otherwise, the nodes with the same tag must be matched.
         /// </summary>
         [MaxLength(50)]
-        public string Tag { get; set; }
+        public string? Tag { get; set; }
 
         /// <summary>
         /// Gets or sets any portion of the label to match.
         /// </summary>
         [MaxLength(500)]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the source.
@@ -43,7 +43,7 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the sid.
         /// </summary>
         [MaxLength(500)]
-        public string Sid { get; set; }
+        public string? Sid { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Sid"/> represents
@@ -69,7 +69,7 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the classes identifiers to match only those nodes
         /// which are inside any of the listed classes.
         /// </summary>
-        public List<int> ClassIds { get; set; }
+        public List<int>? ClassIds { get; set; }
 
         /// <summary>
         /// Convert to <see cref="NodeFilter"/>.

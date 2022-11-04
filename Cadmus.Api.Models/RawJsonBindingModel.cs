@@ -11,6 +11,6 @@ namespace Cadmus.Api.Models
         /// The raw JSON.
         /// </summary>
         [Required]
-        public string Raw { get; set; }
+        public string? Raw { get; set; }
     }
 }

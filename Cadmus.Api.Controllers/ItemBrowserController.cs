@@ -49,7 +49,7 @@ namespace Cadmus.Api.Controllers
                 throw new ArgumentNullException(nameof(provider));
         }
 
-        private async Task<ItemBrowserFactory> GetFactory()
+        private async Task<ItemBrowserFactory?> GetFactory()
         {
             string profileSource = _configuration["Seed:ProfileSource"];
             if (string.IsNullOrEmpty(profileSource)) return null;
@@ -75,7 +75,7 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(200)]
         public async Task<string[]> GetBrowserIds()
         {
-            ItemBrowserFactory factory = await GetFactory();
+            ItemBrowserFactory? factory = await GetFactory();
             if (factory == null) return Array.Empty<string>();
             return factory.GetItemBrowserIds();
         }
@@ -100,7 +100,7 @@ namespace Cadmus.Api.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             IQueryCollection queryString = HttpContext.Request.Query;
-            Dictionary<string, string> args = new();
+            Dictionary<string, string?> args = new();
             foreach (string key in queryString.Keys)
             {
                 if (string.Compare(key, "pageNumber", true) != 0
@@ -111,14 +111,14 @@ namespace Cadmus.Api.Controllers
                 }
             }
 
-            ItemBrowserFactory factory = await GetFactory();
+            ItemBrowserFactory? factory = await GetFactory();
             if (factory == null)
             {
                 return Ok(new DataPage<ItemInfo>(model.PageNumber,
                     model.PageSize, 0, new List<ItemInfo>()));
             }
 
-            IItemBrowser browser = factory.GetItemBrowser(browserId);
+            IItemBrowser? browser = factory.GetItemBrowser(browserId);
             if (browser == null)
                 return NotFound($"Item browser with ID {browserId} not found");
 

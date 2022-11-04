@@ -40,7 +40,7 @@ namespace Cadmus.Api.Services.Auth
         /// <param name="name">The name.</param>
         /// <returns>user or null if not found</returns>
         /// <exception cref="ArgumentNullException">null name</exception>
-        public async Task<UserWithRoles<ApplicationUser>> GetUserAsync(string name)
+        public async Task<UserWithRoles<ApplicationUser>?> GetUserAsync(string name)
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
 
@@ -65,8 +65,8 @@ namespace Cadmus.Api.Services.Auth
             if (!string.IsNullOrEmpty(filter.Name))
             {
                 users = users.Where(u => u.UserName.Contains(filter.Name) ||
-                    u.LastName.Contains(filter.Name) ||
-                    u.FirstName.Contains(filter.Name));
+                    u.LastName!.Contains(filter.Name) ||
+                    u.FirstName!.Contains(filter.Name));
             }
 
             int total = users.Count();
@@ -90,7 +90,8 @@ namespace Cadmus.Api.Services.Auth
         /// <param name="names">The names.</param>
         /// <returns>users</returns>
         /// <exception cref="ArgumentNullException">names</exception>
-        public async Task<IList<UserWithRoles<ApplicationUser>>> GetUsersFromNamesAsync(IList<string> names)
+        public async Task<IList<UserWithRoles<ApplicationUser>>>
+            GetUsersFromNamesAsync(IList<string> names)
         {
             if (names == null) throw new ArgumentNullException(nameof(names));
 
@@ -107,9 +108,11 @@ namespace Cadmus.Api.Services.Auth
         /// Updates the user's editable attributes.
         /// </summary>
         /// <param name="user">The user.</param>
-        /// <param name="roles">The roles to be set, or null to avoid setting roles.</param>
+        /// <param name="roles">The roles to be set, or null to avoid setting
+        /// roles.</param>
         /// <exception cref="ArgumentNullException">user</exception>
-        public async Task UpdateUserAsync(ApplicationUser user, IList<string> roles)
+        public async Task UpdateUserAsync(ApplicationUser user,
+            IList<string>? roles)
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 

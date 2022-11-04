@@ -35,16 +35,16 @@ namespace Cadmus.Api.Services.Seeding
         {
             return new Item
             {
-                Id = itemElem.GetProperty("id").GetString(),
-                Title = itemElem.GetProperty("title").GetString(),
-                Description = itemElem.GetProperty("description").GetString(),
-                FacetId = itemElem.GetProperty("facetId").GetString(),
+                Id = itemElem.GetProperty("id").GetString()!,
+                Title = itemElem.GetProperty("title").GetString()!,
+                Description = itemElem.GetProperty("description").GetString()!,
+                FacetId = itemElem.GetProperty("facetId").GetString()!,
                 GroupId = itemElem.GetProperty("groupId").GetString(),
-                SortKey = itemElem.GetProperty("sortKey").GetString(),
+                SortKey = itemElem.GetProperty("sortKey").GetString()!,
                 TimeCreated = itemElem.GetProperty("timeCreated").GetDateTime(),
-                CreatorId = itemElem.GetProperty("creatorId").GetString(),
+                CreatorId = itemElem.GetProperty("creatorId").GetString()!,
                 TimeModified = itemElem.GetProperty("timeModified").GetDateTime(),
-                UserId = itemElem.GetProperty("userId").GetString(),
+                UserId = itemElem.GetProperty("userId").GetString()!,
                 Flags = itemElem.GetProperty("flags").GetInt32()
             };
         }

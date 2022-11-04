@@ -24,22 +24,22 @@ namespace Cadmus.Api.Models
         /// <summary>
         /// Any part of the item's title to be matched.
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Any part of the item's description to be matched.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// The ID of the item's facet to be matched.
         /// </summary>
-        public string FacetId { get; set; }
+        public string? FacetId { get; set; }
 
         /// <summary>
         /// Gets or sets the group ID to be matched.
         /// </summary>
-        public string GroupId { get; set; }
+        public string? GroupId { get; set; }
 
         /// <summary>
         /// The flag(s) to be matched.
@@ -64,7 +64,7 @@ namespace Cadmus.Api.Models
         /// <summary>
         /// The ID of the user who authored the item.
         /// </summary>
-        public string UserId { get; set; }
+        public string? UserId { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ItemFilterModel"/> class.

@@ -45,10 +45,10 @@ namespace Cadmus.Api.Controllers
         public async Task<DataPage<UriNode>> GetNodes([FromQuery]
             NodeFilterBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory!.GetGraphRepository()!;
             return repository.GetNodes(model.ToNodeFilter());
         }
 
@@ -62,11 +62,11 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<UriNode>> GetNode(int id)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
-            UriNode node = repository.GetNode(id);
+            IGraphRepository repository = factory.GetGraphRepository()!;
+            UriNode? node = repository.GetNode(id);
             if (node == null) return NotFound();
             return Ok(node);
         }
@@ -80,11 +80,11 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(200)]
         public async Task<IList<UriNode>> GetNodeSet([FromQuery] IList<int> ids)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
-            return repository.GetNodes(ids);
+            IGraphRepository repository = factory.GetGraphRepository()!;
+            return repository.GetNodes(ids)!;
         }
 
         [HttpGet("api/graph/nodes-by-uri")]
@@ -92,11 +92,11 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult> GetNodeByUri([FromQuery] string uri)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
-            UriNode node = repository.GetNodeByUri(uri);
+            IGraphRepository repository = factory.GetGraphRepository()!;
+            UriNode? node = repository.GetNodeByUri(uri);
             if (node == null) return NotFound();
             return Ok(node);
         }
@@ -106,10 +106,10 @@ namespace Cadmus.Api.Controllers
         public async Task<DataPage<TripleGroup>> GetTripleGroups([FromQuery]
             TripleFilterBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             return repository.GetTripleGroups(
                 model.ToTripleFilter(), model.Sort ?? "Cu");
         }
@@ -119,10 +119,10 @@ namespace Cadmus.Api.Controllers
         public async Task<DataPage<UriNode>> GetLinkedNodes([FromQuery]
             LinkedNodeFilterBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             return repository.GetLinkedNodes(model.ToLinkedNodeFilter());
         }
 
@@ -131,10 +131,10 @@ namespace Cadmus.Api.Controllers
         public async Task<DataPage<UriTriple>> GetLinkedLiterals([FromQuery]
             LinkedLiteralFilterBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             return repository.GetLinkedLiterals(model.ToLinkedLiteralFilter());
         }
 
@@ -147,13 +147,13 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(400)]
         public async Task<ActionResult> AddNode([FromBody] NodeBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             UriNode node = new()
             {
-                Id = repository.AddUri(model.Uri),
+                Id = repository.AddUri(model.Uri!),
                 IsClass = model.IsClass,
                 Tag = model.Tag,
                 Label = model.Label,
@@ -172,10 +172,10 @@ namespace Cadmus.Api.Controllers
         [HttpDelete("api/graph/nodes/{id}")]
         public async Task DeleteNode(int id)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             repository.DeleteNode(id);
         }
         #endregion
@@ -191,10 +191,10 @@ namespace Cadmus.Api.Controllers
         public async Task<DataPage<UriTriple>> GetTriples([FromQuery]
             TripleFilterBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             return repository.GetTriples(model.ToTripleFilter());
         }
 
@@ -208,11 +208,11 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(404)]
         public async Task<ActionResult<UriNode>> GetTriple(int id)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
-            UriTriple triple = repository.GetTriple(id);
+            IGraphRepository repository = factory.GetGraphRepository()!;
+            UriTriple? triple = repository.GetTriple(id);
             if (triple == null) return NotFound();
             return Ok(triple);
         }
@@ -227,10 +227,10 @@ namespace Cadmus.Api.Controllers
         public async Task<ActionResult> AddTriple(
             [FromBody] TripleBindingModel model)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
 
             Triple triple = new()
             {
@@ -253,10 +253,10 @@ namespace Cadmus.Api.Controllers
         [HttpDelete("api/graph/triples/{id}")]
         public async Task DeleteTriple(int id)
         {
-            ItemIndexFactory factory = await ItemIndexHelper
-                .GetIndexFactoryAsync(_configuration, _serviceProvider);
+            ItemIndexFactory factory = (await ItemIndexHelper
+                .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
 
-            IGraphRepository repository = factory.GetGraphRepository();
+            IGraphRepository repository = factory.GetGraphRepository()!;
             repository.DeleteTriple(id);
         }
         #endregion

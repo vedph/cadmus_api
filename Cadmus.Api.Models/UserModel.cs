@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Cadmus.Api.Models
 {
@@ -10,17 +11,17 @@ namespace Cadmus.Api.Models
         /// <summary>
         /// Gets or sets the name of the user.
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// Gets or sets the user's email.
         /// </summary>
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Gets or sets the roles.
         /// </summary>
-        public string[] Roles { get; set; }
+        public IList<string>? Roles { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the email of this
@@ -31,12 +32,12 @@ namespace Cadmus.Api.Models
         /// <summary>
         /// Gets or sets the first name.
         /// </summary>
-        public string FirstName { get; set; }
+        public string? FirstName { get; set; }
 
         /// <summary>
         /// Gets or sets the last name.
         /// </summary>
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// True if the user lockout is enabled.

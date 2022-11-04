@@ -16,7 +16,7 @@ namespace Cadmus.Api.Services
         /// <param name="envName">The optional environment name
         /// (e.g. <c>Development</c>).</param>
         /// <returns>Configuration.</returns>
-        public static IConfiguration Read(string envName = null)
+        public static IConfiguration Read(string? envName = null)
         {
             string dir = Directory.GetCurrentDirectory();
 

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Cadmus.Api.Services;
 using Cadmus.Api.Services.Auth;
 using Microsoft.Extensions.Logging;
 
@@ -32,7 +31,8 @@ namespace CadmusApi.Controllers
             _logger = logger;
         }
 
-        private static UserModel UserToModel(ApplicationUser user, string[] roles)
+        private static UserModel UserToModel(ApplicationUser user,
+            IList<string>? roles)
         {
             return new UserModel
             {
@@ -68,7 +68,7 @@ namespace CadmusApi.Controllers
             // prepare results (we return only a subset of user data)
             List<UserModel> results = new();
             foreach (var ur in page.Items)
-                results.Add(UserToModel(ur.User, ur.Roles));
+                results.Add(UserToModel(ur.User!, ur.Roles));
 
             return Ok(new DataPage<UserModel>(
                 filter.PageNumber, filter.PageSize, page.Total, results));
@@ -85,10 +85,10 @@ namespace CadmusApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<ActionResult<UserModel>> GetUser([FromRoute] string name)
         {
-            UserWithRoles<ApplicationUser> user =
+            UserWithRoles<ApplicationUser>? user =
                 await _repository.GetUserAsync(name);
             if (user == null) return NotFound();
-            return Ok(UserToModel(user.User, user.Roles));
+            return Ok(UserToModel(user.User!, user.Roles));
         }
 
         /// <summary>
@@ -101,10 +101,10 @@ namespace CadmusApi.Controllers
         [Authorize]
         public async Task<ActionResult<UserModel>> GetCurrentUser()
         {
-            UserWithRoles<ApplicationUser> user =
-                await _repository.GetUserAsync(User.Identity.Name);
+            UserWithRoles<ApplicationUser>? user =
+                await _repository.GetUserAsync(User.Identity!.Name!);
             if (user == null) return NotFound();
-            return Ok(UserToModel(user.User, user.Roles));
+            return Ok(UserToModel(user.User!, user.Roles));
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace CadmusApi.Controllers
             // prepare results (we return only a subset of user data)
             List<UserModel> results = new();
             foreach (var ur in users)
-                results.Add(UserToModel(ur.User, ur.Roles));
+                results.Add(UserToModel(ur.User!, ur.Roles));
 
             return Ok(results.ToArray());
         }
@@ -147,7 +147,7 @@ namespace CadmusApi.Controllers
             if (!ModelState.IsValid) return BadRequest();
 
             _logger.LogInformation("User {UserName} updating user {UpdatedUser}",
-                User.Identity.Name,
+                User.Identity!.Name,
                 model.UserName);
 
             await _repository.UpdateUserAsync(new ApplicationUser

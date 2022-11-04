@@ -36,18 +36,18 @@ namespace Cadmus.Api.Models.Graph
         /// The object literal value, or null when using <see cref="ObjectId"/>.
         /// </summary>
         [MaxLength(15000)]
-        public string ObjectLiteral { get; set; }
+        public string? ObjectLiteral { get; set; }
 
         /// <summary>
         /// The SID.
         /// </summary>
         [MaxLength(500)]
-        public string Sid { get; set; }
+        public string? Sid { get; set; }
 
         /// <summary>
         /// The tag.
         /// </summary>
         [MaxLength(50)]
-        public string Tag { get; set; }
+        public string? Tag { get; set; }
     }
 }

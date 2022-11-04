@@ -78,7 +78,7 @@ namespace CadmusApi.Controllers
         {
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
-            Thesaurus thesaurus = repository.GetThesaurus(id);
+            Thesaurus? thesaurus = repository.GetThesaurus(id);
             if (thesaurus == null)
             {
                 return emptyIfNotFound
@@ -132,9 +132,9 @@ namespace CadmusApi.Controllers
         private static string PurgeThesaurusId(string id)
         {
             int i = id.LastIndexOf('.');
-            if (i > -1) return id.Substring(0, i);
+            if (i > -1) return id[..i];
             i = id.LastIndexOf('@');
-            return i > -1 ? id.Substring(0, i) : id;
+            return i > -1 ? id[..i] : id;
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace CadmusApi.Controllers
                 .Split(',', StringSplitOptions.RemoveEmptyEntries)
                 .Distinct())
             {
-                Thesaurus thesaurus = repository.GetThesaurus(id);
+                Thesaurus? thesaurus = repository.GetThesaurus(id);
                 if (thesaurus == null) continue;
                 dct[purgeIds ? PurgeThesaurusId(id) : id] = new ThesaurusModel
                 {
@@ -196,13 +196,13 @@ namespace CadmusApi.Controllers
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
             _logger.LogInformation("User {UserName} adding thesaurus {ThesaurusId}",
-                User.Identity.Name,
+                User.Identity!.Name,
                 model.Id);
 
             ICadmusRepository repository = _repositoryProvider.CreateRepository();
-            Thesaurus thesaurus = new(model.Id);
-            foreach (ThesaurusEntryBindingModel entry in model.Entries)
-                thesaurus.AddEntry(new ThesaurusEntry(entry.Id, entry.Value));
+            Thesaurus thesaurus = new(model.Id!);
+            foreach (ThesaurusEntryBindingModel entry in model.Entries!)
+                thesaurus.AddEntry(new ThesaurusEntry(entry.Id!, entry.Value!));
             repository.AddThesaurus(thesaurus);
 
             _logger.LogInformation(
@@ -226,7 +226,7 @@ namespace CadmusApi.Controllers
             [FromRoute] string id)
         {
             _logger.LogInformation("User {UserName} deleting thesaurus {ThesaurusId}",
-                User.Identity.Name,
+                User.Identity!.Name,
                 id);
 
             ICadmusRepository repository =

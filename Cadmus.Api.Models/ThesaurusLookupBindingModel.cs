@@ -16,7 +16,7 @@ namespace Cadmus.Api.Models
         /// The tag's ID filter. This matches all the thesauri whose ID
         /// contains the specified text.
         /// </summary>
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Alias filter. This is null to match all the thesauri, true to
@@ -29,7 +29,7 @@ namespace Cadmus.Api.Models
         /// Gets or sets the language filter.
         /// </summary>
         [RegularExpression("^[a-z]{2,3}$", ErrorMessage = "Invalid language filter")]
-        public string Language { get; set; }
+        public string? Language { get; set; }
 
         /// <summary>
         /// Determines whether this filter is empty.

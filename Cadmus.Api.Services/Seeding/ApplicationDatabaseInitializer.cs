@@ -26,14 +26,13 @@ namespace Cadmus.Api.Services.Seeding
         /// </summary>
         public ApplicationDatabaseInitializer(IServiceProvider serviceProvider)
         {
-            IConfiguration configuration =
-                serviceProvider.GetService<IConfiguration>();
+            IConfiguration configuration = serviceProvider.GetService<IConfiguration>()!;
 
-            ILoggerFactory loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            ILoggerFactory loggerFactory = serviceProvider.GetService<ILoggerFactory>()!;
             _logger = loggerFactory.CreateLogger<ApplicationDatabaseInitializer>();
 
-            _userManager = serviceProvider.GetService<UserManager<ApplicationUser>>();
-            _roleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>();
+            _userManager = serviceProvider.GetService<UserManager<ApplicationUser>>()!;
+            _roleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>()!;
 
             _seededUsersOptions = configuration
                 .GetSection("StockUsers")
@@ -45,7 +44,7 @@ namespace Cadmus.Api.Services.Seeding
             foreach (ApplicationSeededUserOptions options in _seededUsersOptions
                 .Where(o => o.Roles != null))
             {
-                foreach (string roleName in options.Roles)
+                foreach (string roleName in options.Roles!)
                 {
                     // add role if not existing
                     if (!await _roleManager.RoleExistsAsync(roleName))

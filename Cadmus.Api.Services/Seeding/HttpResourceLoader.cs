@@ -19,11 +19,11 @@ namespace Cadmus.Api.Services.Seeding
         /// The resource stream, or null in case of error.
         /// </returns>
         /// <exception cref="ArgumentNullException">source</exception>
-        public async Task<Stream> LoadResourceAsync(string source)
+        public async Task<Stream?> LoadResourceAsync(string source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            Stream stream;
+            Stream? stream;
             try
             {
                 HttpClient client = new();

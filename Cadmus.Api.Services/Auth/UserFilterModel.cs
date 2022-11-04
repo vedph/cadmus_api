@@ -11,7 +11,7 @@ namespace Cadmus.Api.Services.Auth
         /// <summary>
         /// Any part of the user's nickname or last name.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// The page number.

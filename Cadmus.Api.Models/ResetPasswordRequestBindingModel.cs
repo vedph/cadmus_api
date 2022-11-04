@@ -11,6 +11,6 @@ namespace Cadmus.Api.Models
         /// The email address.
         /// </summary>
         [Required]
-        public string Email { get; set; }
+        public string? Email { get; set; }
     }
 }

@@ -103,7 +103,7 @@ namespace Cadmus.Api.Controllers
             if (!IsPreviewEnabled()) return Array.Empty<TextBlockRow>();
 
             List<string> pids = new();
-            List<string> lids = new();
+            List<string?> lids = new();
             for (int i = 0; i < layerId.Length; i++)
             {
                 int j = layerId[i].IndexOf('=');

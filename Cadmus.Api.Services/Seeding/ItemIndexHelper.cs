@@ -18,8 +18,8 @@ namespace Cadmus.Api.Services.Seeding
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="serviceProvider">The service provider.</param>
-        /// <returns>Factory</returns>
-        public static async Task<ItemIndexFactory> GetIndexFactoryAsync(
+        /// <returns>Factory or null.</returns>
+        public static async Task<ItemIndexFactory?> GetIndexFactoryAsync(
             IConfiguration configuration, IServiceProvider serviceProvider)
         {
             if (configuration == null)
@@ -41,7 +41,7 @@ namespace Cadmus.Api.Services.Seeding
             }
 
             IItemIndexFactoryProvider factoryProvider =
-                serviceProvider.GetService<IItemIndexFactoryProvider>();
+                serviceProvider.GetService<IItemIndexFactoryProvider>()!;
             return factoryProvider.GetFactory(profile);
         }
     }

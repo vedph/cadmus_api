@@ -17,13 +17,13 @@ namespace Cadmus.Api.Services.Seeding
         /// The resource stream, or null if file not found.
         /// </returns>
         /// <exception cref="ArgumentNullException">source</exception>
-        public Task<Stream> LoadResourceAsync(string source)
+        public Task<Stream?> LoadResourceAsync(string source)
         {
             if (source == null) throw new ArgumentNullException(nameof(source));
 
-            if (!File.Exists(source)) return Task.FromResult((Stream)null);
+            if (!File.Exists(source)) return Task.FromResult((Stream?)null);
 
-            return Task.FromResult((Stream)new FileStream(
+            return Task.FromResult((Stream?)new FileStream(
                 source, FileMode.Open, FileAccess.Read, FileShare.Read));
         }
     }

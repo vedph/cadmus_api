@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MessagingApi;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -88,8 +86,10 @@ namespace CadmusApi.Controllers
                 return;
             }
 
-            _logger.LogInformation("Building test email message for " + to);
-            var message = _messageBuilderService.BuildMessage("test-message", null);
+            _logger.LogInformation("Building test email message for {Recipient}",
+                to);
+            var message = _messageBuilderService.BuildMessage("test-message",
+                new Dictionary<string, string>());
 
             if (message != null)
             {

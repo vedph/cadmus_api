@@ -11,14 +11,14 @@ namespace Cadmus.Api.Models
         /// The email address.
         /// </summary>
         [Required]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// The old password.
         /// </summary>
         [Required]
         [DataType(DataType.Password)]
-        public string OldPassword { get; set; }
+        public string? OldPassword { get; set; }
 
         /// <summary>
         /// The new password.
@@ -26,13 +26,13 @@ namespace Cadmus.Api.Models
         [Required]
         [StringLength(100, ErrorMessage = "{0} must be at least {2} characters long", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        public string NewPassword { get; set; }
+        public string? NewPassword { get; set; }
 
         /// <summary>
         /// The confirmation password.
         /// </summary>
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "The new password is different from the confirmation password")]
-        public string ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set; }
     }
 }

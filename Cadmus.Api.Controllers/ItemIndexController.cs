@@ -64,9 +64,9 @@ namespace Cadmus.Api.Controllers
 
             // get reader
             ItemIndexFactory factory =
-                await ItemIndexHelper.GetIndexFactoryAsync(
-                    _configuration, _serviceProvider);
-            IItemIndexReader reader = factory.GetItemIndexReader();
+                (await ItemIndexHelper.GetIndexFactoryAsync(
+                    _configuration, _serviceProvider))!;
+            IItemIndexReader reader = factory.GetItemIndexReader()!;
 
             // search
             DataPage<ItemInfo> page;
@@ -117,9 +117,9 @@ namespace Cadmus.Api.Controllers
 
             // get reader
             ItemIndexFactory factory =
-                await ItemIndexHelper.GetIndexFactoryAsync(
-                    _configuration, _serviceProvider);
-            IItemIndexReader reader = factory.GetItemIndexReader();
+                (await ItemIndexHelper.GetIndexFactoryAsync(
+                    _configuration, _serviceProvider))!;
+            IItemIndexReader reader = factory.GetItemIndexReader()!;
 
             // search
             DataPage<DataPinInfo> page;

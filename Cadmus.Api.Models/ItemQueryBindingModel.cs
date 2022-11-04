@@ -13,7 +13,7 @@ namespace Cadmus.Api.Models
         /// </summary>
         // [Required]
         [MaxLength(1000)]
-        public string Query { get; set; }
+        public string? Query { get; set; }
 
         /// <summary>
         /// The page number (1-N).

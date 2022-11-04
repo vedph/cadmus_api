@@ -12,21 +12,21 @@ namespace Cadmus.Api.Models
         /// Item's identifier (a 32 characters GUID, or null or any text not parsable as
         /// a GUID when it's a new item).
         /// </summary>
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Item title.
         /// </summary>
         [Required(ErrorMessage = "Title not specified")]
         [MaxLength(500)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Item short description.
         /// </summary>
         [Required(ErrorMessage = "Description not specified")]
         [MaxLength(1000)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Item's facet ID.
@@ -36,7 +36,7 @@ namespace Cadmus.Api.Models
         /// string defined in the corpus configuration.</value>
         [Required(ErrorMessage = "Facet ID not specified")]
         [MaxLength(100)]
-        public string FacetId { get; set; }
+        public string? FacetId { get; set; }
 
         /// <summary>
         /// Gets or sets the group identifier. This is an arbitrary string
@@ -45,14 +45,14 @@ namespace Cadmus.Api.Models
         /// a set of lemmata belonging to the same dictionary letter, etc.
         /// </summary>
         [MaxLength(100)]
-        public string GroupId { get; set; }
+        public string? GroupId { get; set; }
 
         /// <summary>
         /// The sort key for the item. This is a value used to sort items in a list.
         /// </summary>
         // [Required(ErrorMessage = "Sort key not specified")]
         [MaxLength(1000)]
-        public string SortKey { get; set; }
+        public string? SortKey { get; set; }
 
         /// <summary>
         /// Gets or sets generic flags for the item.

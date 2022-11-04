@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Cadmus.Api.Services.Seeding
 {
@@ -12,37 +13,37 @@ namespace Cadmus.Api.Services.Seeding
         /// <summary>
         /// Gets or sets the name of the user.
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// Gets or sets the password. Of course the password found in
         /// appsettings.json is fake; the real one is in the environment.
         /// </summary>
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// Gets or sets the email.
         /// </summary>
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Gets or sets the roles.
         /// </summary>
-        public string[] Roles { get; set; }
+        public IList<string>? Roles { get; set; }
 
         /// <summary>
         /// Converts to string.
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String" /> that represents this instance.
+        /// A <see cref="string" /> that represents this instance.
         /// </returns>
         public override string ToString()
         {
             StringBuilder sb = new();
             sb.Append(UserName);
-            if (Roles?.Length > 0)
+            if (Roles?.Count > 0)
             {
-                sb.Append(" - Roles: ").Append(string.Join(", ", Roles));
+                sb.Append(" - Roles: ").AppendJoin(", ", Roles);
             }
             return sb.ToString();
         }

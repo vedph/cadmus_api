@@ -13,20 +13,20 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the object literal regular expression to match.
         /// </summary>
         [MaxLength(500)]
-        public string LiteralPattern { get; set; }
+        public string? LiteralPattern { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the object literal. This corresponds to
         /// literal suffixes after <c>^^</c> in Turtle: e.g.
         /// <c>"12.3"^^xs:double</c>.
         /// </summary>
-        public string LiteralType { get; set; }
+        public string? LiteralType { get; set; }
 
         /// <summary>
         /// Gets or sets the object literal language. This is meaningful only
         /// for string literals, and usually is an ISO639 code.
         /// </summary>
-        public string LiteralLanguage { get; set; }
+        public string? LiteralLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets the minimum numeric value for a numeric object literal.
@@ -47,13 +47,13 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the predicate node identifier which must be matched.
         /// At least 1 of these must match.
         /// </summary>
-        public HashSet<int> PredicateIds { get; set; }
+        public HashSet<int>? PredicateIds { get; set; }
 
         /// <summary>
         /// Gets or sets the predicate node identifier which must NOT be matched.
         /// None of these must match.
         /// </summary>
-        public HashSet<int> NotPredicateIds { get; set; }
+        public HashSet<int>? NotPredicateIds { get; set; }
 
         /// <summary>
         /// Gets or sets a value equal to true to match only triples having
@@ -71,7 +71,7 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the sid.
         /// </summary>
         [MaxLength(500)]
-        public string Sid { get; set; }
+        public string? Sid { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Sid"/> represents
@@ -86,13 +86,13 @@ namespace Cadmus.Api.Models.Graph
         /// otherwise, the triples with the same tag must be matched.
         /// </summary>
         [MaxLength(50)]
-        public string Tag { get; set; }
+        public string? Tag { get; set; }
 
         /// <summary>
         /// Gets or sets the sort order identifier.
         /// </summary>
         [MaxLength(2)]
-        public string Sort { get; set; }
+        public string? Sort { get; set; }
 
         /// <summary>
         /// Get a triple filter from this binding model.

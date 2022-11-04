@@ -37,7 +37,7 @@ namespace Cadmus.Api.Services.Messaging
         /// <returns>
         /// template text, or null if not found
         /// </returns>
-        protected override string LoadTemplate(string templateName)
+        protected override string? LoadTemplate(string templateName)
         {
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/file-providers?view=aspnetcore-3.0
 

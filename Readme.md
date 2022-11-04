@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [4.3.0](#430)
 	    - [4.2.2](#422)
 	    - [4.2.1](#421)
 		- [4.2.0](#420)
@@ -42,6 +43,12 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 4.3.0
+
+- 2022-11-04:
+  - updated packages (nullability enabled in Cadmus core).
+  - nullability enabled.
 
 ### 4.2.2
 

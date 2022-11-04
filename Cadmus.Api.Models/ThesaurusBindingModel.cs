@@ -14,12 +14,12 @@ namespace Cadmus.Api.Models
         [Required(ErrorMessage = "Thesaurus ID required")]
         [RegularExpression(@"^[a-zA-Z0-9_\-\.]+\@[a-z]{2}$",
             ErrorMessage = "Invalid thesaurus ID")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the tags in this set.
         /// </summary>
-        public List<ThesaurusEntryBindingModel> Entries { get; set; }
+        public IList<ThesaurusEntryBindingModel>? Entries { get; set; }
 
         /// <summary>
         /// Returns a <see cref="string" /> that represents this instance.

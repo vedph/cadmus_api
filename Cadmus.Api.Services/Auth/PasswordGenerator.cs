@@ -70,19 +70,6 @@ namespace Cadmus.Api.Services.Auth
         /// <summary>
         /// Initializes a new instance of the <see cref="PasswordGenerator"/> class.
         /// </summary>
-        public PasswordGenerator()
-        {
-            // Define characters that are valid and reject ambiguous characters 
-            // such as ilo, IO and 1 or 0
-            AllLowerCaseChars = GetCharRange('a', 'z', exclusiveChars: "ilo");
-            AllUpperCaseChars = GetCharRange('A', 'Z', exclusiveChars: "IO");
-            AllNumericChars = GetCharRange('2', '9');
-            AllSpecialChars = "!@#%*()$?+-=";
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PasswordGenerator"/> class.
-        /// </summary>
         /// <param name="minLength">The minimum length.</param>
         /// <param name="maxLength">The maximum length.</param>
         /// <param name="minLowerCaseChars">The minimum lower case chars.</param>
@@ -102,8 +89,8 @@ namespace Cadmus.Api.Services.Auth
         /// or
         /// The minSpecial is smaller than 2. - minSpecialChars
         /// or
-        /// The min length of the password is smaller than the sum " +
-        ///                     "of the min characters of all catagories. - maxLength
+        /// The min length of the password is smaller than the sum of the min
+        /// characters of all catagories. - maxLength
         /// </exception>
         public PasswordGenerator(
             int minLength = 15,
@@ -113,6 +100,13 @@ namespace Cadmus.Api.Services.Auth
             int minNumericChars = 2,
             int minSpecialChars = 2)
         {
+            // Define characters that are valid and reject ambiguous characters 
+            // such as ilo, IO and 1 or 0
+            AllLowerCaseChars = GetCharRange('a', 'z', exclusiveChars: "ilo");
+            AllUpperCaseChars = GetCharRange('A', 'Z', exclusiveChars: "IO");
+            AllNumericChars = GetCharRange('2', '9');
+            AllSpecialChars = "!@#%*()$?+-=";
+
             if (minLength < 15)
             {
                 throw new ArgumentException("The minlength is smaller than 15.",

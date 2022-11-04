@@ -12,7 +12,7 @@ namespace Cadmus.Api.Models.Graph
         /// </summary>
         [Required]
         [MaxLength(500)]
-        public string Uri { get; set; }
+        public string? Uri { get; set; }
 
         /// <summary>
         /// A value indicating whether this node is a class.
@@ -29,14 +29,14 @@ namespace Cadmus.Api.Models.Graph
         /// used as properties, so that a frontend can filter them accordingly.
         /// </summary>
         [MaxLength(50)]
-        public string Tag { get; set; }
+        public string? Tag { get; set; }
 
         /// <summary>
         /// Gets or sets the optional node's label. Most nodes have a label
         /// to ease their editing.
         /// </summary>
         [MaxLength(1000)]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the source for this node.
@@ -47,6 +47,6 @@ namespace Cadmus.Api.Models.Graph
         /// Gets or sets the source ID for this node.
         /// </summary>
         [MaxLength(500)]
-        public string Sid { get; set; }
+        public string? Sid { get; set; }
     }
 }
