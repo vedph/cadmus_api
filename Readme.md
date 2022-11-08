@@ -44,6 +44,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2022-11-08: changed sample event types thesaurus and relations.
+
 ### 4.3.0
 
 - 2022-11-04:
