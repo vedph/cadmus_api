@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [5.0.0](#500)
 	    - [4.3.0](#430)
 	    - [4.2.2](#422)
 	    - [4.2.1](#421)
@@ -44,6 +45,9 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 5.0.0
+
+- 2022-11-10: upgraded to NET 7.
 - 2022-11-08: changed sample event types thesaurus and relations.
 
 ### 4.3.0

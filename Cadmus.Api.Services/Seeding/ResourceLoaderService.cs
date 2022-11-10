@@ -62,7 +62,7 @@ namespace Cadmus.Api.Services.Seeding
                     default:
                         IConfiguration config =
                             _serviceProvider.GetService<IConfiguration>()!;
-                        return config[m.Groups[1].Value];
+                        return config[m.Groups[1].Value]!;
                 }
             });
         }

@@ -35,8 +35,8 @@ namespace Cadmus.Api.Services.Seeding
             _roleManager = serviceProvider.GetService<RoleManager<ApplicationRole>>()!;
 
             _seededUsersOptions = configuration
-                .GetSection("StockUsers")
-                .Get<ApplicationSeededUserOptions[]>();
+                .GetSection("StockUsers")!
+                .Get<ApplicationSeededUserOptions[]>()!;
         }
 
         private async Task SeedRoles()
@@ -60,8 +60,8 @@ namespace Cadmus.Api.Services.Seeding
 
         private async Task SeedUserAsync(ApplicationSeededUserOptions options)
         {
-            ApplicationUser user =
-                await _userManager.FindByNameAsync(options.UserName);
+            ApplicationUser? user =
+                await _userManager.FindByNameAsync(options.UserName!);
 
             if (user == null)
             {
@@ -76,16 +76,16 @@ namespace Cadmus.Api.Services.Seeding
                     LastName = options.LastName
                 };
                 IdentityResult result =
-                    await _userManager.CreateAsync(user, options.Password);
+                    await _userManager.CreateAsync(user, options.Password!);
                 if (!result.Succeeded)
                 {
                     _logger.LogError(result.ToString());
                     return;
                 }
-                user = await _userManager.FindByNameAsync(options.UserName);
+                user = await _userManager.FindByNameAsync(options.UserName!);
             }
             // ensure that user is automatically confirmed
-            if (!user.EmailConfirmed)
+            if (!user!.EmailConfirmed)
             {
                 user.EmailConfirmed = true;
                 await _userManager.UpdateAsync(user);

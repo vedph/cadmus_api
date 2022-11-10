@@ -79,7 +79,7 @@ namespace CadmusApi.Controllers
         [ProducesResponseType(200)]
         public async Task SendEmail()
         {
-            string to = _config.GetValue<string>("Mailer:TestRecipient");
+            string? to = _config.GetValue<string>("Mailer:TestRecipient");
             if (string.IsNullOrEmpty(to))
             {
                 _logger.LogWarning("No recipient defined for test email");

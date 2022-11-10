@@ -119,8 +119,8 @@ namespace Cadmus.Api.Services.Seeding
             ILogger? logger)
         {
             // build connection string
-            string connString = config.GetConnectionString("Default");
-            string databaseName = config["DatabaseNames:Data"];
+            string connString = config.GetConnectionString("Default")!;
+            string databaseName = config["DatabaseNames:Data"]!;
             if (string.IsNullOrEmpty(databaseName))
             {
                 Console.WriteLine("No database name in config DatabaseNames:Data");
@@ -138,7 +138,7 @@ namespace Cadmus.Api.Services.Seeding
             }
 
             // load seed profile (nope if no profile)
-            string profileSource = config["Seed:ProfileSource"];
+            string profileSource = config["Seed:ProfileSource"]!;
             if (string.IsNullOrEmpty(profileSource))
             {
                 Console.WriteLine("No profile source in config Seed:ProfileSource");
@@ -206,7 +206,7 @@ namespace Cadmus.Api.Services.Seeding
 
             // get seed count
             int count = 0;
-            string configCount = config["Seed:ItemCount"];
+            string? configCount = config["Seed:ItemCount"];
             if (configCount != null && int.TryParse(configCount, out int n))
                 count = n;
 

@@ -44,7 +44,7 @@ namespace Cadmus.Api.Services.Auth
         {
             if (name == null) throw new ArgumentNullException(nameof(name));
 
-            ApplicationUser user = await _userManager.FindByNameAsync(name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(name);
             if (user == null) return null;
             return await GetUserWithRolesAsync(user);
         }
@@ -64,7 +64,7 @@ namespace Cadmus.Api.Services.Auth
 
             if (!string.IsNullOrEmpty(filter.Name))
             {
-                users = users.Where(u => u.UserName.Contains(filter.Name) ||
+                users = users.Where(u => u.UserName!.Contains(filter.Name) ||
                     u.LastName!.Contains(filter.Name) ||
                     u.FirstName!.Contains(filter.Name));
             }
@@ -98,7 +98,7 @@ namespace Cadmus.Api.Services.Auth
             List<UserWithRoles<ApplicationUser>> results = new();
             foreach (string name in names)
             {
-                ApplicationUser user = await _userManager.FindByNameAsync(name);
+                ApplicationUser? user = await _userManager.FindByNameAsync(name);
                 if (user != null) results.Add(await GetUserWithRolesAsync(user));
             }
             return results;
@@ -116,13 +116,13 @@ namespace Cadmus.Api.Services.Auth
         {
             if (user == null) throw new ArgumentNullException(nameof(user));
 
-            ApplicationUser old = await _userManager.FindByNameAsync(user.UserName);
+            ApplicationUser? old = await _userManager.FindByNameAsync(user.UserName!);
             if (old == null) return;
 
             old.FirstName = user.FirstName;
             old.LastName = user.LastName;
             old.Email = user.Email;
-            old.NormalizedEmail = user.Email.ToUpperInvariant();
+            old.NormalizedEmail = user.Email!.ToUpperInvariant();
             old.EmailConfirmed = user.EmailConfirmed;
             old.LockoutEnabled = user.LockoutEnabled;
             old.LockoutEnd = user.LockoutEnd;
@@ -164,7 +164,7 @@ namespace Cadmus.Api.Services.Auth
             if (userName == null) throw new ArgumentNullException(nameof(userName));
             if (roles == null) throw new ArgumentNullException(nameof(roles));
 
-            ApplicationUser user = await _userManager.FindByNameAsync(userName);
+            ApplicationUser? user = await _userManager.FindByNameAsync(userName);
             if (user == null) return;
 
             await _userManager.AddToRolesAsync(user, roles);
@@ -180,7 +180,7 @@ namespace Cadmus.Api.Services.Auth
             if (userName == null) throw new ArgumentNullException(nameof(userName));
             if (roles == null) throw new ArgumentNullException(nameof(roles));
 
-            ApplicationUser user = await _userManager.FindByNameAsync(userName);
+            ApplicationUser? user = await _userManager.FindByNameAsync(userName);
             if (user == null) return;
 
             await _userManager.RemoveFromRolesAsync(user, roles);

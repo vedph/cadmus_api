@@ -34,14 +34,15 @@ namespace Cadmus.Api.Controllers
     public sealed class ItemController : Controller
     {
         private static readonly Regex _pascalPropRegex =
-            new(@"""([A-Z])([^""]*)""\s*:");
+            new(@"""([A-Z])([^""]*)""\s*:", RegexOptions.Compiled);
 
         private static readonly Regex _camelPropRegex =
-            new(@"""([a-z])([^""]*)""\s*:");
+            new(@"""([a-z])([^""]*)""\s*:", RegexOptions.Compiled);
 
         private static readonly Regex _guidRegex =
             new("^[a-fA-F0-9]{8}-" +
-                "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$");
+                "[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
+                RegexOptions.Compiled);
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IServiceProvider _serviceProvider;
@@ -349,7 +350,7 @@ namespace Cadmus.Api.Controllers
             ICadmusRepository repository =
                 _repositoryProvider.CreateRepository();
 
-            string intervalOption = _configuration.GetSection("Editing")
+            string? intervalOption = _configuration.GetSection("Editing")
                 ["BaseToLayerToleranceSeconds"];
             int interval = !string.IsNullOrEmpty(intervalOption)
                 && int.TryParse(intervalOption, out int n)
@@ -469,8 +470,8 @@ namespace Cadmus.Api.Controllers
                 _repositoryProvider.CreateRepository();
 
             // operators can delete only parts created by themselves
-            ApplicationUser user = await _userManager.FindByNameAsync(
-                User.Identity.Name);
+            ApplicationUser user = (await _userManager.FindByNameAsync(
+                User.Identity!.Name!))!;
             if (await IsUserInRole(user,
                     "operator",
                     new HashSet<string>(new string[] { "admin", "editor" }))

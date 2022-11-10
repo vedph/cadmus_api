@@ -27,7 +27,7 @@ namespace Cadmus.Api.Services.Seeding
             if (serviceProvider == null)
                 throw new ArgumentNullException(nameof(serviceProvider));
 
-            string profileSource = configuration["Seed:ProfileSource"];
+            string? profileSource = configuration["Seed:ProfileSource"];
             if (string.IsNullOrEmpty(profileSource)) return null;
 
             ResourceLoaderService loaderService =

@@ -51,7 +51,7 @@ namespace Cadmus.Api.Controllers
 
         private async Task<ItemBrowserFactory?> GetFactory()
         {
-            string profileSource = _configuration["Seed:ProfileSource"];
+            string? profileSource = _configuration["Seed:ProfileSource"];
             if (string.IsNullOrEmpty(profileSource)) return null;
 
             ResourceLoaderService loaderService =
@@ -123,7 +123,7 @@ namespace Cadmus.Api.Controllers
                 return NotFound($"Item browser with ID {browserId} not found");
 
             DataPage<ItemInfo> page = await browser.BrowseAsync(
-                _configuration.GetValue<string>("DatabaseNames:Data"),
+                _configuration.GetValue<string>("DatabaseNames:Data")!,
                 model, args);
             return Ok(page);
         }

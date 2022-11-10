@@ -67,7 +67,7 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> UserEmailExists(string email)
         {
-            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email);
             return Ok(new
             {
                 Entry = email,
@@ -86,7 +86,7 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(200)]
         public async Task<IActionResult> UserNameExists(string name)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(name);
             return Ok(new
             {
                 Entry = name,
@@ -128,11 +128,11 @@ namespace Cadmus.Api.Controllers
             Message? message = _messageBuilder.BuildMessage("confirm-registration",
                 new Dictionary<string, string>
                 {
-                    ["UserName"] = user.UserName,
+                    ["UserName"] = user.UserName!,
                     ["ConfirmationUrl"] = url
                 });
             if (message != null)
-                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                await _mailer.SendEmailAsync(user.Email!, user.UserName!, message);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Cadmus.Api.Controllers
                 HttpContext.Connection.RemoteIpAddress);
 
             // ensure that email and user do not exist
-            ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
+            ApplicationUser? user = await _userManager.FindByEmailAsync(model.Email!);
             if (user != null)
             {
                 _logger.LogWarning("Email address already registered: {RegisteredEmail}",
@@ -165,7 +165,7 @@ namespace Cadmus.Api.Controllers
                 return BadRequest("Email address already registered");
             }
 
-            user = await _userManager.FindByNameAsync(model.Name);
+            user = await _userManager.FindByNameAsync(model.Name!);
             if (user != null)
             {
                 _logger.LogWarning("User name already registered: {RegisteredUserName}",
@@ -182,7 +182,7 @@ namespace Cadmus.Api.Controllers
                 LastName = model.LastName
             };
             IdentityResult result =
-                await _userManager.CreateAsync(user, model.Password);
+                await _userManager.CreateAsync(user, model.Password!);
             if (!result.Succeeded)
             {
                 _logger.LogError("Error registering user {RegisteredUserName}: {Error}",
@@ -215,7 +215,7 @@ namespace Cadmus.Api.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> ResendConfirmRegistration(string email)
         {
-            ApplicationUser user = await _userManager.FindByEmailAsync(email);
+            ApplicationUser? user = await _userManager.FindByEmailAsync(email);
             if (user == null) return BadRequest("Email address not registered");
 
             _logger.LogInformation("Resending email confirmation");
@@ -238,7 +238,7 @@ namespace Cadmus.Api.Controllers
         public async Task<IActionResult> ConfirmRegistration(
             [FromQuery] string name, [FromQuery] string token)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(name);
             if (user == null) return BadRequest();
 
             _logger.LogInformation("Confirming registration");
@@ -251,7 +251,7 @@ namespace Cadmus.Api.Controllers
             {
                 ["FirstName"] = user.FirstName!,
                 ["LastName"] = user.LastName!,
-                ["UserName"] = user.UserName
+                ["UserName"] = user.UserName!
             };
 
             // if already confirmed, do nothing
@@ -281,11 +281,11 @@ namespace Cadmus.Api.Controllers
                 {
                     ["FirstName"] = user.FirstName!,
                     ["LastName"] = user.LastName!,
-                    ["UserName"] = user.UserName
+                    ["UserName"] = user.UserName!
                 });
             if (message != null)
             {
-                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                await _mailer.SendEmailAsync(user.Email!, user.UserName!, message);
                 _logger.LogInformation("Confirmation message sent");
             }
 
@@ -312,7 +312,7 @@ namespace Cadmus.Api.Controllers
             _logger.LogInformation("Change password request for {UserEmail}",
                 model.Email);
 
-            ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
+            ApplicationUser? user = await _userManager.FindByEmailAsync(model.Email!);
             if (user == null)
             {
                 _logger.LogWarning("Change password: no user with email {UserEmail}",
@@ -321,8 +321,8 @@ namespace Cadmus.Api.Controllers
             }
 
             IdentityResult result = await _userManager.ChangePasswordAsync(user,
-                model.OldPassword,
-                model.NewPassword);
+                model.OldPassword!,
+                model.NewPassword!);
 
             if (!result.Succeeded)
             {
@@ -356,7 +356,7 @@ namespace Cadmus.Api.Controllers
             _logger.LogInformation("Reset password request for {UserEmail}",
                 model.Email);
 
-            ApplicationUser user = await _userManager.FindByEmailAsync(model.Email);
+            ApplicationUser? user = await _userManager.FindByEmailAsync(model.Email!);
             if (user == null)
             {
                 _logger.LogWarning("Reset password: no user with email {UserEmail}",
@@ -377,12 +377,12 @@ namespace Cadmus.Api.Controllers
             Message? message = _messageBuilder.BuildMessage("reset-password",
                 new Dictionary<string, string>
                 {
-                    ["UserName"] = user.UserName,
+                    ["UserName"] = user.UserName!,
                     ["ResetUrl"] = url
                 });
             if (message != null)
             {
-                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                await _mailer.SendEmailAsync(user.Email!, user.UserName!, message);
                 _logger.LogInformation("Reset password token sent to {UserEmail}",
                     model.Email);
             }
@@ -404,7 +404,7 @@ namespace Cadmus.Api.Controllers
         {
             _logger.LogInformation("Apply password reset for {UserName}", name);
 
-            ApplicationUser user = await _userManager.FindByNameAsync(name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(name);
             if (user == null)
             {
                 _logger.LogWarning("Apply password reset: user {UserName} not found",
@@ -432,12 +432,12 @@ namespace Cadmus.Api.Controllers
                 {
                     ["FirstName"] = user.FirstName!,
                     ["LastName"] = user.LastName!,
-                    ["UserName"] = user.UserName,
+                    ["UserName"] = user.UserName!,
                     ["NewPassword"] = newPassword
                 });
             if (message != null)
             {
-                await _mailer.SendEmailAsync(user.Email, user.UserName, message);
+                await _mailer.SendEmailAsync(user.Email!, user.UserName!, message);
                 _logger.LogInformation("New password sent to {UserEmail}", user.Email);
             }
 
@@ -466,7 +466,7 @@ namespace Cadmus.Api.Controllers
                 return BadRequest($"User {name} cannot delete himself");
             }
 
-            ApplicationUser user = await _userManager.FindByNameAsync(name);
+            ApplicationUser? user = await _userManager.FindByNameAsync(name);
             if (user == null)
             {
                 _logger.LogWarning("Delete user: user {DeletedUserName} not found",

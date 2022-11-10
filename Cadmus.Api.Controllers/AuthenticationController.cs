@@ -57,7 +57,7 @@ namespace Cadmus.Api.Controllers
             List<Claim> claims = new()
             {
                 // (SUB) the principal that is the subject of the JWT
-                new Claim(RegisteredClaims.Sub, user.UserName),
+                new Claim(RegisteredClaims.Sub, user.UserName!),
 
                 // (JWT ID) provides a unique identifier for the JWT
                 new Claim(RegisteredClaims.Jti, Guid.NewGuid().ToString()),
@@ -68,14 +68,14 @@ namespace Cadmus.Api.Controllers
                     (now - new TimeSpan(0, 0, 10)).ToUnixTimeSeconds().ToString()),
 
                 new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id.ToString()),
-                new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName),
+                new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName!),
 
                 // (IAT) issued at
                 new Claim(RegisteredClaims.Iat, now.ToUnixTimeSeconds().ToString()),
 
                 // email and its confirmation
                 new Claim("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress",
-                    user.Email),
+                    user.Email!),
                 // this claim name is arbitrary
                 new Claim("vfd", user.EmailConfirmed? "true" : "false")
             };
@@ -89,7 +89,7 @@ namespace Cadmus.Api.Controllers
             foreach (string userRole in userRoles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, userRole));
-                ApplicationRole role = await _roleManager.FindByNameAsync(userRole);
+                ApplicationRole? role = await _roleManager.FindByNameAsync(userRole);
                 if (role != null && _roleManager.SupportsRoleClaims)
                 {
                     IList<Claim> roleClaims = await _roleManager.GetClaimsAsync(role);
@@ -116,17 +116,17 @@ namespace Cadmus.Api.Controllers
         [Route("api/auth/login")]
         public async Task<IActionResult> Login([FromBody] LoginBindingModel model)
         {
-            ApplicationUser user = await _userManager.FindByNameAsync(model.Username);
+            ApplicationUser? user = await _userManager.FindByNameAsync(model.Username!);
 
             if (user != null
-                && await _userManager.CheckPasswordAsync(user, model.Password))
+                && await _userManager.CheckPasswordAsync(user, model.Password!))
             {
                 IList<Claim> claims = await GetUserClaims(user);
 
                 // this is a fake key, the real one is in the environment
                 // ensure that this key is at least 16 chars long
                 IConfigurationSection jwtSection = _configuration.GetSection("Jwt");
-                string key = jwtSection["SecureKey"];
+                string key = jwtSection["SecureKey"]!;
                 SymmetricSecurityKey authSigningKey = new(
                     Encoding.UTF8.GetBytes(key));
 
