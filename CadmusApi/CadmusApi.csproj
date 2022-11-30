@@ -33,7 +33,7 @@
     <PackageReference Include="Cadmus.Core" Version="5.0.0" />
     <PackageReference Include="Cadmus.Mongo" Version="5.0.0" />
     <PackageReference Include="Cadmus.Seed" Version="5.0.0" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="3.0.0" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="3.0.2" />
     <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="5.0.0" />
     <PackageReference Include="Fusi.Antiquity" Version="3.0.0" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="2.0.0" />

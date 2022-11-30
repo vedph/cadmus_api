@@ -124,6 +124,14 @@
           "sortKey": "bibliography-ext"
         },
         {
+          "typeId": "it.vedph.pin-links",
+          "name": "links",
+          "description": "Pin-based links.",
+          "colorKey": "A0C0F8",
+          "groupKey": "general",
+          "sortKey": "links"
+        },
+        {
           "typeId": "it.vedph.token-text",
           "roleId": "base-text",
           "name": "text",
@@ -416,6 +424,10 @@
           "value": "note"
         },
         {
+          "id": "it.vedph.pin-links",
+          "value": "links"
+        },
+        {
           "id": "it.vedph.comment",
           "value": "comment"
         },
@@ -545,6 +557,10 @@
           "value": "literature"
         }
       ]
+    },
+    {
+      "id": "comment-categories@en",
+      "targetId": "categories"
     },
     {
       "id": "languages@en",
@@ -1514,6 +1530,9 @@
       },
       {
         "id": "seed.it.vedph.chronotopes"
+      },
+      {
+        "id": "seed.it.vedph.pin-links"
       },
       {
         "id": "seed.it.vedph.historical-events"

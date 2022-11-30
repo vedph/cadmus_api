@@ -2,19 +2,20 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
-	    - [5.0.0](#500)
-	    - [4.3.0](#430)
-	    - [4.2.2](#422)
-	    - [4.2.1](#421)
+	    - [5.0.1](#501)
+		- [5.0.0](#500)
+		- [4.3.0](#430)
+		- [4.2.2](#422)
+		- [4.2.1](#421)
 		- [4.2.0](#420)
-	    - [4.1.7](#417)
+		- [4.1.7](#417)
 		- [4.1.6](#416)
-	    - [4.1.5](#415)
-	    - [4.1.4](#414)
-	    - [4.1.3](#413)
-	    - [4.1.2](#412)
+		- [4.1.5](#415)
+		- [4.1.4](#414)
+		- [4.1.3](#413)
+		- [4.1.2](#412)
 		- [4.1.1](#411)
-	    - [4.1.0](#410)
+		- [4.1.0](#410)
 		- [4.0.3](#403)
 		- [4.0.2](#402)
 		- [4.0.1](#401)
@@ -26,7 +27,7 @@
 	- [Profile](#profile)
 		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:4.2.2 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:5.0.1 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -44,6 +45,11 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 5.0.1
+
+- 2022-11-30: added `comment-categories` thesaurus.
+- 2022-11-25: updated packages (added `PinLinksPart`).
 
 ### 5.0.0
 
