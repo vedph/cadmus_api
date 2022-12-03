@@ -356,9 +356,15 @@
   "flags": [
     {
       "id": 1,
-      "label": "to revise",
-      "description": "The item must be revised.",
-      "colorKey": "F08080"
+      "label": "complete",
+      "description": "The item is complete.",
+      "colorKey": "F0B880"
+    },
+    {
+      "id": 2,
+      "label": "revised",
+      "description": "The item has been revised.",
+      "colorKey": "60CF60"
     }
   ],
   "index": {
@@ -1394,6 +1400,43 @@
         {
           "id": "manuscript.restore.restorer",
           "value": "restauratore"
+        }
+      ]
+    },
+    {
+      "id": "orthography-tags@en",
+      "entries": [
+        {
+          "id": "v",
+          "value": "vocoids"
+        },
+        {
+          "id": "v.iotacism",
+          "value": "vocoids: iotacism"
+        },
+        {
+          "id": "v.monop",
+          "value": "vocoids: monophthongization"
+        },
+        {
+          "id": "c",
+          "value": "contoids"
+        },
+        {
+          "id": "c.pls",
+          "value": "contoids: plosives"
+        },
+        {
+          "id": "c.liq",
+          "value": "contoids: liquids"
+        },
+        {
+          "id": "c.liq",
+          "value": "contoids: nasals"
+        },
+        {
+          "id": "c.fri",
+          "value": "contoids: fricatives"
         }
       ]
     },
