@@ -42,7 +42,7 @@
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="2.0.0" />
     <PackageReference Include="Fusi.Tools" Version="3.0.0" />
     <PackageReference Include="MessagingApi" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
