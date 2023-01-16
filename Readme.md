@@ -46,6 +46,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2023-01-16: updated packages.
+
 ### 5.0.1
 
 - 2022-11-30: added `comment-categories` thesaurus.
