@@ -10,14 +10,13 @@ namespace Cadmus.Api.Models
         /// <summary>
         /// Gets or sets the tag ID.
         /// </summary>
-        [Required(ErrorMessage = "Tag ID is required")]
-        [RegularExpression(@"^[a-zA-Z0-9_\-\.]+$", ErrorMessage = "Invalid tag ID")]
+        [Required(ErrorMessage = "Entry ID is required")]
         public string? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the tag human readable name.
         /// </summary>
-        [Required(ErrorMessage = "Tag name is required")]
+        [Required(ErrorMessage = "Entry name is required")]
         public string? Value { get; set; }
 
         /// <summary>

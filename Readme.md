@@ -46,6 +46,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2023-01-25: removed pattern validation in `ThesaurusEntryBindingModel`.
 - 2023-01-22: changed event related entities thesaurus.
 - 2023-01-16: updated packages.
 
