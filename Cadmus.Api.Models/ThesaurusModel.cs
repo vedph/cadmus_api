@@ -3,47 +3,46 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cadmus.Api.Models
+namespace Cadmus.Api.Models;
+
+/// <summary>
+/// Thesaurus model.
+/// </summary>
+public sealed class ThesaurusModel
 {
     /// <summary>
-    /// Thesaurus model.
+    /// Gets or sets the thesaurus identifier.
     /// </summary>
-    public sealed class ThesaurusModel
+    public string? Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the language.
+    /// </summary>
+    public string? Language { get; set; }
+
+    /// <summary>
+    /// Gets or sets the entries.
+    /// </summary>
+    public IList<ThesaurusEntry>? Entries { get; set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.
+    /// </summary>
+    public ThesaurusModel()
     {
-        /// <summary>
-        /// Gets or sets the thesaurus identifier.
-        /// </summary>
-        public string? Id { get; set; }
+    }
 
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        public string? Language { get; set; }
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.
+    /// </summary>
+    /// <param name="thesaurus">The thesaurus.</param>
+    public ThesaurusModel(Thesaurus thesaurus)
+    {
+        if (thesaurus == null)
+            throw new ArgumentNullException(nameof(thesaurus));
 
-        /// <summary>
-        /// Gets or sets the entries.
-        /// </summary>
-        public IList<ThesaurusEntry>? Entries { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.
-        /// </summary>
-        public ThesaurusModel()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ThesaurusModel"/> class.
-        /// </summary>
-        /// <param name="thesaurus">The thesaurus.</param>
-        public ThesaurusModel(Thesaurus thesaurus)
-        {
-            if (thesaurus == null)
-                throw new ArgumentNullException(nameof(thesaurus));
-
-            Id = thesaurus.Id;
-            Language = thesaurus.GetLanguage();
-            Entries = thesaurus.Entries?.ToArray() ?? Array.Empty<ThesaurusEntry>();
-        }
+        Id = thesaurus.Id;
+        Language = thesaurus.GetLanguage();
+        Entries = thesaurus.Entries?.ToArray() ?? Array.Empty<ThesaurusEntry>();
     }
 }

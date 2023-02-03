@@ -2,29 +2,28 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Cadmus.Api.Services.Seeding
+namespace Cadmus.Api.Services.Seeding;
+
+/// <summary>
+/// File-system based resource loader.
+/// </summary>
+public sealed class FileResourceLoader : IResourceLoader
 {
     /// <summary>
-    /// File-system based resource loader.
+    /// Loads the specified resource asynchronously.
     /// </summary>
-    public sealed class FileResourceLoader : IResourceLoader
+    /// <param name="source">The source.</param>
+    /// <returns>
+    /// The resource stream, or null if file not found.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">source</exception>
+    public Task<Stream?> LoadResourceAsync(string source)
     {
-        /// <summary>
-        /// Loads the specified resource asynchronously.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <returns>
-        /// The resource stream, or null if file not found.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">source</exception>
-        public Task<Stream?> LoadResourceAsync(string source)
-        {
-            if (source == null) throw new ArgumentNullException(nameof(source));
+        if (source == null) throw new ArgumentNullException(nameof(source));
 
-            if (!File.Exists(source)) return Task.FromResult((Stream?)null);
+        if (!File.Exists(source)) return Task.FromResult((Stream?)null);
 
-            return Task.FromResult((Stream?)new FileStream(
-                source, FileMode.Open, FileAccess.Read, FileShare.Read));
-        }
+        return Task.FromResult((Stream?)new FileStream(
+            source, FileMode.Open, FileAccess.Read, FileShare.Read));
     }
 }

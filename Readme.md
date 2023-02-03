@@ -2,7 +2,8 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
-	    - [5.0.1](#501)
+		- [6.0.2](#602)
+		- [5.0.1](#501)
 		- [5.0.0](#500)
 		- [4.3.0](#430)
 		- [4.2.2](#422)
@@ -27,6 +28,8 @@
 	- [Profile](#profile)
 		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
 
+👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
+
 Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:5.0.1 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
@@ -45,6 +48,14 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 6.0.2
+
+- 2023-02-01: migrated to new components factory. This is a breaking change for backend components, please see [this page](https://myrmex.github.io/overview/cadmus/dev/history/#2023-02-01---backend-infrastructure-upgrade). Anyway, in the end you just have to update your libraries and a single namespace reference. Benefits include:
+  - more streamlined component instantiation.
+  - more functionality in components factory, including DI.
+  - dropped third party dependencies.
+  - adopted standard MS technologies for DI.
 
 - 2023-01-25: removed pattern validation in `ThesaurusEntryBindingModel`.
 - 2023-01-22: changed event related entities thesaurus.

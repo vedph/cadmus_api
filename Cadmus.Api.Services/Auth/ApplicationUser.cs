@@ -1,20 +1,19 @@
 ﻿using AspNetCore.Identity.Mongo.Model;
 
-namespace Cadmus.Api.Services.Auth
+namespace Cadmus.Api.Services.Auth;
+
+/// <summary>
+/// Application user.
+/// </summary>
+public class ApplicationUser : MongoUser
 {
     /// <summary>
-    /// Application user.
+    /// Gets or sets the first name.
     /// </summary>
-    public class ApplicationUser : MongoUser
-    {
-        /// <summary>
-        /// Gets or sets the first name.
-        /// </summary>
-        public string? FirstName { get; set; }
+    public string? FirstName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the last name.
-        /// </summary>
-        public string? LastName { get; set; }
-    }
+    /// <summary>
+    /// Gets or sets the last name.
+    /// </summary>
+    public string? LastName { get; set; }
 }

@@ -10,139 +10,138 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading.Tasks;
 
-namespace Cadmus.Api.Controllers
+namespace Cadmus.Api.Controllers;
+
+/// <summary>
+/// Items index.
+/// </summary>
+/// <seealso cref="Controller" />
+[Authorize]
+[ApiController]
+public sealed class ItemIndexController : Controller
 {
+    private readonly IConfiguration _configuration;
+    private readonly IServiceProvider _serviceProvider;
+
     /// <summary>
-    /// Items index.
+    /// Initializes a new instance of the <see cref="ItemIndexController" />
+    /// class.
     /// </summary>
-    /// <seealso cref="Controller" />
-    [Authorize]
-    [ApiController]
-    public sealed class ItemIndexController : Controller
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="serviceProvider">The service provider.</param>
+    /// <exception cref="ArgumentNullException">configuration or provider</exception>
+    public ItemIndexController(IConfiguration configuration,
+        IServiceProvider serviceProvider)
     {
-        private readonly IConfiguration _configuration;
-        private readonly IServiceProvider _serviceProvider;
+        _configuration = configuration ??
+            throw new ArgumentNullException(nameof(configuration));
+        _serviceProvider = serviceProvider ??
+            throw new ArgumentNullException(nameof(serviceProvider));
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ItemIndexController" />
-        /// class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        /// <param name="serviceProvider">The service provider.</param>
-        /// <exception cref="ArgumentNullException">configuration or provider</exception>
-        public ItemIndexController(IConfiguration configuration,
-            IServiceProvider serviceProvider)
+    /// <summary>
+    /// Searches the items index using the specified query, returning
+    /// the specified page of results.
+    /// </summary>
+    /// <param name="model">The query model.</param>
+    /// <returns>Object with value=items page or error=error message.</returns>
+    [HttpPost("api/search/items")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> Search(
+        [FromBody] ItemQueryBindingModel model)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        // nope if empty query
+        if (string.IsNullOrWhiteSpace(model.Query))
         {
-            _configuration = configuration ??
-                throw new ArgumentNullException(nameof(configuration));
-            _serviceProvider = serviceProvider ??
-                throw new ArgumentNullException(nameof(serviceProvider));
-        }
-
-        /// <summary>
-        /// Searches the items index using the specified query, returning
-        /// the specified page of results.
-        /// </summary>
-        /// <param name="model">The query model.</param>
-        /// <returns>Object with value=items page or error=error message.</returns>
-        [HttpPost("api/search/items")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Search(
-            [FromBody] ItemQueryBindingModel model)
-        {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            // nope if empty query
-            if (string.IsNullOrWhiteSpace(model.Query))
-            {
-                return Ok(new
-                {
-                    error = "No query"
-                });
-            }
-
-            // get reader
-            ItemIndexFactory factory =
-                (await ItemIndexHelper.GetIndexFactoryAsync(
-                    _configuration, _serviceProvider))!;
-            IItemIndexReader reader = factory.GetItemIndexReader()!;
-
-            // search
-            DataPage<ItemInfo> page;
-            try
-            {
-                page = reader.SearchItems(model.Query,
-                    new PagingOptions
-                    {
-                        PageNumber = model.PageNumber,
-                        PageSize = model.PageSize
-                    });
-            }
-            catch (CadmusQueryException exception)
-            {
-                return Ok(new { error = exception.Message });
-            }
-
-            reader.Close();
-
             return Ok(new
             {
-                value = page
+                error = "No query"
             });
         }
 
-        /// <summary>
-        /// Searches the pins index using the specified query, returning
-        /// the specified page of results.
-        /// </summary>
-        /// <param name="model">The query model.</param>
-        /// <returns>Object with value=items page or error=error message.</returns>
-        [HttpPost("api/search/pins")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> SearchPins(
-            [FromBody] ItemQueryBindingModel model)
+        // get reader
+        ItemIndexFactory factory =
+            (await ItemIndexHelper.GetIndexFactoryAsync(
+                _configuration, _serviceProvider))!;
+        IItemIndexReader reader = factory.GetItemIndexReader()!;
+
+        // search
+        DataPage<ItemInfo> page;
+        try
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            // nope if empty query
-            if (string.IsNullOrWhiteSpace(model.Query))
-            {
-                return Ok(new
+            page = reader.SearchItems(model.Query,
+                new PagingOptions
                 {
-                    error = "No query"
+                    PageNumber = model.PageNumber,
+                    PageSize = model.PageSize
                 });
-            }
+        }
+        catch (CadmusQueryException exception)
+        {
+            return Ok(new { error = exception.Message });
+        }
 
-            // get reader
-            ItemIndexFactory factory =
-                (await ItemIndexHelper.GetIndexFactoryAsync(
-                    _configuration, _serviceProvider))!;
-            IItemIndexReader reader = factory.GetItemIndexReader()!;
+        reader.Close();
 
-            // search
-            DataPage<DataPinInfo> page;
-            try
-            {
-                page = reader.SearchPins(model.Query,
-                    new PagingOptions
-                    {
-                        PageNumber = model.PageNumber,
-                        PageSize = model.PageSize
-                    });
-            }
-            catch (CadmusQueryException exception)
-            {
-                return Ok(new { error = exception.Message });
-            }
+        return Ok(new
+        {
+            value = page
+        });
+    }
 
-            reader.Close();
+    /// <summary>
+    /// Searches the pins index using the specified query, returning
+    /// the specified page of results.
+    /// </summary>
+    /// <param name="model">The query model.</param>
+    /// <returns>Object with value=items page or error=error message.</returns>
+    [HttpPost("api/search/pins")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    public async Task<IActionResult> SearchPins(
+        [FromBody] ItemQueryBindingModel model)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
+        // nope if empty query
+        if (string.IsNullOrWhiteSpace(model.Query))
+        {
             return Ok(new
             {
-                value = page
+                error = "No query"
             });
         }
+
+        // get reader
+        ItemIndexFactory factory =
+            (await ItemIndexHelper.GetIndexFactoryAsync(
+                _configuration, _serviceProvider))!;
+        IItemIndexReader reader = factory.GetItemIndexReader()!;
+
+        // search
+        DataPage<DataPinInfo> page;
+        try
+        {
+            page = reader.SearchPins(model.Query,
+                new PagingOptions
+                {
+                    PageNumber = model.PageNumber,
+                    PageSize = model.PageSize
+                });
+        }
+        catch (CadmusQueryException exception)
+        {
+            return Ok(new { error = exception.Message });
+        }
+
+        reader.Close();
+
+        return Ok(new
+        {
+            value = page
+        });
     }
 }

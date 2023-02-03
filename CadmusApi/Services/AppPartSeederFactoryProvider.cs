@@ -3,55 +3,53 @@ using Cadmus.Seed;
 using Cadmus.Seed.General.Parts;
 using Cadmus.Seed.Philology.Parts;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
-using Microsoft.Extensions.Configuration;
-using SimpleInjector;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Reflection;
 
-namespace CadmusApi.Services
+namespace CadmusApi.Services;
+
+/// <summary>
+/// Application's part seeders factory provider.
+/// </summary>
+public sealed class AppPartSeederFactoryProvider : IPartSeederFactoryProvider
 {
-    /// <summary>
-    /// Application's part seeders factory provider.
-    /// </summary>
-    public sealed class AppPartSeederFactoryProvider : IPartSeederFactoryProvider
+    private static IHost GetHost(string config)
     {
-        /// <summary>
-        /// Gets the part/fragment seeders factory.
-        /// </summary>
-        /// <param name="profile">The profile.</param>
-        /// <returns>Factory.</returns>
-        /// <exception cref="ArgumentNullException">profile</exception>
-        public PartSeederFactory GetFactory(string profile)
+        // build the tags to types map for parts/fragments
+        Assembly[] seedAssemblies = new[]
         {
-            if (profile == null)
-                throw new ArgumentNullException(nameof(profile));
+            // Cadmus.General.Seed.Parts
+            typeof(NotePartSeeder).Assembly,
+            // Cadmus.Seed.Philology.Parts
+            typeof(ApparatusLayerFragmentSeeder).Assembly
+        };
+        TagAttributeToTypeMap map = new();
+        map.Add(seedAssemblies);
 
-            // build the tags to types map for parts/fragments
-            Assembly[] seedAssemblies = new[]
+        return new HostBuilder()
+            .ConfigureServices((hostContext, services) =>
             {
-                // Cadmus.General.Seed.Parts
-                typeof(NotePartSeeder).Assembly,
-                // Cadmus.Seed.Philology.Parts
-                typeof(ApparatusLayerFragmentSeeder).Assembly
-            };
-            TagAttributeToTypeMap map = new();
-            map.Add(seedAssemblies);
+                PartSeederFactory.ConfigureServices(services,
+                    new StandardPartTypeProvider(map),
+                    seedAssemblies);
+            })
+            // extension method from Fusi library
+            .AddInMemoryJson(config)
+            .Build();
+    }
 
-            // build the container for seeders
-            Container container = new Container();
-            PartSeederFactory.ConfigureServices(
-                container,
-                new StandardPartTypeProvider(map),
-                seedAssemblies);
+    /// <summary>
+    /// Gets the part/fragment seeders factory.
+    /// </summary>
+    /// <param name="profile">The profile.</param>
+    /// <returns>Factory.</returns>
+    /// <exception cref="ArgumentNullException">profile</exception>
+    public PartSeederFactory GetFactory(string profile)
+    {
+        if (profile == null)
+            throw new ArgumentNullException(nameof(profile));
 
-            container.Verify();
-
-            // load seed configuration
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .AddInMemoryJson(profile);
-            var configuration = builder.Build();
-
-            return new PartSeederFactory(container, configuration);
-        }
+        return new PartSeederFactory(GetHost(profile));
     }
 }
