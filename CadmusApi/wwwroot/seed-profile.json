@@ -729,6 +729,138 @@
           "value": "professione"
         },
         {
+          "id": "person.job.-",
+          "value": "professione"
+        },
+        {
+          "id": "person.job.pope",
+          "value": "papa"
+        },
+        {
+          "id": "person.job.cardinal",
+          "value": "cardinal"
+        },
+        {
+          "id": "person.job.bishop",
+          "value": "vescovo"
+        },
+        {
+          "id": "person.job.friar",
+          "value": "frate"
+        },
+        {
+          "id": "person.job.prior",
+          "value": "priore"
+        },
+        {
+          "id": "person.job.canon",
+          "value": "canonico"
+        },
+        {
+          "id": "person.job.king",
+          "value": "sovrano"
+        },
+        {
+          "id": "person.job.politician",
+          "value": "uomo politico"
+        },
+        {
+          "id": "person.job.teacher",
+          "value": "maestro"
+        },
+        {
+          "id": "person.job.lecturer",
+          "value": "lettore"
+        },
+        {
+          "id": "person.job.jurist",
+          "value": "giurista"
+        },
+        {
+          "id": "person.job.diplomatic",
+          "value": "diplomatico"
+        },
+        {
+          "id": "person.job.notary",
+          "value": "notaio"
+        },
+        {
+          "id": "person.job.military",
+          "value": "uomo d'armi"
+        },
+        {
+          "id": "person.job.scribe",
+          "value": "copista"
+        },
+        {
+          "id": "person.job.artist",
+          "value": "artista"
+        },
+        {
+          "id": "person.job.musician",
+          "value": "musico"
+        },
+        {
+          "id": "person.job.apprentice",
+          "value": "apprendista"
+        },
+        {
+          "id": "person.job.counsellor",
+          "value": "consigliere"
+        },
+        {
+          "id": "person.job.chancellor",
+          "value": "cancelliere"
+        },
+        {
+          "id": "person.job.secretary",
+          "value": "segretario"
+        },
+        {
+          "id": "person.job.merchant",
+          "value": "mercante"
+        },
+        {
+          "id": "person.job.artisan",
+          "value": "artigiano"
+        },
+        {
+          "id": "person.job.servant",
+          "value": "servo"
+        },
+        {
+          "id": "person.job.emperor",
+          "value": "imperatore"
+        },
+        {
+          "id": "person.job.physician",
+          "value": "medico"
+        },
+        {
+          "id": "person.job.duke",
+          "value": "duca"
+        },
+        {
+          "id": "person.job.earl",
+          "value": "conte"
+        },
+        {
+          "id": "person.job.prince",
+          "value": "principe"
+        },
+        {
+          "id": "person.job.at-the-service-of",
+          "value": "a servizio di"
+        },
+        {
+          "id": "person.job.protector",
+          "value": "protettore"
+        },
+        {
+          "id": "person.job.officer",
+          "value": "nomina ad un ufficio"
+        },
+        {
           "id": "person.title",
           "value": "titolo"
         },
@@ -774,7 +906,7 @@
         },
         {
           "id": "person.collection",
-          "value": "raccolta"
+          "value": "raccolta di testi petrarcheschi"
         },
         {
           "id": "person.annotation",
@@ -853,6 +985,10 @@
           "value": "raccolta"
         },
         {
+          "id": "text.version",
+          "value": "redazione"
+        },
+        {
           "id": "manuscript.send",
           "value": "invio"
         },
@@ -863,10 +999,6 @@
         {
           "id": "manuscript.deliver",
           "value": "consegna"
-        },
-        {
-          "id": "witness",
-          "value": "testimone"
         },
         {
           "id": "manuscript.editing",
@@ -906,14 +1038,6 @@
       "id": "event-relations@en",
       "entries": [
         {
-          "id": "person:birth:mother",
-          "value": "madre"
-        },
-        {
-          "id": "person:birth:father",
-          "value": "padre"
-        },
-        {
           "id": "person:family:son",
           "value": "figlio"
         },
@@ -946,132 +1070,20 @@
           "value": "moglie"
         },
         {
-          "id": "person:job:pope",
-          "value": "papa"
+          "id": "person:job:teacher:disciple",
+          "value": "allievo"
         },
         {
-          "id": "person:job:cardinal",
-          "value": "cardinal"
+          "id": "person:job:at-the-service-of:protector",
+          "value": "protettore"
         },
         {
-          "id": "person:job:bishop",
-          "value": "vescovo"
+          "id": "person:job:protected",
+          "value": "protetto"
         },
         {
-          "id": "person:job:friar",
-          "value": "frate"
-        },
-        {
-          "id": "person:job:prior",
-          "value": "priore"
-        },
-        {
-          "id": "person:job:canon",
-          "value": "canonico"
-        },
-        {
-          "id": "person:job:king",
-          "value": "sovrano"
-        },
-        {
-          "id": "person:job:politician",
-          "value": "uomo politico"
-        },
-        {
-          "id": "person:job:teacher",
-          "value": "maestro"
-        },
-        {
-          "id": "person:job:lecturer",
-          "value": "lettore"
-        },
-        {
-          "id": "person:job:jurist",
-          "value": "giurista"
-        },
-        {
-          "id": "person:job:diplomatic",
-          "value": "diplomatico"
-        },
-        {
-          "id": "person:job:notary",
-          "value": "notaio"
-        },
-        {
-          "id": "person:job:military",
-          "value": "uomo d'armi"
-        },
-        {
-          "id": "person:job:scribe",
-          "value": "copista"
-        },
-        {
-          "id": "person:job:artist",
-          "value": "artista"
-        },
-        {
-          "id": "person:job:musician",
-          "value": "musico"
-        },
-        {
-          "id": "person:job:apprentice",
-          "value": "apprendista"
-        },
-        {
-          "id": "person:job:counsellor",
-          "value": "consigliere"
-        },
-        {
-          "id": "person:job:chancellor",
-          "value": "cancelliere"
-        },
-        {
-          "id": "person:job:secretary",
-          "value": "segretario"
-        },
-        {
-          "id": "person:job:merchant",
-          "value": "mercante"
-        },
-        {
-          "id": "person:job:artisan",
-          "value": "artigiano"
-        },
-        {
-          "id": "person:job:servant",
-          "value": "servo"
-        },
-        {
-          "id": "person:job:emperor",
-          "value": "imperatore"
-        },
-        {
-          "id": "person:job:physician",
-          "value": "medico"
-        },
-        {
-          "id": "person:job:duke",
-          "value": "duca"
-        },
-        {
-          "id": "person:job:earl",
-          "value": "conte"
-        },
-        {
-          "id": "person:job:prince",
-          "value": "principe"
-        },
-        {
-          "id": "person:job:teacher-of",
-          "value": "maestro di"
-        },
-        {
-          "id": "person:job:at-the-service-of",
-          "value": "a servizio di"
-        },
-        {
-          "id": "person:job:protector-of",
-          "value": "protettore di"
+          "id": "person:job:officer:office",
+          "value": "ufficio"
         },
         {
           "id": "person:group:member-of",
@@ -1150,10 +1162,6 @@
           "value": "testo raccolto"
         },
         {
-          "id": "person:annotation:annotation",
-          "value": "postilla"
-        },
-        {
           "id": "person:annotation:ms",
           "value": "manoscritto postillato"
         },
@@ -1186,6 +1194,10 @@
           "value": "manoscritto"
         },
         {
+          "id": "person:dedication:text",
+          "value": "testo"
+        },
+        {
           "id": "person:dedication:recipient",
           "value": "dedicatario"
         },
@@ -1194,16 +1206,16 @@
           "value": "manoscritto"
         },
         {
+          "id": "person:dedicated:text",
+          "value": "testo"
+        },
+        {
           "id": "person:dedicated:maker",
           "value": "dedicante"
         },
         {
           "id": "person:possession:manuscript",
           "value": "manoscritto"
-        },
-        {
-          "id": "person:possession:note",
-          "value": "nota di possesso"
         },
         {
           "id": "person:borrowing:manuscript",
@@ -1306,6 +1318,14 @@
           "value": "raccolta"
         },
         {
+          "id": "text:version:previous",
+          "value": "precedente"
+        },
+        {
+          "id": "text:version:subsequent",
+          "value": "successiva"
+        },
+        {
           "id": "manuscript:send:sender",
           "value": "mittente"
         },
@@ -1370,8 +1390,8 @@
           "value": "possessore"
         },
         {
-          "id": "manuscript:possession:note",
-          "value": "nota di possesso"
+          "id": "manuscript:possession:attest",
+          "value": "attestato da"
         },
         {
           "id": "manuscript:lend:borrower",
