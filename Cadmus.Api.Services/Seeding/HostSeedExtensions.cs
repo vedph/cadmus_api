@@ -229,7 +229,7 @@ public static class HostSeedExtensions
                 {
                     Console.WriteLine($"Importing from {resolved}...");
                     using Stream jsonStream =
-                        await loaderService.LoadAsync(resolved);
+                        (await loaderService.LoadAsync(resolved))!;
                     importer.Import(jsonStream);
                 }
             }

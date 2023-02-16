@@ -49,6 +49,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2023-02-15: updated packages (added `tag` to `PinLink` in general parts).
 - 2023-02-07: updated sample thesauri for events.
 
 ### 6.0.2

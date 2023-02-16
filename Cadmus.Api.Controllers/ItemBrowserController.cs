@@ -59,7 +59,7 @@ public class ItemBrowserController : Controller
 
         string profile;
         using (StreamReader reader = new(
-            await loaderService.LoadAsync(profileSource), Encoding.UTF8))
+            (await loaderService.LoadAsync(profileSource))!, Encoding.UTF8))
         {
             profile = reader.ReadToEnd();
         }
