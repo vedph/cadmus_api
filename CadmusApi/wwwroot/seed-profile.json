@@ -174,7 +174,16 @@
           "description": "Standard orthography.",
           "colorKey": "E0D4A4",
           "groupKey": "text",
-          "sortKey": "text-apparatus"
+          "sortKey": "text-orthography"
+        },
+        {
+          "typeId": "it.vedph.token-text-layer",
+          "roleId": "fr.it.vedph.pin-links",
+          "name": "links",
+          "description": "Pin-based links.",
+          "colorKey": "A0C0F8",
+          "groupKey": "text",
+          "sortKey": "text-links"
         },
         {
           "typeId": "it.vedph.token-text-layer",
@@ -330,7 +339,7 @@
           "description": "Standard orthography.",
           "colorKey": "E0D4A4",
           "groupKey": "text",
-          "sortKey": "text-apparatus"
+          "sortKey": "text-orthography"
         },
         {
           "typeId": "it.vedph.tiled-text-layer",
@@ -480,6 +489,10 @@
         {
           "id": "fr.it.vedph.orthography",
           "value": "orthography fr."
+        },
+        {
+          "id": "fr.it.vedph.pin-links",
+          "value": "links fr."
         },
         {
           "id": "fr.it.vedph.quotations",
@@ -1725,6 +1738,9 @@
             "ph.c.nas."
           ]
         }
+      },
+      {
+        "id": "seed.fr.it.vedph.pin-links"
       },
       {
         "id": "seed.fr.it.vedph.quotations",
