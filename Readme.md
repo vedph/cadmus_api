@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+		- [6.1.1](#611)
 		- [6.1.0](#610)
 		- [6.0.3](#603)
 		- [6.0.2](#602)
@@ -50,6 +51,10 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 6.1.1
+
+- 2023-02-27: updated packages (added `tag` to historical event in general parts).
 
 ### 6.1.0
 

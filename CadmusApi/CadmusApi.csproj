@@ -5,9 +5,9 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>a30dab70-4455-41f4-8f86-6c755170bc81</UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>6.1.0</Version>
-    <FileVersion>6.1.0</FileVersion>
-    <AssemblyVersion>6.1.0</AssemblyVersion>
+    <Version>6.1.1</Version>
+    <FileVersion>6.1.1</FileVersion>
+    <AssemblyVersion>6.1.1</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -33,7 +33,7 @@
     <PackageReference Include="Cadmus.Core" Version="6.0.2" />
     <PackageReference Include="Cadmus.Mongo" Version="6.0.2" />
     <PackageReference Include="Cadmus.Seed" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="4.1.0" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="4.1.1" />
     <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="6.0.1" />
     <PackageReference Include="Fusi.Antiquity" Version="3.0.0" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
