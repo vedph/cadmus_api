@@ -25,6 +25,16 @@
           "sortKey": "categories"
         },
         {
+          "typeId": "it.vedph.categories",
+          "roleId": "eras",
+          "name": "categories",
+          "description": "Item's eras.",
+          "isRequired": false,
+          "colorKey": "98F8F0",
+          "groupKey": "general",
+          "sortKey": "categories_eras"
+        },
+        {
           "typeId": "it.vedph.historical-date",
           "name": "date",
           "description": "Historical date.",
@@ -574,6 +584,39 @@
         {
           "id": "literature",
           "value": "literature"
+        }
+      ]
+    },
+    {
+      "id": "categories_eras@en",
+      "entries": [
+        {
+          "id": "arc",
+          "value": "archaic"
+        },
+        {
+          "id": "cls",
+          "value": "classical"
+        },
+        {
+          "id": "hel",
+          "value": "hellenistic"
+        },
+        {
+          "id": "imp",
+          "value": "imperial"
+        },
+        {
+          "id": "imp.-",
+          "value": "imperial"
+        },
+        {
+          "id": "imp.early",
+          "value": "early imperial"
+        },
+        {
+          "id": "imp.late",
+          "value": "late imperial"
         }
       ]
     },
