@@ -2,6 +2,7 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
+	    - [6.1.3](#613)
 		- [6.1.1](#611)
 		- [6.1.0](#610)
 		- [6.0.3](#603)
@@ -33,7 +34,7 @@
 
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:5.0.1 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:6.1.3 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -51,6 +52,12 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 6.1.3
+
+- 2023-03-02:
+  - updated packages (added gallery image annotations part).
+  - added new part definition and thesauri to seed profile.
 
 ### 6.1.1
 
