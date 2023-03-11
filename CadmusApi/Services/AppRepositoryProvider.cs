@@ -4,6 +4,7 @@ using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.General.Parts;
+using Cadmus.Img.Parts;
 using Cadmus.Mongo;
 using Cadmus.Philology.Parts;
 
@@ -35,7 +36,9 @@ public sealed class AppRepositoryProvider : IRepositoryProvider
             // Cadmus.General.Parts
             typeof(NotePart).GetTypeInfo().Assembly,
             // Cadmus.Philology.Parts
-            typeof(ApparatusLayerFragment).GetTypeInfo().Assembly
+            typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
+            // Cadmus.Img.Parts
+            typeof(GalleryImageAnnotationsPart).GetTypeInfo().Assembly
         });
 
         _partTypeProvider = new StandardPartTypeProvider(_map);

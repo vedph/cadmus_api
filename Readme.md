@@ -2,7 +2,8 @@
 
 - [Cadmus API](#cadmus-api)
 	- [History](#history)
-	    - [6.1.3](#613)
+		- [6.2.0](#620)
+		- [6.1.3](#613)
 		- [6.1.1](#611)
 		- [6.1.0](#610)
 		- [6.0.3](#603)
@@ -34,7 +35,7 @@
 
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:6.1.3 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:6.2.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -52,6 +53,12 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 6.2.0
+
+- 2023-03-02:
+  - moved gallery image annotations part into its own library and updated this demo API accordingly.
+  - removed gallery image annotations from profile, as the demo will no more use it. There is now an independent shell for imaging components providing the same functionalities without additional overhead for the base shell. Anyway, the API demo services still mantain a reference to `Cadmus.Img.Parts` so that it will be quicker to introduce additional imaging components in the demo.
 
 ### 6.1.3
 

@@ -35,15 +35,6 @@
           "sortKey": "categories_eras"
         },
         {
-          "typeId": "it.vedph.gallery-image-annotations",
-          "name": "image annotations",
-          "description": "Annotations on a selected image",
-          "isRequired": false,
-          "colorKey": "C028E8",
-          "groupKey": "imaging",
-          "sortKey": "annotations"
-        },
-        {
           "typeId": "it.vedph.historical-date",
           "name": "date",
           "description": "Historical date.",
@@ -428,10 +419,6 @@
         {
           "id": "it.vedph.external-ids",
           "value": "external IDs"
-        },
-        {
-          "id": "it.vedph.gallery-image-annotations",
-          "value": "image annotations"
         },
         {
           "id": "it.vedph.historical-date",
@@ -1493,19 +1480,6 @@
       ]
     },
     {
-      "id": "gallery-image-annotation-filters@en",
-      "entries": [
-        {
-          "id": "title",
-          "value": "title"
-        },
-        {
-          "id": "dsc",
-          "value": "description"
-        }
-      ]
-    },
-    {
       "id": "orthography-tags@en",
       "entries": [
         {
@@ -1737,9 +1711,6 @@
       },
       {
         "id": "seed.it.vedph.ext-bibliography"
-      },
-      {
-        "id": "seed.it.vedph.gallery-image-annotations"
       },
       {
         "id": "seed.it.vedph.names"
