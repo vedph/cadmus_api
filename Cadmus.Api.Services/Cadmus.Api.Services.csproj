@@ -10,12 +10,12 @@
     <Product>Cadmus</Product>
     <Description>Cadmus API services</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
     <Copyright>by Daniele Fusi</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>6.2.0</FileVersion>
-    <AssemblyVersion>6.2.0</AssemblyVersion>
+    <FileVersion>6.2.1</FileVersion>
+    <AssemblyVersion>6.2.1</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,17 +30,17 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
-    <PackageReference Include="Cadmus.Core" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Export" Version="2.0.3" />
-	<PackageReference Include="Cadmus.Graph" Version="2.0.5" />
-	<PackageReference Include="Cadmus.Graph.MySql" Version="2.0.5" />
-    <PackageReference Include="Cadmus.Index" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Index.MySql" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Mongo" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Seed" Version="6.0.2" />
+    <PackageReference Include="Cadmus.Core" Version="6.0.3" />
+    <PackageReference Include="Cadmus.Export" Version="2.0.4" />
+	<PackageReference Include="Cadmus.Graph" Version="2.1.4" />
+	<PackageReference Include="Cadmus.Graph.MySql" Version="2.1.4" />
+    <PackageReference Include="Cadmus.Index" Version="6.0.3" />
+    <PackageReference Include="Cadmus.Index.MySql" Version="6.0.3" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="6.0.3" />
+    <PackageReference Include="Cadmus.Mongo" Version="6.0.3" />
+    <PackageReference Include="Cadmus.Seed" Version="6.0.3" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
-    <PackageReference Include="Fusi.Tools" Version="3.1.0" />
+    <PackageReference Include="Fusi.Tools" Version="3.1.1" />
     <PackageReference Include="MessagingApi" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />

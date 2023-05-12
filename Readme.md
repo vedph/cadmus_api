@@ -54,7 +54,15 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-- 2023-04-21: updated packages.
+- 2023-04-21:
+  - updated packages.
+  - increased length of SecureKey in `appsettings.json` as required by updated MS `CryptoProviderFactory`. Do this in your API settings if you get an error like:
+
+```txt
+System.ArgumentOutOfRangeException: IDX10720: Unable to create KeyedHashAlgorithm for algorithm 'HS256', the key size must be greater than: '256' bits, key has '128' bits. (Parameter 'keyBytes')
+   at Microsoft.IdentityModel.Tokens.CryptoProviderFactory.ValidateKeySize(Byte[] keyBytes, String algorithm, Int32 expectedNumberOfBytes)
+   ...
+```
 
 ### 6.2.0
 
