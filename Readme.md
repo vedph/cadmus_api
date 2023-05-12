@@ -1,38 +1,5 @@
 # Cadmus API
 
-- [Cadmus API](#cadmus-api)
-	- [History](#history)
-		- [6.2.0](#620)
-		- [6.1.3](#613)
-		- [6.1.1](#611)
-		- [6.1.0](#610)
-		- [6.0.3](#603)
-		- [6.0.2](#602)
-		- [5.0.1](#501)
-		- [5.0.0](#500)
-		- [4.3.0](#430)
-		- [4.2.2](#422)
-		- [4.2.1](#421)
-		- [4.2.0](#420)
-		- [4.1.7](#417)
-		- [4.1.6](#416)
-		- [4.1.5](#415)
-		- [4.1.4](#414)
-		- [4.1.3](#413)
-		- [4.1.2](#412)
-		- [4.1.1](#411)
-		- [4.1.0](#410)
-		- [4.0.3](#403)
-		- [4.0.2](#402)
-		- [4.0.1](#401)
-		- [4.0.0](#400)
-		- [1.1.0](#110)
-		- [1.0.14](#1014)
-		- [1.0.13](#1013)
-	- [Developer Note About Port](#developer-note-about-port)
-	- [Profile](#profile)
-		- [Importing Data From JSON Dumps](#importing-data-from-json-dumps)
-
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
 Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:6.2.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
@@ -53,6 +20,8 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 6.2.1
 
 - 2023-04-21:
   - updated packages.
