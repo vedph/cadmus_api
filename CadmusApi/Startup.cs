@@ -110,7 +110,7 @@ public sealed class Startup
         string connStringTemplate = Configuration.GetConnectionString("Default");
 
         services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(
-            options => {},
+            _ => {},
             mongoOptions =>
             {
                 mongoOptions.ConnectionString =
@@ -300,7 +300,6 @@ public sealed class Startup
         services.AddSingleton(_ => Configuration);
 
         // repository
-        // services.AddSingleton<IRepositoryProvider, AppRepositoryProvider>();
         string dataCS = string.Format(
             Configuration.GetConnectionString("Default"),
             Configuration.GetValue<string>("DatabaseNames:Data"));
@@ -336,7 +335,7 @@ public sealed class Startup
         });
 
         // previewer
-        services.AddSingleton(p => GetPreviewer(p));
+        services.AddSingleton(GetPreviewer);
 
         // swagger
         ConfigureSwaggerServices(services);
@@ -383,7 +382,10 @@ public sealed class Startup
                 Console.WriteLine("HSTS: yes");
                 app.UseHsts();
             }
-            else Console.WriteLine("HSTS: no");
+            else
+            {
+                Console.WriteLine("HSTS: no");
+            }
         }
 
         if (Configuration.GetValue<bool>("Server:UseHttpsRedirection"))
@@ -391,7 +393,10 @@ public sealed class Startup
             Console.WriteLine("HttpsRedirection: yes");
             app.UseHttpsRedirection();
         }
-        else Console.WriteLine("HttpsRedirection: no");
+        else
+        {
+            Console.WriteLine("HttpsRedirection: no");
+        }
 
         app.UseRouting();
 
@@ -400,10 +405,7 @@ public sealed class Startup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapControllers();
-        });
+        app.UseEndpoints(endpoints => endpoints.MapControllers());
 
         // Swagger
         app.UseSwagger();

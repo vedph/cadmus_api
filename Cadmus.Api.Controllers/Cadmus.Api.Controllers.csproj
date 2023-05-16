@@ -11,18 +11,18 @@
     <Description>Cadmus API controllers.</Description>
     <Copyright>By Daniele Fusi</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>6.2.1</Version>
+    <Version>6.2.2</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>6.2.1</FileVersion>
-    <AssemblyVersion>6.2.1</AssemblyVersion>
+    <FileVersion>6.2.2</FileVersion>
+    <AssemblyVersion>6.2.2</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
     <PackageReference Include="Cadmus.Core" Version="6.0.3" />
-    <PackageReference Include="Cadmus.Index" Version="6.0.3" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="6.0.3" />
+    <PackageReference Include="Cadmus.Index" Version="6.0.4" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="6.0.4" />
     <PackageReference Include="Cadmus.Mongo" Version="6.0.3" />
     <PackageReference Include="Cadmus.Seed" Version="6.0.3" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
