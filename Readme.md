@@ -21,6 +21,12 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 6.2.3
+
+- 2023-05-16:
+  - updated packages.
+  - removed legacy dependencies.
+
 ### 6.2.2
 
 - 2023-05-16: updated packages.
