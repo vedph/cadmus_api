@@ -10,12 +10,12 @@
     <Product>Cadmus</Product>
     <Description>Cadmus API services</Description>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>6.2.3</Version>
+    <Version>6.3.0</Version>
     <Copyright>by Daniele Fusi</Copyright>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>6.2.3</FileVersion>
-    <AssemblyVersion>6.2.3</AssemblyVersion>
+    <FileVersion>6.3.0</FileVersion>
+    <AssemblyVersion>6.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

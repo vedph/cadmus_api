@@ -21,6 +21,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 6.3.0
+
+- 2023-05-18: updated libraries and API startup code to use DI for `GraphUpdater`. See [this page](https://myrmex.github.io/overview/cadmus/dev/history/b-graph/) for details.
+
 ### 6.2.3
 
 - 2023-05-16:

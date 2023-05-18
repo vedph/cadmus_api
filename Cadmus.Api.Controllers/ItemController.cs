@@ -520,7 +520,8 @@ public sealed class ItemController : Controller
         if (graphRepository == null) return;
 
         _logger.Information("Updating graph for item " + item);
-        GraphUpdater updater = new(graphRepository);
+        GraphUpdater updater = _serviceProvider.GetService<GraphUpdater>()
+            ?? new GraphUpdater(graphRepository);
         updater.Update(item);
     }
 
@@ -530,7 +531,8 @@ public sealed class ItemController : Controller
         if (graphRepository == null) return;
 
         _logger.Information("Updating graph for part " + part);
-        GraphUpdater updater = new(graphRepository);
+        GraphUpdater updater = _serviceProvider.GetService<GraphUpdater>()
+            ?? new GraphUpdater(graphRepository);
         updater.Update(item, part);
     }
 
@@ -552,8 +554,7 @@ public sealed class ItemController : Controller
     [HttpPost("api/items")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
-    public async Task<IActionResult> AddItem(
-        [FromBody] ItemBindingModel model)
+    public async Task<IActionResult> AddItem([FromBody] ItemBindingModel model)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -581,8 +582,7 @@ public sealed class ItemController : Controller
             item.Id,
             HttpContext.Connection.RemoteIpAddress);
 
-        ICadmusRepository repository =
-            _repositoryProvider.CreateRepository();
+        ICadmusRepository repository = _repositoryProvider.CreateRepository();
         repository.AddItem(item);
 
         // update index

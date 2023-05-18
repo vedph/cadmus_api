@@ -67,7 +67,8 @@ public static class HostSeedExtensions
             else
             {
                 graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
-                graphUpdater = new GraphUpdater(graphRepository);
+                graphUpdater = serviceProvider.GetService<GraphUpdater>()
+                    ?? new GraphUpdater(graphRepository);
             }
         }
 
