@@ -1517,6 +1517,15 @@
       ]
     },
     {
+      "id": "pin-link-settings@en",
+      "entries": [
+        {
+          "id": "switch-mode",
+          "value": "true"
+        }
+      ]
+    },
+    {
       "id": "apparatus-tags@en",
       "entries": [
         {

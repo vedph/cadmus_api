@@ -35,7 +35,7 @@
     <PackageReference Include="Cadmus.Core" Version="6.0.3" />
     <PackageReference Include="Cadmus.Mongo" Version="6.0.3" />
     <PackageReference Include="Cadmus.Seed" Version="6.0.3" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="4.2.1" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="5.0.2" />
     <PackageReference Include="Cadmus.Seed.Img.Parts" Version="0.0.2" />
     <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="6.0.2" />
     <PackageReference Include="Fusi.Antiquity" Version="3.0.0" />
