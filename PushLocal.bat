@@ -1,7 +1,7 @@
 @echo off
 echo PRESS ANY KEY TO INSTALL Cadmus Libraries TO LOCAL NUGET FEED
 echo Remember to generate the up-to-date package.
-c:\exe\nuget add .\Cadmus.Api.Controllers\bin\Debug\Cadmus.Api.Controllers.6.3.0.nupkg -source C:\Projects\_NuGet
-c:\exe\nuget add .\Cadmus.Api.Models\bin\Debug\Cadmus.Api.Models.6.3.0.nupkg -source C:\Projects\_NuGet
-c:\exe\nuget add .\Cadmus.Api.Services\bin\Debug\Cadmus.Api.Services.6.3.0.nupkg -source C:\Projects\_NuGet
+c:\exe\nuget add .\Cadmus.Api.Controllers\bin\Debug\Cadmus.Api.Controllers.7.0.0.nupkg -source C:\Projects\_NuGet
+c:\exe\nuget add .\Cadmus.Api.Models\bin\Debug\Cadmus.Api.Models.7.0.0.nupkg -source C:\Projects\_NuGet
+c:\exe\nuget add .\Cadmus.Api.Services\bin\Debug\Cadmus.Api.Services.7.0.0.nupkg -source C:\Projects\_NuGet
 pause
