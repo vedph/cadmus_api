@@ -21,7 +21,11 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-# 7.0.0
+### 7.0.1
+
+-2023-05-26: updated packages.
+
+### 7.0.0
 
 - 2023-05-23:
   - updated general parts with breaking changes for pin links part and fragment, comments parts and fragments, and historical events, now using `AssertedCompositeId`.
