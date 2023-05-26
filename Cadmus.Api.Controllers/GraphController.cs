@@ -162,7 +162,7 @@ public sealed class GraphController : ControllerBase
             Uri = model.Uri
         };
         repository.AddNode(node);
-        return CreatedAtRoute("GetNode", node);
+        return CreatedAtRoute("GetNode", new { node.Id }, node);
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public sealed class GraphController : ControllerBase
             Tag = model.Tag
         };
         repository.AddTriple(triple);
-        return CreatedAtRoute("GetTriple", triple);
+        return CreatedAtRoute("GetTriple", new { triple.Id }, triple);
     }
 
     /// <summary>

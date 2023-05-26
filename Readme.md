@@ -21,6 +21,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 7.0.4
+
+- 2023-05-26: fix to `GraphController` in building the return route after saving nodes/triples.
+
 ### 7.0.3
 
 - 2023-05-26: added deletion for item's parts in graph when item is deleted.
