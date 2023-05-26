@@ -766,327 +766,275 @@
       "entries": [
         {
           "id": "person.birth",
-          "value": "nascita"
+          "value": "persona: nascita"
         },
         {
           "id": "person.family",
-          "value": "famiglia"
+          "value": "persona: famiglia"
         },
         {
           "id": "person.death",
-          "value": "morte"
+          "value": "persona: morte"
         },
         {
           "id": "person.marriage",
-          "value": "matrimonio"
+          "value": "persona: matrimonio"
         },
         {
           "id": "person.job",
-          "value": "professione"
-        },
-        {
-          "id": "person.job.-",
-          "value": "professione"
+          "value": "persona: professione"
         },
         {
           "id": "person.job.pope",
-          "value": "papa"
+          "value": "persona: professione: papa"
         },
         {
           "id": "person.job.cardinal",
-          "value": "cardinal"
+          "value": "persona: professione: cardinale"
         },
         {
           "id": "person.job.bishop",
-          "value": "vescovo"
+          "value": "persona: professione: vescovo"
         },
         {
           "id": "person.job.friar",
-          "value": "frate"
+          "value": "persona: professione: frate"
         },
         {
           "id": "person.job.prior",
-          "value": "priore"
+          "value": "persona: professione: priore"
         },
         {
           "id": "person.job.canon",
-          "value": "canonico"
+          "value": "persona: professione: canonico"
         },
         {
           "id": "person.job.king",
-          "value": "sovrano"
+          "value": "persona: professione: sovrano"
         },
         {
           "id": "person.job.politician",
-          "value": "uomo politico"
+          "value": "persona: professione: uomo politico"
         },
         {
           "id": "person.job.teacher",
-          "value": "maestro"
+          "value": "persona: professione: maestro"
         },
         {
           "id": "person.job.lecturer",
-          "value": "lettore"
+          "value": "persona: professione: lettore"
         },
         {
           "id": "person.job.jurist",
-          "value": "giurista"
+          "value": "persona: professione: giurista"
         },
         {
           "id": "person.job.diplomatic",
-          "value": "diplomatico"
+          "value": "persona: professione: diplomatico"
         },
         {
           "id": "person.job.notary",
-          "value": "notaio"
+          "value": "persona: professione: notaio"
         },
         {
           "id": "person.job.military",
-          "value": "uomo d'armi"
+          "value": "persona: professione: uomo d'armi"
         },
         {
           "id": "person.job.scribe",
-          "value": "copista"
+          "value": "persona: professione: copista"
         },
         {
           "id": "person.job.artist",
-          "value": "artista"
+          "value": "persona: professione: artista"
         },
         {
           "id": "person.job.musician",
-          "value": "musico"
+          "value": "persona: professione: musico"
         },
         {
           "id": "person.job.apprentice",
-          "value": "apprendista"
+          "value": "persona: professione: apprendista"
         },
         {
           "id": "person.job.counsellor",
-          "value": "consigliere"
+          "value": "persona: professione: consigliere"
         },
         {
           "id": "person.job.chancellor",
-          "value": "cancelliere"
+          "value": "persona: professione: cancelliere"
         },
         {
           "id": "person.job.secretary",
-          "value": "segretario"
+          "value": "persona: professione: segretario"
         },
         {
           "id": "person.job.merchant",
-          "value": "mercante"
+          "value": "persona: professione: mercante"
+        },
+        {
+          "id": "person.job.banker",
+          "value": "persona: professione: banchiere"
         },
         {
           "id": "person.job.artisan",
-          "value": "artigiano"
+          "value": "persona: professione: artigiano"
         },
         {
           "id": "person.job.servant",
-          "value": "servo"
+          "value": "persona: professione: servo"
         },
         {
           "id": "person.job.emperor",
-          "value": "imperatore"
+          "value": "persona: professione: imperatore"
         },
         {
           "id": "person.job.physician",
-          "value": "medico"
+          "value": "persona: professione: medico"
         },
         {
           "id": "person.job.duke",
-          "value": "duca"
+          "value": "persona: professione: duca"
         },
         {
           "id": "person.job.earl",
-          "value": "conte"
+          "value": "persona: professione: conte"
         },
         {
           "id": "person.job.prince",
-          "value": "principe"
+          "value": "persona: professione: principe"
         },
         {
-          "id": "person.job.at-the-service-of",
-          "value": "a servizio di"
+          "id": "person.teacher-of",
+          "value": "persona: maestro di"
         },
         {
-          "id": "person.job.protector",
-          "value": "protettore"
+          "id": "person.disciple-of",
+          "value": "persona: allievo di"
         },
         {
-          "id": "person.job.officer",
-          "value": "nomina ad un ufficio"
+          "id": "person.counsellor-of",
+          "value": "persona: consigliere di"
+        },
+        {
+          "id": "person.secretary-of",
+          "value": "persona: segretario di"
+        },
+        {
+          "id": "person.servant",
+          "value": "persona: servo di"
+        },
+        {
+          "id": "person.at-service-of",
+          "value": "persona: a servizio di"
+        },
+        {
+          "id": "person.protector-of",
+          "value": "persona: protettore di"
+        },
+        {
+          "id": "person.officer",
+          "value": "persona: nomina ad un ufficio"
         },
         {
           "id": "person.title",
-          "value": "titolo"
+          "value": "persona: titolo"
         },
         {
           "id": "person.appointment",
-          "value": "nomina"
+          "value": "persona: nomina"
         },
         {
           "id": "person.group",
-          "value": "gruppo"
+          "value": "persona: gruppo"
         },
         {
           "id": "person.meeting",
-          "value": "incontro"
+          "value": "persona: incontro"
         },
         {
           "id": "person.travel",
-          "value": "viaggio"
+          "value": "persona: viaggio"
         },
         {
           "id": "person.participation",
-          "value": "partecipazione"
+          "value": "persona: partecipazione"
         },
         {
           "id": "person.documented",
-          "value": "attestazione"
+          "value": "persona: attestazione"
         },
         {
           "id": "person.send",
-          "value": "invio"
+          "value": "persona: invio"
         },
         {
           "id": "person.reception",
-          "value": "ricezione"
+          "value": "persona: ricezione"
         },
         {
-          "id": "person.deliver",
-          "value": "consegna"
+          "id": "person.exchange",
+          "value": "persona: scambio diretto"
         },
         {
           "id": "person.transcription",
-          "value": "trascrizione"
+          "value": "persona: trascrizione"
         },
         {
           "id": "person.collection",
-          "value": "raccolta di testi petrarcheschi"
+          "value": "persona: raccolta di testi petrarcheschi"
         },
         {
           "id": "person.annotation",
-          "value": "postilla"
+          "value": "persona: postilla"
         },
         {
-          "id": "person.writing",
-          "value": "stesura"
+          "id": "person.handwriting",
+          "value": "persona: scrittura"
         },
         {
           "id": "person.commission",
-          "value": "commissione"
+          "value": "persona: commissione"
         },
         {
           "id": "person.commissioned",
-          "value": "esecuzione su commissione"
+          "value": "persona: esecuzione su commissione"
         },
         {
           "id": "person.dedication",
-          "value": "dedica"
+          "value": "persona: dedica"
         },
         {
           "id": "person.dedicated",
-          "value": "ricezione di dedica"
+          "value": "persona: ricezione di dedica"
         },
         {
           "id": "person.possession",
-          "value": "possesso"
+          "value": "persona: possesso"
         },
         {
           "id": "person.borrowing",
-          "value": "prende in prestito"
+          "value": "persona: prende in prestito"
         },
         {
           "id": "person.lending",
-          "value": "presta"
+          "value": "persona: presta"
         },
         {
           "id": "person.returning",
-          "value": "restituisce"
+          "value": "persona: restituisce"
         },
         {
           "id": "person.obtain-restitution",
-          "value": "ottiene restituzione"
+          "value": "persona: ottiene restituzione"
         },
         {
           "id": "person.buying",
-          "value": "acquista"
+          "value": "persona: acquista"
         },
         {
           "id": "person.selling",
-          "value": "vende"
-        },
-        {
-          "id": "text.send",
-          "value": "invio"
-        },
-        {
-          "id": "text.reception",
-          "value": "ricezione"
-        },
-        {
-          "id": "text.deliver",
-          "value": "consegna"
-        },
-        {
-          "id": "text.transcription",
-          "value": "trascrizione"
-        },
-        {
-          "id": "text.writing",
-          "value": "stesura"
-        },
-        {
-          "id": "text.collection",
-          "value": "raccolta"
-        },
-        {
-          "id": "text.version",
-          "value": "redazione"
-        },
-        {
-          "id": "manuscript.send",
-          "value": "invio"
-        },
-        {
-          "id": "manuscript.reception",
-          "value": "ricezione"
-        },
-        {
-          "id": "manuscript.deliver",
-          "value": "consegna"
-        },
-        {
-          "id": "manuscript.editing",
-          "value": "editing"
-        },
-        {
-          "id": "manuscript.commission",
-          "value": "commissione"
-        },
-        {
-          "id": "manuscript.dedication",
-          "value": "dedica"
-        },
-        {
-          "id": "manuscript.possession",
-          "value": "possesso"
-        },
-        {
-          "id": "manuscript.lend",
-          "value": "prestito"
-        },
-        {
-          "id": "manuscript.return",
-          "value": "restituzione"
-        },
-        {
-          "id": "manuscript.buy",
-          "value": "acquisto"
-        },
-        {
-          "id": "manuscript.restore",
-          "value": "restauro"
+          "value": "persona: vende"
         }
       ]
     },
@@ -1094,388 +1042,244 @@
       "id": "event-relations@en",
       "entries": [
         {
+          "id": "person:birth:mother",
+          "value": "persona: nascita: madre"
+        },
+        {
+          "id": "person:birth:father",
+          "value": "persona: nascita: padre"
+        },
+        {
           "id": "person:family:son",
-          "value": "figlio"
+          "value": "persona: famiglia: figlio"
         },
         {
           "id": "person:family:daughter",
-          "value": "figlia"
-        },
-        {
-          "id": "person:family:mother",
-          "value": "madre"
-        },
-        {
-          "id": "person:family:father",
-          "value": "padre"
+          "value": "persona: famiglia: figlia"
         },
         {
           "id": "person:family:brother",
-          "value": "fratello"
+          "value": "persona: famiglia: fratello"
         },
         {
           "id": "person:family:sister",
-          "value": "sorella"
+          "value": "persona: famiglia: sorella"
         },
         {
           "id": "person:marriage:husband",
-          "value": "marito"
+          "value": "persona: matrimonio: marito"
         },
         {
           "id": "person:marriage:wife",
-          "value": "moglie"
+          "value": "persona: matrimonio: moglie"
         },
         {
-          "id": "person:job:teacher:disciple",
-          "value": "allievo"
+          "id": "person:teacher-of:disciple",
+          "value": "persona: maestro di: allievo"
         },
         {
-          "id": "person:job:at-the-service-of:protector",
-          "value": "protettore"
+          "id": "person:disciple-of:teacher",
+          "value": "persona: allievo di: maestro"
         },
         {
-          "id": "person:job:protected",
-          "value": "protetto"
+          "id": "person:counsellor-of:person",
+          "value": "persona: consigliere di: persona"
         },
         {
-          "id": "person:job:officer:office",
-          "value": "ufficio"
+          "id": "person:secretary-of:person",
+          "value": "persona: segretario di: persona"
+        },
+        {
+          "id": "person:servant:person",
+          "value": "persona: servo di: persona"
+        },
+        {
+          "id": "person:at-the-service-of:person",
+          "value": "persona: a servizio di: protettore"
+        },
+        {
+          "id": "person:protector-of:person",
+          "value": "persona: protettore di: persona"
+        },
+        {
+          "id": "person:officer:office",
+          "value": "persona: nomina ad un ufficio: ufficio"
         },
         {
           "id": "person:group:member-of",
-          "value": "membro di"
+          "value": "persona: gruppo: membro di"
         },
         {
           "id": "person:meeting:met",
-          "value": "persona incontrata"
+          "value": "persona: incontro:persona incontrata"
         },
         {
           "id": "person:meeting:spectator",
-          "value": "spettatore"
+          "value": "persona: incontro: spettatore"
         },
         {
           "id": "person:travel:participant",
-          "value": "partecipante"
+          "value": "persona: viaggio: partecipante"
         },
         {
           "id": "person:participation:participant",
-          "value": "partecipante"
+          "value": "persona: partecipazione: partecipante"
         },
         {
           "id": "person:documented:participant",
-          "value": "partecipante"
+          "value": "persona: attestazione: fonte"
         },
         {
           "id": "person:send:sent",
-          "value": "oggetto inviato"
+          "value": "persona: invio: oggetto inviato"
         },
         {
           "id": "person:send:recipient",
-          "value": "destinatario"
+          "value": "persona: invio: destinatario"
         },
         {
-          "id": "person:send:messenger",
-          "value": "latore"
+          "id": "person:send:carrier",
+          "value": "persona: invio: latore"
         },
         {
           "id": "person:reception:received",
-          "value": "oggetto ricevuto"
+          "value": "persona: ricezione: oggetto ricevuto"
         },
         {
           "id": "person:reception:sender",
-          "value": "mittente"
+          "value": "persona: ricezione: mittente"
         },
         {
-          "id": "person:reception:messenger",
-          "value": "latore"
+          "id": "person:reception:carrier",
+          "value": "persona: ricezione: latore"
         },
         {
-          "id": "person:deliver:delivered",
-          "value": "oggetto consegnato"
+          "id": "person:exchange:exchanged",
+          "value": "persona: scambio diretto: oggetto scambiato"
         },
         {
-          "id": "person:deliver:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "person:deliver:recipient",
-          "value": "destinatario"
+          "id": "person:exchange:recipient",
+          "value": "persona: scambio diretto: destinatario"
         },
         {
           "id": "person:transcription:copy",
-          "value": "copia"
+          "value": "persona: trascrizione: copia"
         },
         {
           "id": "person:transcription:text",
-          "value": "testo trascritto"
+          "value": "persona: trascrizione: antigrafo"
         },
         {
           "id": "person:collection:copy",
-          "value": "manoscritto"
+          "value": "persona: raccolta di testi petrarcheschi: manoscritto"
         },
         {
           "id": "person:collection:text",
-          "value": "testo raccolto"
+          "value": "persona: raccolta di testi petrarcheschi: testo raccolto"
         },
         {
           "id": "person:annotation:ms",
-          "value": "manoscritto postillato"
+          "value": "persona: postilla: manoscritto postillato"
         },
         {
           "id": "person:annotation:text",
-          "value": "testo postillato"
+          "value": "persona: postilla: testo postillato"
         },
         {
-          "id": "person:writing:text",
-          "value": "testo"
+          "id": "person:handwriting:hand",
+          "value": "persona: scrittura: mano"
         },
         {
           "id": "person:commission:manuscript",
-          "value": "manoscritto"
+          "value": "persona: commissione: manoscritto"
         },
         {
           "id": "person:commission:maker",
-          "value": "esecutore"
+          "value": "persona: commissione: esecutore"
         },
         {
           "id": "person:commissioned:manuscript",
-          "value": "manoscritto"
+          "value": "persona: esecuzione su commissione: manoscritto"
         },
         {
           "id": "person:commissioned:client",
-          "value": "committente"
+          "value": "persona: esecuzione su commissione: committente"
         },
         {
           "id": "person:dedication:manuscript",
-          "value": "manoscritto"
+          "value": "persona: dedica: manoscritto"
         },
         {
           "id": "person:dedication:text",
-          "value": "testo"
+          "value": "persona: dedica: testo"
         },
         {
           "id": "person:dedication:recipient",
-          "value": "dedicatario"
+          "value": "persona: dedica: dedicatario"
         },
         {
           "id": "person:dedicated:manuscript",
-          "value": "manoscritto"
+          "value": "persona: ricezione di dedica: manoscritto"
         },
         {
           "id": "person:dedicated:text",
-          "value": "testo"
+          "value": "persona: ricezione di dedica: testo"
         },
         {
           "id": "person:dedicated:maker",
-          "value": "dedicante"
+          "value": "persona: ricezione di dedica: dedicante"
         },
         {
           "id": "person:possession:manuscript",
-          "value": "manoscritto"
+          "value": "persona: possesso: manoscritto"
         },
         {
           "id": "person:borrowing:manuscript",
-          "value": "manoscritto"
+          "value": "persona: prende in prestito: manoscritto"
         },
         {
           "id": "person:borrowing:lender",
-          "value": "presta"
+          "value": "persona: prende in prestito: presta"
         },
         {
           "id": "person:lending:manuscript",
-          "value": "manoscritto"
+          "value": "persona: presta: manoscritto"
         },
         {
           "id": "person:lending:borrower",
-          "value": "prende in prestito"
+          "value": "persona: presta: prende in prestito"
         },
         {
           "id": "person:returning:manuscript",
-          "value": "manoscritto"
+          "value": "persona: restituisce: manoscritto"
         },
         {
           "id": "person:returning:obtain-restitution",
-          "value": "ottiene restituzione"
+          "value": "persona: restituisce: ottiene restituzione"
         },
         {
           "id": "person:obtain-restitution:manuscript",
-          "value": "manoscritto"
+          "value": "persona: ottiene restituzione: manoscritto"
         },
         {
           "id": "person:obtain-restitution:returning",
-          "value": "restituisce"
+          "value": "persona: ottiene restituzione: restituisce"
         },
         {
           "id": "person:buying:manuscript",
-          "value": "manoscritto"
+          "value": "persona: acquista: manoscritto"
         },
         {
           "id": "person:buying:seller",
-          "value": "venditore"
+          "value": "persona: acquista: venditore"
         },
         {
           "id": "person:selling:manuscript",
-          "value": "manoscritto"
+          "value": "persona: vende: manoscritto"
         },
         {
           "id": "person:selling:buyer",
-          "value": "acquirente"
-        },
-        {
-          "id": "text:send:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "text:send:recipient",
-          "value": "destinatario"
-        },
-        {
-          "id": "text:send:messenger",
-          "value": "latore"
-        },
-        {
-          "id": "text:reception:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "text:reception:recipient",
-          "value": "destinatario"
-        },
-        {
-          "id": "text:reception:messenger",
-          "value": "latore"
-        },
-        {
-          "id": "text:deliver:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "text:deliver:recipient",
-          "value": "destinatario"
-        },
-        {
-          "id": "text:deliver:messenger",
-          "value": "latore"
-        },
-        {
-          "id": "text:transcription:copy",
-          "value": "copia"
-        },
-        {
-          "id": "text:transcription:transcriber",
-          "value": "trascrittore"
-        },
-        {
-          "id": "text:writing:author",
-          "value": "autore"
-        },
-        {
-          "id": "text:collection:collector",
-          "value": "raccolta"
-        },
-        {
-          "id": "text:version:previous",
-          "value": "precedente"
-        },
-        {
-          "id": "text:version:subsequent",
-          "value": "successiva"
-        },
-        {
-          "id": "manuscript:send:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "manuscript:send:recipient",
-          "value": "destinatario"
-        },
-        {
-          "id": "manuscript:send:messenger",
-          "value": "latore"
-        },
-        {
-          "id": "manuscript:reception:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "manuscript:reception:recipient",
-          "value": "destinatario"
-        },
-        {
-          "id": "manuscript:reception:messenger",
-          "value": "latore"
-        },
-        {
-          "id": "manuscript:deliver:sender",
-          "value": "mittente"
-        },
-        {
-          "id": "manuscript:deliver:recipient",
-          "value": "destinatario"
-        },
-        {
-          "id": "manuscript:deliver:messenger",
-          "value": "latore"
-        },
-        {
-          "id": "manuscript:editing:maker",
-          "value": "eseguito da"
-        },
-        {
-          "id": "manuscript:editing:eid",
-          "value": "eid edit"
-        },
-        {
-          "id": "manuscript:commission:client",
-          "value": "committente"
-        },
-        {
-          "id": "manuscript:commission:maker",
-          "value": "esecutore"
-        },
-        {
-          "id": "manuscript:dedication:maker",
-          "value": "dedicante"
-        },
-        {
-          "id": "manuscript:dedication:recipient",
-          "value": "dedicatario"
-        },
-        {
-          "id": "manuscript:possession:owner",
-          "value": "possessore"
-        },
-        {
-          "id": "manuscript:possession:attest",
-          "value": "attestato da"
-        },
-        {
-          "id": "manuscript:lend:borrower",
-          "value": "prende in prestito"
-        },
-        {
-          "id": "manuscript:lend:lender",
-          "value": "presta"
-        },
-        {
-          "id": "manuscript:return:returned",
-          "value": "restituisce"
-        },
-        {
-          "id": "manuscript:return:return-to",
-          "value": "ottiene restituzione"
-        },
-        {
-          "id": "manuscript:buy:buyer",
-          "value": "acquirente"
-        },
-        {
-          "id": "manuscript:buy:seller",
-          "value": "venditore"
-        },
-        {
-          "id": "manuscript:restore:restorer",
-          "value": "restauratore"
+          "value": "persona: vende: acquirente"
         }
       ]
     },

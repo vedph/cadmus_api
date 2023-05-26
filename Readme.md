@@ -21,6 +21,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2023-05-26: event types thesauri.
+
 ### 7.0.4
 
 - 2023-05-26: fix to `GraphController` in building the return route after saving nodes/triples.
