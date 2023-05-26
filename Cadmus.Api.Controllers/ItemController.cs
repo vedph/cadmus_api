@@ -422,23 +422,34 @@ public sealed class ItemController : Controller
             User.Identity!.Name,
             id,
             HttpContext.Connection.RemoteIpAddress);
+        ICadmusRepository repository = _repositoryProvider.CreateRepository();
+        bool isGraphEnabled = IsGraphEnabled();
 
-        ICadmusRepository repository =
-            _repositoryProvider.CreateRepository();
+        // if we're going to update the graph, collect part IDs
+        List<string> partIds = new();
+        if (isGraphEnabled)
+        {
+            foreach (IPart part in repository.GetItemParts(new[] { id }))
+                partIds.Add(part.Id);
+        }
+
+        // delete item and parts
         repository.DeleteItem(id, User.Identity!.Name!);
 
         // update index if required
         if (IsIndexingEnabled())
         {
-            bool isGraphEnabled = IsGraphEnabled();
-
             ItemIndexFactory factory = (await ItemIndexHelper
                 .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
             IItemIndexWriter writer = factory.GetItemIndexWriter()!;
             await writer.DeleteItem(id);
             writer.Close();
 
-            if (isGraphEnabled) UpdateGraphForDeletion(id);
+            if (isGraphEnabled)
+            {
+                foreach (string partId in partIds) UpdateGraphForDeletion(partId);
+                UpdateGraphForDeletion(id);
+            }
         }
     }
 
