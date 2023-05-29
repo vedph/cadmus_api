@@ -21,7 +21,11 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
-- 2023-05-26: event types thesauri.
+### 7.0.5
+
+- 2023-05-26:
+  - event types thesauri.
+  - updated packages.
 
 ### 7.0.4
 
