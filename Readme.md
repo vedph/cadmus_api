@@ -2,7 +2,7 @@
 
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:8.0.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:8.0.0 -t vedph2020/cadmus-api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
