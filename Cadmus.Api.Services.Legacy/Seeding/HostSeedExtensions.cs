@@ -51,7 +51,7 @@ public static class HostSeedExtensions
             Console.WriteLine("Getting index writer...");
             ItemIndexFactory? indexFactory = await ItemIndexHelper
                 .GetIndexFactoryAsync(config, serviceProvider);
-            indexWriter = indexFactory?.GetItemIndexWriter();
+            indexWriter = indexFactory?.GetItemIndexWriter(graphSql);
         }
 
         // get graph service if required
@@ -69,12 +69,6 @@ public static class HostSeedExtensions
                 graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
                 graphUpdater = serviceProvider.GetService<GraphUpdater>()
                     ?? new GraphUpdater(graphRepository);
-
-                // create graph if required
-                Console.WriteLine("Creating graph store...");
-                bool created = graphRepository.CreateStore(graphSql);
-                Console.WriteLine(created
-                    ? "Graph store created." : "Graph store already exists.");
             }
         }
 

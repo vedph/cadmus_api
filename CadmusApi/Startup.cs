@@ -29,15 +29,13 @@ using Cadmus.Api.Services.Messaging;
 using Cadmus.Api.Services;
 using System.Linq;
 using Microsoft.AspNetCore.HttpOverrides;
-using MessagingApi.SendGrid;
-using Cadmus.Index.Sql;
 using Cadmus.Graph;
-using Cadmus.Graph.MySql;
 using Cadmus.Export.Preview;
 using Cadmus.Core.Storage;
 using System.Globalization;
+using Cadmus.Graph.Ef;
 using Cadmus.Graph.Extras;
-using NuGet.Protocol.Core.Types;
+using Cadmus.Graph.Ef.PgSql;
 
 namespace CadmusApi;
 
@@ -67,23 +65,33 @@ public sealed class Startup
         HostEnvironment = environment;
     }
 
+    /// <summary>
+    /// Configures the options services providing typed configuration objects.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureOptionsServices(IServiceCollection services)
     {
         // configuration sections
         // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
         services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
-        // services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"))
-        services.Configure<SendGridMailerOptions>(Configuration.GetSection("Mailer"));
+        services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
+        // services.Configure<SendGridMailerOptions>(Configuration.GetSection("Mailer"))
 
         // explicitly register the settings object by delegating to the IOptions object
         services.AddSingleton(resolver =>
             resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
-        //services.AddSingleton(resolver =>
-        //    resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value)
         services.AddSingleton(resolver =>
-            resolver.GetRequiredService<IOptions<SendGridMailerOptions>>().Value);
+            resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
+        //services.AddSingleton(resolver =>
+        //    resolver.GetRequiredService<IOptions<SendGridMailerOptions>>().Value)
     }
 
+    /// <summary>
+    /// Configures the CORS services. Allowed origins are read from configuration
+    /// <c>AllowedOrigins</c> (an array of URIs). If this section does not exist,
+    /// the only allowed origin is <c>http://localhost:4200</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureCorsServices(IServiceCollection services)
     {
         string[] origins = new[] { "http://localhost:4200" };
@@ -106,6 +114,15 @@ public sealed class Startup
         }));
     }
 
+    /// <summary>
+    /// Configures the authentication services. These refer to a database
+    /// whose connection string is built from a template in configuration
+    /// <c>ConnectionStrings:Default</c>, whose database name is filled by
+    /// the value from <c>DatabaseNames:Auth</c>. JWT tokens are configured
+    /// according to <c>Jwt:SecureKey</c>, <c>Jwt:Audience</c>, and
+    /// <c>Jwt:Issuer</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureAuthServices(IServiceCollection services)
     {
         // identity
@@ -161,6 +178,11 @@ public sealed class Startup
 #endif
     }
 
+    /// <summary>
+    /// Configures the Swagger services to include comments from code and
+    /// use JWT authentication.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private static void ConfigureSwaggerServices(IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
@@ -254,23 +276,44 @@ public sealed class Startup
         return new CadmusPreviewer(factory, repository);
     }
 
+    /// <summary>
+    /// Configures the item index services with the connection string template
+    /// from <c>ConnectionStrings:Index</c>, whose database name is defined in
+    /// <c>DatabaseNames:Data</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureIndexServices(IServiceCollection services)
     {
-        // item index factory provider
-        string indexCS = string.Format(
-            Configuration.GetConnectionString("Index"),
+        // item index factory provider (from ConnectionStrings/Index)
+        string cs = string.Format(Configuration.GetConnectionString("Index"),
             Configuration.GetValue<string>("DatabaseNames:Data"));
 
         services.AddSingleton<IItemIndexFactoryProvider>(_ =>
-            new StandardItemIndexFactoryProvider(indexCS));
+            new StandardItemIndexFactoryProvider(cs));
+    }
 
-        // graph repository
+    /// <summary>
+    /// Configures the item graph services with the connection string template
+    /// from <c>ConnectionStrings:Graph</c> (falling back to <c>:Index</c> if
+    /// not found), whose database name is defined in <c>DatabaseNames:Data</c>
+    /// plus suffix <c>-graph</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    private void ConfigureGraphServices(IServiceCollection services)
+    {
+        string cs = string.Format(Configuration.GetConnectionString("Graph")
+            ?? Configuration.GetConnectionString("Index"),
+            Configuration.GetValue<string>("DatabaseNames:Data") + "-graph");
+
+        services.AddSingleton<IItemGraphFactoryProvider>(_ =>
+            new StandardItemGraphFactoryProvider(cs));
+
         services.AddSingleton<IGraphRepository>(_ =>
         {
-            var repository = new MySqlGraphRepository();
-            repository.Configure(new SqlOptions
+            var repository = new EfPgSqlGraphRepository();
+            repository.Configure(new EfGraphRepositoryOptions
             {
-                ConnectionString = indexCS
+                ConnectionString = cs
             });
             return repository;
         });
@@ -329,8 +372,8 @@ public sealed class Startup
         // messaging
         // you can use another mailer service here. In this case,
         // also change the types in ConfigureOptionsServices.
-        // services.AddTransient<IMailerService, DotNetMailerService>()
-        services.AddTransient<IMailerService, SendGridMailerService>();
+        services.AddTransient<IMailerService, DotNetMailerService>();
+        // services.AddTransient<IMailerService, SendGridMailerService>()
         services.AddTransient<IMessageBuilderService,
             FileMessageBuilderService>();
 
@@ -355,6 +398,7 @@ public sealed class Startup
 
         // index and graph
         ConfigureIndexServices(services);
+        ConfigureGraphServices(services);
 
         // previewer
         services.AddSingleton(GetPreviewer);

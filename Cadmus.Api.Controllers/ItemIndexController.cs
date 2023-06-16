@@ -29,7 +29,8 @@ public sealed class ItemIndexController : Controller
     /// </summary>
     /// <param name="configuration">The configuration.</param>
     /// <param name="serviceProvider">The service provider.</param>
-    /// <exception cref="ArgumentNullException">configuration or provider</exception>
+    /// <exception cref="ArgumentNullException">configuration or provider
+    /// </exception>
     public ItemIndexController(IConfiguration configuration,
         IServiceProvider serviceProvider)
     {
@@ -116,9 +117,8 @@ public sealed class ItemIndexController : Controller
         }
 
         // get reader
-        ItemIndexFactory factory =
-            (await ItemIndexHelper.GetIndexFactoryAsync(
-                _configuration, _serviceProvider))!;
+        ItemIndexFactory factory = (await ItemIndexHelper.GetIndexFactoryAsync(
+            _configuration, _serviceProvider))!;
         IItemIndexReader reader = factory.GetItemIndexReader()!;
 
         // search

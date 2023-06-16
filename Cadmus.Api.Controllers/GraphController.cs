@@ -45,8 +45,8 @@ public sealed class GraphController : ControllerBase
     public async Task<DataPage<UriNode>> GetNodes([FromQuery]
         NodeFilterBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         return repository.GetNodes(model.ToNodeFilter());
@@ -62,8 +62,8 @@ public sealed class GraphController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<ActionResult<UriNode>> GetNode(int id)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         UriNode? node = repository.GetNode(id);
@@ -80,8 +80,8 @@ public sealed class GraphController : ControllerBase
     [ProducesResponseType(200)]
     public async Task<IList<UriNode>> GetNodeSet([FromQuery] IList<int> ids)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         return repository.GetNodes(ids)!;
@@ -92,8 +92,8 @@ public sealed class GraphController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<ActionResult> GetNodeByUri([FromQuery] string uri)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         UriNode? node = repository.GetNodeByUri(uri);
@@ -106,8 +106,8 @@ public sealed class GraphController : ControllerBase
     public async Task<DataPage<TripleGroup>> GetTripleGroups([FromQuery]
         TripleFilterBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         return repository.GetTripleGroups(
@@ -119,8 +119,8 @@ public sealed class GraphController : ControllerBase
     public async Task<DataPage<UriNode>> GetLinkedNodes([FromQuery]
         LinkedNodeFilterBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         return repository.GetLinkedNodes(model.ToLinkedNodeFilter());
@@ -131,8 +131,8 @@ public sealed class GraphController : ControllerBase
     public async Task<DataPage<UriTriple>> GetLinkedLiterals([FromQuery]
         LinkedLiteralFilterBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         return repository.GetLinkedLiterals(model.ToLinkedLiteralFilter());
@@ -147,8 +147,8 @@ public sealed class GraphController : ControllerBase
     [ProducesResponseType(400)]
     public async Task<ActionResult> AddNode([FromBody] NodeBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         UriNode node = new()
@@ -172,8 +172,8 @@ public sealed class GraphController : ControllerBase
     [HttpDelete("api/graph/nodes/{id}")]
     public async Task DeleteNode(int id)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         repository.DeleteNode(id);
@@ -191,8 +191,8 @@ public sealed class GraphController : ControllerBase
     public async Task<DataPage<UriTriple>> GetTriples([FromQuery]
         TripleFilterBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         return repository.GetTriples(model.ToTripleFilter());
@@ -208,8 +208,8 @@ public sealed class GraphController : ControllerBase
     [ProducesResponseType(404)]
     public async Task<ActionResult<UriNode>> GetTriple(int id)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         UriTriple? triple = repository.GetTriple(id);
@@ -227,8 +227,8 @@ public sealed class GraphController : ControllerBase
     public async Task<ActionResult> AddTriple(
         [FromBody] TripleBindingModel model)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
 
@@ -253,8 +253,8 @@ public sealed class GraphController : ControllerBase
     [HttpDelete("api/graph/triples/{id}")]
     public async Task DeleteTriple(int id)
     {
-        ItemIndexFactory factory = (await ItemIndexHelper
-            .GetIndexFactoryAsync(_configuration, _serviceProvider))!;
+        ItemGraphFactory factory = (await ItemIndexHelper
+            .GetGraphFactoryAsync(_configuration, _serviceProvider))!;
 
         IGraphRepository repository = factory.GetGraphRepository()!;
         repository.DeleteTriple(id);

@@ -1,6 +1,6 @@
-﻿using Cadmus.Graph.Ef.PgSql;
+﻿using Cadmus.Graph.MySql;
 using Cadmus.Index.Config;
-using Cadmus.Index.Ef.PgSql;
+using Cadmus.Index.MySql;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -33,9 +33,13 @@ public sealed class StandardItemIndexFactoryProvider :
         return new HostBuilder()
             .ConfigureServices((hostContext, services) =>
             {
-                ItemIndexFactory.ConfigureServices(services,
-                    // Cadmus.Index.Ef.MySql
-                    typeof(EfPgSqlItemIndexWriter).Assembly);
+                ItemIndexFactory.ConfigureServices(services, new[]
+                {
+                    // Cadmus.Index.MySql
+                    typeof(MySqlItemIndexWriter).Assembly,
+                    // Cadmus.Graph.MySql
+                    typeof(MySqlGraphRepository).Assembly
+                });
             })
             // extension method from Fusi library
             .AddInMemoryJson(config)

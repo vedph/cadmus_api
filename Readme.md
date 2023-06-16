@@ -2,7 +2,7 @@
 
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus_api:6.2.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
+Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:8.0.0 -t vedph2020/cadmus_api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -20,6 +20,10 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 8.0.0
+
+- 2023-06-16: **breaking changes** for index/graph refactoring. See the [documentation page](https://myrmex.github.io/overview/cadmus/dev/history/b-rdbms  /). Added `Cadmus.Api.Services.Legacy` to support legacy code.
 
 ### 7.0.6
 

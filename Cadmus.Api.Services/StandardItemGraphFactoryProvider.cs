@@ -1,6 +1,5 @@
 ﻿using Cadmus.Graph.Ef.PgSql;
 using Cadmus.Index.Config;
-using Cadmus.Index.Ef.PgSql;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -8,21 +7,21 @@ using System;
 namespace Cadmus.Api.Services;
 
 /// <summary>
-/// Standard item index writer factory provider.
+/// Standard item graph factory provider.
 /// </summary>
-/// <seealso cref="IItemIndexFactoryProvider" />
-public sealed class StandardItemIndexFactoryProvider :
-    IItemIndexFactoryProvider
+/// <seealso cref="IItemGraphFactoryProvider" />
+public sealed class StandardItemGraphFactoryProvider
+    : IItemGraphFactoryProvider
 {
     private readonly string _connectionString;
 
     /// <summary>
     /// Initializes a new instance of the
-    /// <see cref="StandardItemIndexFactoryProvider"/> class.
+    /// <see cref="StandardItemGraphFactoryProvider"/> class.
     /// </summary>
     /// <param name="connectionString">The connection string.</param>
     /// <exception cref="ArgumentNullException">connectionString</exception>
-    public StandardItemIndexFactoryProvider(string connectionString)
+    public StandardItemGraphFactoryProvider(string connectionString)
     {
         _connectionString = connectionString ??
             throw new ArgumentNullException(nameof(connectionString));
@@ -34,8 +33,8 @@ public sealed class StandardItemIndexFactoryProvider :
             .ConfigureServices((hostContext, services) =>
             {
                 ItemIndexFactory.ConfigureServices(services,
-                    // Cadmus.Index.Ef.MySql
-                    typeof(EfPgSqlItemIndexWriter).Assembly);
+                    // Cadmus.Graph.Ef.MySql
+                    typeof(EfPgSqlGraphRepository).Assembly);
             })
             // extension method from Fusi library
             .AddInMemoryJson(config)
@@ -48,10 +47,10 @@ public sealed class StandardItemIndexFactoryProvider :
     /// <param name="profile">The profile.</param>
     /// <returns>Factory.</returns>
     /// <exception cref="ArgumentNullException">profile</exception>
-    public ItemIndexFactory GetFactory(string profile)
+    public ItemGraphFactory GetFactory(string profile)
     {
         if (profile == null) throw new ArgumentNullException(nameof(profile));
 
-        return new ItemIndexFactory(GetHost(profile), _connectionString);
+        return new ItemGraphFactory(GetHost(profile), _connectionString);
     }
 }
