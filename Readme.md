@@ -21,6 +21,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 8.0.1
+
+- 2023-06-21: updated packages.
+
 ### 8.0.0
 
 - 2023-06-16: **breaking changes** for index/graph refactoring. See the [documentation page](https://myrmex.github.io/overview/cadmus/dev/history/b-rdbms). Added `Cadmus.Api.Services.Legacy` to support legacy code.
