@@ -21,6 +21,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 8.0.2
+
+- 2023-06-21: updated packages for service libraries.
+
 ### 8.0.1
 
 - 2023-06-21: updated packages.

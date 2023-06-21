@@ -13,9 +13,9 @@
 		<Copyright>by Daniele Fusi</Copyright>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>8.0.1</Version>
-		<FileVersion>8.0.1</FileVersion>
-		<AssemblyVersion>8.0.1</AssemblyVersion>
+		<Version>8.0.2</Version>
+		<FileVersion>8.0.2</FileVersion>
+		<AssemblyVersion>8.0.2</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -23,10 +23,10 @@
 		<PackageReference Include="Cadmus.Core" Version="6.1.4" />
 		<PackageReference Include="Cadmus.Export" Version="3.0.2" />
 		<PackageReference Include="Cadmus.Graph" Version="2.2.12" />
-		<PackageReference Include="Cadmus.Graph.MySql" Version="2.2.14" />
+		<PackageReference Include="Cadmus.Graph.MySql" Version="2.2.15" />
 		<PackageReference Include="Cadmus.Index" Version="6.1.8" />
-		<PackageReference Include="Cadmus.Index.MySql" Version="6.1.9" />
-		<PackageReference Include="Cadmus.Index.Sql" Version="6.1.9" />
+		<PackageReference Include="Cadmus.Index.MySql" Version="6.1.10" />
+		<PackageReference Include="Cadmus.Index.Sql" Version="6.1.10" />
 		<PackageReference Include="Cadmus.Mongo" Version="6.1.4" />
 		<PackageReference Include="Cadmus.Seed" Version="6.1.4" />
 		<PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
