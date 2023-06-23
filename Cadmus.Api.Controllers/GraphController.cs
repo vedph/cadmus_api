@@ -6,6 +6,7 @@ using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -239,9 +240,16 @@ public sealed class GraphController : ControllerBase
             PredicateId = model.PredicateId,
             ObjectId = model.ObjectId,
             ObjectLiteral = model.ObjectLiteral,
+            ObjectLiteralIx = model.ObjectLiteralIx,
+            LiteralLanguage = model.LiteralLanguage,
+            LiteralType = model.LiteralType,
+            LiteralNumber = model.LiteralNumber,
             Sid = model.Sid,
             Tag = model.Tag
         };
+
+        TripleObjectSupplier.Supply(triple, model.DefaultLanguage);
+
         repository.AddTriple(triple);
         return CreatedAtRoute("GetTriple", new { triple.Id }, triple);
     }

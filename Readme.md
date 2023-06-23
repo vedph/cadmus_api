@@ -21,6 +21,12 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 8.0.3
+
+- 2023-06-23:
+  - updated packages.
+  - added more properties to triple binding model and added supply logic to `GraphController` for triple literal objects.
+
 ### 8.0.2
 
 - 2023-06-21: updated packages for service libraries.
