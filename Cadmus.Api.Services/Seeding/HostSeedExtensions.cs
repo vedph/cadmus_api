@@ -28,6 +28,19 @@ namespace Cadmus.Api.Services.Seeding;
 /// </summary>
 public static class HostSeedExtensions
 {
+    private static void WaitForDelay(IConfiguration config)
+    {
+        // delay if requested, to allow DB start
+        int delay = config.GetValue<int>("Seed:IndexDelay");
+        if (delay > 0)
+        {
+            Console.WriteLine($"Waiting for {delay} seconds...");
+            Thread.Sleep(delay * 1000);
+            Console.WriteLine($"Waited for {delay} seconds: resuming...");
+        }
+        else Console.WriteLine("No delay to wait.");
+    }
+
     private static async Task SeedItemsAsync(
         IServiceProvider serviceProvider, IConfiguration config,
         PartSeederFactory factory, ICadmusRepository repository,
@@ -39,11 +52,40 @@ public static class HostSeedExtensions
 
         // determine if graph is enabled, and eventually get the graph repository
         bool isGraphEnabled = config.GetValue<bool>("Indexing:IsGraphEnabled");
-        // when graph is enabled, index is automatically enabled
-        bool isIndexEnabled = isGraphEnabled ||
-            config.GetValue<bool>("Indexing:IsEnabled");
 
+        // get graph service if required
+        bool waited = false;
+        GraphUpdater? graphUpdater = null;
+        if (isGraphEnabled)
+        {
+            IGraphRepository? graphRepository =
+                serviceProvider.GetService<IGraphRepository>();
+            if (graphRepository == null)
+            {
+                Console.WriteLine("Error: cannot get IGraphRepository service!");
+                logger?.LogError("Unable to get IGraphRepository service");
+            }
+            else
+            {
+                graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
+                graphUpdater = serviceProvider.GetService<GraphUpdater>()
+                    ?? new GraphUpdater(graphRepository);
+
+                WaitForDelay(config);
+
+                // create graph if required
+                Console.WriteLine("Creating graph store...");
+                bool created = graphRepository.CreateStore(graphSql);
+                Console.WriteLine(created
+                    ? "Graph store created." : "Graph store already exists.");
+
+                waited = true;
+            }
+        }
+
+        // index
         IItemIndexWriter? indexWriter = null;
+        bool isIndexEnabled = config.GetValue<bool>("Indexing:IsEnabled");
 
         // get index service if required
         if (isIndexEnabled)
@@ -54,65 +96,33 @@ public static class HostSeedExtensions
             indexWriter = indexFactory?.GetItemIndexWriter();
         }
 
-        // get graph service if required
-        GraphUpdater? graphUpdater = null;
-        if (isGraphEnabled)
-        {
-            IGraphRepository? graphRepository =
-                serviceProvider.GetService<IGraphRepository>();
-            if (graphRepository == null)
-            {
-                logger?.LogError("Unable to get IGraphRepository service");
-            }
-            else
-            {
-                graphRepository.Cache = serviceProvider.GetService<IMemoryCache>();
-                graphUpdater = serviceProvider.GetService<GraphUpdater>()
-                    ?? new GraphUpdater(graphRepository);
-
-                // create graph if required
-                Console.WriteLine("Creating graph store...");
-                bool created = graphRepository.CreateStore(graphSql);
-                Console.WriteLine(created
-                    ? "Graph store created." : "Graph store already exists.");
-            }
-        }
-
         // wait before indexing if requested
-        if (isIndexEnabled)
-        {
-            // delay if requested, to allow DB start
-            int delay = config.GetValue<int>("Seed:IndexDelay");
-            if (delay > 0)
-            {
-                Console.WriteLine($"Waiting for {delay} seconds...");
-                Thread.Sleep(delay * 1000);
-            }
-        }
+        if (isIndexEnabled && !waited) WaitForDelay(config);
 
         // seed items with their parts
         Console.WriteLine($"Seeding {count} items...");
         CadmusSeeder seeder = new(factory);
 
+        int n = 0;
         foreach (IItem item in seeder.GetItems(count))
         {
-            Console.WriteLine($"{item}: {item.Parts.Count} parts");
+            Console.WriteLine($"[{++n:000}/{count:000}] {item}: " +
+                $"{item.Parts.Count} parts");
             repository.AddItem(item, true);
-            foreach (IPart part in item.Parts)
-                repository.AddPart(part, true);
+            foreach (IPart part in item.Parts) repository.AddPart(part, true);
 
-            // write the item's index data if requested
+            // update the index if enabled
             if (indexWriter != null)
             {
-                Console.WriteLine($"Adding to index {item.Id}");
+                Console.WriteLine($"  - adding to index {item.Id}");
                 await indexWriter.WriteItem(item);
+            }
 
-                // update also the graph if enabled
-                if (isGraphEnabled && graphUpdater != null)
-                {
-                    Console.WriteLine($"Adding to graph {item.Id}");
-                    graphUpdater.Update(item);
-                }
+            // update the graph if enabled
+            if (graphUpdater != null)
+            {
+                Console.WriteLine($"  - adding to graph {item.Id}");
+                graphUpdater.Update(item);
             }
         }
         indexWriter?.Close();
