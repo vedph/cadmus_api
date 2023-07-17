@@ -13,9 +13,9 @@
 		<Copyright>by Daniele Fusi</Copyright>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>8.0.5</Version>
-		<FileVersion>8.0.5</FileVersion>
-		<AssemblyVersion>8.0.5</AssemblyVersion>
+		<Version>8.0.6</Version>
+		<FileVersion>8.0.6</FileVersion>
+		<AssemblyVersion>8.0.6</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,8 +32,8 @@
 		<PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
 		<PackageReference Include="Cadmus.Core" Version="6.1.4" />
 		<PackageReference Include="Cadmus.Export" Version="3.0.7" />
-		<PackageReference Include="Cadmus.Graph" Version="2.3.2" />
-		<PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="2.3.2" />
+		<PackageReference Include="Cadmus.Graph" Version="2.3.4" />
+		<PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="2.3.4" />
 		<PackageReference Include="Cadmus.Index.Ef.PgSql" Version="6.1.13" />
 		<PackageReference Include="Cadmus.Index" Version="6.1.13" />
 		<PackageReference Include="Cadmus.Mongo" Version="6.1.11" />
@@ -41,7 +41,7 @@
 		<PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
 		<PackageReference Include="Fusi.Tools" Version="3.1.1" />
 		<PackageReference Include="MessagingApi" Version="3.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.8" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.9" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />

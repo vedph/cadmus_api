@@ -38,7 +38,7 @@ public sealed class AppRepositoryProvider : IRepositoryProvider
             // Cadmus.Philology.Parts
             typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
             // Cadmus.Img.Parts
-            typeof(GalleryImageAnnotationsPart).GetTypeInfo().Assembly
+            typeof(W3CGalleryImageAnnotationsPart).GetTypeInfo().Assembly
         });
 
         _partTypeProvider = new StandardPartTypeProvider(_map);

@@ -21,6 +21,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 8.0.6
+
+- 2023-07-16: updated packages.
+
 ### 8.0.5
 
 - 2023-07-10: honor delay request before creating graph store.
