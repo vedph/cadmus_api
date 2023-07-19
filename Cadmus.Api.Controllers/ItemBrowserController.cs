@@ -54,8 +54,7 @@ public class ItemBrowserController : Controller
         string? profileSource = _configuration["Seed:ProfileSource"];
         if (string.IsNullOrEmpty(profileSource)) return null;
 
-        ResourceLoaderService loaderService =
-            new(_serviceProvider);
+        ResourceLoaderService loaderService = new(_serviceProvider);
 
         string profile;
         using (StreamReader reader = new(

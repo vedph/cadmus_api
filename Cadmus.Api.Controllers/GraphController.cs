@@ -6,7 +6,6 @@ using Fusi.Tools.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -25,7 +25,7 @@ public sealed class FlagController : Controller
     public FlagController(IRepositoryProvider repositoryProvider)
     {
         _repositoryProvider = repositoryProvider ??
-                             throw new ArgumentNullException(nameof(repositoryProvider));
+            throw new ArgumentNullException(nameof(repositoryProvider));
     }
 
     /// <summary>

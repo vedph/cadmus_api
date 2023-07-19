@@ -21,6 +21,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 8.0.7
+
+- 2023-07-19: fixed [logging](https://myrmex.github.io/overview/cadmus/dev/history/b-logging).
+
 ### 8.0.6
 
 - 2023-07-16: updated packages.

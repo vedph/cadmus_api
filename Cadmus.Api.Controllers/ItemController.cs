@@ -19,10 +19,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Serilog;
 using Microsoft.Extensions.DependencyInjection;
 using Cadmus.Graph;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace Cadmus.Api.Controllers;
 
@@ -49,7 +49,7 @@ public sealed class ItemController : Controller
     private readonly IRepositoryProvider _repositoryProvider;
     private readonly IConfiguration _configuration;
     private readonly IMemoryCache _cache;
-    private readonly ILogger _logger;
+    private readonly ILogger<ItemController> _logger;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ItemController" /> class.
@@ -65,7 +65,7 @@ public sealed class ItemController : Controller
         IRepositoryProvider repositoryProvider,
         IConfiguration configuration,
         IMemoryCache cache,
-        ILogger logger)
+        ILogger<ItemController> logger)
     {
         _userManager = userManager ??
             throw new ArgumentNullException(nameof(userManager));
@@ -418,7 +418,7 @@ public sealed class ItemController : Controller
     [HttpDelete("api/items/{id}")]
     public async Task Delete([FromRoute] string id)
     {
-        _logger.Information("User {UserName} deleting item {ItemId} from {IP}",
+        _logger.LogInformation("User {UserName} deleting item {ItemId} from {IP}",
             User.Identity!.Name,
             id,
             HttpContext.Connection.RemoteIpAddress);
@@ -472,7 +472,7 @@ public sealed class ItemController : Controller
     [HttpDelete("api/parts/{id}")]
     public async Task<IActionResult> DeletePart([FromRoute] string id)
     {
-        _logger.Information("User {UserName} deleting part {PartId} from {IP}",
+        _logger.LogInformation("User {UserName} deleting part {PartId} from {IP}",
             User.Identity!.Name!,
             id,
             HttpContext.Connection.RemoteIpAddress);
@@ -518,7 +518,7 @@ public sealed class ItemController : Controller
             _serviceProvider.GetService<IGraphRepository>();
         if (graphRepository == null)
         {
-            _logger?.Error("Unable to get IGraphRepository service");
+            _logger?.LogError("Unable to get IGraphRepository service");
             return null;
         }
         graphRepository.Cache = _cache;
@@ -530,7 +530,7 @@ public sealed class ItemController : Controller
         IGraphRepository? graphRepository = GetGraphRepository();
         if (graphRepository == null) return;
 
-        _logger.Information("Updating graph for item " + item);
+        _logger.LogInformation("Updating graph for item {item}", item);
         GraphUpdater updater = _serviceProvider.GetService<GraphUpdater>()
             ?? new GraphUpdater(graphRepository);
         updater.Update(item);
@@ -541,7 +541,7 @@ public sealed class ItemController : Controller
         IGraphRepository? graphRepository = GetGraphRepository();
         if (graphRepository == null) return;
 
-        _logger.Information("Updating graph for part " + part);
+        _logger.LogInformation("Updating graph for part {part}", part);
         GraphUpdater updater = _serviceProvider.GetService<GraphUpdater>()
             ?? new GraphUpdater(graphRepository);
         updater.Update(item, part);
@@ -552,7 +552,7 @@ public sealed class ItemController : Controller
         IGraphRepository? graphRepository = GetGraphRepository();
         if (graphRepository == null) return;
 
-        _logger.Information("Updating graph for deleted " + id);
+        _logger.LogInformation("Updating graph for deleted {id}", id);
         graphRepository.DeleteGraphSet(id);
     }
 
@@ -588,7 +588,7 @@ public sealed class ItemController : Controller
         if (!string.IsNullOrEmpty(model.Id) && _guidRegex.IsMatch(model.Id))
             item.Id = model.Id;
 
-        _logger.Information("User {UserName} saving item {ItemId} from {IP}",
+        _logger.LogInformation("User {UserName} saving item {ItemId} from {IP}",
             User.Identity.Name,
             item.Id,
             HttpContext.Connection.RemoteIpAddress);
@@ -716,7 +716,7 @@ public sealed class ItemController : Controller
         JValue itemId = (JValue)doc["itemId"]!;
 
         // add the part
-        _logger.Information("User {UserName} saving part {PartId} from {IP}",
+        _logger.LogInformation("User {UserName} saving part {PartId} from {IP}",
             User.Identity.Name,
             partId,
             HttpContext.Connection.RemoteIpAddress);

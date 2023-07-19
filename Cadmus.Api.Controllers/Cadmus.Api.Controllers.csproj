@@ -13,9 +13,9 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>8.0.6</Version>
-		<FileVersion>8.0.6</FileVersion>
-		<AssemblyVersion>8.0.6</AssemblyVersion>
+		<Version>8.0.7</Version>
+		<FileVersion>8.0.7</FileVersion>
+		<AssemblyVersion>8.0.7</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
