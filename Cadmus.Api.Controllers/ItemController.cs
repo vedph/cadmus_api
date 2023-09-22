@@ -140,6 +140,28 @@ public sealed class ItemController : Controller
         return Ok(item);
     }
 
+    /// <summary>
+    /// Gets the specified page of item group IDs.
+    /// </summary>
+    /// <param name="pageNumber">The page number.</param>
+    /// <param name="pageSize">Size of the page.</param>
+    /// <param name="filter">The optional filter. If specified, only group IDs
+    /// including that filter will be returned.</param>
+    /// <returns>Page.</returns>
+    [HttpGet("api/items/groups")]
+    [ProducesResponseType(200)]
+    public async Task<DataPage<string>> GetItemGroupIds(
+        int pageNumber, int pageSize, string? filter)
+    {
+        ICadmusRepository repository = _repositoryProvider.CreateRepository();
+        return await repository.GetDistinctGroupIdsAsync(
+            new PagingOptions
+            {
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            }, filter);
+    }
+
     private static string AdjustPartJson(string json)
     {
         // remove ISODate(...) function (this seems to be a Mongo artifact)

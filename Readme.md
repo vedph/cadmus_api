@@ -21,6 +21,20 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 8.0.11
+
+- 2023-09-22:
+  - updated packages.
+  - added entry point `GET api/items/groups` to items controller.
+
+### 8.0.9
+
+- 2023-09-04: updated packages.
+
+### 8.0.8
+
+- 2023-09-04: updated packages.
+
 ### 8.0.7
 
 - 2023-07-19: fixed [logging](https://myrmex.github.io/overview/cadmus/dev/history/b-logging).
