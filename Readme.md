@@ -2,7 +2,7 @@
 
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
-Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:8.0.0 -t vedph2020/cadmus-api:latest` (replace with the current version).
+🐋 Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:8.0.12 -t vedph2020/cadmus-api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -11,6 +11,7 @@ This API is the default API serving general and philological parts, and contains
 - `Cadmus.Api.Models`: API data models.
 - `Cadmus.Api.Services`: API services.
 - `Cadmus.Api.Controllers`: API controllers.
+- `Cadmus.Api.Controllers.Import`: API controllers for data import.
 
 The API application proper just adds a couple of application-specific services implementations:
 
@@ -20,6 +21,12 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 8.0.12
+
+- 2023-09-24: added new controllers library for thesauri import. If you want to **enable thesauri import**:
+  1. in backend, add `Cadmus.Api.Controllers.Import` to your API project.
+  2. in frontend, opt-in import by adding this setting to the environment variables (`env.js`): `window.__env.thesImportEnabled = true;`. At any rate, import is available only to admin users.
 
 ### 8.0.11
 

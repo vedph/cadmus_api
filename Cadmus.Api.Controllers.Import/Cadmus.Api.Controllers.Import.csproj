@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Authors>Daniele Fusi</Authors>
+		<Company>Fusi</Company>
+		<Product>Cadmus</Product>
+		<Description>Cadmus API controllers for data import.</Description>
+		<Copyright>By Daniele Fusi</Copyright>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+		<PackageTags>Cadmus;API</PackageTags>
+		<Version>8.0.12</Version>
+		<FileVersion>8.0.12</FileVersion>
+		<AssemblyVersion>8.0.12</AssemblyVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Cadmus.Core" Version="6.1.18" />
+		<PackageReference Include="Cadmus.Import" Version="3.0.8" />
+		<PackageReference Include="Cadmus.Import.Excel" Version="3.0.8" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Cadmus.Api.Models\Cadmus.Api.Models.csproj" />
+		<ProjectReference Include="..\Cadmus.Api.Services\Cadmus.Api.Services.csproj" />
+	</ItemGroup>
+
+</Project>

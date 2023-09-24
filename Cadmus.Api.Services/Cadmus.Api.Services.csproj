@@ -13,9 +13,9 @@
 		<Copyright>by Daniele Fusi</Copyright>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>8.0.10</Version>
-		<FileVersion>8.0.10</FileVersion>
-		<AssemblyVersion>8.0.10</AssemblyVersion>
+		<Version>8.0.12</Version>
+		<FileVersion>8.0.12</FileVersion>
+		<AssemblyVersion>8.0.12</AssemblyVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

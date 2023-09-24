@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadmus.Api.Controllers", "C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cadmus.Api.Services.Legacy", "Cadmus.Api.Services.Legacy\Cadmus.Api.Services.Legacy.csproj", "{C43711AF-9F2A-4B15-A6B1-26BA9BF5EE46}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cadmus.Api.Controllers.Import", "Cadmus.Api.Controllers.Import\Cadmus.Api.Controllers.Import.csproj", "{63A094B1-C496-40AE-B9BD-BE4F2D57AE99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{C43711AF-9F2A-4B15-A6B1-26BA9BF5EE46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C43711AF-9F2A-4B15-A6B1-26BA9BF5EE46}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C43711AF-9F2A-4B15-A6B1-26BA9BF5EE46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63A094B1-C496-40AE-B9BD-BE4F2D57AE99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63A094B1-C496-40AE-B9BD-BE4F2D57AE99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63A094B1-C496-40AE-B9BD-BE4F2D57AE99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63A094B1-C496-40AE-B9BD-BE4F2D57AE99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

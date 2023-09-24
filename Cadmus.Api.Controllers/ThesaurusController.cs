@@ -41,8 +41,7 @@ public sealed class ThesaurusController : Controller
     /// </summary>
     /// <returns>list of tag sets IDs</returns>
     [HttpGet("api/thesauri-ids")]
-    public IActionResult GetSetIds(
-        [FromQuery] ThesaurusLookupBindingModel filter)
+    public IActionResult GetSetIds([FromQuery] ThesaurusLookupBindingModel filter)
     {
         ICadmusRepository repository =
             _repositoryProvider.CreateRepository();
@@ -88,7 +87,7 @@ public sealed class ThesaurusController : Controller
                     Language = "en",
                     Entries = Array.Empty<ThesaurusEntry>()
                 })
-                : (IActionResult)NotFound();
+                : NotFound();
         }
 
         ThesaurusModel model = new(thesaurus);
@@ -103,8 +102,7 @@ public sealed class ThesaurusController : Controller
     /// <returns>Page.</returns>
     [HttpGet("api/thesauri")]
     [ProducesResponseType(200)]
-    public IActionResult GetThesauri(
-        [FromQuery] ThesaurusFilterBindingModel model)
+    public IActionResult GetThesauri([FromQuery] ThesaurusFilterBindingModel model)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -190,8 +188,7 @@ public sealed class ThesaurusController : Controller
     [HttpPost("api/thesauri")]
     [ProducesResponseType(201)]
     [ProducesResponseType(400)]
-    public IActionResult AddThesaurus(
-        [FromBody] ThesaurusBindingModel model)
+    public IActionResult AddThesaurus([FromBody] ThesaurusBindingModel model)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -222,8 +219,7 @@ public sealed class ThesaurusController : Controller
     /// <param name="id">The thesaurus ID.</param>
     [Authorize(Roles = "admin,editor")]
     [HttpDelete("api/thesauri/{id}")]
-    public void DeleteThesaurus(
-        [FromRoute] string id)
+    public void DeleteThesaurus([FromRoute] string id)
     {
         _logger.LogInformation("User {UserName} deleting thesaurus {ThesaurusId}",
             User.Identity!.Name,

@@ -5,9 +5,9 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>a30dab70-4455-41f4-8f86-6c755170bc81</UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>8.0.10</Version>
-    <FileVersion>8.0.10</FileVersion>
-    <AssemblyVersion>8.0.10</AssemblyVersion>
+    <Version>8.0.12</Version>
+    <FileVersion>8.0.12</FileVersion>
+    <AssemblyVersion>8.0.12</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -62,6 +62,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Cadmus.Api.Controllers.Import\Cadmus.Api.Controllers.Import.csproj" />
     <ProjectReference Include="..\Cadmus.Api.Controllers\Cadmus.Api.Controllers.csproj" />
     <ProjectReference Include="..\Cadmus.Api.Models\Cadmus.Api.Models.csproj" />
     <ProjectReference Include="..\Cadmus.Api.Services\Cadmus.Api.Services.csproj" />
