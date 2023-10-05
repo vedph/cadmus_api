@@ -22,6 +22,8 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2023-10-03: updated packages.
+
 ### 8.0.12
 
 - 2023-09-24: added new controllers library for thesauri import. If you want to **enable thesauri import**:
