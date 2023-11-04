@@ -13,26 +13,26 @@
 		<Copyright>by Daniele Fusi</Copyright>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>8.0.12</Version>
-		<FileVersion>8.0.12</FileVersion>
-		<AssemblyVersion>8.0.12</AssemblyVersion>
+		<Version>8.0.13</Version>
+		<FileVersion>8.0.13</FileVersion>
+		<AssemblyVersion>8.0.13</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
 		<PackageReference Include="Cadmus.Core" Version="6.1.18" />
 		<PackageReference Include="Cadmus.Export" Version="3.0.8" />
-		<PackageReference Include="Cadmus.Graph" Version="3.0.7" />
+		<PackageReference Include="Cadmus.Graph" Version="4.0.0" />
 		<PackageReference Include="Cadmus.Graph.MySql" Version="3.0.7" />
-		<PackageReference Include="Cadmus.Index" Version="6.1.18" />
-		<PackageReference Include="Cadmus.Index.MySql" Version="6.1.18" />
-		<PackageReference Include="Cadmus.Index.Sql" Version="6.1.18" />
+		<PackageReference Include="Cadmus.Index" Version="6.1.19" />
+		<PackageReference Include="Cadmus.Index.MySql" Version="6.1.19" />
+		<PackageReference Include="Cadmus.Index.Sql" Version="6.1.19" />
 		<PackageReference Include="Cadmus.Mongo" Version="6.1.18" />
 		<PackageReference Include="Cadmus.Seed" Version="6.1.18" />
 		<PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
 		<PackageReference Include="Fusi.Tools" Version="3.1.1" />
 		<PackageReference Include="MessagingApi" Version="3.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.13" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
@@ -40,7 +40,7 @@
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-		<PackageReference Include="Polly" Version="8.0.0" />
+		<PackageReference Include="Polly" Version="8.1.0" />
 		<PackageReference Include="Serilog" Version="3.0.1" />
 	</ItemGroup>
 

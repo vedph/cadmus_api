@@ -22,6 +22,9 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2023-11-04:
+  - added add flags endpoint.
+  - updated packages.
 - 2023-10-03: updated packages.
 
 ### 8.0.12

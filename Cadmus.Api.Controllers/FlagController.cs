@@ -5,6 +5,7 @@ using Cadmus.Core.Storage;
 using Cadmus.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Cadmus.Api.Models;
 
 namespace Cadmus.Api.Controllers;
 
@@ -33,9 +34,24 @@ public sealed class FlagController : Controller
     /// </summary>
     /// <returns>list of flags definitions</returns>
     [HttpGet("api/flags")]
+    [ProducesResponseType(200)]
     public ActionResult<FlagDefinition[]> Get()
     {
         ICadmusRepository repository = _repositoryProvider.CreateRepository();
         return Ok(repository.GetFlagDefinitions().ToArray());
+    }
+
+    /// <summary>
+    /// Adds the flags.
+    /// </summary>
+    /// <param name="flags">The flags.</param>
+    [HttpPost("api/flags")]
+    [ProducesResponseType(200)]
+    public void AddFlags([FromBody] FlagDefinitionBindingModel[] flags)
+    {
+        ICadmusRepository repository = _repositoryProvider.CreateRepository();
+
+        foreach (FlagDefinitionBindingModel flag in flags)
+            repository.AddFlagDefinition(flag.ToFlagDefinition());
     }
 }
