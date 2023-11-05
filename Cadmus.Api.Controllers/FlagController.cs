@@ -34,6 +34,7 @@ public sealed class FlagController : Controller
     /// </summary>
     /// <returns>list of flags definitions</returns>
     [HttpGet("api/flags")]
+    [Produces("application/json")]
     [ProducesResponseType(200)]
     public ActionResult<FlagDefinition[]> Get()
     {
@@ -46,6 +47,7 @@ public sealed class FlagController : Controller
     /// </summary>
     /// <param name="flags">The flags.</param>
     [HttpPost("api/flags")]
+    [Produces("application/json")]
     [ProducesResponseType(200)]
     public void AddFlags([FromBody] FlagDefinitionBindingModel[] flags)
     {
