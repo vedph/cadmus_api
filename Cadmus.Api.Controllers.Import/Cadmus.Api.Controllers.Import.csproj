@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<IncludeSymbols>true</IncludeSymbols>
@@ -14,15 +14,15 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>8.0.13</Version>
-		<FileVersion>8.0.13</FileVersion>
-		<AssemblyVersion>8.0.13</AssemblyVersion>
+		<Version>9.0.0</Version>
+		<FileVersion>9.0.0</FileVersion>
+		<AssemblyVersion>9.0.0</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Cadmus.Core" Version="6.1.18" />
-		<PackageReference Include="Cadmus.Import" Version="3.0.8" />
-		<PackageReference Include="Cadmus.Import.Excel" Version="3.0.8" />
+		<PackageReference Include="Cadmus.Core" Version="7.0.0" />
+		<PackageReference Include="Cadmus.Import" Version="4.0.8" />
+		<PackageReference Include="Cadmus.Import.Excel" Version="4.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>

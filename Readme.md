@@ -22,6 +22,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 9.0.0
+
+- 2023-11-18: ⚠️ Upgraded to .NET 8.
+
 ### 8.0.13
 
 - 2023-11-04:

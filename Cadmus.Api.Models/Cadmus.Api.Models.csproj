@@ -4,24 +4,24 @@
 	<Nullable>enable</Nullable>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Daniele Fusi</Authors>
     <Company>Fusi</Company>
     <Product>Cadmus</Product>
     <Description>Cadmus API models</Description>
     <Copyright>By Daniele Fusi</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>8.0.13</Version>
+    <Version>9.0.0</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>8.0.13</FileVersion>
-    <AssemblyVersion>8.0.13</AssemblyVersion>
+    <FileVersion>9.0.0</FileVersion>
+    <AssemblyVersion>9.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cadmus.Core" Version="6.1.18" />
-    <PackageReference Include="Cadmus.Graph" Version="4.0.0" />
-    <PackageReference Include="Cadmus.Index" Version="6.1.19" />
+    <PackageReference Include="Cadmus.Core" Version="7.0.0" />
+    <PackageReference Include="Cadmus.Graph" Version="5.0.1" />
+    <PackageReference Include="Cadmus.Index" Version="7.0.0" />
   </ItemGroup>
 
 </Project>
