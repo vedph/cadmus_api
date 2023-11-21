@@ -42,7 +42,7 @@ public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     /// <exception cref="ArgumentNullException">null name</exception>
     public async Task<UserWithRoles<ApplicationUser>?> GetUserAsync(string name)
     {
-        if (name == null) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         ApplicationUser? user = await _userManager.FindByNameAsync(name);
         if (user == null) return null;
@@ -58,7 +58,7 @@ public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     public async Task<DataPage<UserWithRoles<ApplicationUser>>>
         GetUsersAsync(UserFilterModel filter)
     {
-        if (filter == null) throw new ArgumentNullException(nameof(filter));
+        ArgumentNullException.ThrowIfNull(filter);
 
         IQueryable<ApplicationUser> users = _userManager.Users;
 
@@ -93,7 +93,7 @@ public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     public async Task<IList<UserWithRoles<ApplicationUser>>>
         GetUsersFromNamesAsync(IList<string> names)
     {
-        if (names == null) throw new ArgumentNullException(nameof(names));
+        ArgumentNullException.ThrowIfNull(names);
 
         List<UserWithRoles<ApplicationUser>> results = new();
         foreach (string name in names)
@@ -114,7 +114,7 @@ public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     public async Task UpdateUserAsync(ApplicationUser user,
         IList<string>? roles)
     {
-        if (user == null) throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         ApplicationUser? old = await _userManager.FindByNameAsync(user.UserName!);
         if (old == null) return;
@@ -161,8 +161,8 @@ public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     /// <param name="roles">The roles.</param>
     public async Task AddUserToRolesAsync(string userName, IList<string> roles)
     {
-        if (userName == null) throw new ArgumentNullException(nameof(userName));
-        if (roles == null) throw new ArgumentNullException(nameof(roles));
+        ArgumentNullException.ThrowIfNull(userName);
+        ArgumentNullException.ThrowIfNull(roles);
 
         ApplicationUser? user = await _userManager.FindByNameAsync(userName);
         if (user == null) return;
@@ -177,8 +177,8 @@ public sealed class ApplicationUserRepository : IUserRepository<ApplicationUser>
     /// <param name="roles">The roles.</param>
     public async Task RemoveUserFromRolesAsync(string userName, IList<string> roles)
     {
-        if (userName == null) throw new ArgumentNullException(nameof(userName));
-        if (roles == null) throw new ArgumentNullException(nameof(roles));
+        ArgumentNullException.ThrowIfNull(userName);
+        ArgumentNullException.ThrowIfNull(roles);
 
         ApplicationUser? user = await _userManager.FindByNameAsync(userName);
         if (user == null) return;

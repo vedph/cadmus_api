@@ -35,7 +35,7 @@ public sealed class StandardCadmusPreviewFactoryProvider :
     public CadmusPreviewFactory GetFactory(string profile,
         params Assembly[] additionalAssemblies)
     {
-        if (profile is null) throw new ArgumentNullException(nameof(profile));
+        ArgumentNullException.ThrowIfNull(profile);
 
         return new CadmusPreviewFactory(GetHost(profile, additionalAssemblies));
     }

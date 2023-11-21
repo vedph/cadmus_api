@@ -45,7 +45,7 @@ public sealed class AccountController : ControllerBase
         IOptions<MessagingOptions> options,
         ILogger<AccountController> logger)
     {
-        if (options == null) throw new ArgumentNullException(nameof(options));
+        ArgumentNullException.ThrowIfNull(options);
         _userManager = userManager ??
             throw new ArgumentNullException(nameof(userManager));
         _messageBuilder = messageBuilder ??

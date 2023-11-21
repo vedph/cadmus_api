@@ -49,7 +49,7 @@ public sealed class StandardItemGraphFactoryProvider
     /// <exception cref="ArgumentNullException">profile</exception>
     public ItemGraphFactory GetFactory(string profile)
     {
-        if (profile == null) throw new ArgumentNullException(nameof(profile));
+        ArgumentNullException.ThrowIfNull(profile);
 
         return new ItemGraphFactory(GetHost(profile), _connectionString);
     }

@@ -46,7 +46,7 @@ public class ResourceLoaderService
     /// <returns>Resolved path.</returns>
     public string ResolvePath(string path)
     {
-        if (path is null) throw new ArgumentNullException(nameof(path));
+        ArgumentNullException.ThrowIfNull(path);
 
         if (!path.Contains('%')) return path;
 
@@ -75,7 +75,7 @@ public class ResourceLoaderService
     /// <exception cref="ArgumentNullException">source</exception>
     public string ResolveSource(string source)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
 
         if (source.StartsWith("http", StringComparison.OrdinalIgnoreCase))
             return source;
@@ -91,7 +91,7 @@ public class ResourceLoaderService
     /// <exception cref="ArgumentNullException">source</exception>
     public async Task<Stream?> LoadAsync(string source)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
         string resolved = ResolveSource(source);
 
         return resolved.StartsWith("http", StringComparison.OrdinalIgnoreCase)

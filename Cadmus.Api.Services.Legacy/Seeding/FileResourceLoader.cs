@@ -19,7 +19,7 @@ public sealed class FileResourceLoader : IResourceLoader
     /// <exception cref="ArgumentNullException">source</exception>
     public Task<Stream?> LoadResourceAsync(string source)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
 
         if (!File.Exists(source)) return Task.FromResult((Stream?)null);
 

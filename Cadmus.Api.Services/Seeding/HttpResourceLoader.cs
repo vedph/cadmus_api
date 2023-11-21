@@ -21,7 +21,7 @@ public sealed class HttpResourceLoader : IResourceLoader
     /// <exception cref="ArgumentNullException">source</exception>
     public async Task<Stream?> LoadResourceAsync(string source)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
 
         Stream? stream;
         try

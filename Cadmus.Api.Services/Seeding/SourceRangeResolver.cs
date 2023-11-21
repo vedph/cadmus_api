@@ -29,8 +29,7 @@ public static class SourceRangeResolver
     /// <exception cref="ArgumentNullException">source</exception>
     public static IEnumerable<string> Resolve(string source)
     {
-        if (source == null)
-            throw new ArgumentNullException(nameof(source));
+        ArgumentNullException.ThrowIfNull(source);
         return InnerResolve();
 
         IEnumerable<string> InnerResolve()

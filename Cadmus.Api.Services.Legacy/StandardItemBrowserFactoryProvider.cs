@@ -58,8 +58,7 @@ public sealed class StandardItemBrowserFactoryProvider :
     /// <exception cref="ArgumentNullException">profile</exception>
     public ItemBrowserFactory GetFactory(string profile)
     {
-        if (profile == null)
-            throw new ArgumentNullException(nameof(profile));
+        ArgumentNullException.ThrowIfNull(profile);
 
         return new ItemBrowserFactory(GetHost(profile), _connectionString);
     }

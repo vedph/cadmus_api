@@ -22,10 +22,8 @@ public static class ItemIndexHelper
     public static async Task<ItemIndexFactory?> GetIndexFactoryAsync(
         IConfiguration configuration, IServiceProvider serviceProvider)
     {
-        if (configuration == null)
-            throw new ArgumentNullException(nameof(configuration));
-        if (serviceProvider == null)
-            throw new ArgumentNullException(nameof(serviceProvider));
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(serviceProvider);
 
         string? profileSource = configuration["Seed:ProfileSource"];
         if (string.IsNullOrEmpty(profileSource)) return null;

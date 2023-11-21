@@ -103,7 +103,7 @@ public sealed class PartImporter
     /// <returns>The count of imported parts.</returns>
     public int Import(Stream stream)
     {
-        if (stream == null) throw new ArgumentNullException(nameof(stream));
+        ArgumentNullException.ThrowIfNull(stream);
 
         JsonDocument doc = JsonDocument.Parse(stream, _options);
         return JsonHasItems(doc)? ImportItemsWithParts(doc) : ImportParts(doc);

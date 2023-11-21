@@ -50,7 +50,7 @@ public sealed class StandardItemIndexFactoryProvider :
     /// <exception cref="ArgumentNullException">profile</exception>
     public ItemIndexFactory GetFactory(string profile)
     {
-        if (profile == null) throw new ArgumentNullException(nameof(profile));
+        ArgumentNullException.ThrowIfNull(profile);
 
         return new ItemIndexFactory(GetHost(profile), _connectionString);
     }

@@ -38,8 +38,7 @@ public sealed class ThesaurusModel
     /// <param name="thesaurus">The thesaurus.</param>
     public ThesaurusModel(Thesaurus thesaurus)
     {
-        if (thesaurus == null)
-            throw new ArgumentNullException(nameof(thesaurus));
+        ArgumentNullException.ThrowIfNull(thesaurus);
 
         Id = thesaurus.Id;
         Language = thesaurus.GetLanguage();

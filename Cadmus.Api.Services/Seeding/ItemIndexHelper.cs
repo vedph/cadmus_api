@@ -50,10 +50,8 @@ public static class ItemIndexHelper
     public static async Task<ItemIndexFactory?> GetIndexFactoryAsync(
         IConfiguration configuration, IServiceProvider serviceProvider)
     {
-        if (configuration == null)
-            throw new ArgumentNullException(nameof(configuration));
-        if (serviceProvider == null)
-            throw new ArgumentNullException(nameof(serviceProvider));
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(serviceProvider);
 
         string? profile = await LoadProfileAsync(configuration, serviceProvider);
         if (profile == null) return null;
@@ -72,10 +70,8 @@ public static class ItemIndexHelper
     public static async Task<ItemGraphFactory?> GetGraphFactoryAsync(
         IConfiguration configuration, IServiceProvider serviceProvider)
     {
-        if (configuration == null)
-            throw new ArgumentNullException(nameof(configuration));
-        if (serviceProvider == null)
-            throw new ArgumentNullException(nameof(serviceProvider));
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(serviceProvider);
 
         string? profile = await LoadProfileAsync(configuration, serviceProvider);
         if (profile == null) return null;

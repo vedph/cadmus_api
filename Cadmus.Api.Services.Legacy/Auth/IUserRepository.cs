@@ -89,7 +89,7 @@ public sealed class UserWithRoles<TUser> where TUser : class
     /// <param name="roles">The roles.</param>
     public UserWithRoles(TUser user, IEnumerable<string> roles)
     {
-        if (roles == null) throw new ArgumentNullException(nameof(roles));
+        ArgumentNullException.ThrowIfNull(roles);
 
         User = user ?? throw new ArgumentNullException(nameof(user));
         Roles = roles.ToArray();
