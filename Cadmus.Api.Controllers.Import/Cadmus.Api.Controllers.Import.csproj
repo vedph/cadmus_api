@@ -20,9 +20,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Cadmus.Core" Version="7.0.1" />
-		<PackageReference Include="Cadmus.Import" Version="4.0.8" />
-		<PackageReference Include="Cadmus.Import.Excel" Version="4.0.8" />
+		<PackageReference Include="Cadmus.Core" Version="7.0.2" />
+		<PackageReference Include="Cadmus.Import" Version="4.0.16" />
+		<PackageReference Include="Cadmus.Import.Excel" Version="4.0.16" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -92,7 +92,7 @@ public sealed class Startup
     /// <param name="services">The services.</param>
     private void ConfigureCorsServices(IServiceCollection services)
     {
-        string[] origins = new[] { "http://localhost:4200" };
+        string[] origins = ["http://localhost:4200"];
 
         IConfigurationSection section = Configuration.GetSection("AllowedOrigins");
         if (section.Exists())
@@ -232,8 +232,7 @@ public sealed class Startup
         // get dependencies
         ICadmusRepository repository =
                 provider.GetService<IRepositoryProvider>().CreateRepository();
-        ICadmusPreviewFactoryProvider factoryProvider =
-            new StandardCadmusPreviewFactoryProvider();
+        StandardPreviewFactoryProvider factoryProvider = new();
 
         // nope if disabled
         if (!Configuration.GetSection("Preview").GetSection("IsEnabled")

@@ -22,6 +22,7 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+- 2024-01-31: updated packages.
 - 2023-12-06: more logging in API app.
 
 ### 9.0.1

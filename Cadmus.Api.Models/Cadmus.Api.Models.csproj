@@ -19,9 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cadmus.Core" Version="7.0.1" />
-    <PackageReference Include="Cadmus.Graph" Version="5.0.2" />
-    <PackageReference Include="Cadmus.Index" Version="7.0.1" />
+    <PackageReference Include="Cadmus.Core" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Graph" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Index" Version="7.0.2" />
   </ItemGroup>
 
 </Project>
