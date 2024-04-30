@@ -13,9 +13,9 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>9.0.2</Version>
-		<FileVersion>9.0.2</FileVersion>
-		<AssemblyVersion>9.0.2</AssemblyVersion>
+		<Version>9.0.3</Version>
+		<FileVersion>9.0.3</FileVersion>
+		<AssemblyVersion>9.0.3</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -25,7 +25,7 @@
 		<PackageReference Include="Cadmus.Mongo" Version="7.0.2" />
 		<PackageReference Include="Cadmus.Seed" Version="7.0.2" />
 		<PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
-		<PackageReference Include="Fusi.Tools" Version="4.0.0" />
+		<PackageReference Include="Fusi.Tools" Version="5.0.0" />
 		<PackageReference Include="MessagingApi" Version="4.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="8.0.0" />
@@ -33,7 +33,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 		<PackageReference Include="Serilog" Version="3.1.1" />
 		<PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.0" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
 	</ItemGroup>
 
 	<ItemGroup>

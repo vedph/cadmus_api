@@ -2,7 +2,7 @@
 
 👀 [Cadmus Page](https://myrmex.github.io/overview/cadmus/)
 
-🐋 Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:8.0.12 -t vedph2020/cadmus-api:latest` (replace with the current version).
+🐋 Quick **Docker** image build: `docker build . -t vedph2020/cadmus-api:9.0.3 -t vedph2020/cadmus-api:latest` (replace with the current version).
 
 API layer for the Cadmus content editor.
 
@@ -21,6 +21,10 @@ The API application proper just adds a couple of application-specific services i
 Both these services depend on the parts you choose to support, so they are implemented at the application level.
 
 ## History
+
+### 9.0.3
+
+- 2024-04-12: updated packages.
 
 ### 9.0.2
 
