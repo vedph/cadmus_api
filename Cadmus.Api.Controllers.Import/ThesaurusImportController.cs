@@ -53,7 +53,8 @@ public sealed class ThesaurusImportController : ControllerBase
     [Authorize(Roles = "admin")]
     [HttpPost("api/thesauri/import")]
     public ImportThesauriResult UploadThesauri(
-        [FromForm(Name = "file")] IFormFile file,
+        // https://github.com/domaindrivendev/Swashbuckle.AspNetCore#handle-forms-and-file-uploads
+        IFormFile file,
         [FromQuery] ImportThesauriBindingModel model)
     {
         _logger?.LogInformation("User {UserName} importing thesauri from " +

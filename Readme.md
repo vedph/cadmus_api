@@ -22,6 +22,12 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 9.0.5
+
+- 2024-05-22:
+  - updated packages. Updating `Swashbuckle.AspNetCore` from 6.5.0 to 6.6.2 implied removing the `[FromFile]` attribute from the thesaurus import controller as [specified here](https://github.com/domaindrivendev/Swashbuckle.AspNetCore#handle-forms-and-file-uploads).
+  - added proxy controller example in demo API.
+
 ### 9.0.4
 
 - 2024-05-13: updated packages.

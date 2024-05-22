@@ -249,13 +249,13 @@ public sealed class Startup
             "wwwroot", "preview-profile.json");
         if (!File.Exists(path))
         {
-            logger.LogError("Preview profile expected at {path} not found", path);
+            logger.LogError("Preview profile expected at {Path} not found", path);
             return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
                 repository);
         }
 
         // load profile
-        logger.LogInformation("Loading preview profile from {path}", path);
+        logger.LogInformation("Loading preview profile from {Path}", path);
         string profile;
         using (StreamReader reader = new(new FileStream(
             path, FileMode.Open, FileAccess.Read, FileShare.Read),
