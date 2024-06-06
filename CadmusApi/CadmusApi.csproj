@@ -40,7 +40,7 @@
     <PackageReference Include="Cadmus.Seed.Img.Parts" Version="3.0.3" />
     <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
     <PackageReference Include="Fusi.Antiquity" Version="4.0.0" />
-    <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
+    <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.1" />
     <PackageReference Include="MessagingApi" Version="4.0.0" />
     <PackageReference Include="MessagingApi.SendGrid" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
