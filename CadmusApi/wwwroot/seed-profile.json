@@ -102,6 +102,14 @@
           "sortKey": "comment"
         },
         {
+          "typeId": "it.vedph.decorated-counts",
+          "name": "counts",
+          "description": "Various entities counts.",
+          "colorKey": "B1E0EA",
+          "groupKey": "general",
+          "sortKey": "counts"
+        },
+        {
           "typeId": "it.vedph.external-ids",
           "name": "external IDs",
           "description": "External identifiers.",
@@ -212,6 +220,22 @@
           "colorKey": "A4E0D4",
           "groupKey": "text",
           "sortKey": "text-witnesses"
+        },
+        {
+          "typeId": "it.vedph.physical-measurements",
+          "name": "measurements",
+          "description": "Physical measurements.",
+          "colorKey": "C180EA",
+          "groupKey": "material",
+          "sortKey": "measurements"
+        },
+        {
+          "typeId": "it.vedph.physical-states",
+          "name": "states",
+          "description": "Physical preservation states.",
+          "colorKey": "C880E4",
+          "groupKey": "material",
+          "sortKey": "states"
         }
       ]
     },
@@ -417,6 +441,10 @@
           "value": "categories"
         },
         {
+          "id": "it.vedph.decorated-counts",
+          "value": "counts"
+        },
+        {
           "id": "it.vedph.external-ids",
           "value": "external IDs"
         },
@@ -499,6 +527,14 @@
         {
           "id": "fr.it.vedph.orthography",
           "value": "orthography fr."
+        },
+        {
+          "id": "it.vedph.physical-measurements",
+          "value": "measurements"
+        },
+        {
+          "id": "it.vedph.physical-states",
+          "value": "states"
         },
         {
           "id": "fr.it.vedph.pin-links",
@@ -1321,6 +1357,57 @@
       ]
     },
     {
+      "id": "physical-size-units@en",
+      "entries": [
+        {
+          "id": "mm",
+          "value": "mm"
+        },
+        {
+          "id": "cm",
+          "value": "cm"
+        },
+        {
+          "id": "mt",
+          "value": "mt"
+        }
+      ]
+    },
+    {
+      "id": "physical-states@en",
+      "entries": [
+        {
+          "id": "q1",
+          "value": "bad"
+        },
+        {
+          "id": "q2",
+          "value": "good"
+        },
+        {
+          "id": "q3",
+          "value": "excellent"
+        }
+      ]
+    },
+    {
+      "id": "physical-state-features@en",
+      "entries": [
+        {
+          "id": "broken",
+          "value": "broken"
+        },
+        {
+          "id": "scratched",
+          "value": "scratched"
+        },
+        {
+          "id": "dirty",
+          "value": "dirty"
+        }
+      ]
+    },
+    {
       "id": "pin-link-settings@en",
       "entries": [
         {
@@ -1464,6 +1551,16 @@
         "id": "seed.it.vedph.chronotopes"
       },
       {
+        "id": "seed.it.vedph.comment",
+        "options": {
+          "languages": [ "eng", "ita" ],
+          "categories": [ "language.phonology", "language.syntax", "history" ]
+        }
+      },
+      {
+        "id": "seed.it.vedph.decorated-counts"
+      },
+      {
         "id": "seed.it.vedph.pin-links"
       },
       {
@@ -1539,11 +1636,10 @@
         }
       },
       {
-        "id": "seed.it.vedph.comment",
-        "options": {
-          "languages": [ "eng", "ita" ],
-          "categories": [ "language.phonology", "language.syntax", "history" ]
-        }
+        "id": "seed.it.vedph.physical-measurements"
+      },
+      {
+        "id": "seed.it.vedph.physical-states"
       },
       {
         "id": "seed.it.vedph.token-text"
