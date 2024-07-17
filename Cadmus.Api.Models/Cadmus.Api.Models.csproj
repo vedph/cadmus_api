@@ -11,11 +11,11 @@
     <Description>Cadmus API models</Description>
     <Copyright>By Daniele Fusi</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>9.0.6</Version>
+    <Version>9.0.7</Version>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageTags>Cadmus;API</PackageTags>
-    <FileVersion>9.0.6</FileVersion>
-    <AssemblyVersion>9.0.6</AssemblyVersion>
+    <FileVersion>9.0.7</FileVersion>
+    <AssemblyVersion>9.0.7</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>
