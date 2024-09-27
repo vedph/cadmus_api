@@ -5,9 +5,9 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>a30dab70-4455-41f4-8f86-6c755170bc81</UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>9.0.7</Version>
-    <FileVersion>9.0.7</FileVersion>
-    <AssemblyVersion>9.0.7</AssemblyVersion>
+    <Version>9.0.8</Version>
+    <FileVersion>9.0.8</FileVersion>
+    <AssemblyVersion>9.0.8</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,37 +28,37 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
-    <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="7.0.3" />
-    <PackageReference Include="Cadmus.Graph.Extras" Version="7.0.3" />
-    <PackageReference Include="Cadmus.Img.Parts" Version="3.0.3" />
-    <PackageReference Include="Cadmus.Index.Ef.PgSql" Version="7.0.3" />
-    <PackageReference Include="Cadmus.Core" Version="7.0.3" />
-    <PackageReference Include="Cadmus.Mongo" Version="7.0.3" />
-    <PackageReference Include="Cadmus.Seed" Version="7.0.3" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.2" />
-    <PackageReference Include="Cadmus.Seed.Img.Parts" Version="3.0.3" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="9.0.0" />
+    <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="7.0.4" />
+    <PackageReference Include="Cadmus.Graph.Extras" Version="7.0.4" />
+    <PackageReference Include="Cadmus.Img.Parts" Version="3.0.4" />
+    <PackageReference Include="Cadmus.Index.Ef.PgSql" Version="7.0.4" />
+    <PackageReference Include="Cadmus.Core" Version="7.0.4" />
+    <PackageReference Include="Cadmus.Mongo" Version="7.0.4" />
+    <PackageReference Include="Cadmus.Seed" Version="7.0.4" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.3" />
+    <PackageReference Include="Cadmus.Seed.Img.Parts" Version="3.0.4" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.1" />
     <PackageReference Include="Fusi.Antiquity" Version="4.0.0" />
     <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.1" />
     <PackageReference Include="MessagingApi" Version="4.0.0" />
     <PackageReference Include="MessagingApi.SendGrid" Version="4.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.8" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
-    <PackageReference Include="Polly" Version="8.4.1" />
-    <PackageReference Include="Serilog" Version="4.0.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
+    <PackageReference Include="Polly" Version="8.4.2" />
+    <PackageReference Include="Serilog" Version="4.0.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-    <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.4.1" />
+    <PackageReference Include="Serilog.Sinks.MongoDB" Version="6.0.0" />
     <PackageReference Include="Serilog.Sinks.Postgresql.Alternative" Version="4.1.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>

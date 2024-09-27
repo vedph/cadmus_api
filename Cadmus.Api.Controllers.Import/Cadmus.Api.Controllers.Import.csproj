@@ -14,13 +14,13 @@
 		<NeutralLanguage>en-US</NeutralLanguage>
 		<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 		<PackageTags>Cadmus;API</PackageTags>
-		<Version>9.0.7</Version>
-		<FileVersion>9.0.7</FileVersion>
-		<AssemblyVersion>9.0.7</AssemblyVersion>
+		<Version>9.0.8</Version>
+		<FileVersion>9.0.8</FileVersion>
+		<AssemblyVersion>9.0.8</AssemblyVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Cadmus.Core" Version="7.0.3" />
+		<PackageReference Include="Cadmus.Core" Version="7.0.4" />
 		<PackageReference Include="Cadmus.Import" Version="4.0.17" />
 		<PackageReference Include="Cadmus.Import.Excel" Version="4.0.17" />
 	</ItemGroup>
