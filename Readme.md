@@ -22,6 +22,10 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 9.0.10
+
+- 2024-09-28: added endpoint for generating items from an item used as a template.
+
 ### 9.0.9
 
 - 2024-09-28:

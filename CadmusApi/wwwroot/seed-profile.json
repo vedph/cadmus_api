@@ -399,15 +399,27 @@
   "flags": [
     {
       "id": 1,
+      "label": "draft",
+      "description": "The item is a draft.",
+      "colorKey": "D4A5A5"
+    },
+    {
+      "id": 2,
       "label": "complete",
       "description": "The item is complete.",
       "colorKey": "F0B880"
     },
     {
-      "id": 2,
+      "id": 4,
       "label": "revised",
       "description": "The item has been revised.",
       "colorKey": "60CF60"
+    },
+    {
+      "id": 8,
+      "label": "template",
+      "description": "The item is a template.",
+      "colorKey": "C0C0C0"
     }
   ],
   "index": {

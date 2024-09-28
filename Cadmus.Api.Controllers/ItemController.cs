@@ -23,6 +23,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Cadmus.Graph;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using System.Globalization;
 
 namespace Cadmus.Api.Controllers;
 
@@ -316,10 +317,7 @@ public sealed class ItemController : ControllerBase
             _repositoryProvider.CreateRepository();
 
         IHasText? partWithText = repository.GetItemParts(
-            new[] { id },
-            null,
-            PartBase.BASE_TEXT_ROLE_ID)
-            .FirstOrDefault() as IHasText;
+            [id], null, PartBase.BASE_TEXT_ROLE_ID).FirstOrDefault() as IHasText;
         return Ok(new
         {
             Part = partWithText,
@@ -483,10 +481,10 @@ public sealed class ItemController : ControllerBase
         bool isGraphEnabled = IsGraphEnabled();
 
         // if we're going to update the graph, collect part IDs
-        List<string> partIds = new();
+        List<string> partIds = [];
         if (isGraphEnabled)
         {
-            foreach (IPart part in repository.GetItemParts(new[] { id }))
+            foreach (IPart part in repository.GetItemParts([id]))
                 partIds.Add(part.Id);
         }
 
@@ -540,9 +538,8 @@ public sealed class ItemController : ControllerBase
         // operators can delete only parts created by themselves
         ApplicationUser user = (await _userManager.FindByNameAsync(
             User.Identity!.Name!))!;
-        if (await IsUserInRole(user,
-                "operator",
-                new HashSet<string>(new string[] { "admin", "editor" }))
+        if (await IsUserInRole(user, "operator",
+                new HashSet<string>(["admin", "editor"]))
             && repository.GetPartCreatorId(id) != user.UserName)
         {
             return Unauthorized();
@@ -587,7 +584,7 @@ public sealed class ItemController : ControllerBase
         IGraphRepository? graphRepository = GetGraphRepository();
         if (graphRepository == null) return;
 
-        _logger.LogInformation("Updating graph for item {item}", item);
+        _logger.LogInformation("Updating graph for item {Item}", item);
         GraphUpdater updater = _serviceProvider.GetService<GraphUpdater>()
             ?? new GraphUpdater(graphRepository);
         updater.Update(item);
@@ -675,12 +672,59 @@ public sealed class ItemController : ControllerBase
     }
 
     /// <summary>
+    /// Generates the specified count of items using the item with the specified
+    /// ID as a template.
+    /// </summary>
+    [Authorize(Roles = "admin,editor,operator")]
+    [HttpPost("api/items/generate")]
+    [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
+    [ProducesResponseType(404)]
+    public IActionResult GenerateItems([FromBody] GenerateItemsBindingModel model)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
+
+        // get template item
+        ICadmusRepository repository =
+            _repositoryProvider.CreateRepository();
+
+        IItem? item = repository.GetItem(model.ItemId!, true);
+        if (item == null) return NotFound();
+
+        // add count items
+        for (int i = 0; i < model.Count; i++)
+        {
+            IItem newItem = new Item
+            {
+                Title = string.Format(CultureInfo.InvariantCulture,
+                    model.Title!, i + 1),
+                Description = item.Description,
+                FacetId = item.FacetId,
+                GroupId = item.GroupId,
+                Flags = model.Flags,
+                UserId = User.Identity!.Name!,
+                CreatorId = User.Identity!.Name!
+            };
+            repository.AddItem(newItem);
+            foreach (IPart part in item.Parts)
+            {
+                part.Id = Guid.NewGuid().ToString();
+                part.ItemId = newItem.Id;
+                repository.AddPart(part);
+            }
+        }
+
+        return Ok();
+    }
+
+    /// <summary>
     /// Sets the flags value for all the items with the specified IDs.
     /// </summary>
     /// <param name="model">The model.</param>
     [Authorize(Roles = "admin,editor,operator")]
     [HttpPost("api/items/flags")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     public IActionResult SetItemFlags(
         [FromBody] ItemFlagsBindingModel model)
     {
@@ -701,6 +745,7 @@ public sealed class ItemController : ControllerBase
     [Authorize(Roles = "admin,editor,operator")]
     [HttpPost("api/items/group-id")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     public IActionResult SetItemGroupId(
         [FromBody] ItemGroupIdBindingModel model)
     {
@@ -750,7 +795,7 @@ public sealed class ItemController : ControllerBase
         JValue creatorId = (JValue)doc["creatorId"]!;
         if (creatorId == null
             || creatorId.Type == JTokenType.Null
-            || string.IsNullOrEmpty(creatorId?.Value<string>()))
+            || string.IsNullOrEmpty(creatorId.Value<string>()))
         {
             if (doc.ContainsKey("creatorId"))
                 doc.Property("creatorId")!.Remove();
@@ -847,6 +892,7 @@ public sealed class ItemController : ControllerBase
     [Authorize(Roles = "admin,editor,operator")]
     [HttpPost("api/parts/thes-scope")]
     [ProducesResponseType(200)]
+    [ProducesResponseType(400)]
     public IActionResult SetPartThesaurusScope(
         [FromBody] PartThesaurusScopeBindingModel model)
     {
