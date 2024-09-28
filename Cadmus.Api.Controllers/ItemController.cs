@@ -31,7 +31,7 @@ namespace Cadmus.Api.Controllers;
 /// </summary>
 [Authorize]
 [ApiController]
-public sealed class ItemController : Controller
+public sealed class ItemController : ControllerBase
 {
     private static readonly Regex _pascalPropRegex =
         new(@"""([A-Z])([^""]*)""\s*:", RegexOptions.Compiled);
@@ -226,7 +226,7 @@ public sealed class ItemController : Controller
         ICadmusRepository repository =
             _repositoryProvider.CreateRepository();
 
-        IPart? part = repository.GetItemParts(new[] { id },
+        IPart? part = repository.GetItemParts([id],
             type == "any" ? null : type,
             role == "default" ? null : role)
             .FirstOrDefault();
@@ -238,6 +238,41 @@ public sealed class ItemController : Controller
 
         object result = JsonConvert.DeserializeObject(json)!;
         return Ok(result);
+    }
+
+    /// <summary>
+    /// True if the item with the specified ID has a part of the specified
+    /// type and role.
+    /// </summary>
+    /// <param name="id">The identifier.</param>
+    /// <param name="type">The type.</param>
+    /// <param name="role">The role.</param>
+    /// <returns>An object having properties <c>itemId</c>, <c>typeId</c> and
+    /// <c>roleId</c> for the requested part, and <c>exists</c> as a boolean.
+    /// </returns>
+    [HttpGet("api/items/{id}/parts/{type}/{role}/exists")]
+    [Produces("application/json")]
+    [ProducesResponseType(200)]
+    public IActionResult PartExists(
+        [FromRoute] string id,
+        [FromRoute] string type,
+        [FromRoute] string role)
+    {
+        ICadmusRepository repository =
+            _repositoryProvider.CreateRepository();
+
+        IPart? part = repository.GetItemParts([id],
+            type == "any" ? null : type,
+            role == "default" ? null : role)
+            .FirstOrDefault();
+
+        return Ok(new
+        {
+            ItemId = id,
+            TypeId = type,
+            RoleId = role,
+            Exists = part != null
+        });
     }
 
     /// <summary>
@@ -563,7 +598,7 @@ public sealed class ItemController : Controller
         IGraphRepository? graphRepository = GetGraphRepository();
         if (graphRepository == null) return;
 
-        _logger.LogInformation("Updating graph for part {part}", part);
+        _logger.LogInformation("Updating graph for part {Part}", part);
         GraphUpdater updater = _serviceProvider.GetService<GraphUpdater>()
             ?? new GraphUpdater(graphRepository);
         updater.Update(item, part);
@@ -574,7 +609,7 @@ public sealed class ItemController : Controller
         IGraphRepository? graphRepository = GetGraphRepository();
         if (graphRepository == null) return;
 
-        _logger.LogInformation("Updating graph for deleted {id}", id);
+        _logger.LogInformation("Updating graph for deleted {Id}", id);
         graphRepository.DeleteGraphSet(id);
     }
 

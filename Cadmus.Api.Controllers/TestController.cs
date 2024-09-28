@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace CadmusApi.Controllers;
+namespace Cadmus.Api.Controllers;
 
 /// <summary>
 /// Test controller.

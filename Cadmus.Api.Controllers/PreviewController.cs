@@ -15,7 +15,7 @@ namespace Cadmus.Api.Controllers;
 /// <seealso cref="Controller" />
 [Authorize]
 [ApiController]
-public sealed class PreviewController : Controller
+public sealed class PreviewController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly CadmusPreviewer _previewer;

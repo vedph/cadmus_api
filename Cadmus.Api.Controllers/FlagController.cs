@@ -14,7 +14,7 @@ namespace Cadmus.Api.Controllers;
 /// </summary>
 [Authorize]
 [ApiController]
-public sealed class FlagController : Controller
+public sealed class FlagController : ControllerBase
 {
     private readonly IRepositoryProvider _repositoryProvider;
 

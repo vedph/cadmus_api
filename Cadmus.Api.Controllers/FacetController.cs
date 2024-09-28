@@ -14,7 +14,7 @@ namespace Cadmus.Api.Controllers;
 /// </summary>
 [Authorize]
 [ApiController]
-public sealed class FacetController : Controller
+public sealed class FacetController : ControllerBase
 {
     private readonly IRepositoryProvider _repositoryProvider;
 

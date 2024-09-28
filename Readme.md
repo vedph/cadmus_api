@@ -22,6 +22,13 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 9.0.9
+
+- 2024-09-28:
+  - updated packages.
+  - adjusted all the controllers in `Cadmus.Api.Controllers` for their namespace and derivation from `ControllerBase`.
+  - added endpoint for checking the existance of a part of given type and role in a specific item.
+
 ### 9.0.7
 
 - 2024-07-17: updated packages.

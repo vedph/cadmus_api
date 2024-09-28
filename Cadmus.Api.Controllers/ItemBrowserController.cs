@@ -22,7 +22,7 @@ namespace Cadmus.Api.Controllers;
 /// <seealso cref="Controller" />
 [Authorize]
 [ApiController]
-public class ItemBrowserController : Controller
+public class ItemBrowserController : ControllerBase
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IConfiguration _configuration;

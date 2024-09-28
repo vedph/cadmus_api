@@ -18,7 +18,7 @@ namespace Cadmus.Api.Controllers;
 /// <seealso cref="Controller" />
 [Authorize]
 [ApiController]
-public sealed class ItemIndexController : Controller
+public sealed class ItemIndexController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly IServiceProvider _serviceProvider;

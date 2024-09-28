@@ -19,7 +19,7 @@ namespace Cadmus.Api.Controllers;
 /// </summary>
 /// <seealso cref="Controller" />
 [ApiController]
-public sealed class AuthenticationController : Controller
+public sealed class AuthenticationController : ControllerBase
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;

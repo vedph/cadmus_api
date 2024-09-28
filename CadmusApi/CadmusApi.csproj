@@ -5,9 +5,9 @@
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>a30dab70-4455-41f4-8f86-6c755170bc81</UserSecretsId>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <Version>9.0.8</Version>
-    <FileVersion>9.0.8</FileVersion>
-    <AssemblyVersion>9.0.8</AssemblyVersion>
+    <Version>9.0.9</Version>
+    <FileVersion>9.0.9</FileVersion>
+    <AssemblyVersion>9.0.9</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

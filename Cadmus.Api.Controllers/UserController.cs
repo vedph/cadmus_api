@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Cadmus.Api.Services.Auth;
 using Microsoft.Extensions.Logging;
 
-namespace CadmusApi.Controllers;
+namespace Cadmus.Api.Controllers;
 
 /// <summary>
 /// Users controller. This allows administrators to edit users.
@@ -66,7 +66,7 @@ public class UserController : ControllerBase
             await _repository.GetUsersAsync(filter);
 
         // prepare results (we return only a subset of user data)
-        List<UserModel> results = new();
+        List<UserModel> results = [];
         foreach (var ur in page.Items)
             results.Add(UserToModel(ur.User!, ur.Roles));
 

@@ -10,14 +10,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CadmusApi.Controllers;
+namespace Cadmus.Api.Controllers;
 
 /// <summary>
 /// Thesauri controller.
 /// </summary>
 [Authorize]
 [ApiController]
-public sealed class ThesaurusController : Controller
+public sealed class ThesaurusController : ControllerBase
 {
     private readonly IRepositoryProvider _repositoryProvider;
     private readonly ILogger<ThesaurusController> _logger;
