@@ -53,6 +53,14 @@
           "sortKey": "chronotopes"
         },
         {
+          "typeId": "it.vedph.district-location",
+          "name": "district",
+          "description": "District-based location.",
+          "colorKey": "86F086",
+          "groupKey": "general",
+          "sortKey": "district"
+        },
+        {
           "typeId": "it.vedph.historical-events",
           "name": "events",
           "description": "Historical events.",
@@ -457,6 +465,10 @@
           "value": "counts"
         },
         {
+          "id": "it.vedph.district-location",
+          "value": "district location"
+        },
+        {
           "id": "it.vedph.external-ids",
           "value": "external IDs"
         },
@@ -806,6 +818,72 @@
         {
           "id": "cos",
           "value": "consulship"
+        }
+      ]
+    },
+    {
+      "id": "district-name-lang-entries@en",
+      "entries": [
+        {
+          "id": "ita",
+          "value": "Italian"
+        },
+        {
+          "id": "eng",
+          "value": "English"
+        }
+      ]
+    },
+    {
+      "id": "district-name-piece-types@en",
+      "entries": [
+        {
+          "id": "p*",
+          "value": "provincia"
+        },
+        {
+          "id": "c*",
+          "value": "città"
+        },
+        {
+          "id": "a*",
+          "value": "area"
+        },
+        {
+          "id": "a.cr",
+          "value": "Cannareggio"
+        },
+        {
+          "id": "a.cs",
+          "value": "Castello"
+        },
+        {
+          "id": "a.dd",
+          "value": "Dorsoduro"
+        },
+        {
+          "id": "a.sm",
+          "value": "San Marco"
+        },
+        {
+          "id": "a.sp",
+          "value": "San Polo"
+        },
+        {
+          "id": "a.sc",
+          "value": "Santa Croce"
+        },
+        {
+          "id": "l*",
+          "value": "località"
+        },
+        {
+          "id": "s*",
+          "value": "struttura"
+        },
+        {
+          "id": "_order",
+          "value": "p c a l s"
         }
       ]
     },
@@ -1627,6 +1705,9 @@
             "IF"
           ]
         }
+      },
+      {
+        "id": "seed.it.vedph.district-location"
       },
       {
         "id": "seed.it.vedph.external-ids"

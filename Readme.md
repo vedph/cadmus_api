@@ -22,6 +22,12 @@ Both these services depend on the parts you choose to support, so they are imple
 
 ## History
 
+### 9.0.11
+
+- 2024-10-30:
+  - updated packages.
+  - added district location part to configuration.
+
 ### 9.0.10
 
 - 2024-09-28: added endpoint for generating items from an item used as a template.
